@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.3",
   "info": {
     "title": "Medius Web API",
     "description": "Beneath are the full list of available API:s in your environment. Please use the tools below to try it out! Remember to activate the SwaggerUI client application in Medius([click here](../../#Administration/Medius.Core.Entities.Api.ClientApplication))",
@@ -6116,7 +6116,7 @@
         "tags": [
           "Pay"
         ],
-        "description": "The POST method allows the client to send payment batches that will be imported into Medius Pay to be approved and paid. When import fails, incorrect payment batch is saved in Import error inbox within Medius Pay.\n This API has region settings. Here we list all possible parameters without consideration of the region. To see and test region specific API, please see the [Success portal](https://success.medius.com/documentation/integration-documentation/technical/rest/scenarios/#region) or use the direct links below to specific API:  \n [Direct link to EU region](https://cloud.mediusflow.com/dummytenant/api/documentation/index.html?url=https://cloud.mediusflow.com/dummytenant/api/swagger/payEU/) \n [Direct link to US region](https://cloud.mediusflow.com/dummytenant/api/documentation/index.html?url=https://cloud.mediusflow.com/dummytenant/api/swagger/payUS/) \n Note: Please change tenant name in the URL for a complete testing experience.",
+        "description": "The POST method allows the client to send payment batches that will be imported into Medius Pay to be approved and paid. When import fails, incorrect payment batch is saved in Import error inbox within Medius Pay.\n This API has region settings. Here we list all possible parameters without consideration of the region. To see and test region specific API, please see the [Success portal](https://success.medius.com/documentation/integration-documentation/technical/rest/scenarios/#region) or use the direct links below to specific API:  \n [Direct link to EU region](https://api.medius.com/dummytenant/documentation/index.html?url=https://api.medius.com/dummytenant/openapi/payEU/) \n [Direct link to US region](https://api.medius.com/dummytenant/documentation/index.html?url=https://api.medius.com/dummytenant/openapi/payUS/) \n Note: Please change tenant name in the URL for a complete testing experience.",
         "operationId": "paymentBatches_Post",
         "requestBody": {
           "description": "Payment batch with list of payment items.",
