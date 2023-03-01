@@ -40,7 +40,7 @@
       "description": "Send orders to supplier"
     },
     {
-      "name": "Procurement: Purchase orders and Receipts",
+      "name": "Procurement: Purchase orders and receipts",
       "description": "Purchase order and goods receipt ERP synchronization"
     },
     {
@@ -2651,7 +2651,8 @@
     "/integration/message/v1/procurement/errors": {
       "post": {
         "tags": [
-          "Procurement: Send orders to supplier"
+          "Procurement: Send orders to supplier",
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method accepts an error message object, including a list of error messages.\nThe error message object includes a CorrelationKey that needs to match the corresponding purchase order message.",
         "operationId": "PurchaseOrderRequestMessage_Post_Errors",
@@ -2744,7 +2745,7 @@
     "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "The GET method returns the goods receipt note content from a message that matches the provided status and id.\nIf the message id is in another status, nothing is returned.",
         "operationId": "PurchaseOrderRequestMessage_GetGrn",
@@ -2791,7 +2792,7 @@
       },
       "put": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method updates the status of a goods receipt note message when processing it.",
         "operationId": "PurchaseOrderRequestMessage_PutGrn",
@@ -2846,7 +2847,7 @@
     "/integration/message/v1/procurement/externalsystemsync/purchaseorders/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "The GET method returns the purchase order content from a message that matches the provided status and id.\nIf the message id is in another status, nothing is returned.",
         "operationId": "PurchaseOrderRequestMessage_GetPurchaseOrders",
@@ -2893,7 +2894,7 @@
       },
       "put": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method updates the status of a purchase order message when processing it.",
         "operationId": "PurchaseOrderRequestMessage_PutPo",
@@ -2948,7 +2949,7 @@
     "/integration/message/v1/procurement/externalsystemsync/purchaseorders/{messageId}": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "The GET method with message id as input returns a status and an effective link to purchase order content.\nThis method allows you to check the status of a given message.",
         "operationId": "PurchaseOrderRequestMessage_GetPoToErpStatus",
@@ -2987,7 +2988,7 @@
     "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/{messageId}": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "The GET method with message id as input returns a status and an effective link to goods receipt note content.\nThis method allows you to check the status of a given message.",
         "operationId": "PurchaseOrderRequestMessage_GetGrnStatus",
@@ -3026,7 +3027,7 @@
     "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/posted": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method returns all goods receipt note messages that match the specified parameters.\nThe mandatory parameter is the status. The other parameter is sent as querystring parameter to narrow down the result.\nThe correlation key filter is used to filter out messages by the it's value.\nThe correlation key filter is built on a set of properties on the purchase order document with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: ERPId;company[49];supplier1;OrderItenfifier;CreatedDate;\nTo listen for a specific company, use a filter like: ERPID;company[49];;;;",
         "operationId": "PurchaseOrderRequestMessage_Posted_GetGrnMessagesIds",
@@ -3067,7 +3068,7 @@
       },
       "put": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method updates statuses of all goods receipt note messages that meet the filter parameters.\nThis method behaves in the same way as the GET method that returns purchase order messages. Read the documentation of that method for details.",
         "operationId": "PurchaseOrderRequestMessage_Posted_PutGrn",
@@ -3110,7 +3111,7 @@
     "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/fetched": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method returns all goods receipt note messages that match the specified parameters.\nThe mandatory parameter is the status. The other parameter is sent as querystring parameter to narrow down the result.\nThe correlation key filter is used to filter out messages by the it's value.\nThe correlation key filter is built on a set of properties on the purchase order document with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: ERPId;company[49];supplier1;OrderItenfifier;CreatedDate;\nTo listen for a specific company, use a filter like: ERPID;company[49];;;;",
         "operationId": "PurchaseOrderRequestMessage_Fetched_GetGrnMessagesIds",
@@ -3151,7 +3152,7 @@
       },
       "put": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method updates statuses of all goods receipt note messages that meet the filter parameters.\nThis method behaves in the same way as the GET method that returns purchase order messages. Read the documentation of that method for details.",
         "operationId": "PurchaseOrderRequestMessage_Fetched_PutGrn",
@@ -3194,7 +3195,7 @@
     "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/processing": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method returns all goods receipt note messages that match the specified parameters.\nThe mandatory parameter is the status. The other parameter is sent as querystring parameter to narrow down the result.\nThe correlation key filter is used to filter out messages by the it's value.\nThe correlation key filter is built on a set of properties on the purchase order document with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: ERPId;company[49];supplier1;OrderItenfifier;CreatedDate;\nTo listen for a specific company, use a filter like: ERPID;company[49];;;;",
         "operationId": "PurchaseOrderRequestMessage_Processing_GetGrnMessagesIds",
@@ -3235,7 +3236,7 @@
       },
       "put": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method updates statuses of all goods receipt note messages that meet the filter parameters.\nThis method behaves in the same way as the GET method that returns purchase order messages. Read the documentation of that method for details.",
         "operationId": "PurchaseOrderRequestMessage_Processing_PutGrn",
@@ -3278,7 +3279,7 @@
     "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/sent": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method returns all goods receipt note messages that match the specified parameters.\nThe mandatory parameter is the status. The other parameter is sent as querystring parameter to narrow down the result.\nThe correlation key filter is used to filter out messages by the it's value.\nThe correlation key filter is built on a set of properties on the purchase order document with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: ERPId;company[49];supplier1;OrderItenfifier;CreatedDate;\nTo listen for a specific company, use a filter like: ERPID;company[49];;;;",
         "operationId": "PurchaseOrderRequestMessage_Sent_GetGrnMessagesIds",
@@ -3319,7 +3320,7 @@
       },
       "put": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method updates statuses of all goods receipt note messages that meet the filter parameters.\nThis method behaves in the same way as the GET method that returns purchase order messages. Read the documentation of that method for details.",
         "operationId": "PurchaseOrderRequestMessage_Sent_PutGrn",
@@ -3362,7 +3363,7 @@
     "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/closed": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method returns all goods receipt note messages that match the specified parameters.\nThe mandatory parameter is the status. The other parameter is sent as querystring parameter to narrow down the result.\nThe correlation key filter is used to filter out messages by the it's value.\nThe correlation key filter is built on a set of properties on the purchase order document with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: ERPId;company[49];supplier1;OrderItenfifier;CreatedDate;\nTo listen for a specific company, use a filter like: ERPID;company[49];;;;",
         "operationId": "PurchaseOrderRequestMessage_Closed_GetGrnMessagesIds",
@@ -3403,7 +3404,7 @@
       },
       "put": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method updates statuses of all goods receipt note messages that meet the filter parameters.\nThis method behaves in the same way as the GET method that returns purchase order messages. Read the documentation of that method for details.",
         "operationId": "PurchaseOrderRequestMessage_Closed_PutGrn",
@@ -3446,7 +3447,7 @@
     "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/error": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method returns all goods receipt note messages that match the specified parameters.\nThe mandatory parameter is the status. The other parameter is sent as querystring parameter to narrow down the result.\nThe correlation key filter is used to filter out messages by the it's value.\nThe correlation key filter is built on a set of properties on the purchase order document with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: ERPId;company[49];supplier1;OrderItenfifier;CreatedDate;\nTo listen for a specific company, use a filter like: ERPID;company[49];;;;",
         "operationId": "PurchaseOrderRequestMessage_Error_GetGrnMessagesIds",
@@ -3487,7 +3488,7 @@
       },
       "put": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method updates statuses of all goods receipt note messages that meet the filter parameters.\nThis method behaves in the same way as the GET method that returns purchase order messages. Read the documentation of that method for details.",
         "operationId": "PurchaseOrderRequestMessage_Error_PutGrn",
@@ -3530,7 +3531,7 @@
     "/integration/message/v1/procurement/externalsystemsync/purchaseorders/posted": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method returns all purchase order messages that match the specified parameters.\nThe mandatory parameter is the status. The other parameter is sent as querystring parameter to narrow down the result.\nThe correlation key filter is used to filter out messages by the it's value.\nThe correlation key filter is built on a set of properties on the purchase order document with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: ERPId;company[49];supplier1;OrderItenfifier;CreatedDate;\nTo listen for a specific company, use a filter like: ERPID;company[49];;;;",
         "operationId": "PurchaseOrderRequestMessage_Posted_GetPoMessagesIds",
@@ -3571,7 +3572,7 @@
       },
       "put": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method updates statuses of all purchase order messages that meet the filter parameters.\nThis method behaves in the same way as the GET method that returns purchase order messages.\nRead the documentation of that method for details.",
         "operationId": "PurchaseOrderRequestMessage_Posted_PutPo",
@@ -3614,7 +3615,7 @@
     "/integration/message/v1/procurement/externalsystemsync/purchaseorders/fetched": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method returns all purchase order messages that match the specified parameters.\nThe mandatory parameter is the status. The other parameter is sent as querystring parameter to narrow down the result.\nThe correlation key filter is used to filter out messages by the it's value.\nThe correlation key filter is built on a set of properties on the purchase order document with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: ERPId;company[49];supplier1;OrderItenfifier;CreatedDate;\nTo listen for a specific company, use a filter like: ERPID;company[49];;;;",
         "operationId": "PurchaseOrderRequestMessage_Fetched_GetPoMessagesIds",
@@ -3655,7 +3656,7 @@
       },
       "put": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method updates statuses of all purchase order messages that meet the filter parameters.\nThis method behaves in the same way as the GET method that returns purchase order messages.\nRead the documentation of that method for details.",
         "operationId": "PurchaseOrderRequestMessage_Fetched_PutPo",
@@ -3698,7 +3699,7 @@
     "/integration/message/v1/procurement/externalsystemsync/purchaseorders/processing": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method returns all purchase order messages that match the specified parameters.\nThe mandatory parameter is the status. The other parameter is sent as querystring parameter to narrow down the result.\nThe correlation key filter is used to filter out messages by the it's value.\nThe correlation key filter is built on a set of properties on the purchase order document with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: ERPId;company[49];supplier1;OrderItenfifier;CreatedDate;\nTo listen for a specific company, use a filter like: ERPID;company[49];;;;",
         "operationId": "PurchaseOrderRequestMessage_Processing_GetPoMessagesIds",
@@ -3739,7 +3740,7 @@
       },
       "put": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method updates statuses of all purchase order messages that meet the filter parameters.\nThis method behaves in the same way as the GET method that returns purchase order messages.\nRead the documentation of that method for details.",
         "operationId": "PurchaseOrderRequestMessage_Processing_PutPo",
@@ -3782,7 +3783,7 @@
     "/integration/message/v1/procurement/externalsystemsync/purchaseorders/sent": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method returns all purchase order messages that match the specified parameters.\nThe mandatory parameter is the status. The other parameter is sent as querystring parameter to narrow down the result.\nThe correlation key filter is used to filter out messages by the it's value.\nThe correlation key filter is built on a set of properties on the purchase order document with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: ERPId;company[49];supplier1;OrderItenfifier;CreatedDate;\nTo listen for a specific company, use a filter like: ERPID;company[49];;;;",
         "operationId": "PurchaseOrderRequestMessage_Sent_GetPoMessagesIds",
@@ -3823,7 +3824,7 @@
       },
       "put": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method updates statuses of all purchase order messages that meet the filter parameters.\nThis method behaves in the same way as the GET method that returns purchase order messages.\nRead the documentation of that method for details.",
         "operationId": "PurchaseOrderRequestMessage_Sent_PutPo",
@@ -3866,7 +3867,7 @@
     "/integration/message/v1/procurement/externalsystemsync/purchaseorders/closed": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method returns all purchase order messages that match the specified parameters.\nThe mandatory parameter is the status. The other parameter is sent as querystring parameter to narrow down the result.\nThe correlation key filter is used to filter out messages by the it's value.\nThe correlation key filter is built on a set of properties on the purchase order document with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: ERPId;company[49];supplier1;OrderItenfifier;CreatedDate;\nTo listen for a specific company, use a filter like: ERPID;company[49];;;;",
         "operationId": "PurchaseOrderRequestMessage_Closed_GetPoMessagesIds",
@@ -3907,7 +3908,7 @@
       },
       "put": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method updates statuses of all purchase order messages that meet the filter parameters.\nThis method behaves in the same way as the GET method that returns purchase order messages.\nRead the documentation of that method for details.",
         "operationId": "PurchaseOrderRequestMessage_Closed_PutPo",
@@ -3950,7 +3951,7 @@
     "/integration/message/v1/procurement/externalsystemsync/purchaseorders/error": {
       "get": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method returns all purchase order messages that match the specified parameters.\nThe mandatory parameter is the status. The other parameter is sent as querystring parameter to narrow down the result.\nThe correlation key filter is used to filter out messages by the it's value.\nThe correlation key filter is built on a set of properties on the purchase order document with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: ERPId;company[49];supplier1;OrderItenfifier;CreatedDate;\nTo listen for a specific company, use a filter like: ERPID;company[49];;;;",
         "operationId": "PurchaseOrderRequestMessage_Error_GetPoMessagesIds",
@@ -3991,7 +3992,7 @@
       },
       "put": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method updates statuses of all purchase order messages that meet the filter parameters.\nThis method behaves in the same way as the GET method that returns purchase order messages.\nRead the documentation of that method for details.",
         "operationId": "PurchaseOrderRequestMessage_Error_PutPo",
@@ -4034,7 +4035,7 @@
     "/integration/message/v1/procurement/externalsystemsync/confirmations": {
       "post": {
         "tags": [
-          "Procurement: Purchase orders and Receipts"
+          "Procurement: Purchase orders and receipts"
         ],
         "description": "This method accepts a purchase-order-to-ERP confirmation with or without the goods-receipt-note part\nas a response to either the purchase-order-to-ERP or the goods-receipt-note confirmation or cancellation message, that was retrieved in the earlier step.\nThe confirmation object includes a CorrelationKey that needs to match the corresponding purchase-order-to-ERP or goods-receipt-note message.",
         "operationId": "PurchaseOrderRequestMessage_PostPoToErpOrGrnConfirmation",
@@ -14126,8 +14127,7 @@
           }
         },
         "xml": {
-          "name": "Line",
-          "namespace": "PurchaseOrder"
+          "name": "Line"
         }
       },
       "GoodsReceiptNoteDto": {
@@ -14281,8 +14281,7 @@
           }
         },
         "xml": {
-          "name": "Line",
-          "namespace": "GoodsReceiptNote"
+          "name": "Line"
         }
       },
       "Link": {
