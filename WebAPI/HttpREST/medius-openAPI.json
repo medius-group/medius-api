@@ -21636,7 +21636,7 @@
             }
           },
           "payeeStreetLine1": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Street address of the payee. Up to 60 characters allowed for domestic payments",
             "example": "3346 Pagac Union",
@@ -21645,7 +21645,7 @@
             }
           },
           "payeeStreetLine2": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Second line of street address of the payee. Up to 60 characters allowed for domestic payments",
             "example": "PO box 1202",
@@ -21807,7 +21807,7 @@
             }
           },
           "payeeBankStreetLine1": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Payees banks address line 1. Required for international payments",
             "example": "PL.WOLNOSCI 15",
@@ -21816,7 +21816,7 @@
             }
           },
           "payeeBankStreetLine2": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Payees banks address line 2. Required for international payments",
             "example": "BUILDING B",

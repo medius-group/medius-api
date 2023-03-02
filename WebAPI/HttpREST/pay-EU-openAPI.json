@@ -113,7 +113,6 @@
           "payeeCountryCode",
           "payeeId",
           "payeeName",
-          "payeeStateCode",
           "payeeType",
           "paymentAmount",
           "paymentCurrencyCode",
@@ -176,7 +175,7 @@
             }
           },
           "payeeStreetLine1": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Street address of the payee. __Note:__ required for international payments.",
             "example": "3346 Pagac Union",
@@ -185,7 +184,7 @@
             }
           },
           "payeeStreetLine2": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Second line of street address of the payee.",
             "example": "PO box 1202",
@@ -212,9 +211,9 @@
             }
           },
           "payeeStateCode": {
-            "maxLength": 35,
+            "maxLength": 2,
             "type": "string",
-            "description": "State of the payee. ISO Alfa 2 code. __Note:__ required for international payments.",
+            "description": "State code of the payee. The country subdivision code, ISO 3166-2. __Note:__ required for international payments.",
             "example": "RI",
             "xml": {
               "name": "PayeeStateCode"
@@ -223,7 +222,7 @@
           "payeeCountryCode": {
             "maxLength": 2,
             "type": "string",
-            "description": "Country of the payee. ISO Alpha2 code",
+            "description": "Country code of the payee. ISO 3166-1 alpha-2 code.",
             "example": "US",
             "xml": {
               "name": "PayeeCountryCode"
@@ -320,7 +319,7 @@
             }
           },
           "payeeBankStreetLine1": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Payees banks address line 1.",
             "example": "PL.WOLNOSCI 15",
@@ -329,7 +328,7 @@
             }
           },
           "payeeBankStreetLine2": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Payees banks address line 2.",
             "example": "BUILDING B",
