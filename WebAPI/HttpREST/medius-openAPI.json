@@ -21887,23 +21887,6 @@
               "name": "PurposeOfPayment"
             }
           },
-          "payeeType": {
-            "type": "string",
-            "description": "Payee classification. Required for international payments. Individual or Business (Case Sensitive).",
-            "example": "Business",
-            "xml": {
-              "name": "PayeeType"
-            }
-          },
-          "payeeContactPhone": {
-            "maxLength": 15,
-            "type": "string",
-            "description": "Payees phone number. Do not include + or ()",
-            "example": "123456789",
-            "xml": {
-              "name": "PayeeContactPhone"
-            }
-          },
           "payeeContactEmail": {
             "maxLength": 320,
             "type": "string",
@@ -21920,24 +21903,6 @@
             "example": "P012701",
             "xml": {
               "name": "PaymentReference"
-            }
-          },
-          "payeeDateOfBirth": {
-            "maxLength": 10,
-            "type": "string",
-            "description": "Date of birth in yyyy-MM-dd format",
-            "example": "1985-10-20T00:00:00.000Z",
-            "xml": {
-              "name": "PayeeDateOfBirth"
-            }
-          },
-          "payeePassportNumber": {
-            "maxLength": 20,
-            "type": "string",
-            "description": "The Passport number of the payee.",
-            "example": "PL128765",
-            "xml": {
-              "name": "PayeePassportNumber"
             }
           },
           "payeeTaxRegistrationNumber": {
@@ -22054,7 +22019,8 @@
               "ImportDataError",
               "ReadyForPayment",
               "PaymentFailed",
-              "ReloadingPaymentInformation"
+              "ReloadingPaymentInformation",
+              "Issued"
             ]
           }
         },
@@ -22230,19 +22196,14 @@
               "name": "Status"
             },
             "enum": [
-              "New",
               "AwaitingApproval",
               "PaymentInProgress",
               "SentForPayment",
-              "AwaitingFunds",
-              "FundsReceived",
               "Paid",
               "Rejected",
               "ReadyForPayment",
               "PaymentFailed",
               "ReloadingPaymentInformation",
-              "Cancelled",
-              "Recalled",
               "Issued"
             ]
           },

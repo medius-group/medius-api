@@ -411,23 +411,6 @@
               "name": "PurposeOfPayment"
             }
           },
-          "payeeType": {
-            "type": "string",
-            "description": "Payee classification. Required for international payments. Individual or Business (Case Sensitive).",
-            "example": "Business",
-            "xml": {
-              "name": "PayeeType"
-            }
-          },
-          "payeeContactPhone": {
-            "maxLength": 15,
-            "type": "string",
-            "description": "Payees phone number. Do not include + or ()",
-            "example": "123456789",
-            "xml": {
-              "name": "PayeeContactPhone"
-            }
-          },
           "payeeContactEmail": {
             "maxLength": 320,
             "type": "string",
