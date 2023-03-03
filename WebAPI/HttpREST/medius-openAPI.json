@@ -7627,6 +7627,12 @@
             "xml": {
               "name": "GlobalId"
             }
+          },
+          "accountingCurrencyCode": {
+              "type": "string",
+              "xml": {
+                "name": "AccountingCurrencyCode"
+              }
           }
         },
         "xml": {
