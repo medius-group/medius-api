@@ -5858,6 +5858,125 @@
         "x-codegen-request-body-name": "voucher"
       }
     },
+    "/integration/message/v1/supplierinvoice/releasepayment/{messageStatus}/{messageId}": {
+      "get": {
+        "tags": [
+          "AP Automation: Supplier invoices"
+        ],
+        "description": "This method returns the release payment content from a message that matches the status and the id.\nIf the message id is in another status, nothing will be returned. To find a message, use the other GET method that only provides message id as input.",
+        "operationId": "ReleasePaymentMessage_Get",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "description": "The id of the message",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": false
+            }
+          },
+          {
+            "name": "messageStatus",
+            "in": "path",
+            "description": "The message status, can be Posted, Fetched, Processing, Sent, Closed or Error",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReleasePaymentResponseDto"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReleasePaymentResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integration/message/v1/supplierinvoice/releasepayment/{messageId}": {
+      "get": {
+        "tags": [
+          "AP Automation: Supplier invoices"
+        ],
+        "description": "This method will return a status and an effective link to the real releasepayment content.\nThe main idea with this method is to be able to check status for a give message and to be able to find where a message is in terms of statuses.",
+        "operationId": "ReleasePaymentMessage_GetStatus",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "description": "The message id of the message to find/check status",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusLink"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusLink"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integration/message/v1/supplierinvoice/releasepayment": {
+      "post": {
+        "tags": [
+          "AP Automation: Supplier invoices"
+        ],
+        "description": "This method accepts a release payment response to the release payment that was retrieved in earlier step.\nThe release payment requires a CorrelationKey that needs to match the corresponding release payment message.",
+        "operationId": "ReleasePaymentMessage_Post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReleasePaymentResponseDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/ReleasePaymentResponseDto"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "releasePaymentResponseDto"
+      }
+    },
     "/integration/documentImport/v1/supplierinvoices/{id}": {
       "get": {
         "tags": [
@@ -14618,6 +14737,196 @@
         },
         "xml": {
           "name": "GoodsReceiptNoteLineConfirmation"
+        }
+      },
+      "ReleasePaymentResponseDto": {
+        "type": "object",
+        "properties": {
+          "correlationKey": {
+            "type": "string",
+            "xml": {
+              "name": "CorrelationKey"
+            }
+          },
+          "releasePayment": {
+            "$ref": "#/components/schemas/IntegrationResponseReleasePaymentDto"
+          }
+        },
+        "xml": {
+          "name": "ReleasePaymentResponse"
+        }
+      },
+      "IntegrationResponseReleasePaymentDto": {
+        "required": [
+          "releasePayment"
+        ],
+        "type": "object",
+        "properties": {
+          "customField_Boolean1": {
+            "type": "boolean",
+            "description": "Custom field of type bit.",
+            "xml": {
+              "name": "CustomField_Boolean1"
+            }
+          },
+          "customField_Boolean2": {
+            "type": "boolean",
+            "description": "Custom field of type bit.",
+            "xml": {
+              "name": "CustomField_Boolean2"
+            }
+          },
+          "customField_Boolean3": {
+            "type": "boolean",
+            "description": "Custom field of type bit.",
+            "xml": {
+              "name": "CustomField_Boolean3"
+            }
+          },
+          "customField_Boolean4": {
+            "type": "boolean",
+            "description": "Custom field of type bit.",
+            "xml": {
+              "name": "CustomField_Boolean4"
+            }
+          },
+          "customField_Boolean5": {
+            "type": "boolean",
+            "description": "Custom field of type bit.",
+            "xml": {
+              "name": "CustomField_Boolean5"
+            }
+          },
+          "customField_Numeric1": {
+            "type": "number",
+            "description": "Custom field of type numeric. Decimal format (28,14).",
+            "format": "decimal",
+            "xml": {
+              "name": "CustomField_Numeric1"
+            }
+          },
+          "customField_Numeric2": {
+            "type": "number",
+            "description": "Custom field of type numeric. Decimal format (28,14).",
+            "format": "decimal",
+            "xml": {
+              "name": "CustomField_Numeric2"
+            }
+          },
+          "customField_Numeric3": {
+            "type": "number",
+            "description": "Custom field of type numeric. Decimal format (28,14).",
+            "format": "decimal",
+            "xml": {
+              "name": "CustomField_Numeric3"
+            }
+          },
+          "customField_Numeric4": {
+            "type": "number",
+            "description": "Custom field of type numeric. Decimal format (28,14).",
+            "format": "decimal",
+            "xml": {
+              "name": "CustomField_Numeric4"
+            }
+          },
+          "customField_Numeric5": {
+            "type": "number",
+            "description": "Custom field of type numeric. Decimal format (28,14).",
+            "format": "decimal",
+            "xml": {
+              "name": "CustomField_Numeric5"
+            }
+          },
+          "customField_Text1": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Custom field of type text.",
+            "xml": {
+              "name": "CustomField_Text1"
+            }
+          },
+          "customField_Text2": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Custom field of type text.",
+            "xml": {
+              "name": "CustomField_Text2"
+            }
+          },
+          "customField_Text3": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Custom field of type text.",
+            "xml": {
+              "name": "CustomField_Text3"
+            }
+          },
+          "customField_Text4": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Custom field of type text.",
+            "xml": {
+              "name": "CustomField_Text4"
+            }
+          },
+          "customField_Text5": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Custom field of type text.",
+            "xml": {
+              "name": "CustomField_Text5"
+            }
+          },
+          "customField_DateTime1": {
+            "type": "string",
+            "description": "Custom Field of type datetime.",
+            "format": "date-time",
+            "xml": {
+              "name": "CustomField_DateTime1"
+            }
+          },
+          "customField_DateTime2": {
+            "type": "string",
+            "description": "Custom Field of type datetime.",
+            "format": "date-time",
+            "xml": {
+              "name": "CustomField_DateTime2"
+            }
+          },
+          "customField_DateTime3": {
+            "type": "string",
+            "description": "Custom Field of type datetime.",
+            "format": "date-time",
+            "xml": {
+              "name": "CustomField_DateTime3"
+            }
+          },
+          "customField_DateTime4": {
+            "type": "string",
+            "description": "Custom Field of type datetime.",
+            "format": "date-time",
+            "xml": {
+              "name": "CustomField_DateTime4"
+            }
+          },
+          "customField_DateTime5": {
+            "type": "string",
+            "description": "Custom Field of type datetime.",
+            "format": "date-time",
+            "xml": {
+              "name": "CustomField_DateTime5"
+            }
+          },
+          "releasePayment": {
+            "type": "boolean",
+            "description": "Updates the related invoice with 'paymentBlocked = NO' when true value is passed.",
+            "xml": {
+              "name": "ReleasePayment"
+            }
+          }
+        },
+        "xml": {
+          "name": "ReleasePayment"
         }
       },
       "IntegrationBasicRestrictionsDto": {
