@@ -36,6 +36,10 @@
       "description": "Import of supplier invoices from external source."
     },
     {
+      "name": "AP Automation: Adjustment requests",
+      "description": "Adjustment request ERP synchronization"
+    },
+    {
       "name": "Procurement: Send orders to supplier",
       "description": "Send orders to supplier"
     },
@@ -6153,6 +6157,821 @@
         "x-codegen-request-body-name": "invoice"
       }
     },
+    "/integration/message/v1/adjustmentrequest/{messageStatus}/{messageId}": {
+      "get": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "The GET method returns the adjustment request content from a message that matches the status and the id.\nIf the message id is in another status, nothing will be returned. To find a message, use the other GET method that only provides message id as input.",
+        "operationId": "AdjustmentRequestMessage_Get",
+        "parameters": [
+          {
+            "name": "messageStatus",
+            "in": "path",
+            "description": "The message status, can be Posted, Fetched, Processing, Sent, Closed or Error",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          },
+          {
+            "name": "messageId",
+            "in": "path",
+            "description": "The id of the message",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntegrationAdjustmentRequestDto"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntegrationAdjustmentRequestDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "This method updates the status for a adjustment request message when processing it.",
+        "operationId": "AdjustmentRequestMessage_Put",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "description": "The message id to change status for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": false
+            }
+          },
+          {
+            "name": "messageStatus",
+            "in": "path",
+            "description": "The status that the message is in before the status change",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The status to set. Possible statuses Fetched and Processing, Sent",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "204": {
+            "description": "",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "statusRequest"
+      }
+    },
+    "/integration/message/v1/adjustmentrequest/{messageId}": {
+      "get": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "The GET method with message id as input will return a status and an effective link to the real supplier adjustment request content.\nThe main idea with this method is to be able to check status for a give message and to be able to find where a message is in terms of statuses.",
+        "operationId": "AdjustmentRequestMessage_GetStatus",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "description": "The message id of the message to find/check status",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusLink"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusLink"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integration/message/v1/adjustmentrequest/posted": {
+      "get": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "This method returns all messages that match the specified parameters.\nThe mandatory parameter is the status. All other parameters are sent as querystring parameters to narrow down the result.\nThe query string parameters are used, for example, to only return messages of certain type.\nThe correlation key filter is used to filter out messages by it's value, typically used to filter on adjustment request type or by company.\nThe correlation key filter is built on a set of properties on the adjustmentRequest with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: company[49];company[49];supplier1;company[49];supplier1;Invoice1;\nTo listen for a specific company use a filter like: ERPID;company[49];;;;;;",
+        "operationId": "AdjustmentRequestMessage_Posted_GetMessagesIds",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "Message tags. For a adjustemnt request these can be: ADJUSTMENT_REQUEST",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "correlationKeyFilter",
+            "in": "query",
+            "description": "The correlation key filter as explained in the summary ",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "This method updates statuses of all adjustment request messages that meet the filter parameters.\nThis method behaves in the same wat as the GET method that returns adjustment request messages. Read the documentation of that method for details.",
+        "operationId": "AdjustmentRequestMessage_Posted_Put",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "Message tags, these can be the following for an adjustment request ADJUSTMENT_REQUEST",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "correlationKeyFilter",
+            "in": "query",
+            "description": "The correlation key filter as explained in the summary ",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Status that you want to set",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "204": {
+            "description": "",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "statusRequest"
+      }
+    },
+    "/integration/message/v1/adjustmentrequest/fetched": {
+      "get": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "This method returns all messages that match the specified parameters.\nThe mandatory parameter is the status. All other parameters are sent as querystring parameters to narrow down the result.\nThe query string parameters are used, for example, to only return messages of certain type.\nThe correlation key filter is used to filter out messages by it's value, typically used to filter on adjustment request type or by company.\nThe correlation key filter is built on a set of properties on the adjustmentRequest with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: company[49];company[49];supplier1;company[49];supplier1;Invoice1;\nTo listen for a specific company use a filter like: ERPID;company[49];;;;;;",
+        "operationId": "AdjustmentRequestMessage_Fetched_GetMessagesIds",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "Message tags. For a adjustemnt request these can be: ADJUSTMENT_REQUEST",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "correlationKeyFilter",
+            "in": "query",
+            "description": "The correlation key filter as explained in the summary ",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "This method updates statuses of all adjustment request messages that meet the filter parameters.\nThis method behaves in the same wat as the GET method that returns adjustment request messages. Read the documentation of that method for details.",
+        "operationId": "AdjustmentRequestMessage_Fetched_Put",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "Message tags, these can be the following for an adjustment request ADJUSTMENT_REQUEST",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "correlationKeyFilter",
+            "in": "query",
+            "description": "The correlation key filter as explained in the summary ",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Status that you want to set",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "204": {
+            "description": "",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "statusRequest"
+      }
+    },
+    "/integration/message/v1/adjustmentrequest/processing": {
+      "get": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "This method returns all messages that match the specified parameters.\nThe mandatory parameter is the status. All other parameters are sent as querystring parameters to narrow down the result.\nThe query string parameters are used, for example, to only return messages of certain type.\nThe correlation key filter is used to filter out messages by it's value, typically used to filter on adjustment request type or by company.\nThe correlation key filter is built on a set of properties on the adjustmentRequest with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: company[49];company[49];supplier1;company[49];supplier1;Invoice1;\nTo listen for a specific company use a filter like: ERPID;company[49];;;;;;",
+        "operationId": "AdjustmentRequestMessage_Processing_GetMessagesIds",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "Message tags. For a adjustemnt request these can be: ADJUSTMENT_REQUEST",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "correlationKeyFilter",
+            "in": "query",
+            "description": "The correlation key filter as explained in the summary ",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "This method updates statuses of all adjustment request messages that meet the filter parameters.\nThis method behaves in the same wat as the GET method that returns adjustment request messages. Read the documentation of that method for details.",
+        "operationId": "AdjustmentRequestMessage_Processing_Put",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "Message tags, these can be the following for an adjustment request ADJUSTMENT_REQUEST",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "correlationKeyFilter",
+            "in": "query",
+            "description": "The correlation key filter as explained in the summary ",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Status that you want to set",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "204": {
+            "description": "",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "statusRequest"
+      }
+    },
+    "/integration/message/v1/adjustmentrequest/sent": {
+      "get": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "This method returns all messages that match the specified parameters.\nThe mandatory parameter is the status. All other parameters are sent as querystring parameters to narrow down the result.\nThe query string parameters are used, for example, to only return messages of certain type.\nThe correlation key filter is used to filter out messages by it's value, typically used to filter on adjustment request type or by company.\nThe correlation key filter is built on a set of properties on the adjustmentRequest with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: company[49];company[49];supplier1;company[49];supplier1;Invoice1;\nTo listen for a specific company use a filter like: ERPID;company[49];;;;;;",
+        "operationId": "AdjustmentRequestMessage_Sent_GetMessagesIds",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "Message tags. For a adjustemnt request these can be: ADJUSTMENT_REQUEST",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "correlationKeyFilter",
+            "in": "query",
+            "description": "The correlation key filter as explained in the summary ",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "This method updates statuses of all adjustment request messages that meet the filter parameters.\nThis method behaves in the same wat as the GET method that returns adjustment request messages. Read the documentation of that method for details.",
+        "operationId": "AdjustmentRequestMessage_Sent_Put",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "Message tags, these can be the following for an adjustment request ADJUSTMENT_REQUEST",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "correlationKeyFilter",
+            "in": "query",
+            "description": "The correlation key filter as explained in the summary ",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Status that you want to set",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "204": {
+            "description": "",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "statusRequest"
+      }
+    },
+    "/integration/message/v1/adjustmentrequest/closed": {
+      "get": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "This method returns all messages that match the specified parameters.\nThe mandatory parameter is the status. All other parameters are sent as querystring parameters to narrow down the result.\nThe query string parameters are used, for example, to only return messages of certain type.\nThe correlation key filter is used to filter out messages by it's value, typically used to filter on adjustment request type or by company.\nThe correlation key filter is built on a set of properties on the adjustmentRequest with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: company[49];company[49];supplier1;company[49];supplier1;Invoice1;\nTo listen for a specific company use a filter like: ERPID;company[49];;;;;;",
+        "operationId": "AdjustmentRequestMessage_Closed_GetMessagesIds",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "Message tags. For a adjustemnt request these can be: ADJUSTMENT_REQUEST",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "correlationKeyFilter",
+            "in": "query",
+            "description": "The correlation key filter as explained in the summary ",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "This method updates statuses of all adjustment request messages that meet the filter parameters.\nThis method behaves in the same wat as the GET method that returns adjustment request messages. Read the documentation of that method for details.",
+        "operationId": "AdjustmentRequestMessage_Closed_Put",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "Message tags, these can be the following for an adjustment request ADJUSTMENT_REQUEST",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "correlationKeyFilter",
+            "in": "query",
+            "description": "The correlation key filter as explained in the summary ",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Status that you want to set",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "204": {
+            "description": "",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "statusRequest"
+      }
+    },
+    "/integration/message/v1/adjustmentrequest/error": {
+      "get": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "This method returns all messages that match the specified parameters.\nThe mandatory parameter is the status. All other parameters are sent as querystring parameters to narrow down the result.\nThe query string parameters are used, for example, to only return messages of certain type.\nThe correlation key filter is used to filter out messages by it's value, typically used to filter on adjustment request type or by company.\nThe correlation key filter is built on a set of properties on the adjustmentRequest with a delimiter: ';'.\n(Be sure to check the number of ';' you have in your correlation key settings.)\nFor seeing all messages use ;;;;;; for a correlation key structure looking as: company[49];company[49];supplier1;company[49];supplier1;Invoice1;\nTo listen for a specific company use a filter like: ERPID;company[49];;;;;;",
+        "operationId": "AdjustmentRequestMessage_Error_GetMessagesIds",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "Message tags. For a adjustemnt request these can be: ADJUSTMENT_REQUEST",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "correlationKeyFilter",
+            "in": "query",
+            "description": "The correlation key filter as explained in the summary ",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "This method updates statuses of all adjustment request messages that meet the filter parameters.\nThis method behaves in the same wat as the GET method that returns adjustment request messages. Read the documentation of that method for details.",
+        "operationId": "AdjustmentRequestMessage_Error_Put",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "Message tags, these can be the following for an adjustment request ADJUSTMENT_REQUEST",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "correlationKeyFilter",
+            "in": "query",
+            "description": "The correlation key filter as explained in the summary ",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Status that you want to set",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "204": {
+            "description": "",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "statusRequest"
+      }
+    },
+    "/integration/message/v1/adjustmentrequest/confirmations": {
+      "post": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "This method accepts an adjustment request confirmation as a response to the adjustment request message that was retrieved in the earlier step.\nThe adjustment request confirmation object includes a CorrelationKey that needs to match the corresponding adjustment request message.",
+        "operationId": "AdjustmentRequestMessage_Post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdjustmentRequestResponseDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/AdjustmentRequestResponseDto"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "confirmationDto"
+      }
+    },
+    "/integration/message/v1/adjustmentrequest/errors": {
+      "post": {
+        "tags": [
+          "AP Automation: Adjustment requests"
+        ],
+        "description": "This method accepts an error message object, including a list of error messages.\nThe error message object includes a CorrelationKey that needs to match the corresponding adjustment request message.",
+        "operationId": "AdjustmentRequestMessage_Error_Post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorResponseDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorResponseDto"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "dto"
+      }
+    },
     "/integration/payment/v1/paymentBatches": {
       "get": {
         "tags": [
@@ -7492,6 +8311,429 @@
         },
         "xml": {
           "name": "StatusLink"
+        }
+      },
+      "IntegrationAdjustmentRequestDto": {
+        "type": "object",
+        "properties": {
+          "correlationKey": {
+            "type": "string",
+            "xml": {
+              "name": "CorrelationKey"
+            }
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int32",
+            "xml": {
+              "name": "DocumentId"
+            }
+          },
+          "identifier": {
+            "type": "string",
+            "xml": {
+              "name": "Identifier"
+            }
+          },
+          "erpId": {
+            "type": "string",
+            "xml": {
+              "name": "ERPId"
+            }
+          },
+          "companyExternalSystemId": {
+            "type": "string",
+            "xml": {
+              "name": "CompanyExternalSystemId"
+            }
+          },
+          "companyId": {
+            "type": "string",
+            "xml": {
+              "name": "CompanyId"
+            }
+          },
+          "companyName": {
+            "type": "string",
+            "xml": {
+              "name": "CompanyName"
+            }
+          },
+          "companyExternalDisplayName": {
+            "type": "string",
+            "xml": {
+              "name": "CompanyExternalDisplayName"
+            }
+          },
+          "companyIdentifiers": {
+            "type": "array",
+            "xml": {
+              "name": "CompanyIdentifiers",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/IntegrationCompanyIdentifierDto"
+            }
+          },
+          "companyAddresses": {
+            "type": "array",
+            "xml": {
+              "name": "CompanyAddresses",
+              "wrapped": false
+            },
+            "items": {
+              "$ref": "#/components/schemas/IntegrationAddressDto"
+            }
+          },
+          "supplierName": {
+            "type": "string",
+            "xml": {
+              "name": "SupplierName"
+            }
+          },
+          "supplierIdentifiers": {
+            "type": "array",
+            "xml": {
+              "name": "SupplierIdentifiers",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/IntegrationSupplierIdentifierDto"
+            }
+          },
+          "supplierExternalSystemId": {
+            "type": "string",
+            "xml": {
+              "name": "SupplierExternalSystemId"
+            }
+          },
+          "supplierId": {
+            "type": "string",
+            "xml": {
+              "name": "SupplierId"
+            }
+          },
+          "supplierAddress": {
+            "$ref": "#/components/schemas/IntegrationAddressDto"
+          },
+          "supplierContactPersons": {
+            "type": "array",
+            "xml": {
+              "name": "SupplierContactPersons",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/IntegrationContactPersonDto"
+            }
+          },
+          "lines": {
+            "type": "array",
+            "xml": {
+              "name": "Lines",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/IntegrationAdjustmentRequestLineDto"
+            }
+          },
+          "ourReference": {
+            "type": "string",
+            "xml": {
+              "name": "OurReference"
+            }
+          },
+          "yourReference": {
+            "type": "string",
+            "xml": {
+              "name": "YourReference"
+            }
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time",
+            "xml": {
+              "name": "DueDate"
+            }
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time",
+            "xml": {
+              "name": "CreatedDate"
+            }
+          },
+          "currencyCode": {
+            "type": "string",
+            "xml": {
+              "name": "CurrencyCode"
+            }
+          },
+          "companyOrganizationNumber": {
+            "type": "string",
+            "xml": {
+              "name": "CompanyOrganizationNumber"
+            }
+          },
+          "totalAdjustedAmount": {
+            "type": "number",
+            "format": "decimal",
+            "xml": {
+              "name": "TotalAdjustedAmount"
+            }
+          }
+        },
+        "xml": {
+          "name": "AdjustmentRequest"
+        }
+      },
+      "IntegrationAddressDto": {
+        "type": "object",
+        "properties": {
+          "addressType": {
+            "type": "string",
+            "xml": {
+              "name": "AddressType"
+            }
+          },
+          "addressFields": {
+            "$ref": "#/components/schemas/AdjustmentRequestAddressDto"
+          }
+        }
+      },
+      "AdjustmentRequestAddressDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "xml": {
+              "name": "Name"
+            }
+          },
+          "recipient": {
+            "type": "string",
+            "xml": {
+              "name": "Recipient"
+            }
+          },
+          "streetAddress": {
+            "type": "string",
+            "xml": {
+              "name": "StreetAddress"
+            }
+          },
+          "streetAddress2": {
+            "type": "string",
+            "xml": {
+              "name": "StreetAddress2"
+            }
+          },
+          "division": {
+            "type": "string",
+            "xml": {
+              "name": "Division"
+            }
+          },
+          "building": {
+            "type": "string",
+            "xml": {
+              "name": "Building"
+            }
+          },
+          "location": {
+            "type": "string",
+            "xml": {
+              "name": "Location"
+            }
+          },
+          "state": {
+            "type": "string",
+            "xml": {
+              "name": "State"
+            }
+          },
+          "zip": {
+            "type": "string",
+            "xml": {
+              "name": "Zip"
+            }
+          },
+          "country": {
+            "type": "string",
+            "xml": {
+              "name": "Country"
+            }
+          },
+          "city": {
+            "type": "string",
+            "xml": {
+              "name": "City"
+            }
+          },
+          "telephone": {
+            "type": "string",
+            "xml": {
+              "name": "Telephone"
+            }
+          },
+          "fax": {
+            "type": "string",
+            "xml": {
+              "name": "Fax"
+            }
+          },
+          "homepage": {
+            "type": "string",
+            "xml": {
+              "name": "Homepage"
+            }
+          },
+          "email": {
+            "type": "string",
+            "xml": {
+              "name": "Email"
+            }
+          }
+        },
+        "xml": {
+          "name": "AddressFields"
+        }
+      },
+      "IntegrationAdjustmentRequestLineDto": {
+        "type": "object",
+        "properties": {
+          "originOrderIdentifier": {
+            "type": "string",
+            "xml": {
+              "name": "OriginOrderIdentifier"
+            }
+          },
+          "itemNumber": {
+            "type": "string",
+            "xml": {
+              "name": "ItemNumber"
+            }
+          },
+          "itemDescription": {
+            "type": "string",
+            "xml": {
+              "name": "ItemDescription"
+            }
+          },
+          "adjustedAmount": {
+            "type": "number",
+            "format": "decimal",
+            "xml": {
+              "name": "AdjustedAmount"
+            }
+          },
+          "adjustedUnitPrice": {
+            "type": "number",
+            "format": "decimal",
+            "xml": {
+              "name": "AdjustedUnitPrice"
+            }
+          },
+          "adjustedQuantity": {
+            "type": "number",
+            "format": "decimal",
+            "xml": {
+              "name": "AdjustedQuantity"
+            }
+          },
+          "deviationName": {
+            "type": "string",
+            "xml": {
+              "name": "DeviationName"
+            }
+          },
+          "invoiceLineUnitPrice": {
+            "type": "number",
+            "format": "decimal",
+            "xml": {
+              "name": "InvoiceLineUnitPrice"
+            }
+          },
+          "orderUnitPrice": {
+            "type": "number",
+            "format": "decimal",
+            "xml": {
+              "name": "OrderUnitPrice"
+            }
+          },
+          "invoiceLineQuantity": {
+            "type": "number",
+            "format": "decimal",
+            "xml": {
+              "name": "InvoiceLineQuantity"
+            }
+          },
+          "connectedQuantity": {
+            "type": "number",
+            "format": "decimal",
+            "xml": {
+              "name": "ConnectedQuantity"
+            }
+          },
+          "connectedAmount": {
+            "type": "number",
+            "format": "decimal",
+            "xml": {
+              "name": "ConnectedAmount"
+            }
+          },
+          "invoiceLineAmount": {
+            "type": "number",
+            "format": "decimal",
+            "xml": {
+              "name": "InvoiceLineAmount"
+            }
+          },
+          "responsibleUser": {
+            "type": "string",
+            "xml": {
+              "name": "ResponsibleUser"
+            }
+          },
+          "lineNumber": {
+            "type": "integer",
+            "format": "int32",
+            "xml": {
+              "name": "LineNumber"
+            }
+          },
+          "supplierItems": {
+            "type": "array",
+            "xml": {
+              "name": "SupplierItems",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/AdjustmentRequestSupplierItemDto"
+            }
+          },
+          "unit": {
+            "type": "string",
+            "xml": {
+              "name": "Unit"
+            }
+          }
+        },
+        "xml": {
+          "name": "AdjustmentRequestLine"
+        }
+      },
+      "AdjustmentRequestSupplierItemDto": {
+        "type": "object",
+        "properties": {
+          "partNumber": {
+            "type": "string",
+            "xml": {
+              "name": "PartNumber"
+            }
+          }
+        },
+        "xml": {
+          "name": "SupplierItem"
         }
       },
       "CompanyExportPageDto": {
@@ -9068,6 +10310,20 @@
         },
         "xml": {
           "name": "FileLink"
+        }
+      },
+      "AdjustmentRequestResponseDto": {
+        "type": "object",
+        "properties": {
+          "correlationKey": {
+            "type": "string",
+            "xml": {
+              "name": "CorrelationKey"
+            }
+          }
+        },
+        "xml": {
+          "name": "AdjustmentRequestResponse"
         }
       },
       "ErrorResponseDto": {
