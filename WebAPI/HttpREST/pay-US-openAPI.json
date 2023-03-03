@@ -178,7 +178,7 @@
             }
           },
           "payeeStreetLine1": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Street address of the payee. Up to 60 characters allowed for domestic payments.",
             "example": "3346 Pagac Union",
@@ -187,7 +187,7 @@
             }
           },
           "payeeStreetLine2": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Second line of street address of the payee. Up to 60 characters allowed for domestic payments.",
             "example": "PO box 1202",
@@ -217,7 +217,7 @@
           "payeeStateCode": {
             "maxLength": 2,
             "type": "string",
-            "description": "State of the payee. Optional for international payments. ISO Alfa 2 code. Required for US and Canadian payments.",
+            "description": "State code of the payee. The country subdivision code, ISO 3166-2. Optional for international payments. Required for US and Canadian payments.",
             "example": "RI",
             "xml": {
               "name": "PayeeStateCode"
@@ -226,7 +226,7 @@
           "payeeCountryCode": {
             "maxLength": 2,
             "type": "string",
-            "description": "Country of the payee. ISO Alpha2 code",
+            "description": "Country code of the payee. ISO 3166-1 alpha-2 code.",
             "example": "US",
             "xml": {
               "name": "PayeeCountryCode"
@@ -340,7 +340,7 @@
             }
           },
           "payeeBankStreetLine1": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Payees banks address line 1. Required for international payments.",
             "example": "PL.WOLNOSCI 15",
@@ -349,7 +349,7 @@
             }
           },
           "payeeBankStreetLine2": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Payees banks address line 2. Required for international payments.",
             "example": "BUILDING B",
@@ -409,23 +409,6 @@
             "example": "BillPayment",
             "xml": {
               "name": "PurposeOfPayment"
-            }
-          },
-          "payeeType": {
-            "type": "string",
-            "description": "Payee classification. Required for international payments. Individual or Business (Case Sensitive).",
-            "example": "Business",
-            "xml": {
-              "name": "PayeeType"
-            }
-          },
-          "payeeContactPhone": {
-            "maxLength": 15,
-            "type": "string",
-            "description": "Payees phone number. Do not include + or ()",
-            "example": "123456789",
-            "xml": {
-              "name": "PayeeContactPhone"
             }
           },
           "payeeContactEmail": {
