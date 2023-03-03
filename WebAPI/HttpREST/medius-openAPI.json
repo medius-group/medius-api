@@ -22012,15 +22012,17 @@
             "enum": [
               "Processing",
               "AwaitingApproval",
-              "PaymentInProgress",
               "SentForPayment",
-              "Paid",
               "Rejected",
-              "ImportDataError",
+              "PaymentInProgress",
               "ReadyForPayment",
+              "ImportDataError",
+              "Paid",
               "PaymentFailed",
               "ReloadingPaymentInformation",
-              "Issued"
+              "PaidWithErrors",
+              "Issued",
+              "IssuedWithError"
             ]
           }
         },
@@ -22197,11 +22199,11 @@
             },
             "enum": [
               "AwaitingApproval",
-              "PaymentInProgress",
               "SentForPayment",
-              "Paid",
               "Rejected",
+              "PaymentInProgress",
               "ReadyForPayment",
+              "Paid",
               "PaymentFailed",
               "ReloadingPaymentInformation",
               "Issued"
