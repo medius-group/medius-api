@@ -994,6 +994,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfFileLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/FileLink"
                   }
@@ -1090,6 +1094,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfFileLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/FileLink"
                   }
@@ -2078,6 +2086,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -2180,6 +2192,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -2282,6 +2298,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -2384,6 +2404,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -2486,6 +2510,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -2588,6 +2616,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -3057,6 +3089,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -3141,6 +3177,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -3225,6 +3265,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -3309,6 +3353,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -3393,6 +3441,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -3477,6 +3529,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -3561,6 +3617,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -3645,6 +3705,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -3729,6 +3793,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -3813,6 +3881,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -3897,6 +3969,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -3981,6 +4057,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -4733,6 +4813,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -4835,6 +4919,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -4937,6 +5025,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -5039,6 +5131,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -5141,6 +5237,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -5243,6 +5343,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "ArrayOfLink"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Link"
                   }
@@ -6187,6 +6291,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "PaymentBatches"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/PaymentBatchReconciliationStatusResponse"
                   }
@@ -6318,6 +6426,10 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
+                  "xml": {
+                    "wrapped": true,
+                    "name": "Items"
+                  },
                   "items": {
                     "$ref": "#/components/schemas/PaymentItemReconciliationStatusResponse"
                   }
