@@ -113,8 +113,6 @@
           "payeeCountryCode",
           "payeeId",
           "payeeName",
-          "payeeStateCode",
-          "payeeType",
           "paymentAmount",
           "paymentCurrencyCode",
           "payorBankAccountIdentifier",
@@ -176,7 +174,7 @@
             }
           },
           "payeeStreetLine1": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Street address of the payee. __Note:__ required for international payments.",
             "example": "3346 Pagac Union",
@@ -185,7 +183,7 @@
             }
           },
           "payeeStreetLine2": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Second line of street address of the payee.",
             "example": "PO box 1202",
@@ -212,9 +210,9 @@
             }
           },
           "payeeStateCode": {
-            "maxLength": 35,
+            "maxLength": 2,
             "type": "string",
-            "description": "State of the payee. ISO Alfa 2 code. __Note:__ required for international payments.",
+            "description": "State code of the payee. The country subdivision code, ISO 3166-2. __Note:__ required for international payments.",
             "example": "RI",
             "xml": {
               "name": "PayeeStateCode"
@@ -223,7 +221,7 @@
           "payeeCountryCode": {
             "maxLength": 2,
             "type": "string",
-            "description": "Country of the payee. ISO Alpha2 code",
+            "description": "Country code of the payee. ISO 3166-1 alpha-2 code.",
             "example": "US",
             "xml": {
               "name": "PayeeCountryCode"
@@ -320,7 +318,7 @@
             }
           },
           "payeeBankStreetLine1": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Payees banks address line 1.",
             "example": "PL.WOLNOSCI 15",
@@ -329,7 +327,7 @@
             }
           },
           "payeeBankStreetLine2": {
-            "maxLength": 35,
+            "maxLength": 34,
             "type": "string",
             "description": "Payees banks address line 2.",
             "example": "BUILDING B",
@@ -392,23 +390,6 @@
               "name": "PayeeBankSwiftCode"
             }
           },
-          "payeeType": {
-            "type": "string",
-            "description": "Payee classification. Individual or Business.",
-            "example": "Individual",
-            "xml": {
-              "name": "PayeeType"
-            }
-          },
-          "payeeContactPhone": {
-            "maxLength": 15,
-            "type": "string",
-            "description": "Payees phone number. Do not include + or ().",
-            "example": "123456789",
-            "xml": {
-              "name": "PayeeContactPhone"
-            }
-          },
           "payeeContactEmail": {
             "maxLength": 320,
             "type": "string",
@@ -425,24 +406,6 @@
             "example": "P012701",
             "xml": {
               "name": "PaymentReference"
-            }
-          },
-          "payeeDateOfBirth": {
-            "maxLength": 10,
-            "type": "string",
-            "description": "Date of birth in yyyy-MM-dd format",
-            "example": "1985-10-20T00:00:00.000Z",
-            "xml": {
-              "name": "PayeeDateOfBirth"
-            }
-          },
-          "payeePassportNumber": {
-            "maxLength": 20,
-            "type": "string",
-            "description": "The Passport number of the payee.",
-            "example": "PL128765",
-            "xml": {
-              "name": "PayeePassportNumber"
             }
           },
           "payeeTaxRegistrationNumber": {
