@@ -7728,12 +7728,6 @@
               "name": "IsActive"
             }
           },
-          "mediusFlowSystemId": {
-            "type": "string",
-            "xml": {
-              "name": "MediusFlowSystemId"
-            }
-          },
           "globalId": {
             "type": "string",
             "xml": {
@@ -7741,10 +7735,10 @@
             }
           },
           "accountingCurrencyCode": {
-              "type": "string",
-              "xml": {
-                "name": "AccountingCurrencyCode"
-              }
+            "type": "string",
+            "xml": {
+              "name": "AccountingCurrencyCode"
+            }
           }
         },
         "xml": {
@@ -10724,12 +10718,6 @@
               "name": "OrderType"
             }
           },
-          "mediusFlowSystemId": {
-            "type": "string",
-            "xml": {
-              "name": "MediusFlowSystemId"
-            }
-          },
           "globalId": {
             "type": "string",
             "xml": {
@@ -13141,7 +13129,7 @@
               }
             ],
             "xml": {
-                "name": "ShipToAddressDetails"
+              "name": "ShipToAddressDetails"
             }
           },
           "billToAddress": {
@@ -13157,7 +13145,7 @@
               }
             ],
             "xml": {
-                "name": "BillToAddressDetails"
+              "name": "BillToAddressDetails"
             }
           },
           "paymentTermId": {
@@ -13802,7 +13790,7 @@
               }
             ],
             "xml": {
-                "name": "ShipToAddressDetails"
+              "name": "ShipToAddressDetails"
             }
           },
           "billToAddress": {
@@ -13818,7 +13806,7 @@
               }
             ],
             "xml": {
-                "name": "BillToAddressDetails"
+              "name": "BillToAddressDetails"
             }
           },
           "paymentTermId": {
@@ -14058,7 +14046,7 @@
               }
             ],
             "xml": {
-                "name": "ShipToAddressDetails"
+              "name": "ShipToAddressDetails"
             }
           },
           "billToAddress": {
@@ -14074,7 +14062,7 @@
               }
             ],
             "xml": {
-                "name": "BillToAddressDetails"
+              "name": "BillToAddressDetails"
             }
           },
           "paymentTermId": {
@@ -15729,6 +15717,147 @@
         }
       },
       "SupplierDto": {
+        "type": "object",
+        "xml": {
+          "name": "Supplier"
+        },
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "xml": {
+              "name": "Name"
+            }
+          },
+          "supplierId": {
+            "type": "string",
+            "xml": {
+              "name": "SupplierId"
+            }
+          },
+          "currencyCode": {
+            "type": "string",
+            "xml": {
+              "name": "CurrencyCode"
+            }
+          },
+          "paymentTermId": {
+            "type": "string",
+            "xml": {
+              "name": "PaymentTermId"
+            }
+          },
+          "taxIndicator1": {
+            "type": "string",
+            "xml": {
+              "name": "TaxIndicator1"
+            }
+          },
+          "taxIndicator2": {
+            "type": "string",
+            "xml": {
+              "name": "TaxIndicator2"
+            }
+          },
+          "companyId": {
+            "type": "string",
+            "xml": {
+              "name": "CompanyId"
+            }
+          },
+          "companyName": {
+            "type": "string",
+            "xml": {
+              "name": "CompanyName"
+            }
+          },
+          "companyGlobalId": {
+            "type": "string",
+            "xml": {
+              "name": "CompanyGlobalId"
+            }
+          },
+          "streetAddress": {
+            "type": "string",
+            "xml": {
+              "name": "StreetAddress"
+            }
+          },
+          "zip": {
+            "type": "string",
+            "xml": {
+              "name": "Zip"
+            }
+          },
+          "city": {
+            "type": "string",
+            "xml": {
+              "name": "City"
+            }
+          },
+          "country": {
+            "type": "string",
+            "xml": {
+              "name": "Country"
+            }
+          },
+          "email": {
+            "type": "string",
+            "xml": {
+              "name": "Email"
+            }
+          },
+          "fax": {
+            "type": "string",
+            "xml": {
+              "name": "Fax"
+            }
+          },
+          "state": {
+            "type": "string",
+            "xml": {
+              "name": "State"
+            }
+          },
+          "telephone": {
+            "type": "string",
+            "xml": {
+              "name": "Telephone"
+            }
+          },
+          "homepage": {
+            "type": "string",
+            "xml": {
+              "name": "Homepage"
+            }
+          },
+          "identifiers": {
+            "type": "array",
+            "xml": {
+              "wrapped": true,
+              "name": "Identifiers"
+            },
+            "items": {
+              "$ref": "#/components/schemas/IdentifierDto"
+            }
+          },
+          "paymentDetails": {
+            "type": "array",
+            "xml": {
+              "wrapped": true,
+              "name": "PaymentDetails"
+            },
+            "items": {
+              "$ref": "#/components/schemas/PaymentDetailsDto"
+            }
+          },
+          "globalId": {
+            "type": "string",
+            "xml": {
+              "name": "GlobalId"
+            }
+          }
+        },
         "allOf": [
           {
             "$ref": "#/components/schemas/MasterDataDto"
@@ -20009,7 +20138,7 @@
               }
             ],
             "xml": {
-                "name": "NondeductibleDimensions"
+              "name": "NondeductibleDimensions"
             }
           },
           "isActive": {
@@ -20308,7 +20437,7 @@
               }
             ],
             "xml": {
-                "name": "PreCodingDimensions"
+              "name": "PreCodingDimensions"
             }
           },
           "authorizationGroups": {
