@@ -8480,6 +8480,32 @@
             "xml": {
               "name": "TotalAdjustedAmount"
             }
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "xml": {
+              "name": "InvoiceNumber"
+            }
+          },
+          "invoiceAmount": {
+            "type": "number",
+            "format": "decimal",
+            "xml": {
+              "name": "InvoiceAmount"
+            }
+          },
+          "invoiceDate": {
+            "type": "string",
+            "format": "date-time",
+            "xml": {
+              "name": "InvoiceDate"
+            }
+          },
+          "language": {
+            "type": "string",
+            "xml": {
+              "name": "Language"
+            }
           }
         },
         "xml": {
@@ -8715,6 +8741,20 @@
             "type": "string",
             "xml": {
               "name": "Unit"
+            }
+          },
+          "orderQuantity": {
+            "type": "number",
+            "format": "decimal",
+            "xml": {
+              "name": "OrderQuantity"
+            }
+          },
+          "orderLineAmount": {
+            "type": "number",
+            "format": "decimal",
+            "xml": {
+              "name": "OrderLineAmount"
             }
           }
         },
