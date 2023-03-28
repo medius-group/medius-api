@@ -6309,7 +6309,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "Message tags. For a adjustemnt request these can be: ADJUSTMENT_REQUEST",
+            "description": "Message tags. For a adjustment request these can be: ADJUSTMENT_REQUEST",
             "schema": {
               "type": "string",
               "nullable": true
@@ -6411,7 +6411,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "Message tags. For a adjustemnt request these can be: ADJUSTMENT_REQUEST",
+            "description": "Message tags. For a adjustment request these can be: ADJUSTMENT_REQUEST",
             "schema": {
               "type": "string",
               "nullable": true
@@ -6513,7 +6513,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "Message tags. For a adjustemnt request these can be: ADJUSTMENT_REQUEST",
+            "description": "Message tags. For a adjustment request these can be: ADJUSTMENT_REQUEST",
             "schema": {
               "type": "string",
               "nullable": true
@@ -6615,7 +6615,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "Message tags. For a adjustemnt request these can be: ADJUSTMENT_REQUEST",
+            "description": "Message tags. For a adjustment request these can be: ADJUSTMENT_REQUEST",
             "schema": {
               "type": "string",
               "nullable": true
@@ -6717,7 +6717,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "Message tags. For a adjustemnt request these can be: ADJUSTMENT_REQUEST",
+            "description": "Message tags. For a adjustment request these can be: ADJUSTMENT_REQUEST",
             "schema": {
               "type": "string",
               "nullable": true
@@ -6819,7 +6819,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "Message tags. For a adjustemnt request these can be: ADJUSTMENT_REQUEST",
+            "description": "Message tags. For a adjustment request these can be: ADJUSTMENT_REQUEST",
             "schema": {
               "type": "string",
               "nullable": true
