@@ -53,7 +53,7 @@
     }
   ],
   "paths": {
-    "/integration/masterdata/v1/AccrualTemplateImportBatches": {
+    "/integration/masterdata/v1/accrualTemplateImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -99,7 +99,7 @@
         "x-codegen-request-body-name": "accrualTemplates"
       }
     },
-    "/integration/masterdata/v1/AccrualTemplateImportBatches/{importId}": {
+    "/integration/masterdata/v1/accrualTemplateImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -221,7 +221,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/CompanyImportBatches": {
+    "/integration/masterdata/v1/companyImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -267,7 +267,7 @@
         "x-codegen-request-body-name": "companies"
       }
     },
-    "/integration/masterdata/v1/CompanyImportBatches/{importId}": {
+    "/integration/masterdata/v1/companyImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -330,7 +330,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/CurrencyImportBatches": {
+    "/integration/masterdata/v1/currencyImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -376,7 +376,7 @@
         "x-codegen-request-body-name": "currencies"
       }
     },
-    "/integration/masterdata/v1/CurrencyImportBatches/{importId}": {
+    "/integration/masterdata/v1/currencyImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -439,7 +439,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/CurrencyRateImportBatches": {
+    "/integration/masterdata/v1/currencyRateImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -485,7 +485,7 @@
         "x-codegen-request-body-name": "currencyRates"
       }
     },
-    "/integration/masterdata/v1/CurrencyRateImportBatches/{importId}": {
+    "/integration/masterdata/v1/currencyRateImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -548,7 +548,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/DeliveryLineImportBatches": {
+    "/integration/masterdata/v1/deliveryLineImportBatches": {
       "post": {
         "tags": [
           "AP Automation: Purchase orders"
@@ -594,7 +594,7 @@
         "x-codegen-request-body-name": "deliveryLines"
       }
     },
-    "/integration/masterdata/v1/DeliveryLineImportBatches/{importId}": {
+    "/integration/masterdata/v1/deliveryLineImportBatches/{importId}": {
       "get": {
         "tags": [
           "AP Automation: Purchase orders"
@@ -632,7 +632,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/DeliveryTermImportBatches": {
+    "/integration/masterdata/v1/deliveryTermImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -678,7 +678,7 @@
         "x-codegen-request-body-name": "deliveryterms"
       }
     },
-    "/integration/masterdata/v1/DeliveryTermImportBatches/{importId}": {
+    "/integration/masterdata/v1/deliveryTermImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -741,7 +741,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/DimensionValueConfigurationImportBatches": {
+    "/integration/masterdata/v1/dimensionValueConfigurationImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -787,7 +787,7 @@
         "x-codegen-request-body-name": "integrationDimensionValueConfigurations"
       }
     },
-    "/integration/masterdata/v1/DimensionValueConfigurationImportBatches/{importId}": {
+    "/integration/masterdata/v1/dimensionValueConfigurationImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -850,7 +850,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/DimensionValueImportBatches": {
+    "/integration/masterdata/v1/dimensionValueImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -896,7 +896,7 @@
         "x-codegen-request-body-name": "dimensionvalues"
       }
     },
-    "/integration/masterdata/v1/DimensionValueImportBatches/{importId}": {
+    "/integration/masterdata/v1/dimensionValueImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -1159,7 +1159,7 @@
         }
       }
     },
-    "/integration/message/v1/supplierinvoice/errors/{messageStatus}/{messageId}": {
+    "/integration/message/v1/supplierInvoice/errors/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -1208,7 +1208,7 @@
         }
       }
     },
-    "/integration/message/v1/supplierinvoice/errors/{messageId}": {
+    "/integration/message/v1/supplierInvoice/errors/{messageId}": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -1247,7 +1247,7 @@
         }
       }
     },
-    "/integration/message/v1/supplierinvoice/errors": {
+    "/integration/message/v1/supplierInvoice/errors": {
       "post": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -1278,7 +1278,7 @@
         "x-codegen-request-body-name": "errorMessage"
       }
     },
-    "/integration/masterdata/v1/ItemImportBatches": {
+    "/integration/masterdata/v1/itemImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -1324,7 +1324,7 @@
         "x-codegen-request-body-name": "items"
       }
     },
-    "/integration/masterdata/v1/ItemImportBatches/{importId}": {
+    "/integration/masterdata/v1/itemImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -1387,7 +1387,7 @@
         }
       }
     },
-    "/integration/message/v1/supplierinvoice/paymentinformations/{messageStatus}/{messageId}": {
+    "/integration/message/v1/supplierInvoice/paymentInformations/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -1436,7 +1436,7 @@
         }
       }
     },
-    "/integration/message/v1/supplierinvoice/paymentinformations/{messageId}": {
+    "/integration/message/v1/supplierInvoice/paymentInformations/{messageId}": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -1475,7 +1475,7 @@
         }
       }
     },
-    "/integration/message/v1/supplierinvoice/paymentinformations": {
+    "/integration/message/v1/supplierInvoice/paymentInformations": {
       "post": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -1506,7 +1506,7 @@
         "x-codegen-request-body-name": "paymentInformationDto"
       }
     },
-    "/integration/masterdata/v1/PaymentTermImportBatches/{importId}": {
+    "/integration/masterdata/v1/paymentTermImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -1569,7 +1569,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/PaymentTermImportBatches": {
+    "/integration/masterdata/v1/paymentTermImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -1615,7 +1615,7 @@
         "x-codegen-request-body-name": "paymentTerms"
       }
     },
-    "/integration/masterdata/v1/PeriodImportBatches": {
+    "/integration/masterdata/v1/periodImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -1661,7 +1661,7 @@
         "x-codegen-request-body-name": "periods"
       }
     },
-    "/integration/masterdata/v1/PeriodImportBatches/{importId}": {
+    "/integration/masterdata/v1/periodImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -1724,7 +1724,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/PurchaseOrderImportBatches": {
+    "/integration/masterdata/v1/purchaseOrderImportBatches": {
       "post": {
         "tags": [
           "AP Automation: Purchase orders"
@@ -1770,7 +1770,7 @@
         "x-codegen-request-body-name": "purchaseorders"
       }
     },
-    "/integration/masterdata/v1/PurchaseOrderImportBatches/{importId}": {
+    "/integration/masterdata/v1/purchaseOrderImportBatches/{importId}": {
       "get": {
         "tags": [
           "AP Automation: Purchase orders"
@@ -1833,7 +1833,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/purchaseorders": {
+    "/integration/masterdata/v1/purchaseOrders": {
       "get": {
         "tags": [
           "AP Automation: Purchase orders"
@@ -1903,7 +1903,7 @@
         }
       }
     },
-    "/integration/message/v1/procurement/purchaseorders/{messageStatus}/{messageId}": {
+    "/integration/message/v1/procurement/purchaseOrders/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
           "Procurement: Send orders to supplier"
@@ -2005,7 +2005,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/purchaseorders/{messageId}": {
+    "/integration/message/v1/procurement/purchaseOrders/{messageId}": {
       "get": {
         "tags": [
           "Procurement: Send orders to supplier"
@@ -2044,7 +2044,7 @@
         }
       }
     },
-    "/integration/message/v1/procurement/purchaseorders/posted": {
+    "/integration/message/v1/procurement/purchaseOrders/posted": {
       "get": {
         "tags": [
           "Procurement: Send orders to supplier"
@@ -2150,7 +2150,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/purchaseorders/fetched": {
+    "/integration/message/v1/procurement/purchaseOrders/fetched": {
       "get": {
         "tags": [
           "Procurement: Send orders to supplier"
@@ -2256,7 +2256,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/purchaseorders/processing": {
+    "/integration/message/v1/procurement/purchaseOrders/processing": {
       "get": {
         "tags": [
           "Procurement: Send orders to supplier"
@@ -2362,7 +2362,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/purchaseorders/sent": {
+    "/integration/message/v1/procurement/purchaseOrders/sent": {
       "get": {
         "tags": [
           "Procurement: Send orders to supplier"
@@ -2468,7 +2468,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/purchaseorders/closed": {
+    "/integration/message/v1/procurement/purchaseOrders/closed": {
       "get": {
         "tags": [
           "Procurement: Send orders to supplier"
@@ -2574,7 +2574,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/purchaseorders/error": {
+    "/integration/message/v1/procurement/purchaseOrders/error": {
       "get": {
         "tags": [
           "Procurement: Send orders to supplier"
@@ -2712,7 +2712,7 @@
         "x-codegen-request-body-name": "dto"
       }
     },
-    "/integration/message/v1/procurement/purchaseorderrequestconfirmation": {
+    "/integration/message/v1/procurement/purchaseOrderRequestConfirmation": {
       "post": {
         "tags": [
           "Procurement: Send orders to supplier"
@@ -2743,7 +2743,7 @@
         "x-codegen-request-body-name": "confirmationDto"
       }
     },
-    "/integration/message/v1/procurement/purchaseordercancelationconfirmation": {
+    "/integration/message/v1/procurement/purchaseOrderCancelationConfirmation": {
       "post": {
         "tags": [
           "Procurement: Send orders to supplier"
@@ -2774,7 +2774,7 @@
         "x-codegen-request-body-name": "confirmationDto"
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/{messageStatus}/{messageId}": {
+    "/integration/message/v1/procurement/externalSystemSync/goodsReceiptNotes/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -2876,7 +2876,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/purchaseorders/{messageStatus}/{messageId}": {
+    "/integration/message/v1/procurement/externalSystemSync/purchaseOrders/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -2978,7 +2978,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/purchaseorders/{messageId}": {
+    "/integration/message/v1/procurement/externalSystemSync/purchaseOrders/{messageId}": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -3017,7 +3017,7 @@
         }
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/{messageId}": {
+    "/integration/message/v1/procurement/externalSystemSync/goodsReceiptNotes/{messageId}": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -3056,7 +3056,7 @@
         }
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/posted": {
+    "/integration/message/v1/procurement/externalSystemSync/goodsReceiptNotes/posted": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -3144,7 +3144,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/fetched": {
+    "/integration/message/v1/procurement/externalSystemSync/goodsReceiptNotes/fetched": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -3232,7 +3232,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/processing": {
+    "/integration/message/v1/procurement/externalSystemSync/goodsReceiptNotes/processing": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -3320,7 +3320,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/sent": {
+    "/integration/message/v1/procurement/externalSystemSync/goodsReceiptNotes/sent": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -3408,7 +3408,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/closed": {
+    "/integration/message/v1/procurement/externalSystemSync/goodsReceiptNotes/closed": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -3496,7 +3496,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/goodsreceiptnotes/error": {
+    "/integration/message/v1/procurement/externalSystemSync/goodsReceiptNotes/error": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -3584,7 +3584,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/purchaseorders/posted": {
+    "/integration/message/v1/procurement/externalSystemSync/purchaseOrders/posted": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -3672,7 +3672,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/purchaseorders/fetched": {
+    "/integration/message/v1/procurement/externalSystemSync/purchaseOrders/fetched": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -3760,7 +3760,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/purchaseorders/processing": {
+    "/integration/message/v1/procurement/externalSystemSync/purchaseOrders/processing": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -3848,7 +3848,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/purchaseorders/sent": {
+    "/integration/message/v1/procurement/externalSystemSync/purchaseOrders/sent": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -3936,7 +3936,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/purchaseorders/closed": {
+    "/integration/message/v1/procurement/externalSystemSync/purchaseOrders/closed": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -4024,7 +4024,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/purchaseorders/error": {
+    "/integration/message/v1/procurement/externalSystemSync/purchaseOrders/error": {
       "get": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -4112,7 +4112,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/procurement/externalsystemsync/confirmations": {
+    "/integration/message/v1/procurement/externalSystemSync/confirmations": {
       "post": {
         "tags": [
           "Procurement: Purchase orders and receipts"
@@ -4143,7 +4143,7 @@
         "x-codegen-request-body-name": "confirmationDto"
       }
     },
-    "/integration/masterdata/v1/BasicRestrictionImportBatches": {
+    "/integration/masterdata/v1/basicRestrictionImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -4189,7 +4189,7 @@
         "x-codegen-request-body-name": "basicRestrictions"
       }
     },
-    "/integration/masterdata/v1/BasicRestrictionImportBatches/{importId}": {
+    "/integration/masterdata/v1/basicRestrictionImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -4252,7 +4252,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/RestrictionRuleImportBatches": {
+    "/integration/masterdata/v1/restrictionRuleImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -4297,7 +4297,7 @@
         "x-codegen-request-body-name": "restrictionStructuresList"
       }
     },
-    "/integration/masterdata/v1/RestrictionRuleImportBatches/{importId}": {
+    "/integration/masterdata/v1/restrictionRuleImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -4335,7 +4335,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/SupplierConfigurationImportBatches": {
+    "/integration/masterdata/v1/supplierConfigurationImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -4381,7 +4381,7 @@
         "x-codegen-request-body-name": "supplierConfigrations"
       }
     },
-    "/integration/masterdata/v1/SupplierConfigurationImportBatches/{importId}": {
+    "/integration/masterdata/v1/supplierConfigurationImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -4521,7 +4521,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/SupplierImportBatches": {
+    "/integration/masterdata/v1/supplierImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -4567,7 +4567,7 @@
         "x-codegen-request-body-name": "suppliers"
       }
     },
-    "/integration/masterdata/v1/SupplierImportBatches/{importId}": {
+    "/integration/masterdata/v1/supplierImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -4630,7 +4630,7 @@
         }
       }
     },
-    "/integration/message/v1/supplierinvoice/invoices/{messageStatus}/{messageId}": {
+    "/integration/message/v1/supplierInvoice/invoices/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -4732,7 +4732,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/supplierinvoice/invoices/{messageId}": {
+    "/integration/message/v1/supplierInvoice/invoices/{messageId}": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -4771,7 +4771,7 @@
         }
       }
     },
-    "/integration/message/v1/supplierinvoice/invoices/posted": {
+    "/integration/message/v1/supplierInvoice/invoices/posted": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -4877,7 +4877,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/supplierinvoice/invoices/fetched": {
+    "/integration/message/v1/supplierInvoice/invoices/fetched": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -4983,7 +4983,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/supplierinvoice/invoices/processing": {
+    "/integration/message/v1/supplierInvoice/invoices/processing": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -5089,7 +5089,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/supplierinvoice/invoices/sent": {
+    "/integration/message/v1/supplierInvoice/invoices/sent": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -5195,7 +5195,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/supplierinvoice/invoices/closed": {
+    "/integration/message/v1/supplierInvoice/invoices/closed": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -5301,7 +5301,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/message/v1/supplierinvoice/invoices/error": {
+    "/integration/message/v1/supplierInvoice/invoices/error": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -5407,7 +5407,7 @@
         "x-codegen-request-body-name": "statusRequest"
       }
     },
-    "/integration/masterdata/v1/TaxGroupImportBatches/{importId}": {
+    "/integration/masterdata/v1/taxGroupImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -5470,7 +5470,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/TaxGroupImportBatches": {
+    "/integration/masterdata/v1/taxGroupImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -5516,7 +5516,7 @@
         "x-codegen-request-body-name": "taxGroups"
       }
     },
-    "/integration/masterdata/v1/UnitImportBatches": {
+    "/integration/masterdata/v1/unitImportBatches": {
       "post": {
         "tags": [
           "Master data - import"
@@ -5562,7 +5562,7 @@
         "x-codegen-request-body-name": "unit"
       }
     },
-    "/integration/masterdata/v1/UnitImportBatches/{importId}": {
+    "/integration/masterdata/v1/unitImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
@@ -5625,7 +5625,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/UserImportBatches": {
+    "/integration/masterdata/v1/userImportBatches": {
       "post": {
         "tags": [
           "User import"
@@ -5671,7 +5671,7 @@
         "x-codegen-request-body-name": "users"
       }
     },
-    "/integration/masterdata/v1/UserImportBatches/{importId}": {
+    "/integration/masterdata/v1/userImportBatches/{importId}": {
       "get": {
         "tags": [
           "User import"
@@ -5734,7 +5734,7 @@
         }
       }
     },
-    "/integration/masterdata/v1/UserConfigurationImportBatches": {
+    "/integration/masterdata/v1/userConfigurationImportBatches": {
       "post": {
         "tags": [
           "User import"
@@ -5780,7 +5780,7 @@
         "x-codegen-request-body-name": "userConfigurations"
       }
     },
-    "/integration/masterdata/v1/UserConfigurationImportBatches/{importId}": {
+    "/integration/masterdata/v1/userConfigurationImportBatches/{importId}": {
       "get": {
         "tags": [
           "User import"
@@ -5843,7 +5843,7 @@
         }
       }
     },
-    "/integration/message/v1/supplierinvoice/vouchers/{messageStatus}/{messageId}": {
+    "/integration/message/v1/supplierInvoice/vouchers/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -5892,7 +5892,7 @@
         }
       }
     },
-    "/integration/message/v1/supplierinvoice/vouchers/{messageId}": {
+    "/integration/message/v1/supplierInvoice/vouchers/{messageId}": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -5931,7 +5931,7 @@
         }
       }
     },
-    "/integration/message/v1/supplierinvoice/vouchers": {
+    "/integration/message/v1/supplierInvoice/vouchers": {
       "post": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -5962,7 +5962,7 @@
         "x-codegen-request-body-name": "voucher"
       }
     },
-    "/integration/message/v1/supplierinvoice/releasepayment/{messageStatus}/{messageId}": {
+    "/integration/message/v1/supplierInvoice/releasePayment/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -6011,7 +6011,7 @@
         }
       }
     },
-    "/integration/message/v1/supplierinvoice/releasepayment/{messageId}": {
+    "/integration/message/v1/supplierInvoice/releasePayment/{messageId}": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -6050,7 +6050,7 @@
         }
       }
     },
-    "/integration/message/v1/supplierinvoice/releasepayment": {
+    "/integration/message/v1/supplierInvoice/releasePayment": {
       "post": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -6081,7 +6081,7 @@
         "x-codegen-request-body-name": "releasePaymentResponseDto"
       }
     },
-    "/integration/documentImport/v1/supplierinvoices/{id}": {
+    "/integration/documentImport/v1/supplierInvoices/{id}": {
       "get": {
         "tags": [
           "AP Automation: Invoice import"
@@ -6136,7 +6136,7 @@
         }
       }
     },
-    "/integration/documentImport/v1/supplierinvoices": {
+    "/integration/documentImport/v1/supplierInvoices": {
       "post": {
         "tags": [
           "AP Automation: Invoice import"
@@ -6184,7 +6184,7 @@
         "x-codegen-request-body-name": "supplierinvoices"
       }
     },
-    "/integration/documentImport/v1/file/supplierinvoices/": {
+    "/integration/documentImport/v1/file/supplierInvoices/": {
       "post": {
         "tags": [
           "AP Automation: Invoice import"
@@ -6444,7 +6444,7 @@
         }
       }
     },
-    "/integration/message/v1/supplierinvoice/actualpaymentdates/{messageStatus}/{messageId}": {
+    "/integration/message/v1/supplierInvoice/actualPaymentDates/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -6495,7 +6495,7 @@
         "deprecated": true
       }
     },
-    "/integration/message/v1/supplierinvoice/actualpaymentdates/{messageId}": {
+    "/integration/message/v1/supplierInvoice/actualPaymentDates/{messageId}": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -6536,7 +6536,7 @@
         "deprecated": true
       }
     },
-    "/integration/message/v1/supplierinvoice/actualpaymentdates": {
+    "/integration/message/v1/supplierInvoice/actualPaymentDates": {
       "post": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -6569,7 +6569,7 @@
         "x-codegen-request-body-name": "actualPaymentDate"
       }
     },
-    "/connect/userinfo": {
+    "/connect/userInfo": {
       "get": {
         "tags": [
           "OpenIdConnect"
