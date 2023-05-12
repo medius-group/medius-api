@@ -4782,7 +4782,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL or CANCEL",
+            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL, CANCEL or RELEASE_PAYMENT",
             "schema": {
               "type": "string",
               "nullable": true
@@ -4836,7 +4836,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL or CANCEL",
+            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL, CANCEL or RELEASE_PAYMENT",
             "schema": {
               "type": "string",
               "nullable": true
@@ -4888,7 +4888,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL or CANCEL",
+            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL, CANCEL or RELEASE_PAYMENT",
             "schema": {
               "type": "string",
               "nullable": true
@@ -4942,7 +4942,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL or CANCEL",
+            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL, CANCEL or RELEASE_PAYMENT",
             "schema": {
               "type": "string",
               "nullable": true
@@ -4994,7 +4994,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL or CANCEL",
+            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL, CANCEL or RELEASE_PAYMENT",
             "schema": {
               "type": "string",
               "nullable": true
@@ -5048,7 +5048,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL or CANCEL",
+            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL, CANCEL or RELEASE_PAYMENT",
             "schema": {
               "type": "string",
               "nullable": true
@@ -5100,7 +5100,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL or CANCEL",
+            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL, CANCEL or RELEASE_PAYMENT",
             "schema": {
               "type": "string",
               "nullable": true
@@ -5154,7 +5154,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL or CANCEL",
+            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL, CANCEL or RELEASE_PAYMENT",
             "schema": {
               "type": "string",
               "nullable": true
@@ -5206,7 +5206,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL or CANCEL",
+            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL, CANCEL or RELEASE_PAYMENT",
             "schema": {
               "type": "string",
               "nullable": true
@@ -5260,7 +5260,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL or CANCEL",
+            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL, CANCEL or RELEASE_PAYMENT",
             "schema": {
               "type": "string",
               "nullable": true
@@ -5312,7 +5312,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL or CANCEL",
+            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL, CANCEL or RELEASE_PAYMENT",
             "schema": {
               "type": "string",
               "nullable": true
@@ -5366,7 +5366,7 @@
           {
             "name": "tag",
             "in": "query",
-            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL or CANCEL",
+            "description": "The message tags, these can be the following for an invoice PRELIMINARY, FINAL, CANCEL or RELEASE_PAYMENT",
             "schema": {
               "type": "string",
               "nullable": true
