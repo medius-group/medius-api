@@ -21372,6 +21372,20 @@
               "name": "PaymentReference"
             }
           },
+          "referencedDocuments": {
+            "type": "array",
+            "xml": {
+              "name": "ReferencedDocuments",
+              "wrapped": true
+            },
+            "items": {
+              "type": "string",
+              "xml": {
+                "name": "ReferencedDocument",
+                "wrapped": true
+              }
+            }
+          },
           "contractNumber": {
             "maxLength": 300,
             "type": "string",
