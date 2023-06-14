@@ -15659,7 +15659,8 @@
             "enum": [
               "AdjustmentRequest",
               "Order",
-              "Short Payment"
+              "Short Payment",
+              "Supplier Portal"
             ]
           }
         },
