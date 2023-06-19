@@ -18667,44 +18667,44 @@
       	"type": "object",
       	"properties": {
       	  "invoiceNumber": {
-        		"maxLength": 450,
-        		"type": "string",
-        		"description": "Invoice number.",
-        		"xml": {
-        		  "name": "InvoiceNumber"
-        		}
+            "maxLength": 450,
+            "type": "string",
+            "description": "Invoice number.",
+            "xml": {
+              "name": "InvoiceNumber"
+            }
           },
       	  "finalVoucherNumber": {
-        		"maxLength": 450,
-        		"type": "string",
-        		"description": "Voucher number from final booking.",
-        		"xml": {
-        		  "name": "FinalVoucherNumber"
-        		}
+            "maxLength": 450,
+            "type": "string",
+            "description": "Voucher number from final booking.",
+            "xml": {
+              "name": "FinalVoucherNumber"
+            }
       	  },
       	  "finalBookingDate": {
-        		"type": "string",
-        		"description": "Final booking date.",
-        		"format": "date-time",
-        		"xml": {
-        		  "name": "FinalBookingDate"
-        		}
+            "type": "string",
+            "description": "Final booking date.",
+            "format": "date-time",
+            "xml": {
+              "name": "FinalBookingDate"
+            }
       	  },
       	  "companyId": {
-        		"maxLength": 100,
-        		"type": "string",
-        		"description": "Unique Company Id.",
-        		"xml": {
-        		  "name": "CompanyId"
-        		}
+            "maxLength": 100,
+            "type": "string",
+            "description": "Unique Company Id.",
+            "xml": {
+              "name": "CompanyId"
+            }
       	  },
       	  "companyExternalSystemId": {
-        		"maxLength": 100,
-        		"type": "string",
-        		"description": "Unique ExternalSystemId to the Company.",
-        		"xml": {
-        		  "name": "CompanyExternalSystemId"
-        		}
+            "maxLength": 100,
+            "type": "string",
+            "description": "Unique ExternalSystemId to the Company.",
+            "xml": {
+              "name": "CompanyExternalSystemId"
+            }
       	  },
       	},
       	"xml": {
