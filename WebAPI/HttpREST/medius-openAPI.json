@@ -17995,6 +17995,16 @@
               "name": "PaymentReference"
             }
           },
+          "referencedDocuments": {
+            "type": "array",
+            "xml": {
+              "name": "ReferencedDocuments",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/IntegrationReferencedDocumentDto"
+            }
+          },
           "taxAmount": {
             "type": "number",
             "description": "Invoice total tax amount (imported value). Decimal format (28,14).",
@@ -18652,6 +18662,54 @@
         },
         "xml": {
           "name": "InvoiceLine"
+        }
+      },
+      "IntegrationReferencedDocumentDto": {
+      	"type": "object",
+      	"properties": {
+      	  "invoiceNumber": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Invoice number.",
+            "xml": {
+              "name": "InvoiceNumber"
+            }
+          },
+      	  "finalVoucherNumber": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Voucher number from final booking.",
+            "xml": {
+              "name": "FinalVoucherNumber"
+            }
+      	  },
+      	  "finalBookingDate": {
+            "type": "string",
+            "description": "Final booking date.",
+            "format": "date-time",
+            "xml": {
+              "name": "FinalBookingDate"
+            }
+      	  },
+      	  "companyId": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "Unique Company Id.",
+            "xml": {
+              "name": "CompanyId"
+            }
+      	  },
+      	  "companyExternalSystemId": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "Unique ExternalSystemId to the Company.",
+            "xml": {
+              "name": "CompanyExternalSystemId"
+            }
+      	  },
+      	},
+      	"xml": {
+      	  "name": "ReferencedDocument"
         }
       },
       "IntegrationCodingLineDto": {
@@ -21371,6 +21429,20 @@
             "description": "Payment reference. Can be used as reference at payment.",
             "xml": {
               "name": "PaymentReference"
+            }
+          },
+          "referencedDocuments": {
+            "type": "array",
+            "xml": {
+              "name": "ReferencedDocuments",
+              "wrapped": true
+            },
+            "items": {
+              "type": "string",
+              "xml": {
+                "name": "ReferencedDocument",
+                "wrapped": true
+              }
             }
           },
           "contractNumber": {
