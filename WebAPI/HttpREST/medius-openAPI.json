@@ -18706,7 +18706,7 @@
             "xml": {
               "name": "CompanyExternalSystemId"
             }
-      	  },
+      	  }
       	},
       	"xml": {
       	  "name": "ReferencedDocument"
