@@ -18675,6 +18675,22 @@
               "name": "InvoiceNumber"
             }
           },
+          "preliminaryVoucherNumber": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Voucher number from preliminary booking. Empty if the booking is a preliminary or direct booking.",
+            "xml": {
+              "name": "PreliminaryVoucherNumber"
+            }
+      	  },
+      	  "preliminaryBookingDate": {
+            "type": "string",
+            "description": "Invoice preliminary booking date.",
+            "format": "date-time",
+            "xml": {
+              "name": "PreliminaryBookingDate"
+            }
+      	  },
       	  "finalVoucherNumber": {
             "maxLength": 450,
             "type": "string",
