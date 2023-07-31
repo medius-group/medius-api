@@ -6,7 +6,7 @@ The flow looks as below:
 
 Feature branch => Develop branch => Master => Stable
 
-Create a PR to develop and the Medius maintainers will be notified.
+Create a local fork of develop on your own account and create a PR to develop and the Medius maintainers will be notified.
 
 # How to test
 
