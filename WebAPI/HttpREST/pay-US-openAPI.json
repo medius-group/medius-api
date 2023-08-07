@@ -136,10 +136,19 @@
           "voucherNumber": {
             "maxLength": 50,
             "type": "string",
-            "description": "Voucher number from ERP, used to validate inside a single batch and between batches for possible duplicate payments.",
+            "description": "Payment voucher number from ERP, used to validate inside a single batch and between batches for possible duplicate payments.",
             "example": "1519c142-c405-4753-bb2f-5fbec59375d4",
             "xml": {
               "name": "VoucherNumber"
+            }
+          },
+          "invoiceVoucherNumber": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "Invoice voucher number from ERP, used to match the payment against an invoice posted in AP Automation",
+            "example": "2419c142-c405-4753-bb2f-5fbec5937556",
+            "xml": {
+              "name": "InvoiceVoucherNumber"
             }
           },
           "invoiceCompanyId": {
@@ -378,7 +387,7 @@
           "payeeAccountNumber": {
             "maxLength": 34,
             "type": "string",
-            "description": "IBAN or AccountNumber. No spaces or dashes permitted. Required for international payments.",
+            "description": "IBAN or basic account number. No spaces or dashes permitted. Required for international payments.",
             "example": "PL88109013620000000036000000",
             "xml": {
               "name": "PayeeAccountNumber"
@@ -387,16 +396,25 @@
           "payeeRoutingNumber": {
             "maxLength": 15,
             "type": "string",
-            "description": "This could be known as RoutingNumber, BranchCode, ABA number, transit number, MICR, IFSC, etc. Required for international payments in some countries.",
+            "description": "Required field when basic account number provided in payeeAccountNumber field. Optional if IBAN provided. This could be known as RoutingNumber, BranchCode, ABA number, transit number, MICR, IFSC, etc.",
             "example": "202020",
             "xml": {
               "name": "PayeeRoutingNumber"
             }
           },
+          "payeeRoutingNumberType": {
+            "maxLength": 4,
+            "type": "string",
+            "description": "Required field when payee routing number provided in payeeRoutingNumber field. Allowed values: ACH, Wire",
+            "example": "ACH",
+            "xml": {
+              "name": "PayeeRoutingNumberType"
+            }
+          },
           "payeeBankSwiftCode": {
             "maxLength": 11,
             "type": "string",
-            "description": "A unique identification code assigned to a specific bank to proceed money transfer between banks internationally. Required for international payments.",
+            "description": "Required field when IBAN provided in payeeAccountNumber field. A unique identification code assigned to a specific bank to proceed money transfer between banks internationally. Needs to match regex included as pattern.",
             "example": "WBKPPLPP",
             "xml": {
               "name": "PayeeBankSwiftCode"
