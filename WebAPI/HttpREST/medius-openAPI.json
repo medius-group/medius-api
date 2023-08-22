@@ -18899,7 +18899,6 @@
       "IntegrationAccrualInformationDto": {
         "required": [
           "numberOfPeriods",
-          "startDate",
           "useLinesWithAccrualPeriods"
         ],
         "type": "object",
@@ -18929,6 +18928,14 @@
             "format": "date-time",
             "xml": {
               "name": "StartDate"
+            }
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date of the accruals.",
+            "format": "date-time",
+            "xml": {
+              "name": "EndDate"
             }
           },
           "accrualPeriods": {
