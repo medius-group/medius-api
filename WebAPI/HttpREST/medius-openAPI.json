@@ -17997,6 +17997,7 @@
           },
           "referencedDocuments": {
             "type": "array",
+            "description": "List of referenced documents.",
             "xml": {
               "name": "ReferencedDocuments",
               "wrapped": true
@@ -21456,12 +21457,14 @@
           },
           "referencedDocuments": {
             "type": "array",
+            "description": "List of referenced documents.",
             "xml": {
               "name": "ReferencedDocuments",
               "wrapped": true
             },
             "items": {
               "type": "string",
+              "description": "Creates a link to a referenced document. Note that the system only creates the links to the referenced documents if it finds valid references. This is particularly useful for credit notes where document references to registered invoices can be used for the linkage.",
               "xml": {
                 "name": "ReferencedDocument",
                 "wrapped": true
