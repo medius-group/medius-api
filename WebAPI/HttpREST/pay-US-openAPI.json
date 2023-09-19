@@ -120,7 +120,8 @@
           "paymentCurrencyCode",
           "payorBankAccountIdentifier",
           "payorLocationIdentifier",
-          "voucherNumber"
+          "voucherNumber",
+          "payeeZipOrPostalCode"
         ],
         "type": "object",
         "properties": {
@@ -217,8 +218,8 @@
             "maxLength": 10,
             "minLength": 5,
             "type": "string",
-            "description": "Zip or Postal Code of the payee. _Optional for countries other than USA and Canada - 0 to 10 characters allowed._",
-            "example": "89262-8263",
+            "description": "Zip code or Postal code of the Payee. Max length of 10 character with minimum of 5 character length.",
+            "example": "US = 32202-4934 or 32202, Canada = A1A 1A1",
             "xml": {
               "name": "PayeeZipOrPostalCode"
             }
@@ -439,7 +440,7 @@
             }
           },
           "paymentReference": {
-            "maxLength": 30,
+            "maxLength": 13,
             "type": "string",
             "description": "A payment reference number or check number from the customers accounting system. Will be displayed on remittance advice. Note: If not specified, will be generated during payment process. If generated during payment process, there will be one payment reference for all invoices to be paid to a single payee.",
             "example": "P012701",
