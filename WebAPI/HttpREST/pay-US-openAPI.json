@@ -120,8 +120,7 @@
           "paymentCurrencyCode",
           "payorBankAccountIdentifier",
           "payorLocationIdentifier",
-          "voucherNumber",
-          "payeeZipOrPostalCode"
+          "voucherNumber"
         ],
         "type": "object",
         "properties": {
