@@ -217,8 +217,8 @@
             "maxLength": 10,
             "minLength": 5,
             "type": "string",
-            "description": "Zip code or Postal code of the Payee. Max length of 10 character with minimum of 5 character length.",
-            "example": "US = 32202-4934 or 32202, Canada = A1A 1A1",
+            "description": "Zip code or Postal code of the Payee. Max length of 10 character with minimum of 5 character length. Examples: US = 32202-4934 or 32202, Canada = A1A 1A1",
+            "example": "32202-4934",
             "xml": {
               "name": "PayeeZipOrPostalCode"
             }
