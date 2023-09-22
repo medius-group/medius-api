@@ -1,0 +1,27 @@
+name: validate-oas
+
+on: [push]
+
+jobs:
+  test_swagger_editor_validator_remote:
+    runs-on: ubuntu-latest
+    name: Swagger Editor Validator Remote
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Validate OpenAPI definition medius-openAPI
+        uses: char0n/swagger-editor-validate@v1.3.2
+        with:
+          definition-file: WebAPI/HttpREST/medius-openAPI.json
+      - name: Validate OpenAPI definition pay-EU-openAPI
+        uses: char0n/swagger-editor-validate@v1.3.2
+        with:
+          definition-file: WebAPI/HttpREST/pay-EU-openAPI.json
+      - name: Validate OpenAPI definition pay-US-openAPI
+        uses: char0n/swagger-editor-validate@v1.3.2
+        with:
+          definition-file: WebAPI/HttpREST/pay-US-openAPI.json
+      - name: Validate OpenAPI definition s2c-openAPI
+        uses: char0n/swagger-editor-validate@v1.3.2
+        with:
+          definition-file: WebAPI/HttpREST/s2c-openAPI.json
