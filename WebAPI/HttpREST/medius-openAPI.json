@@ -167,7 +167,7 @@
         "tags": [
           "Master data - import"
         ],
-        "summary": "Beta feature. Only available for Pilot customers.",
+        "summary": "Former AuthorizationGroupImportBatches. Beta feature. Only available for Pilot customers.",
         "description": "The POST method allows the client to send approval groups that will be imported by the Medius master data import queue.\nThe approval groups have company and currency prerequisite.\n\n For detailed information on approval group set-up, see [Success portal](https://success.medius.com/documentation/administration_guide/administration_pages/approval_group/)",
         "operationId": "ApprovalGroupBatchImport_Post",
         "requestBody": {
@@ -210,7 +210,7 @@
         "tags": [
           "Master data - import"
         ],
-        "summary": "Beta feature. Only available for Pilot customers.",
+        "summary": "Former AuthorizationGroupImportBatches. Beta feature. Only available for Pilot customers.",
         "description": "The GET method will allow you to check status for an imported batch. When performing a POST, the link returned is pointing to this method.\nThis method allows the client to orchestrate so that the client can wait until dependent master data is imported correctly before sending that data.",
         "operationId": "ApprovalGroupBatchImport_Get",
         "parameters": [
