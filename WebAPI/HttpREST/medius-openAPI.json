@@ -247,7 +247,7 @@
         "tags": [
           "Master data - import"
         ],
-        "summary": "Beta feature. Only available for Pilot customers.",
+        "summary": "Former AuthorizationGroupImportBatches. Beta feature. Only available for Pilot customers.",
         "description": "The DELETE method allows a client to remove an import item from the queue, this to allow an integration to take full responsibility\nof resending master data batches and handle all error on the client side instead of within Medius. it's only possible to remove items that are not in a running state.",
         "operationId": "ApprovalGroupBatchImport_Delete",
         "parameters": [
