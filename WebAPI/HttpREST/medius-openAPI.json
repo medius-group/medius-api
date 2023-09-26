@@ -162,19 +162,62 @@
         }
       }
     },
-    "/integration/masterdata/v1/AuthorizationGroupImportBatches/{importId}": {
+    "/integration/masterdata/v1/ApprovalGroupImportBatches": {
+      "post": {
+        "tags": [
+          "Master data - import"
+        ],
+        "summary": "Beta feature. Only available for Pilot customers.",
+        "description": "The POST method allows the client to send approval groups that will be imported by the Medius master data import queue.\nThe approval groups have company and currency prerequisite.\n\n For detailed information on approval group set-up, see [Success portal](https://success.medius.com/documentation/administration_guide/administration_pages/approval_group/)",
+        "operationId": "ApprovalGroupBatchImport_Post",
+        "requestBody": {
+          "description": "The approval group to import",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IntegrationApprovalGroupDto"
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "array",
+                "xml": {
+                  "name": "ArrayOfApprovalGroup",
+                  "wrapped": true
+                },
+                "items": {
+                  "$ref": "#/components/schemas/IntegrationApprovalGroupDto"
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "description": "Response includes Location header with a link to the import batch, this link will give the status of how the batch is processing within Medius.",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "authorizationGroupDtos"
+      }
+    },
+    "/integration/masterdata/v1/ApprovalGroupImportBatches/{importId}": {
       "get": {
         "tags": [
           "Master data - import"
         ],
         "summary": "Beta feature. Only available for Pilot customers.",
         "description": "The GET method will allow you to check status for an imported batch. When performing a POST, the link returned is pointing to this method.\nThis method allows the client to orchestrate so that the client can wait until dependent master data is imported correctly before sending that data.",
-        "operationId": "AuthorizationGroupBatchImportBatch_Get",
+        "operationId": "ApprovalGroupBatchImport_Get",
         "parameters": [
           {
             "name": "importId",
             "in": "path",
-            "description": "The import id is either retrieved byt he full link from the result of the POST or from within Medius master data import queue",
+            "description": "The import id is either retrieved by the full link from the result of the POST or from within Medius master data import queue",
             "required": true,
             "schema": {
               "type": "string",
@@ -206,7 +249,7 @@
         ],
         "summary": "Beta feature. Only available for Pilot customers.",
         "description": "The DELETE method allows a client to remove an import item from the queue, this to allow an integration to take full responsibility\nof resending master data batches and handle all error on the client side instead of within Medius. it's only possible to remove items that are not in a running state.",
-        "operationId": "AuthorizationGroupBatchImportBatch_Delete",
+        "operationId": "ApprovalGroupBatchImport_Delete",
         "parameters": [
           {
             "name": "importId",
@@ -225,53 +268,6 @@
             "content": {}
           }
         }
-      }
-    },
-    "/integration/masterdata/v1/AuthorizationGroupImportBatches": {
-      "post": {
-        "tags": [
-          "Master data - import"
-        ],
-        "summary": "Beta feature. Only available for Pilot customers.",
-        "description": "The POST method allows the client to send authorization groups that will be imported by the Medius master data import queue.\nThe authorization groups have company and currency prerequisite.\n\n For detailed information on authorization group set-up, see [Success portal](https://success.medius.com/documentation/administration_guide/administration_pages/authorization_groups/)",
-        "operationId": "AuthorizationGroupBatchImportBatch_Post",
-        "requestBody": {
-          "description": "The authorization groups to import",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "xml": {
-                  "name": "ArrayOfAuthorizationGroup",
-                  "wrapped": true
-                },
-                "items": {
-                  "$ref": "#/components/schemas/IntegrationAuthorizationGroupImportDto"
-                }
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "type": "array",
-                "xml": {
-                  "name": "ArrayOfAuthorizationGroup",
-                  "wrapped": true
-                },
-                "items": {
-                  "$ref": "#/components/schemas/IntegrationAuthorizationGroupImportDto"
-                }
-              }
-            }
-          },
-          "required": false
-        },
-        "responses": {
-          "201": {
-            "description": "Response includes Location header with a link to the import batch, this link will give the status of how the batch is processing within Medius.",
-            "content": {}
-          }
-        },
-        "x-codegen-request-body-name": "authorizationGroupDtos"
       }
     },
     "/integration/masterdata/v1/companies": {
@@ -7503,7 +7499,7 @@
           "name": "StatusLink"
         }
       },
-      "IntegrationAuthorizationGroupImportDto": {
+      "IntegrationApprovalGroupDto": {
         "required": [
           "CompanyId",
           "ExternalSystemId",
@@ -7666,7 +7662,7 @@
           }
         },
         "xml": {
-          "name": "AuthorizationGroup"
+          "name": "ApprovalGroup"
         }
       },
       "IntegrationSupplierPermissionDto": {
