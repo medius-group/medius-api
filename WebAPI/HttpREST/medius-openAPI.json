@@ -167,7 +167,6 @@
         "tags": [
           "Master data - import"
         ],
-        "summary": "Former AuthorizationGroupImportBatches. Beta feature. Only available for Pilot customers.",
         "description": "The POST method allows the client to send approval groups that will be imported by the Medius master data import queue.\nThe approval groups have company and currency prerequisite.\n\n For detailed information on approval group set-up, see [Success portal](https://success.medius.com/documentation/administration_guide/administration_pages/approval_group/)",
         "operationId": "ApprovalGroupBatchImport_Post",
         "requestBody": {
@@ -210,7 +209,6 @@
         "tags": [
           "Master data - import"
         ],
-        "summary": "Former AuthorizationGroupImportBatches. Beta feature. Only available for Pilot customers.",
         "description": "The GET method will allow you to check status for an imported batch. When performing a POST, the link returned is pointing to this method.\nThis method allows the client to orchestrate so that the client can wait until dependent master data is imported correctly before sending that data.",
         "operationId": "ApprovalGroupBatchImport_Get",
         "parameters": [
@@ -247,7 +245,6 @@
         "tags": [
           "Master data - import"
         ],
-        "summary": "Former AuthorizationGroupImportBatches. Beta feature. Only available for Pilot customers.",
         "description": "The DELETE method allows a client to remove an import item from the queue, this to allow an integration to take full responsibility\nof resending master data batches and handle all error on the client side instead of within Medius. it's only possible to remove items that are not in a running state.",
         "operationId": "ApprovalGroupBatchImport_Delete",
         "parameters": [
@@ -7642,6 +7639,7 @@
           },
           "supplierPermissions": {
             "type": "array",
+            "description": "The limit is 500 items per batch.",
             "xml": {
               "wrapped": true,
               "name": "SupplierPermissions"
@@ -7652,6 +7650,7 @@
           },
           "dimensionPermissions": {
             "type": "array",
+            "description": "The limit is 500 items per batch.",
             "xml": {
               "wrapped": true,
               "name": "DimensionPermissions"
