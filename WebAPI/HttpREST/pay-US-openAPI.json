@@ -423,7 +423,7 @@
           "purposeOfPayment": {
             "maxLength": 50,
             "type": "string",
-            "description": "Purpose of payment. Required for international payment. Allowed values are: BillPayment, BusinessVenture, CharitableDonation, EstateSettlementOrInheritance, GovernmentRelatedPayment, IntercompanyPayment, InvestmentRelatedPayment, PaymentForALoanOrDeposit, PayrollOrPersonnelPayment, ProfessionalFeesPayment, PurchaseOfGoods, PurchaseOfPropertyOrRealEstate, PurchaseOfServices, ResearchAndDevelopment",
+            "description": "Purpose of payment. Required for international payment to some countries.",
             "example": "BillPayment",
             "xml": {
               "name": "PurposeOfPayment"
@@ -463,6 +463,14 @@
             "example": "USD",
             "xml": {
               "name": "DiscountCurrencyCode"
+            }
+          },
+          "urgentPayment": {
+            "type": "boolean",
+            "description": "FedEx payment for checks, same day payment for electronic payment methods. If not provided the default value is set to false.",
+            "example": true,
+            "xml": {
+              "name": "UrgentPayment"
             }
           }
         },
