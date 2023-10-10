@@ -201,7 +201,7 @@
             "content": {}
           }
         },
-        "x-codegen-request-body-name": "authorizationGroupDtos"
+        "x-codegen-request-body-name": "approvalGroups"
       }
     },
     "/integration/masterdata/v1/ApprovalGroupImportBatches/{importId}": {
