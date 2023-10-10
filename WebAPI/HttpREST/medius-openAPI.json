@@ -7123,7 +7123,9 @@
           154,
           155,
           156,
-          157
+          157,
+          158,
+          159
         ],
         "x-enumNames": [
           "UNKNOWN",
@@ -7283,7 +7285,9 @@
           "AUTHORIZATION_GROUP_SUPPLIER_DOES_NOT_EXIST_IN_COMPANY_TREE",
           "AUTHORIZATION_GROUP_DIMENSION_DOES_NOT_EXIST",
           "AUTHORIZATION_GROUP_CREDITLIMIT_MUST_BE_NEGATIVE",
-          "AUTHORIZATION_GROUP_DEBITLIMIT_MUST_BE_POSITIVE"
+          "AUTHORIZATION_GROUP_DEBITLIMIT_MUST_BE_POSITIVE",
+          "DIMENSION_ALREADY_EXIST",
+          "ISSUE_WITH_SAVING_ITEM_TRANSIENT_ERROR_DETECTED"
         ]
       },
       "ActualPaymentDateResponseDto": {
