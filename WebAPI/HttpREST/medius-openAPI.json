@@ -6413,7 +6413,7 @@
         "tags": [
           "Pay"
         ],
-        "description": "The POST method allows the client to send payment batches that will be imported into Medius Pay to be approved and paid. When import fails, incorrect payment batch is saved in Import error inbox within Medius Pay.\n This API has region settings. Here we list all possible parameters without consideration of the region. To see and test region specific API, please see the [Success portal](https://success.medius.com/documentation/integration-documentation/technical/rest/scenarios/#region) or use the direct links below to specific API:  \n [Direct link to EU region](https://api.medius.com/dummytenant/documentation/index.html?url=https://api.medius.com/dummytenant/openapi/payEU/) \n [Direct link to US region](https://api.medius.com/dummytenant/documentation/index.html?url=https://api.medius.com/dummytenant/openapi/payUS/) \n Note: Please change tenant name in the URL for a complete testing experience.",
+        "description": "The POST method allows the client to send payment batches that will be imported into Medius Pay to be approved and paid. When import fails, incorrect payment batch is saved in Import error inbox within Medius Pay. This API has region settings. In the schemas you will find both US and EU as a oneOf setting. You can also see both US and EU example files.",
         "operationId": "paymentBatches_Post",
         "requestBody": {
           "description": "Payment batch with list of payment items.",
@@ -22783,7 +22783,7 @@
           },
           "items": {
             "type": "array",
-            "description": "Adding items to the import batch is mandatory. The limit is 5000 items per batch. **NOTE:** follow either PaymentItemUS or PaymentItemEU depending on your company location.",
+            "description": "Adding items to the import batch is mandatory. The limit is 5000 items per batch.  **NOTE:** follow either PaymentItemUS or PaymentItemEU depending on your company location.",
             "xml": {
               "name": "Items",
               "wrapped": true
@@ -22825,7 +22825,7 @@
           "voucherNumber"
         ],
         "type": "object",
-        "description": "Use this schema for US Companies",
+        "description": "**Use this schema for US Companies**",
         "properties": {
           "invoiceNumber": {
             "maxLength": 50,
@@ -23198,7 +23198,7 @@
           "voucherNumber"
         ],
         "type": "object",
-        "description": "Use this schema for EU Companies",
+        "description": "**Use this schema for EU Companies**",
         "properties": {
           "invoiceNumber": {
             "maxLength": 140,
