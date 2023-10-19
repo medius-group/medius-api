@@ -6424,101 +6424,97 @@
               },
               "examples": {
                 "US-example": {
-                  "value": [
-                    {
-                      "payorId": "Medius",
-                      "externalBatchId": "WBC43728",
-                      "items": [
-                        {
-                          "invoiceNumber": "2/2021",
-                          "voucherNumber": "1519c142-c405-4753-bb2f-5fbec59375d4",
-                          "invoiceVoucherNumber": "2419c142-c405-4753-bb2f-5fbec5937556",
-                          "invoiceCompanyId": "Medius",
-                          "payeeId": "sinid",
-                          "remitToID": "345123R",
-                          "payeeName": "Larson - Roob",
-                          "payeeStreetLine1": "3346 Pagac Union",
-                          "payeeStreetLine2": "PO box 1202",
-                          "payeeCity": "Lake Miller",
-                          "payeeZipOrPostalCode": "32202-4934",
-                          "payeeStateCode": "RI",
-                          "payeeCountryCode": "US",
-                          "paymentAmount": 732.43,
-                          "paymentCurrencyCode": "USD",
-                          "invoiceDate": "2021-04-10T00:00:00.000Z",
-                          "invoiceDueDate": "2021-04-10T00:00:00.000Z",
-                          "invoiceAmount": 732.43,
-                          "invoiceCurrencyCode": "USD",
-                          "payorBankAccountIdentifier": "BankId1",
-                          "payorLocationIdentifier": "1",
-                          "comment": "Comment for payee",
-                          "payorIdInPayeeSystem": "897578762",
-                          "settlementCurrencyCode": "USD",
-                          "payeeBankName": "Bank Zachodni WBK S.A.",
-                          "payeeBankStreetLine1": "PL.WOLNOSCI 15",
-                          "payeeBankStreetLine2": "BUILDING B",
-                          "payeeBankCity": "POZNAN",
-                          "payeeBankCountryCode": "PL",
-                          "payeeAccountNumber": "PL88109013620000000036000000",
-                          "payeeRoutingNumber": "202020",
-                          "payeeRoutingNumberType": "ACH",
-                          "payeeBankSwiftCode": "WBKPPLPP",
-                          "purposeOfPayment": "BillPayment",
-                          "payeeContactEmail": "email@email.com",
-                          "paymentReference": "P012701",
-                          "discountAmount": 0,
-                          "discountCurrencyCode": "USD",
-                          "urgentPayment": true
-                        }
-                      ]
-                    }
-                  ]
+                  "value": {
+                    "payorId": "Medius",
+                    "externalBatchId": "WBC43728",
+                    "items": [
+                      {
+                        "invoiceNumber": "2/2021",
+                        "voucherNumber": "1519c142-c405-4753-bb2f-5fbec59375d4",
+                        "invoiceVoucherNumber": "2419c142-c405-4753-bb2f-5fbec5937556",
+                        "invoiceCompanyId": "Medius",
+                        "payeeId": "sinid",
+                        "remitToID": "345123R",
+                        "payeeName": "Larson - Roob",
+                        "payeeStreetLine1": "3346 Pagac Union",
+                        "payeeStreetLine2": "PO box 1202",
+                        "payeeCity": "Lake Miller",
+                        "payeeZipOrPostalCode": "32202-4934",
+                        "payeeStateCode": "RI",
+                        "payeeCountryCode": "US",
+                        "paymentAmount": 732.43,
+                        "paymentCurrencyCode": "USD",
+                        "invoiceDate": "2021-04-10T00:00:00.000Z",
+                        "invoiceDueDate": "2021-04-10T00:00:00.000Z",
+                        "invoiceAmount": 732.43,
+                        "invoiceCurrencyCode": "USD",
+                        "payorBankAccountIdentifier": "BankId1",
+                        "payorLocationIdentifier": "1",
+                        "comment": "Comment for payee",
+                        "payorIdInPayeeSystem": "897578762",
+                        "settlementCurrencyCode": "USD",
+                        "payeeBankName": "Bank Zachodni WBK S.A.",
+                        "payeeBankStreetLine1": "PL.WOLNOSCI 15",
+                        "payeeBankStreetLine2": "BUILDING B",
+                        "payeeBankCity": "POZNAN",
+                        "payeeBankCountryCode": "PL",
+                        "payeeAccountNumber": "PL88109013620000000036000000",
+                        "payeeRoutingNumber": "202020",
+                        "payeeRoutingNumberType": "ACH",
+                        "payeeBankSwiftCode": "WBKPPLPP",
+                        "purposeOfPayment": "BillPayment",
+                        "payeeContactEmail": "email@email.com",
+                        "paymentReference": "P012701",
+                        "discountAmount": 0,
+                        "discountCurrencyCode": "USD",
+                        "urgentPayment": true
+                      }
+                    ]
+                  }
                 },
                 "EU-example": {
-                  "value": [
-                    {
-                      "payorId": "Medius",
-                      "externalBatchId": "WBC43728",
-                      "items": [
-                        {
-                          "invoiceNumber": "2/2021",
-                          "voucherNumber": "1519c142-c405-4753-bb2f-5fbec59375d4",
-                          "invoiceVoucherNumber": "2419c142-c405-4753-bb2f-5fbec5937556",
-                          "invoiceCompanyId": "Medius",
-                          "payeeId": "sinid",
-                          "remitToID": "345123R",
-                          "payeeName": "Larson - Roob",
-                          "payeeStreetLine1": "3346 Pagac Union",
-                          "payeeStreetLine2": "PO box 1202",
-                          "payeeCity": "Lake Miller",
-                          "payeeZipOrPostalCode": "89262-8263",
-                          "payeeStateCode": "RI",
-                          "payeeCountryCode": "US",
-                          "paymentAmount": 732.43,
-                          "paymentCurrencyCode": "USD",
-                          "invoiceDate": "2021-04-10T00:00:00.000Z",
-                          "invoiceDueDate": "2021-04-10T00:00:00.000Z",
-                          "preferredPaymentDate": "2021-04-10T00:00:00.000Z",
-                          "invoiceAmount": 732.43,
-                          "invoiceCurrencyCode": "USD",
-                          "comment": "Comment for payee",
-                          "payorBankAccountIdentifier": "Bank1",
-                          "payeeBankName": "Bank Zachodni WBK S.A.",
-                          "payeeBankStreetLine1": "PL.WOLNOSCI 15",
-                          "payeeBankStreetLine2": "BUILDING B",
-                          "payeeBankCity": "POZNAN",
-                          "payeeBankCountryCode": "PL",
-                          "payeeAccountNumber": "PL88109013620000000036000000",
-                          "payeeBankgiroNumber": "3452334",
-                          "payeeRoutingNumber": "202020",
-                          "payeeBankSwiftCode": "WBKPPLPP",
-                          "payeeContactEmail": "email@email.com",
-                          "paymentReference": "P012701",
-                          "payeeTaxRegistrationNumber": "12598"
-                        }
-                      ]
-                    }
-                  ]
+                  "value": {
+                    "payorId": "Medius",
+                    "externalBatchId": "WBC43728",
+                    "items": [
+                      {
+                        "invoiceNumber": "2/2021",
+                        "voucherNumber": "1519c142-c405-4753-bb2f-5fbec59375d4",
+                        "invoiceVoucherNumber": "2419c142-c405-4753-bb2f-5fbec5937556",
+                        "invoiceCompanyId": "Medius",
+                        "payeeId": "sinid",
+                        "remitToID": "345123R",
+                        "payeeName": "Larson - Roob",
+                        "payeeStreetLine1": "3346 Pagac Union",
+                        "payeeStreetLine2": "PO box 1202",
+                        "payeeCity": "Lake Miller",
+                        "payeeZipOrPostalCode": "89262-8263",
+                        "payeeStateCode": "RI",
+                        "payeeCountryCode": "US",
+                        "paymentAmount": 732.43,
+                        "paymentCurrencyCode": "USD",
+                        "invoiceDate": "2021-04-10T00:00:00.000Z",
+                        "invoiceDueDate": "2021-04-10T00:00:00.000Z",
+                        "preferredPaymentDate": "2021-04-10T00:00:00.000Z",
+                        "invoiceAmount": 732.43,
+                        "invoiceCurrencyCode": "USD",
+                        "comment": "Comment for payee",
+                        "payorBankAccountIdentifier": "Bank1",
+                        "payeeBankName": "Bank Zachodni WBK S.A.",
+                        "payeeBankStreetLine1": "PL.WOLNOSCI 15",
+                        "payeeBankStreetLine2": "BUILDING B",
+                        "payeeBankCity": "POZNAN",
+                        "payeeBankCountryCode": "PL",
+                        "payeeAccountNumber": "PL88109013620000000036000000",
+                        "payeeBankgiroNumber": "3452334",
+                        "payeeRoutingNumber": "202020",
+                        "payeeBankSwiftCode": "WBKPPLPP",
+                        "payeeContactEmail": "email@email.com",
+                        "paymentReference": "P012701",
+                        "payeeTaxRegistrationNumber": "12598"
+                      }
+                    ]
+                  }
                 }
               }
             },
