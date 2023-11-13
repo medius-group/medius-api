@@ -22843,7 +22843,7 @@
           "voucherNumber": {
             "maxLength": 50,
             "type": "string",
-            "description": "Payment voucher number from ERP, used to validate inside a single batch and between batches for possible duplicate payments.",
+            "description": "Payment voucher number from ERP.",
             "example": "1519c142-c405-4753-bb2f-5fbec59375d4",
             "xml": {
               "name": "VoucherNumber"
@@ -22982,6 +22982,15 @@
             "example": "2021-04-10T00:00:00.000Z",
             "xml": {
               "name": "InvoiceDueDate"
+            }
+          },
+          "preferredPaymentDate": {
+            "type": "string",
+            "description": "The date on which payment should be executed. If left empty, current date will be used.",
+            "format": "date",
+            "example": "2021-04-10T00:00:00.000Z",
+            "xml": {
+              "name": "PreferredPaymentDate"
             }
           },
           "invoiceAmount": {
@@ -23216,7 +23225,7 @@
           "voucherNumber": {
             "maxLength": 50,
             "type": "string",
-            "description": "Voucher number from ERP, used to validate inside a single batch and between batches for possible duplicate payments",
+            "description": "Voucher number from ERP.",
             "example": "1519c142-c405-4753-bb2f-5fbec59375d4",
             "xml": {
               "name": "VoucherNumber"
@@ -23665,7 +23674,7 @@
           "voucherNumber": {
             "maxLength": 50,
             "type": "string",
-            "description": "Payment voucher number from ERP, used to validate inside a single batch and between batches for possible duplicate payments",
+            "description": "Payment voucher number from ERP.",
             "example": "1519c142-c405-4753-bb2f-5fbec59375d4",
             "xml": {
               "name": "VoucherNumber"
