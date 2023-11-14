@@ -94,6 +94,21 @@
           "201": {
             "description": "Response includes Location header with a link to the import batch, this link will give the status of how the batch is processing within Medius",
             "content": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
           }
         },
         "x-codegen-request-body-name": "accrualTemplates"
@@ -133,6 +148,21 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/UnexpectedError"
           }
         }
       },
@@ -6691,6 +6721,62 @@
     }
   },
   "components": {
+    "responses": {
+      "BadRequest": {
+        "description": "Bad Request - Error in the payload, see message for details.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "message": "Detailed error message"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "Message": "Detailed error message"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized"
+      },
+      "Forbidden": {
+        "description": "Forbidden",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "message": "insufficient_scope"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "Message": "insufficient_scope"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Not Found"
+      },
+      "ServiceUnavailable": {
+        "description": "Service Unavailable, [click here](https://success.medius.com/documentation/integration-documentation/technical/rest/generalconsiderations/#handling-cloud-maintenance-and-outages) for more information."
+      },
+      "UnexpectedError": {
+        "description": "Unexpected error, [click here](https://success.medius.com/documentation/integration-documentation/technical/rest/generalconsiderations/#handling-cloud-maintenance-and-outages) for more information."
+      }
+    },
     "schemas": {
       "IntegrationAccrualTemplateDto": {
         "required": [
@@ -22635,6 +22721,15 @@
         },
         "xml": {
           "name": "EdiSupplierIdentifier"
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Detailed error message."
+          }
         }
       },
       "BadRequest": {
