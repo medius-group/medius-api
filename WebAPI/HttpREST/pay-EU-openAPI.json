@@ -132,7 +132,7 @@
           "voucherNumber": {
             "maxLength": 50,
             "type": "string",
-            "description": "Voucher number from ERP, used to validate inside a single batch and between batches for possible duplicate payments",
+            "description": "Voucher number from ERP.",
             "example": "1519c142-c405-4753-bb2f-5fbec59375d4",
             "xml": {
               "name": "VoucherNumber"
