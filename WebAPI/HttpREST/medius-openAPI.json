@@ -6413,7 +6413,7 @@
         "tags": [
           "Pay"
         ],
-        "description": "The POST method allows the client to send payment batches that will be imported into Medius Pay to be approved and paid. When import fails, incorrect payment batch is saved in Import error inbox within Medius Pay. Since this API has region settings, you will find both US and EU PaymentItem in schemas which is decided on your company location. You can also see both US and EU example files.",
+        "description": "The POST method allows the client to send payment batches that will be imported into Medius Pay to be approved and paid. When import fails, incorrect payment batch is saved in Import error inbox within Medius Pay. This API has region settings, you will find both US and EU PaymentItem in schemas. The schema is decided on your company location. You can also see both US and EU example files.",
         "operationId": "paymentBatches_Post",
         "requestBody": {
           "description": "Payment batch with list of payment items.",
