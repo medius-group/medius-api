@@ -6413,7 +6413,7 @@
         "tags": [
           "Pay"
         ],
-        "description": "The POST method allows the client to send payment batches that will be imported into Medius Pay to be approved and paid. When import fails, incorrect payment batch is saved in Import error inbox within Medius Pay.\n This API has region settings. Here we list all possible parameters without consideration of the region. To see and test region specific API, please see the [Success portal](https://success.medius.com/documentation/integration-documentation/technical/rest/scenarios/#region) or use the direct links below to specific API:  \n [Direct link to EU region](https://api.medius.com/dummytenant/documentation/index.html?url=https://api.medius.com/dummytenant/openapi/payEU/) \n [Direct link to US region](https://api.medius.com/dummytenant/documentation/index.html?url=https://api.medius.com/dummytenant/openapi/payUS/) \n Note: Please change tenant name in the URL for a complete testing experience.",
+        "description": "The POST method allows the client to send payment batches that will be imported into Medius Pay to be approved and paid. When import fails, incorrect payment batch is saved in Import error inbox within Medius Pay. This API has region settings, you will find both US and EU PaymentItem in schemas. The schema is decided on your company location. You can also see both US and EU example files.",
         "operationId": "paymentBatches_Post",
         "requestBody": {
           "description": "Payment batch with list of payment items.",
@@ -6421,11 +6421,114 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/PaymentBatch"
+              },
+              "examples": {
+                "US-example": {
+                  "value": {
+                    "payorId": "Medius",
+                    "externalBatchId": "WBC43728",
+                    "items": [
+                      {
+                        "invoiceNumber": "2/2021",
+                        "voucherNumber": "1519c142-c405-4753-bb2f-5fbec59375d4",
+                        "invoiceVoucherNumber": "2419c142-c405-4753-bb2f-5fbec5937556",
+                        "invoiceCompanyId": "Medius",
+                        "payeeId": "sinid",
+                        "remitToID": "345123R",
+                        "payeeName": "Larson - Roob",
+                        "payeeStreetLine1": "3346 Pagac Union",
+                        "payeeStreetLine2": "PO box 1202",
+                        "payeeCity": "Lake Miller",
+                        "payeeZipOrPostalCode": "32202-4934",
+                        "payeeStateCode": "RI",
+                        "payeeCountryCode": "US",
+                        "paymentAmount": 732.43,
+                        "paymentCurrencyCode": "USD",
+                        "invoiceDate": "2021-04-10T00:00:00.000Z",
+                        "invoiceDueDate": "2021-04-10T00:00:00.000Z",
+                        "invoiceAmount": 732.43,
+                        "invoiceCurrencyCode": "USD",
+                        "payorBankAccountIdentifier": "BankId1",
+                        "payorLocationIdentifier": "1",
+                        "comment": "Comment for payee",
+                        "payorIdInPayeeSystem": "897578762",
+                        "settlementCurrencyCode": "USD",
+                        "payeeBankName": "Bank Zachodni WBK S.A.",
+                        "payeeBankStreetLine1": "PL.WOLNOSCI 15",
+                        "payeeBankStreetLine2": "BUILDING B",
+                        "payeeBankCity": "POZNAN",
+                        "payeeBankCountryCode": "PL",
+                        "payeeAccountNumber": "PL88109013620000000036000000",
+                        "payeeRoutingNumber": "202020",
+                        "payeeRoutingNumberType": "ACH",
+                        "payeeBankSwiftCode": "WBKPPLPP",
+                        "purposeOfPayment": "BillPayment",
+                        "payeeContactEmail": "email@email.com",
+                        "paymentReference": "P012701",
+                        "discountAmount": 0,
+                        "discountCurrencyCode": "USD",
+                        "urgentPayment": true
+                      }
+                    ]
+                  }
+                },
+                "EU-example": {
+                  "value": {
+                    "payorId": "Medius",
+                    "externalBatchId": "WBC43728",
+                    "items": [
+                      {
+                        "invoiceNumber": "2/2021",
+                        "voucherNumber": "1519c142-c405-4753-bb2f-5fbec59375d4",
+                        "invoiceVoucherNumber": "2419c142-c405-4753-bb2f-5fbec5937556",
+                        "invoiceCompanyId": "Medius",
+                        "payeeId": "sinid",
+                        "remitToID": "345123R",
+                        "payeeName": "Larson - Roob",
+                        "payeeStreetLine1": "3346 Pagac Union",
+                        "payeeStreetLine2": "PO box 1202",
+                        "payeeCity": "Lake Miller",
+                        "payeeZipOrPostalCode": "89262-8263",
+                        "payeeStateCode": "RI",
+                        "payeeCountryCode": "US",
+                        "paymentAmount": 732.43,
+                        "paymentCurrencyCode": "USD",
+                        "invoiceDate": "2021-04-10T00:00:00.000Z",
+                        "invoiceDueDate": "2021-04-10T00:00:00.000Z",
+                        "preferredPaymentDate": "2021-04-10T00:00:00.000Z",
+                        "invoiceAmount": 732.43,
+                        "invoiceCurrencyCode": "USD",
+                        "comment": "Comment for payee",
+                        "payorBankAccountIdentifier": "Bank1",
+                        "payeeBankName": "Bank Zachodni WBK S.A.",
+                        "payeeBankStreetLine1": "PL.WOLNOSCI 15",
+                        "payeeBankStreetLine2": "BUILDING B",
+                        "payeeBankCity": "POZNAN",
+                        "payeeBankCountryCode": "PL",
+                        "payeeAccountNumber": "PL88109013620000000036000000",
+                        "payeeBankgiroNumber": "3452334",
+                        "payeeRoutingNumber": "202020",
+                        "payeeBankSwiftCode": "WBKPPLPP",
+                        "payeeContactEmail": "email@email.com",
+                        "paymentReference": "P012701",
+                        "payeeTaxRegistrationNumber": "12598"
+                      }
+                    ]
+                  }
+                }
               }
             },
             "application/xml": {
               "schema": {
                 "$ref": "#/components/schemas/PaymentBatch"
+              },
+              "examples": {
+                "US-example": {
+                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PaymentBatch>\n    <PayorId>Medius</PayorId>\n    <ExternalBatchId>WBC43728</ExternalBatchId>\n    <Items>\n        <Item>\n            <InvoiceNumber>2/2021</InvoiceNumber>\n            <VoucherNumber>1519c142-c405-4753-bb2f-5fbec59375d4</VoucherNumber>\n            <InvoiceVoucherNumber>2419c142-c405-4753-bb2f-5fbec5937556</InvoiceVoucherNumber>\n            <InvoiceCompanyId>Medius</InvoiceCompanyId>\n            <PayeeId>sinid</PayeeId>\n            <RemitToID>345123R</RemitToID>\n            <PayeeName>Larson - Roob</PayeeName>\n            <PayeeStreetLine1>3346 Pagac Union</PayeeStreetLine1>\n            <PayeeStreetLine2>PO box 1202</PayeeStreetLine2>\n            <PayeeCity>Lake Miller</PayeeCity>\n            <PayeeZipOrPostalCode>32202-4934</PayeeZipOrPostalCode>\n            <PayeeStateCode>RI</PayeeStateCode>\n            <PayeeCountryCode>US</PayeeCountryCode>\n            <PaymentAmount>732.43</PaymentAmount>\n            <PaymentCurrencyCode>USD</PaymentCurrencyCode>\n            <InvoiceDate>2021-04-10T00:00:00.000Z</InvoiceDate>\n            <InvoiceDueDate>2021-04-10T00:00:00.000Z</InvoiceDueDate>\n            <InvoiceAmount>732.43</InvoiceAmount>\n            <InvoiceCurrencyCode>USD</InvoiceCurrencyCode>\n            <PayorBankAccountIdentifier>BankId1</PayorBankAccountIdentifier>\n            <PayorLocationIdentifier>1</PayorLocationIdentifier>\n            <Comment>Comment for payee</Comment>\n            <PayorIdInPayeeSystem>897578762</PayorIdInPayeeSystem>\n            <SettlementCurrencyCode>USD</SettlementCurrencyCode>\n            <PayeeBankName>Bank Zachodni WBK S.A.</PayeeBankName>\n            <PayeeBankStreetLine1>PL.WOLNOSCI 15</PayeeBankStreetLine1>\n            <PayeeBankStreetLine2>BUILDING B</PayeeBankStreetLine2>\n            <PayeeBankCity>POZNAN</PayeeBankCity>\n            <PayeeBankCountryCode>PL</PayeeBankCountryCode>\n            <PayeeAccountNumber>PL88109013620000000036000000</PayeeAccountNumber>\n            <PayeeRoutingNumber>202020</PayeeRoutingNumber>\n            <PayeeRoutingNumberType>ACH</PayeeRoutingNumberType>\n            <PayeeBankSwiftCode>WBKPPLPP</PayeeBankSwiftCode>\n            <PurposeOfPayment>BillPayment</PurposeOfPayment>\n            <PayeeContactEmail>email@email.com</PayeeContactEmail>\n            <PaymentReference>P012701</PaymentReference>\n            <DiscountAmount>0</DiscountAmount>\n            <DiscountCurrencyCode>USD</DiscountCurrencyCode>\n            <UrgentPayment>true</UrgentPayment>\n        </Item>\n    </Items>\n</PaymentBatch>"
+                },
+                "EU-example": {
+                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PaymentBatch>\n    <PayorId>Medius</PayorId>\n    <ExternalBatchId>WBC43728</ExternalBatchId>\n    <Items>\n        <Item>\n            <InvoiceNumber>2/2021</InvoiceNumber>\n            <VoucherNumber>1519c142-c405-4753-bb2f-5fbec59375d4</VoucherNumber>\n            <InvoiceVoucherNumber>2419c142-c405-4753-bb2f-5fbec5937556</InvoiceVoucherNumber>\n            <InvoiceCompanyId>Medius</InvoiceCompanyId>\n            <PayeeId>sinid</PayeeId>\n            <RemitToID>345123R</RemitToID>\n            <PayeeName>Larson - Roob</PayeeName>\n            <PayeeStreetLine1>3346 Pagac Union</PayeeStreetLine1>\n            <PayeeStreetLine2>PO box 1202</PayeeStreetLine2>\n            <PayeeCity>Lake Miller</PayeeCity>\n            <PayeeZipOrPostalCode>89262-8263</PayeeZipOrPostalCode>\n            <PayeeStateCode>RI</PayeeStateCode>\n            <PayeeCountryCode>US</PayeeCountryCode>\n            <PaymentAmount>732.43</PaymentAmount>\n            <PaymentCurrencyCode>USD</PaymentCurrencyCode>\n            <InvoiceDate>2021-04-10T00:00:00.000Z</InvoiceDate>\n            <InvoiceDueDate>2021-04-10T00:00:00.000Z</InvoiceDueDate>\n            <PreferredPaymentDate>2021-04-10T00:00:00.000Z</PreferredPaymentDate>\n            <InvoiceAmount>732.43</InvoiceAmount>\n            <InvoiceCurrencyCode>USD</InvoiceCurrencyCode>\n            <Comment>Comment for payee</Comment>\n            <PayorBankAccountIdentifier>Bank1</PayorBankAccountIdentifier>\n            <PayeeBankName>Bank Zachodni WBK S.A.</PayeeBankName>\n            <PayeeBankStreetLine1>PL.WOLNOSCI 15</PayeeBankStreetLine1>\n            <PayeeBankStreetLine2>BUILDING B</PayeeBankStreetLine2>\n            <PayeeBankCity>POZNAN</PayeeBankCity>\n            <PayeeBankCountryCode>PL</PayeeBankCountryCode>\n            <PayeeAccountNumber>PL88109013620000000036000000</PayeeAccountNumber>\n            <PayeeBankgiroNumber>3452334</PayeeBankgiroNumber>\n            <PayeeRoutingNumber>202020</PayeeRoutingNumber>\n            <PayeeBankSwiftCode>WBKPPLPP</PayeeBankSwiftCode>\n            <PayeeContactEmail>email@email.com</PayeeContactEmail>\n            <PaymentReference>P012701</PaymentReference>\n            <PayeeTaxRegistrationNumber>12598</PayeeTaxRegistrationNumber>\n        </Item>\n    </Items>\n</PaymentBatch>"
+                }
               }
             }
           },
@@ -22684,13 +22787,20 @@
           },
           "items": {
             "type": "array",
-            "description": "Adding items to the import batch is mandatory. The limit is 5000 items per batch.",
+            "description": "Adding items to the import batch is mandatory. The limit is 5000 items per batch.  **NOTE:** follow either PaymentItemUS or PaymentItemEU depending on your company location.",
             "xml": {
               "name": "Items",
               "wrapped": true
             },
             "items": {
-              "$ref": "#/components/schemas/PaymentItem"
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/PaymentItemUS"
+                },
+                {
+                  "$ref": "#/components/schemas/PaymentItemEU"
+                }
+              ]
             }
           }
         },
@@ -22698,13 +22808,33 @@
           "name": "PaymentBatch"
         }
       },
-      "PaymentItem": {
+      "PaymentItemUS": {
+        "required": [
+          "invoiceAmount",
+          "invoiceCompanyId",
+          "invoiceCurrencyCode",
+          "invoiceDate",
+          "invoiceNumber",
+          "payeeCity",
+          "payeeCountryCode",
+          "payeeId",
+          "payeeName",
+          "payeeStateCode",
+          "payeeStreetLine1",
+          "payeeZipOrPostalCode",
+          "paymentAmount",
+          "paymentCurrencyCode",
+          "payorBankAccountIdentifier",
+          "payorLocationIdentifier",
+          "voucherNumber"
+        ],
         "type": "object",
+        "description": "**Use this schema for US Companies**",
         "properties": {
           "invoiceNumber": {
             "maxLength": 50,
             "type": "string",
-            "description": "Payee-assigned invoice number. Must not appear twice for the same payee within a payments batch file. Will also be presented on Remittance advice prepared by NvoicePay for the vendor",
+            "description": "Payee-assigned invoice number. Must not appear twice for the same payee within a payments batch file. Will also be presented on Remittance advice for the vendor.",
             "example": "2/2021",
             "xml": {
               "name": "InvoiceNumber"
@@ -22713,7 +22843,7 @@
           "voucherNumber": {
             "maxLength": 50,
             "type": "string",
-            "description": "Voucher number from ERP.",
+            "description": "Payment voucher number from ERP.",
             "example": "1519c142-c405-4753-bb2f-5fbec59375d4",
             "xml": {
               "name": "VoucherNumber"
@@ -22730,7 +22860,7 @@
           },
           "invoiceCompanyId": {
             "type": "string",
-            "description": "Company the invoice has been posted to in AP automation. Same as Company Id in Medius AP Automation. In order to import payment batch, matching identifier must be found",
+            "description": "Company the invoice has been posted to in AP automation. Same as Company Id in Medius AP Automation. In order to import payment batch, matching identifier must be found.",
             "example": "Medius",
             "xml": {
               "name": "InvoiceCompanyId"
@@ -22748,7 +22878,7 @@
           "remitToID": {
             "maxLength": 50,
             "type": "string",
-            "description": "Identifier for a different remittance number or name for a payee (payees with multiple locations)",
+            "description": "Identifier for a different remittance number or name for a payee (payees with multiple locations).",
             "example": "345123R",
             "xml": {
               "name": "RemitToID"
@@ -22757,7 +22887,7 @@
           "payeeName": {
             "maxLength": 100,
             "type": "string",
-            "description": "Payee name - should be same as supplier name in Medius AP Automation. Up to 255 characters allowed for domestic payments",
+            "description": "Payee name - should be same as supplier name in Medius AP Automation. Up to 255 characters allowed for domestic payments.",
             "example": "Larson - Roob",
             "xml": {
               "name": "PayeeName"
@@ -22766,7 +22896,7 @@
           "payeeStreetLine1": {
             "maxLength": 34,
             "type": "string",
-            "description": "Street address of the payee. Up to 60 characters allowed for domestic payments",
+            "description": "Street address of the payee. Up to 60 characters allowed for domestic payments.",
             "example": "3346 Pagac Union",
             "xml": {
               "name": "PayeeStreetLine1"
@@ -22775,7 +22905,7 @@
           "payeeStreetLine2": {
             "maxLength": 34,
             "type": "string",
-            "description": "Second line of street address of the payee. Up to 60 characters allowed for domestic payments",
+            "description": "Second line of street address of the payee. Up to 60 characters allowed for domestic payments.",
             "example": "PO box 1202",
             "xml": {
               "name": "PayeeStreetLine2"
@@ -22794,8 +22924,8 @@
             "maxLength": 10,
             "minLength": 5,
             "type": "string",
-            "description": "Zip code or Postal code of the Payee.",
-            "example": "89262-8263",
+            "description": "Zip code or Postal code of the Payee. Max length of 10 character with minimum of 5 character length. Examples: US = 32202-4934 or 32202, Canada = A1A 1A1",
+            "example": "32202-4934",
             "xml": {
               "name": "PayeeZipOrPostalCode"
             }
@@ -22803,7 +22933,7 @@
           "payeeStateCode": {
             "maxLength": 2,
             "type": "string",
-            "description": "State of the payee. Optional for international payments. ISO Alfa 2 code. Required for US and Canadian payments.",
+            "description": "State code of the payee. The country subdivision code, ISO 3166-2. Optional for international payments. Required for US and Canadian payments.",
             "example": "RI",
             "xml": {
               "name": "PayeeStateCode"
@@ -22812,7 +22942,7 @@
           "payeeCountryCode": {
             "maxLength": 2,
             "type": "string",
-            "description": "Country of the payee. ISO Alpha2 code",
+            "description": "Country code of the payee. ISO 3166-1 alpha-2 code.",
             "example": "US",
             "xml": {
               "name": "PayeeCountryCode"
@@ -22847,7 +22977,7 @@
           },
           "invoiceDueDate": {
             "type": "string",
-            "description": "Invoice Due Date in format yyyy-MM-dd. Note: If not specified the date payment batch was received by Nvoicepay will be displayed",
+            "description": "Invoice Due Date in format yyyy-MM-dd. Note: If not provided, no due date will be displayed on the remittance advice.",
             "format": "date",
             "example": "2021-04-10T00:00:00.000Z",
             "xml": {
@@ -22901,7 +23031,7 @@
           "comment": {
             "maxLength": 80,
             "type": "string",
-            "description": "Comment for invoice from payor accounting system. Will be displayed on remittance advice",
+            "description": "Comment for invoice from payor accounting system. Will be displayed on the check and remittance advice.",
             "example": "Comment for payee",
             "xml": {
               "name": "Comment"
@@ -22910,7 +23040,7 @@
           "payorIdInPayeeSystem": {
             "maxLength": 50,
             "type": "string",
-            "description": "Payor assigned account number with payee. Will be displayed on remittance advice",
+            "description": "Payor assigned account number with payee. Will be displayed on remittance advice.",
             "example": "897578762",
             "xml": {
               "name": "PayorIdInPayeeSystem"
@@ -22919,7 +23049,7 @@
           "settlementCurrencyCode": {
             "maxLength": 3,
             "type": "string",
-            "description": "Currency which will be used by the payor to settle the foreign transaction. Required for international payments",
+            "description": "Currency which will be used by the payor to settle the foreign transaction. Required for international payments.",
             "example": "USD",
             "xml": {
               "name": "SettlementCurrencyCode"
@@ -22928,7 +23058,7 @@
           "payeeBankName": {
             "maxLength": 50,
             "type": "string",
-            "description": "Name of the beneficiary bank. Required for international payments",
+            "description": "Name of the beneficiary bank. Required for international payments.",
             "example": "Bank Zachodni WBK S.A.",
             "xml": {
               "name": "PayeeBankName"
@@ -22937,7 +23067,7 @@
           "payeeBankStreetLine1": {
             "maxLength": 34,
             "type": "string",
-            "description": "Payees banks address line 1. Required for international payments",
+            "description": "Payees banks address line 1. Required for international payments.",
             "example": "PL.WOLNOSCI 15",
             "xml": {
               "name": "PayeeBankStreetLine1"
@@ -22946,7 +23076,7 @@
           "payeeBankStreetLine2": {
             "maxLength": 34,
             "type": "string",
-            "description": "Payees banks address line 2. Required for international payments",
+            "description": "Payees banks address line 2. Required for international payments.",
             "example": "BUILDING B",
             "xml": {
               "name": "PayeeBankStreetLine2"
@@ -22955,7 +23085,7 @@
           "payeeBankCity": {
             "maxLength": 20,
             "type": "string",
-            "description": "Payees banks city. Required for international payments",
+            "description": "Payees banks city. Required for international payments.",
             "example": "POZNAN",
             "xml": {
               "name": "PayeeBankCity"
@@ -22964,7 +23094,7 @@
           "payeeBankCountryCode": {
             "maxLength": 2,
             "type": "string",
-            "description": "Payees banks country. ISO Alpha2 code. Required for international payments",
+            "description": "Payees banks country. ISO Alpha2 code. Required for international payments.",
             "example": "PL",
             "xml": {
               "name": "PayeeBankCountryCode"
@@ -22973,19 +23103,10 @@
           "payeeAccountNumber": {
             "maxLength": 34,
             "type": "string",
-            "description": "IBAN or basic account number. No spaces or dashes permitted. Required for international payments",
+            "description": "IBAN or basic account number. No spaces or dashes permitted. Required for international payments.",
             "example": "PL88109013620000000036000000",
             "xml": {
               "name": "PayeeAccountNumber"
-            }
-          },
-          "payeeBankgiroNumber": {
-            "maxLength": 8,
-            "type": "string",
-            "description": "When payeeBankgiroNumber is provided, payeeAccountNumber, payeeRoutingNumber and payeeBankSwiftCode are optional. If both payeeBankgiroNumber and combination of payeeAccountNumber, payeeRoutingNumber and payeeBankSwiftCode are provided, the combination of (payeeAccountNumber and payeeBankSwiftCode) or (payeeAccountNumber and payeeRoutingNumber) are used for payment execution.",
-            "example": "3452334",
-            "xml": {
-              "name": "PayeeBankgiroNumber"
             }
           },
           "payeeRoutingNumber": {
@@ -23036,19 +23157,10 @@
           "paymentReference": {
             "maxLength": 13,
             "type": "string",
-            "description": "A payment reference number or check number from the customers accounting system. Will be displayed on remittance advice.",
+            "description": "A payment reference number or check number from the customers accounting system. Will be displayed on remittance advice. Note: If not specified, will be generated during payment process. If generated during payment process, there will be one payment reference for all invoices to be paid to a single payee.",
             "example": "P012701",
             "xml": {
               "name": "PaymentReference"
-            }
-          },
-          "payeeTaxRegistrationNumber": {
-            "maxLength": 20,
-            "type": "string",
-            "description": "The payee tax registration number.",
-            "example": "12598",
-            "xml": {
-              "name": "PayeeTaxRegistrationNumber"
             }
           },
           "discountAmount": {
@@ -23075,6 +23187,336 @@
             "example": true,
             "xml": {
               "name": "UrgentPayment"
+            }
+          }
+        },
+        "xml": {
+          "name": "Item"
+        }
+      },
+      "PaymentItemEU": {
+        "required": [
+          "invoiceAmount",
+          "invoiceCompanyId",
+          "invoiceCurrencyCode",
+          "invoiceDate",
+          "invoiceNumber",
+          "payeeAccountNumber",
+          "payeeCountryCode",
+          "payeeId",
+          "payeeName",
+          "paymentAmount",
+          "paymentCurrencyCode",
+          "payorBankAccountIdentifier",
+          "voucherNumber"
+        ],
+        "type": "object",
+        "description": "**Use this schema for EU Companies**",
+        "properties": {
+          "invoiceNumber": {
+            "maxLength": 140,
+            "type": "string",
+            "description": "Payee-assigned invoice number. Must not appear twice for the same payee within a payments batch file.",
+            "example": "2/2021",
+            "xml": {
+              "name": "InvoiceNumber"
+            }
+          },
+          "voucherNumber": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "Voucher number from ERP.",
+            "example": "1519c142-c405-4753-bb2f-5fbec59375d4",
+            "xml": {
+              "name": "VoucherNumber"
+            }
+          },
+          "invoiceVoucherNumber": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "Invoice voucher number from ERP, used to match the payment against an invoice posted in AP Automation",
+            "example": "2419c142-c405-4753-bb2f-5fbec5937556",
+            "xml": {
+              "name": "InvoiceVoucherNumber"
+            }
+          },
+          "invoiceCompanyId": {
+            "type": "string",
+            "description": "Company the invoice has been posted to in AP automation. Same as Company Id in Medius AP Automation. In order to import payment batch, matching identifier must be found",
+            "example": "Medius",
+            "xml": {
+              "name": "InvoiceCompanyId"
+            }
+          },
+          "payeeId": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "Payee identifier - should be same as SupplierId in Medius AP Automation. Should be unique to each payee. Restricted characters: /  ? # | ",
+            "example": "sinid",
+            "xml": {
+              "name": "PayeeId"
+            }
+          },
+          "remitToID": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "Identifier for a different remittance number or name for a payee (payees with multiple locations or bank accounts). Restricted characters: /  ? # | ",
+            "example": "345123R",
+            "xml": {
+              "name": "RemitToID"
+            }
+          },
+          "payeeName": {
+            "maxLength": 140,
+            "type": "string",
+            "description": "Payee name - should be same as supplier name in Medius AP Automation. Up to 255 characters allowed for domestic payments",
+            "example": "Larson - Roob",
+            "xml": {
+              "name": "PayeeName"
+            }
+          },
+          "payeeStreetLine1": {
+            "maxLength": 34,
+            "type": "string",
+            "description": "Street address of the payee. __Note:__ required for international payments.",
+            "example": "3346 Pagac Union",
+            "xml": {
+              "name": "PayeeStreetLine1"
+            }
+          },
+          "payeeStreetLine2": {
+            "maxLength": 34,
+            "type": "string",
+            "description": "Second line of street address of the payee.",
+            "example": "PO box 1202",
+            "xml": {
+              "name": "PayeeStreetLine2"
+            }
+          },
+          "payeeCity": {
+            "maxLength": 35,
+            "type": "string",
+            "description": "City of the payee. __Note:__ required for international payments.",
+            "example": "Lake Miller",
+            "xml": {
+              "name": "PayeeCity"
+            }
+          },
+          "payeeZipOrPostalCode": {
+            "maxLength": 16,
+            "type": "string",
+            "description": "Zip or Postal Code of the payee. __Note:__ required for international payments.",
+            "example": "89262-8263",
+            "xml": {
+              "name": "PayeeZipOrPostalCode"
+            }
+          },
+          "payeeStateCode": {
+            "maxLength": 2,
+            "type": "string",
+            "description": "State code of the payee. The country subdivision code, ISO 3166-2. __Note:__ required for international payments.",
+            "example": "RI",
+            "xml": {
+              "name": "PayeeStateCode"
+            }
+          },
+          "payeeCountryCode": {
+            "maxLength": 2,
+            "type": "string",
+            "description": "Country code of the payee. ISO 3166-1 alpha-2 code.",
+            "example": "US",
+            "xml": {
+              "name": "PayeeCountryCode"
+            }
+          },
+          "paymentAmount": {
+            "type": "number",
+            "description": "The amount to be paid for the invoice, may vary from invoice amount in case of partial payments or short payments. Max 12 digital places, including up to 2 decimal places. Maximum amount per item __2.000.000__, minimum amount per item __0.1__",
+            "format": "double",
+            "example": 732.43,
+            "xml": {
+              "name": "PaymentAmount"
+            }
+          },
+          "paymentCurrencyCode": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Currency in which vendor will be paid. ISO Alfa 3 code. When payeeBankgiroNumber is provided, paymentCurrencyCode needs to be in 'SEK'.",
+            "example": "USD",
+            "xml": {
+              "name": "PaymentCurrencyCode"
+            }
+          },
+          "invoiceDate": {
+            "type": "string",
+            "description": "Invoice date in format yyyy-MM-dd",
+            "format": "date",
+            "example": "2021-04-10T00:00:00.000Z",
+            "xml": {
+              "name": "InvoiceDate"
+            }
+          },
+          "invoiceDueDate": {
+            "type": "string",
+            "description": "Invoice Due Date in format yyyy-MM-dd.",
+            "format": "date",
+            "example": "2021-04-10T00:00:00.000Z",
+            "xml": {
+              "name": "InvoiceDueDate"
+            }
+          },
+          "preferredPaymentDate": {
+            "type": "string",
+            "description": "The date on which payment should be executed. If left empty, current date will be used.",
+            "format": "date",
+            "example": "2021-04-10T00:00:00.000Z",
+            "xml": {
+              "name": "PreferredPaymentDate"
+            }
+          },
+          "invoiceAmount": {
+            "type": "number",
+            "description": "Original invoice amount, may vary from paymentAmount in case of partial payments or short payment. Max 12 digital places including up to 2 decimal places",
+            "format": "double",
+            "example": 732.43,
+            "xml": {
+              "name": "InvoiceAmount"
+            }
+          },
+          "invoiceCurrencyCode": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Currency of invoice. Required if invoiceAmount send. ISO Alfa 3 code.",
+            "example": "USD",
+            "xml": {
+              "name": "InvoiceCurrencyCode"
+            }
+          },
+          "comment": {
+            "maxLength": 80,
+            "type": "string",
+            "description": "Comment for invoice from payor accounting system for information purposes during batch authorization process.",
+            "example": "Comment for payee",
+            "xml": {
+              "name": "Comment"
+            }
+          },
+          "payorBankAccountIdentifier": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "Internal bank identifier, defined during funding bank account setup in Medius Pay. Needs to be an unique identifier for all payment items in the batch.",
+            "example": "Bank1",
+            "xml": {
+              "name": "PayorBankAccountIdentifier"
+            }
+          },
+          "payeeBankName": {
+            "maxLength": 140,
+            "type": "string",
+            "description": "Name of the beneficiary bank.",
+            "example": "Bank Zachodni WBK S.A.",
+            "xml": {
+              "name": "PayeeBankName"
+            }
+          },
+          "payeeBankStreetLine1": {
+            "maxLength": 34,
+            "type": "string",
+            "description": "Payees banks address line 1.",
+            "example": "PL.WOLNOSCI 15",
+            "xml": {
+              "name": "PayeeBankStreetLine1"
+            }
+          },
+          "payeeBankStreetLine2": {
+            "maxLength": 34,
+            "type": "string",
+            "description": "Payees banks address line 2.",
+            "example": "BUILDING B",
+            "xml": {
+              "name": "PayeeBankStreetLine2"
+            }
+          },
+          "payeeBankCity": {
+            "maxLength": 20,
+            "type": "string",
+            "description": "Payees banks city.",
+            "example": "POZNAN",
+            "xml": {
+              "name": "PayeeBankCity"
+            }
+          },
+          "payeeBankCountryCode": {
+            "maxLength": 2,
+            "type": "string",
+            "description": "Payees banks country. ISO Alpha2 code.",
+            "example": "PL",
+            "xml": {
+              "name": "PayeeBankCountryCode"
+            }
+          },
+          "payeeAccountNumber": {
+            "maxLength": 34,
+            "type": "string",
+            "description": "IBAN or basic account number. No spaces or dashes permitted. If IBAN is provided, payeeBankSwiftCode is required. If basic account number is provided, payeeBankSwiftCode or payeeRoutingNumber is required. PayeeAccountNumber is optional if payeeBankgiroNumber is provided.",
+            "example": "PL88109013620000000036000000",
+            "xml": {
+              "name": "PayeeAccountNumber"
+            }
+          },
+          "payeeBankgiroNumber": {
+            "maxLength": 34,
+            "type": "string",
+            "description": "When payeeBankgiroNumber is provided, payeeAccountNumber, payeeRoutingNumber and payeeBankSwiftCode are optional. If both payeeBankgiroNumber and combination of payeeAccountNumber, payeeRoutingNumber and payeeBankSwiftCode are provided, the combination of (payeeAccountNumber and payeeBankSwiftCode) or (payeeAccountNumber and payeeRoutingNumber) are used for payment execution.",
+            "example": "3452334",
+            "xml": {
+              "name": "PayeeBankgiroNumber"
+            }
+          },
+          "payeeRoutingNumber": {
+            "maxLength": 35,
+            "type": "string",
+            "description": "Required field when basic account number provided in payeeAccountNumber field. Optional if IBAN provided. This could be known as RoutingNumber, BranchCode, ABA number, transit number, MICR, IFSC, etc. Required for international payments in some countries.",
+            "example": "202020",
+            "xml": {
+              "name": "PayeeRoutingNumber"
+            }
+          },
+          "payeeBankSwiftCode": {
+            "maxLength": 11,
+            "pattern": "^[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}$",
+            "type": "string",
+            "description": "A unique identification code assigned to a specific bank to proceed money transfer between banks internationally. Needs to match regex included as pattern.",
+            "example": "WBKPPLPP",
+            "xml": {
+              "name": "PayeeBankSwiftCode"
+            }
+          },
+          "payeeContactEmail": {
+            "maxLength": 320,
+            "type": "string",
+            "description": "Used to send confirmation email to payee.",
+            "example": "email@email.com",
+            "xml": {
+              "name": "PayeeContactEmail"
+            }
+          },
+          "paymentReference": {
+            "maxLength": 35,
+            "type": "string",
+            "description": "A payment reference number from the customers accounting system. If not provided, invoiceNumber will be used as payment reference.",
+            "example": "P012701",
+            "xml": {
+              "name": "PaymentReference"
+            }
+          },
+          "payeeTaxRegistrationNumber": {
+            "maxLength": 35,
+            "type": "string",
+            "description": "The payee tax registration number.",
+            "example": "12598",
+            "xml": {
+              "name": "PayeeTaxRegistrationNumber"
             }
           }
         },
