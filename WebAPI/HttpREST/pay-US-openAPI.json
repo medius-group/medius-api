@@ -119,7 +119,6 @@
           "paymentAmount",
           "paymentCurrencyCode",
           "payorBankAccountIdentifier",
-          "payorLocationIdentifier",
           "voucherNumber"
         ],
         "type": "object",
@@ -315,8 +314,9 @@
           },
           "payorLocationIdentifier": {
             "type": "string",
-            "description": "Legal entity, department, branch office, etc.",
+            "description": "[Deprecated field. The field will be ignored by new customers and removed by the end of December 2024.] Legal entity, department, branch office, etc.",
             "example": "1",
+            "deprecated": true,
             "xml": {
               "name": "PayorLocationIdentifier"
             }
