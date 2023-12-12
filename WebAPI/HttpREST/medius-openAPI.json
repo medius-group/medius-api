@@ -23022,8 +23022,9 @@
           },
           "payorLocationIdentifier": {
             "type": "string",
-            "description": "Legal entity, department, branch office, etc.",
+            "description": "[Deprecated: This field's value will be ignored for new customers. Do not use it! It will be removed by 2024-12-31.] Legal entity, department, branch office, etc.",
             "example": "1",
+            "deprecated": true,
             "xml": {
               "name": "PayorLocationIdentifier"
             }
