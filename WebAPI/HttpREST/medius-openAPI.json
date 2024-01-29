@@ -48,6 +48,10 @@
       "description": "Import of payment batches and reconciliation"
     },
     {
+      "name": "Supplier Management: Suppliers synchronization",
+      "description": "Synchronize suppliers with ERP"
+    },
+    {
       "name": "File and media",
       "description": "Images and attachments"
     }
@@ -6773,6 +6777,210 @@
         },
         "deprecated": true,
         "x-codegen-request-body-name": "actualPaymentDate"
+      }
+    },
+    "/integration/message/v1/suppliers": {
+      "get": {
+        "tags": [
+          "Supplier Management: Suppliers synchronization"
+        ],
+        "description": "This method returns URLs to all suppliers that are available for ERP synchronization. Use the returned URL to get the complete supplier record.",
+        "operationId": "GetCorrelations",
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSupplierIntegrationsResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/integration/message/v1/suppliers/{correlationId}": {
+      "get": {
+        "tags": [
+          "Supplier Management: Suppliers synchronization"
+        ],
+        "description": "This method returns the supplier record with all details available. To find a supplier message, use the GET method without {correlationId}.",
+        "operationId": "GetCorrelationByKey",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupplierIntegrationSupplierDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/integration/message/v1/suppliers/{correlationId}/status/{status}": {
+      "put": {
+        "tags": [
+          "Supplier Management: Suppliers synchronization"
+        ],
+        "description": "Update the status of an integration",
+        "operationId": "UpdateIntegrationStatus",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/SupplierIntegrationStatus"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/integration/message/v1/suppliers/{correlationId}/response/success": {
+      "post": {
+        "tags": [
+          "Supplier Management: Suppliers synchronization"
+        ],
+        "description": "Post a successful integration response",
+        "operationId": "UpdateIntegrationAsSuccess",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SupplierIntegrationSuccessDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/integration/message/v1/suppliers/{correlationId}/response/error": {
+      "post": {
+        "tags": [
+          "Supplier Management: Suppliers synchronization"
+        ],
+        "description": "Post an error response for an integration",
+        "operationId": "UpdateIntegrationAsError",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SupplierIntegrationErrorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
       }
     },
     "/connect/userInfo": {
@@ -23789,6 +23997,410 @@
         "xml": {
           "name": "Item"
         }
+      },
+      "GetSupplierIntegrationsResultDto": {
+        "type": "object",
+        "properties": {
+          "suppliers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupplierIntegrationUrlDto"
+            },
+            "nullable": true
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paging": {
+            "$ref": "#/components/schemas/Paging"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SupplierIntegrationUrlDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SupplierIntegrationSupplierDto": {
+        "type": "object",
+        "properties": {
+          "correlationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "supplierName": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvalStatus": {
+            "$ref": "#/components/schemas/SupplierStatus"
+          },
+          "approvalTags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "supplierDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "supplierManagementId": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalSupplierId": {
+            "type": "string",
+            "nullable": true
+          },
+          "supplierGroups": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "founded": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "companySize": {
+            "$ref": "#/components/schemas/SupplierCompanySize"
+          },
+          "website": {
+            "type": "string",
+            "nullable": true
+          },
+          "currencies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupplierIntegrationCurrencyDto"
+            },
+            "nullable": true
+          },
+          "operatingCountries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupplierIntegrationCountryDto"
+            },
+            "nullable": true
+          },
+          "companyRegistrationNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxRegistrationNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "mainContactName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "workNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobileNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "faxNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine1": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine2": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine3": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "county": {
+            "type": "string",
+            "nullable": true
+          },
+          "postCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryISO2": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryISO3": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryNumeric": {
+            "type": "string",
+            "nullable": true
+          },
+          "supplierIndustry": {
+            "type": "string",
+            "nullable": true
+          },
+          "otherIndustries": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "commodities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "facebookLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "instagramLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "linkedInLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "youTubeLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "createDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "addresses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupplierIntegrationAddressBookDto"
+            },
+            "nullable": true
+          },
+          "onboardingQuestions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupplierIntegrationQuestionResponseDto"
+            },
+            "nullable": true
+          },
+          "customFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupplierIntegrationQuestionResponseDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SupplierStatus": {
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "SupplierCompanySize": {
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "SupplierIntegrationCurrencyDto": {
+        "type": "object",
+        "properties": {
+          "isoCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SupplierIntegrationCountryDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryCode2Letter": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryCodeNumeric": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SupplierIntegrationAddressBookDto": {
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "legalEntityName": {
+            "type": "string",
+            "nullable": true
+          },
+          "mainContactName": {
+            "type": "string",
+            "nullable": true
+          },
+          "mainContactEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine1": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine2": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine3": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "county": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryCodeIso2": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryCodeIso3": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryCodeNumeric": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SupplierIntegrationQuestionResponseDto": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "nullable": true
+          },
+          "answer": {
+            "type": "string",
+            "nullable": true
+          },
+          "answerArray": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SupplierIntegrationStatus": {
+        "enum": [
+          "Pending",
+          "Fetched",
+          "Error",
+          "Success"
+        ],
+        "type": "string"
+      },
+      "SupplierIntegrationSuccessDto": {
+        "type": "object",
+        "properties": {
+          "supplierId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SupplierIntegrationErrorDto": {
+        "type": "object",
+        "properties": {
+          "errorMessages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       }
     }
   }
