@@ -48,7 +48,7 @@
       "description": "Import of payment batches and reconciliation"
     },
     {
-      "name": "Supplier Management: Suppliers synchronization",
+      "name": "Supplier Onboarding: Suppliers synchronization",
       "description": "Synchronize suppliers with ERP"
     },
     {
@@ -6782,7 +6782,7 @@
     "/integration/message/v1/suppliers": {
       "get": {
         "tags": [
-          "Supplier Management: Suppliers synchronization"
+          "Supplier Onboarding: Suppliers synchronization"
         ],
         "description": "This method returns URLs to all suppliers that are available for ERP synchronization. Use the returned URL to get the complete supplier record.",
         "operationId": "GetCorrelations",
@@ -6829,7 +6829,7 @@
     "/integration/message/v1/suppliers/{correlationId}": {
       "get": {
         "tags": [
-          "Supplier Management: Suppliers synchronization"
+          "Supplier Onboarding: Suppliers synchronization"
         ],
         "description": "This method returns the supplier record with all details available. To find a supplier message, use the GET method without {correlationId}.",
         "operationId": "GetCorrelationByKey",
@@ -6867,7 +6867,7 @@
     "/integration/message/v1/suppliers/{correlationId}/status/{status}": {
       "put": {
         "tags": [
-          "Supplier Management: Suppliers synchronization"
+          "Supplier Onboarding: Suppliers synchronization"
         ],
         "description": "Update the status of an integration",
         "operationId": "UpdateIntegrationStatus",
@@ -6906,7 +6906,7 @@
     "/integration/message/v1/suppliers/{correlationId}/response/success": {
       "post": {
         "tags": [
-          "Supplier Management: Suppliers synchronization"
+          "Supplier Onboarding: Suppliers synchronization"
         ],
         "description": "Post a successful integration response",
         "operationId": "UpdateIntegrationAsSuccess",
@@ -6946,7 +6946,7 @@
     "/integration/message/v1/suppliers/{correlationId}/response/error": {
       "post": {
         "tags": [
-          "Supplier Management: Suppliers synchronization"
+          "Supplier Onboarding: Suppliers synchronization"
         ],
         "description": "Post an error response for an integration",
         "operationId": "UpdateIntegrationAsError",
