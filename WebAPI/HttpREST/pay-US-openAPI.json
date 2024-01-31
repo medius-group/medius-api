@@ -339,15 +339,6 @@
               "name": "PayorIdInPayeeSystem"
             }
           },
-          "settlementCurrencyCode": {
-            "maxLength": 3,
-            "type": "string",
-            "description": "Currency which will be used by the payor to settle the foreign transaction. Required for international payments.",
-            "example": "USD",
-            "xml": {
-              "name": "SettlementCurrencyCode"
-            }
-          },
           "payeeBankName": {
             "maxLength": 50,
             "type": "string",
