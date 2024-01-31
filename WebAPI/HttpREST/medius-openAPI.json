@@ -23741,6 +23741,13 @@
               "name": "PaymentMethod"
             }
           },
+          "issuedDate": {
+            "type": "string",
+            "format": "date",
+            "xml": {
+              "name": "IssuedDate"
+            }
+          },
           "paymentDate": {
             "type": "string",
             "format": "date",
