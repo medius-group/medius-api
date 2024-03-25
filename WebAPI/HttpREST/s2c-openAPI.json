@@ -1,1068 +1,1195 @@
-{
-  "openapi": "3.0.0",
-  "info": {
-    "version": "2.0.0",
-    "title": "Medius Supplier & Contracts Data Model",
-    "license": {
-      "name": "MIT"
-    }
-  },
-  "servers": [
-    {
-      "url": "https://{tenent}QA.medius-s2c.com/S2C/",
-      "description": "UAT server for testing"
-    },
-    {
-      "url": "https://{tenent}.medius-s2c.com/S2C/",
-      "description": "PRODUCTION server"
-    }
-  ],
-  "security": [
-    {
-      "ApiKeyAuth": []
-    }
-  ],
-  "paths": {
-    "/S2CAPI/v1/suppliers": {
-      "get": {
-        "summary": "Gets a list of basic supplier information",
-        "parameters": [
-          {
-            "name": "LastSupplierUpdate",
-            "in": "query",
-            "required": false,
-            "description": "The date to filter the suppliers by the latest modified date in medius, using ISO 8601 format yyyy-MM-ddTHH:mm:ssZ (2021-20-10T14:01:54.9571247Z)",
-            "example": "2008-09-22T14:01:54.9571247Z",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "operationId": "GetSuppliers",
-        "tags": [
-          "Suppliers"
-        ],
-        "responses": {
-          "200": {
-            "description": "List of basic supplier details",
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/ArrayOfSupplier"
-                },
-                "examples": {
-                  "GetSuppliers": {
-                    "value": "<ArrayOfSupplier xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n  <Supplier>\n      <Name>Sodales At Corp.</Name>\n      <Code>SUP001</Code>\n      <SupplierApprovalStatus>New</SupplierApprovalStatus>\n      <SupplierModifiedDate>05/05/2022 11:27:23</SupplierModifiedDate>\n  </Supplier>\n  <Supplier>\n      <Name>Nulla Magna Malesuada Company</Name>\n      <Code>SUP002</Code>\n      <SupplierApprovalStatus>New</SupplierApprovalStatus>\n      <SupplierModifiedDate>05/05/2022 11:27:23</SupplierModifiedDate>\n  </Supplier>\n    </ArrayOfSupplier>"
-                  }
-                }
-              },
-              "application/json": {
-                "examples": {
-                  "GetSuppliers": {
-                    "value": {
-                      "Supplier": [
-                        {
-                          "Name": "Sodales At Corp.",
-                          "Code": "SUP001",
-                          "SupplierApprovalStatus": "New",
-                          "SupplierModifiedDate": "05/05/2022 11:27:23"
-                        },
-                        {
-                          "Name": "Nulla Magna Malesuada Company",
-                          "Code": null,
-                          "SupplierApprovalStatus": "New",
-                          "SupplierModifiedDate": "05/05/2022 11:27:23"
-                        }
-                      ]
+openapi: 3.0.0
+info:
+  version: 2.0.0
+  title: Medius Supplier & Contracts Data Model
+  license:
+    name: MIT
+servers:
+  - url: https://{tenent}QA.medius-s2c.com/S2C/
+    description: UAT server for testing
+  - url: https://{tenent}.medius-s2c.com/S2C/
+    description: PRODUCTION server
+security:
+  - ApiKeyAuth: []
+paths:
+  /S2CAPI/v1/suppliers:
+    get:
+      summary: Gets a list of basic supplier information
+      parameters:
+        - name: LastSupplierUpdate
+          in: query
+          required: false
+          description: The date to filter the suppliers by the latest modified date in medius, using ISO 8601 format yyyy-MM-ddTHH:mm:ssZ (2021-20-10T14:01:54.9571247Z)
+          example: '2008-09-22T14:01:54.9571247Z'
+          schema:
+            type: string
+      operationId: GetSuppliers
+      tags:
+        - Suppliers
+      responses:
+        '200':
+          description: List of basic supplier details
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfSupplier'
+              examples:
+                GetSuppliers:
+                  value: |-
+                    <ArrayOfSupplier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                      <Supplier>
+                          <Name>Sodales At Corp.</Name>
+                          <Code>SUP001</Code>
+                          <SupplierApprovalStatus>New</SupplierApprovalStatus>
+                          <SupplierModifiedDate>05/05/2022 11:27:23</SupplierModifiedDate>
+                      </Supplier>
+                      <Supplier>
+                          <Name>Nulla Magna Malesuada Company</Name>
+                          <Code>SUP002</Code>
+                          <SupplierApprovalStatus>New</SupplierApprovalStatus>
+                          <SupplierModifiedDate>05/05/2022 11:27:23</SupplierModifiedDate>
+                      </Supplier>
+                        </ArrayOfSupplier>
+            application/json:
+              examples:
+                GetSuppliers:
+                  value:
+                    Supplier:
+                      - Name: Sodales At Corp.
+                        Code: SUP001
+                        SupplierApprovalStatus: New
+                        SupplierModifiedDate: 05/05/2022 11:27:23
+                      - Name: Nulla Magna Malesuada Company
+                        Code: null
+                        SupplierApprovalStatus: New
+                        SupplierModifiedDate: 05/05/2022 11:27:23
+        default:
+          description: Error response
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              examples:
+                ' Error response':
+                  value: |-
+                    {
+                       "Type": "https://{tenant}.medius-s2c.com/S2C/api-errors/",
+                       "Status": "401",
+                       "Title": "API key is missing or invalid",
+                       "Instance": "07c8c057-89ae-45a1-98b3-2fcb92725289"
                     }
-                  }
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              },
-              "application/json": {
-                "examples": {
-                  " Error response": {
-                    "value": "{\n   \"Type\": \"https://{tenant}.medius-s2c.com/S2C/api-errors/\",\n   \"Status\": \"401\",\n   \"Title\": \"API key is missing or invalid\",\n   \"Instance\": \"07c8c057-89ae-45a1-98b3-2fcb92725289\"\n}"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "summary": "Update/Create details of a supplier",
-        "operationId": "PutSupplier",
-        "tags": [
-          "Suppliers"
-        ],
-        "requestBody": {
-          "required": true,
-          "description": "This request is used to create or update a new supplier including supplier contacts.",
-          "content": {
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/Supplier"
-              },
-              "examples": {
-                "CreateSupplier": {
-                  "value": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n <Supplier xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n     <Name>Supplier At Corp.</Name>\n     <Code>SUP005</Code>\n     <Active>True</Active>\n     <Description>Steel industry</Description>\n     <SupplierNumber>234234</SupplierNumber>\n     <EmailAddress>sup001@supplier.com</EmailAddress>\n     <SupplierApprovalStatus>New</SupplierApprovalStatus>\n     <SupplierWebsite>www.corp.com</SupplierWebsite>\n     <TaxRegistrationNumber>4565666666</TaxRegistrationNumber>\n     <Telephone>012546895698</Telephone>\n     <Mobile>023564895689</Mobile>\n     <Fax>345345</Fax>\n     <AddressLine1>32</AddressLine1>\n     <AddressLine2>Rurree Drive</AddressLine2>\n     <AddressLine3>Hyde</AddressLine3>\n     <City>Manchester</City>\n     <PostCode>SK14 2AX</PostCode>\n     <OperatingCountry>Albania</OperatingCountry>\n     <Currency>GBP</Currency>\n     <AdditionalAttributes>\n         <Attribute>\n             <Name>AttributeX</Name>\n             <Value>123456789</Value>\n         </Attribute>\n     </AdditionalAttributes>\n     <TradingPartners>\n         <TradingPartner>\n             <PartnerID>americas</PartnerID>\n             <PartnerName>Americas</PartnerName>\n         </TradingPartner>\n         <TradingPartner>\n             <PartnerID />\n             <PartnerName>Asia</PartnerName>\n         </TradingPartner>\n         <TradingPartner>\n             <PartnerID />\n             <PartnerName>EU</PartnerName>\n         </TradingPartner>\n         <TradingPartner>\n             <PartnerID>mediusdev</PartnerID>\n             <PartnerName>medius Dev Site</PartnerName>\n         </TradingPartner>\n     </TradingPartners>\n     <Contacts>\n         <Contact>\n             <Code>VA001504</Code>\n             <Name>John Russel</Name>\n             <Username>jack.russel@corp.com</Username>\n             <EmailAddress>jack.russel@corp.com</EmailAddress>\n         </Contact>\n     </Contacts>\n </Supplier>"
-                },
-                "UpdateSupplier": {
-                  "value": "<Supplier>\n  <Name>Supplier At Corp.</Name>\n  <Code>SUP005</Code>\n  <Active>True</Active>\n  <Description>Steel industry</Description>\n  <SupplierNumber>234234</SupplierNumber>\n  <EmailAddress>sup001@supplier.com</EmailAddress>\n  <SupplierApprovalStatus>New</SupplierApprovalStatus>\n  <SupplierWebsite>www.corp.com</SupplierWebsite>\n  <TaxRegistrationNumber>4565666666</TaxRegistrationNumber>\n  <Telephone>012546895698</Telephone>\n  <Mobile>023564895689</Mobile>\n  <Fax>345345</Fax>\n  <AddressLine1>32</AddressLine1>\n  <AddressLine2>Rurree Drive</AddressLine2>\n  <AddressLine3>Hyde</AddressLine3>\n  <City>Manchester</City>\n  <PostCode>SK14 2AX</PostCode>\n  <OperatingCountry>Albania</OperatingCountry>\n   <Currency>GBP</Currency>\n  <AdditionalAttributes>\n      <Attribute>\n          <Name>AttributeX</Name>\n          <Value>123456789</Value>\n      </Attribute>\n  </AdditionalAttributes>\n  <TradingPartners>\n      <TradingPartner>\n          <PartnerID>americas</PartnerID>\n          <PartnerName>Americas</PartnerName>\n      </TradingPartner>\n      <TradingPartner>\n          <PartnerID />\n          <PartnerName>Asia</PartnerName>\n      </TradingPartner>\n      <TradingPartner>\n          <PartnerID />\n          <PartnerName>EU</PartnerName>\n      </TradingPartner>\n      <TradingPartner>\n          <PartnerID>mediusdev</PartnerID>\n          <PartnerName>medius Dev Site</PartnerName>\n      </TradingPartner>\n  </TradingPartners>\n  <Contacts>\n      <Contact>\n          <Code>VA001504</Code>\n          <Name>John Hamilton</Name>\n          <Username>jack.hamilton@corp.com</Username>\n          <EmailAddress>jack.hamilton@corp.com</EmailAddress>\n      </Contact>\n      <Contact>\n          <Code>VA001504</Code>\n          <Name>John Russel</Name>\n          <Username>jack.russel@corp.com</Username>\n          <EmailAddress>jack.russel@corp.com</EmailAddress>\n      </Contact>\n  </Contacts>\n</Supplier>"
-                }
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Supplier"
-              },
-              "examples": {
-                "CreateSupplier": {
-                  "value": {
-                    "Name": "Supplier At Corp.",
-                    "Code": "SUP005",
-                    "Active": "True",
-                    "Description": "Steel industry",
-                    "SupplierNumber": "234234",
-                    "EmailAddress": "sup001@supplier.com",
-                    "SupplierApprovalStatus": "New",
-                    "SupplierWebsite": "www.corp.com",
-                    "TaxRegistrationNumber": "4565666666",
-                    "TaxRegistrationCountry": "United Kingdom",
-                    "Telephone": "012546895698",
-                    "Mobile": "023564895689",
-                    "Fax": "345345",
-                    "AddressLine1": "32",
-                    "AddressLine2": "Rurree Drive",
-                    "AddressLine3": "Hyde",
-                    "City": "Manchester",
-                    "PostCode": "SK14 2AX",
-                    "OperatingCountry": "Albania",
-                    "Currency": "GBP",
-                    "AdditionalAttributes": {
-                      "Attribute": [
-                        {
-                          "Name": "AttributeX",
-                          "Value": "123456789"
-                        }
-                      ]
-                    },
-                    "TradingPartners": {
-                      "TradingPartner": [
-                        {
-                          "PartnerID": "americas",
-                          "PartnerName": "Americas"
-                        },
-                        {
-                          "PartnerID": "",
-                          "PartnerName": "Asia"
-                        },
-                        {
-                          "PartnerID": "",
-                          "PartnerName": "EU"
-                        },
-                        {
-                          "PartnerID": "mediusdev",
-                          "PartnerName": "medius Dev Site"
-                        }
-                      ]
-                    },
-                    "Contacts": {
-                      "Contact": [
-                        {
-                          "Code": "VA001504",
-                          "Name": "John Russel",
-                          "Username": "jack.russel@corp.com",
-                          "EmailAddress": "jack.russel@corp.com"
-                        }
-                      ]
+    put:
+      summary: Update/Create details of a supplier
+      operationId: PutSupplier
+      tags:
+        - Suppliers
+      requestBody:
+        required: true
+        description: This request is used to create or update a new supplier including supplier contacts.
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+            examples:
+              CreateSupplier:
+                value: |-
+                  <?xml version="1.0" encoding="utf-8"?>
+                   <Supplier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                       <Name>Supplier At Corp.</Name>
+                       <Code>SUP005</Code>
+                       <Active>True</Active>
+                       <Description>Steel industry</Description>
+                       <SupplierNumber>234234</SupplierNumber>
+                       <EmailAddress>sup001@supplier.com</EmailAddress>
+                       <SupplierApprovalStatus>New</SupplierApprovalStatus>
+                       <SupplierWebsite>www.corp.com</SupplierWebsite>
+                       <TaxRegistrationNumber>4565666666</TaxRegistrationNumber>
+                       <Telephone>012546895698</Telephone>
+                       <Mobile>023564895689</Mobile>
+                       <Fax>345345</Fax>
+                       <AddressLine1>32</AddressLine1>
+                       <AddressLine2>Rurree Drive</AddressLine2>
+                       <AddressLine3>Hyde</AddressLine3>
+                       <City>Manchester</City>
+                       <Region>Greater Manchester</Region>
+                       <PostCode>SK14 2AX</PostCode>
+                       <Country>United Kingdom</Country>
+                       <OperatingCountry>Albania</OperatingCountry>
+                       <Currency>GBP</Currency>
+                       <AdditionalAttributes>
+                           <Attribute>
+                               <Name>AttributeX</Name>
+                               <Value>123456789</Value>
+                           </Attribute>
+                       </AdditionalAttributes>
+                       <TradingPartners>
+                           <TradingPartner>
+                               <PartnerID>americas</PartnerID>
+                               <PartnerName>Americas</PartnerName>
+                           </TradingPartner>
+                           <TradingPartner>
+                               <PartnerID />
+                               <PartnerName>Asia</PartnerName>
+                           </TradingPartner>
+                           <TradingPartner>
+                               <PartnerID />
+                               <PartnerName>EU</PartnerName>
+                           </TradingPartner>
+                           <TradingPartner>
+                               <PartnerID>mediusdev</PartnerID>
+                               <PartnerName>medius Dev Site</PartnerName>
+                           </TradingPartner>
+                       </TradingPartners>
+                       <Contacts>
+                           <Contact>
+                               <Code>VA001504</Code>
+                               <Name>John Russel</Name>
+                               <Username>jack.russel@corp.com</Username>
+                               <EmailAddress>jack.russel@corp.com</EmailAddress>
+                           </Contact>
+                       </Contacts>
+                   </Supplier>
+              UpdateSupplier:
+                value: |-
+                  <Supplier>
+                    <Name>Supplier At Corp.</Name>
+                    <Code>SUP005</Code>
+                    <Active>True</Active>
+                    <Description>Steel industry</Description>
+                    <SupplierNumber>234234</SupplierNumber>
+                    <EmailAddress>sup001@supplier.com</EmailAddress>
+                    <SupplierApprovalStatus>New</SupplierApprovalStatus>
+                    <SupplierWebsite>www.corp.com</SupplierWebsite>
+                    <TaxRegistrationNumber>4565666666</TaxRegistrationNumber>
+                    <Telephone>012546895698</Telephone>
+                    <Mobile>023564895689</Mobile>
+                    <Fax>345345</Fax>
+                    <AddressLine1>32</AddressLine1>
+                    <AddressLine2>Rurree Drive</AddressLine2>
+                    <AddressLine3>Hyde</AddressLine3>
+                    <City>Manchester</City>
+                    <Region>Greater Manchester</Region>
+                    <PostCode>SK14 2AX</PostCode>
+                    <Country>United Kingdom</Country>
+                    <OperatingCountry>Albania</OperatingCountry>
+                     <Currency>GBP</Currency>
+                    <AdditionalAttributes>
+                        <Attribute>
+                            <Name>AttributeX</Name>
+                            <Value>123456789</Value>
+                        </Attribute>
+                    </AdditionalAttributes>
+                    <TradingPartners>
+                        <TradingPartner>
+                            <PartnerID>americas</PartnerID>
+                            <PartnerName>Americas</PartnerName>
+                        </TradingPartner>
+                        <TradingPartner>
+                            <PartnerID />
+                            <PartnerName>Asia</PartnerName>
+                        </TradingPartner>
+                        <TradingPartner>
+                            <PartnerID />
+                            <PartnerName>EU</PartnerName>
+                        </TradingPartner>
+                        <TradingPartner>
+                            <PartnerID>mediusdev</PartnerID>
+                            <PartnerName>medius Dev Site</PartnerName>
+                        </TradingPartner>
+                    </TradingPartners>
+                    <Contacts>
+                        <Contact>
+                            <Code>VA001504</Code>
+                            <Name>John Hamilton</Name>
+                            <Username>jack.hamilton@corp.com</Username>
+                            <EmailAddress>jack.hamilton@corp.com</EmailAddress>
+                        </Contact>
+                        <Contact>
+                            <Code>VA001504</Code>
+                            <Name>John Russel</Name>
+                            <Username>jack.russel@corp.com</Username>
+                            <EmailAddress>jack.russel@corp.com</EmailAddress>
+                        </Contact>
+                    </Contacts>
+                  </Supplier>
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Supplier'
+            examples:
+              CreateSupplier:
+                value:
+                  Name: Supplier At Corp.
+                  Code: SUP005
+                  Active: 'True'
+                  Description: Steel industry
+                  SupplierNumber: '234234'
+                  EmailAddress: sup001@supplier.com
+                  SupplierApprovalStatus: New
+                  SupplierWebsite: www.corp.com
+                  TaxRegistrationNumber: '4565666666'
+                  TaxRegistrationCountry: United Kingdom
+                  Telephone: '012546895698'
+                  Mobile: '023564895689'
+                  Fax: '345345'
+                  AddressLine1: '32'
+                  AddressLine2: Rurree Drive
+                  AddressLine3: Hyde
+                  City: Manchester
+                  Region: Greater Manchester
+                  PostCode: SK14 2AX
+                  Country: United Kingdom
+                  OperatingCountry: Albania
+                  Currency: GBP
+                  AdditionalAttributes:
+                    Attribute:
+                      - Name: AttributeX
+                        Value: '123456789'
+                  TradingPartners:
+                    TradingPartner:
+                      - PartnerID: americas
+                        PartnerName: Americas
+                      - PartnerID: ''
+                        PartnerName: Asia
+                      - PartnerID: ''
+                        PartnerName: EU
+                      - PartnerID: mediusdev
+                        PartnerName: medius Dev Site
+                  Contacts:
+                    Contact:
+                      - Code: VA001504
+                        Name: John Russel
+                        Username: jack.russel@corp.com
+                        EmailAddress: jack.russel@corp.com
+              UpdateSupplier:
+                value:
+                  Name: Supplier At Corp.
+                  Code: SUP005
+                  Active: 'True'
+                  Description: Steel industry
+                  SupplierNumber: '234234'
+                  EmailAddress: sup001@supplier.com
+                  SupplierApprovalStatus: New
+                  SupplierWebsite: www.corp.com
+                  TaxRegistrationNumber: '4565666666'
+                  TaxRegistrationCountry: United Kingdom
+                  Telephone: '012546895698'
+                  Mobile: '023564895689'
+                  Fax: '345345'
+                  AddressLine1: '32'
+                  AddressLine2: Rurree Drive
+                  AddressLine3: Hyde
+                  City: Manchester
+                  Region: Greater Manchester
+                  PostCode: SK14 2AX
+                  Country: United Kingdom
+                  OperatingCountry: Albania
+                  Currency: GBP
+                  AdditionalAttributes:
+                    Attribute:
+                      - Name: AttributeX
+                        Value: '123456789'
+                  TradingPartners:
+                    TradingPartner:
+                      - PartnerID: americas
+                        PartnerName: Americas
+                      - PartnerID: ''
+                        PartnerName: Asia
+                      - PartnerID: ''
+                        PartnerName: EU
+                      - PartnerID: mediusdev
+                        PartnerName: medius Dev Site
+                  Contacts:
+                    Contact:
+                      - Code: VA001505
+                        Name: John Hamilton
+                        Username: jack.hamilton@corp.com
+                        EmailAddress: jack.hamilton@corp.com
+                      - Code: VA001504
+                        Name: John Russel
+                        Username: jack.russel@corp.com
+                        EmailAddress: jack.russel@corp.com
+      responses:
+        '200':
+          description: Supplier details document
+        default:
+          description: Error response
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              examples:
+                ' Error response':
+                  value: |-
+                    {
+                       "Type": "https://{tenant}.medius-s2c.com/S2C/api-errors/",
+                       "Status": "401",
+                       "Title": "API key is missing or invalid",
+                       "Instance": "07c8c057-89ae-45a1-98b3-2fcb92725289"
                     }
-                  }
-                },
-                "UpdateSupplier": {
-                  "value": {
-                    "Name": "Supplier At Corp.",
-                    "Code": "SUP005",
-                    "Active": "True",
-                    "Description": "Steel industry",
-                    "SupplierNumber": "234234",
-                    "EmailAddress": "sup001@supplier.com",
-                    "SupplierApprovalStatus": "New",
-                    "SupplierWebsite": "www.corp.com",
-                    "TaxRegistrationNumber": "4565666666",
-                    "TaxRegistrationCountry": "United Kingdom",
-                    "Telephone": "012546895698",
-                    "Mobile": "023564895689",
-                    "Fax": "345345",
-                    "AddressLine1": "32",
-                    "AddressLine2": "Rurree Drive",
-                    "AddressLine3": "Hyde",
-                    "City": "Manchester",
-                    "PostCode": "SK14 2AX",
-                    "OperatingCountry": "Albania",
-                    "Currency": "GBP",
-                    "AdditionalAttributes": {
-                      "Attribute": [
-                        {
-                          "Name": "AttributeX",
-                          "Value": "123456789"
-                        }
-                      ]
-                    },
-                    "TradingPartners": {
-                      "TradingPartner": [
-                        {
-                          "PartnerID": "americas",
-                          "PartnerName": "Americas"
-                        },
-                        {
-                          "PartnerID": "",
-                          "PartnerName": "Asia"
-                        },
-                        {
-                          "PartnerID": "",
-                          "PartnerName": "EU"
-                        },
-                        {
-                          "PartnerID": "mediusdev",
-                          "PartnerName": "medius Dev Site"
-                        }
-                      ]
-                    },
-                    "Contacts": {
-                      "Contact": [
-                        {
-                          "Code": "VA001505",
-                          "Name": "John Hamilton",
-                          "Username": "jack.hamilton@corp.com",
-                          "EmailAddress": "jack.hamilton@corp.com"
-                        },
-                        {
-                          "Code": "VA001504",
-                          "Name": "John Russel",
-                          "Username": "jack.russel@corp.com",
-                          "EmailAddress": "jack.russel@corp.com"
-                        }
-                      ]
+  /S2CAPI/v1/suppliers/{Code}:
+    get:
+      summary: Get details of a particular supplier
+      operationId: GetSupplier
+      tags:
+        - Suppliers
+      parameters:
+        - name: Code
+          in: path
+          required: true
+          description: The medius/Tenant identifier for the supplier (Supplier code)
+          example: VA001504
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Supplier details document
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Supplier'
+              examples:
+                GetSupplier:
+                  value: |-
+                    <?xml version="1.0" encoding="UTF-8" ?>
+                     <Supplier>
+                       <Name>Supplier At Corp.</Name>
+                       <Code>SUP005</Code>
+                       <Active>True</Active>
+                       <Description>Steel industry</Description>
+                       <SupplierNumber>234234</SupplierNumber>
+                       <EmailAddress>sup001@supplier.com</EmailAddress>
+                       <SupplierApprovalStatus>New</SupplierApprovalStatus>
+                       <SupplierWebsite>www.corp.com</SupplierWebsite>
+                       <TaxRegistrationNumber>4565666666</TaxRegistrationNumber>
+                       <Telephone>012546895698</Telephone>
+                       <Mobile>023564895689</Mobile>
+                       <Fax>345345</Fax>
+                       <AddressLine1>32</AddressLine1>
+                       <AddressLine2>Rurree Drive</AddressLine2>
+                       <AddressLine3>Hyde</AddressLine3>
+                       <City>Manchester</City>
+                       <Region>Greater Manchester</Region>
+                       <PostCode>SK14 2AX</PostCode>
+                       <Country>United Kingdom</Country>
+                       <OperatingCountry>Albania</OperatingCountry>
+                       <Currency>GBP</Currency>
+                       <AdditionalAttributes>
+                           <Attribute>
+                               <Name>AttributeX</Name>
+                               <Value>123456789</Value>
+                           </Attribute>
+                       </AdditionalAttributes>
+                       <TradingPartners>
+                           <TradingPartner>
+                               <PartnerID>americas</PartnerID>
+                               <PartnerName>Americas</PartnerName>
+                           </TradingPartner>
+                           <TradingPartner>
+                               <PartnerID />
+                               <PartnerName>Asia</PartnerName>
+                           </TradingPartner>
+                           <TradingPartner>
+                               <PartnerID />
+                               <PartnerName>EU</PartnerName>
+                           </TradingPartner>
+                           <TradingPartner>
+                               <PartnerID>mediusdev</PartnerID>
+                               <PartnerName>medius Dev Site</PartnerName>
+                           </TradingPartner>
+                       </TradingPartners>
+                       <Contacts>
+                           <Contact>
+                               <Code>VA001504</Code>
+                               <Name>John Hamilton</Name>
+                               <Username>jack.hamilton@corp.com</Username>
+                               <EmailAddress>jack.hamilton@corp.com</EmailAddress>
+                           </Contact>
+                           <Contact>
+                               <Code>VA001504</Code>
+                               <Name>John Russel</Name>
+                               <Username>jack.russel@corp.com</Username>
+                               <EmailAddress>jack.russel@corp.com</EmailAddress>
+                           </Contact>
+                       </Contacts>
+                     </Supplier>
+            application/json:
+              examples:
+                GetSupplier:
+                  value:
+                    Name: Supplier At Corp.
+                    Code: SUP005
+                    Active: 'True'
+                    Description: Steel industry
+                    SupplierNumber: '234234'
+                    EmailAddress: sup001@supplier.com
+                    SupplierApprovalStatus: New
+                    SupplierWebsite: www.corp.com
+                    TaxRegistrationNumber: '4565666666'
+                    TaxRegistrationCountry: United Kingdom
+                    Telephone: '012546895698'
+                    Mobile: '023564895689'
+                    Fax: '345345'
+                    AddressLine1: '32'
+                    AddressLine2: Rurree Drive
+                    AddressLine3: Hyde
+                    City: Manchester
+                    Region: Greater Manchester
+                    PostCode: SK14 2AX
+                    Country: United Kingdom
+                    OperatingCountry: Albania
+                    Currency: GBP
+                    AdditionalAttributes:
+                      Attribute:
+                        - Name: AttributeX
+                          Value: '123456789'
+                    TradingPartners:
+                      TradingPartner:
+                        - PartnerID: americas
+                          PartnerName: Americas
+                        - PartnerID: ''
+                          PartnerName: Asia
+                        - PartnerID: ''
+                          PartnerName: EU
+                        - PartnerID: mediusdev
+                          PartnerName: medius Dev Site
+                    Contacts:
+                      Contact:
+                        - Code: VA001504
+                          Name: John Russel
+                          Username: jack.russel@corp.com
+                          EmailAddress: jack.russel@corp.com
+        default:
+          description: Error response
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/json:
+              examples:
+                ' Error response':
+                  value: |-
+                    {
+                       "Type": "https://{tenant}.medius-s2c.com/S2C/api-errors/",
+                       "Status": "401",
+                       "Title": "API key is missing or invalid",
+                       "Instance": "07c8c057-89ae-45a1-98b3-2fcb92725289"
                     }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Supplier details document"
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              },
-              "application/json": {
-                "examples": {
-                  " Error response": {
-                    "value": "{\n   \"Type\": \"https://{tenant}.medius-s2c.com/S2C/api-errors/\",\n   \"Status\": \"401\",\n   \"Title\": \"API key is missing or invalid\",\n   \"Instance\": \"07c8c057-89ae-45a1-98b3-2fcb92725289\"\n}"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/S2CAPI/v1/suppliers/{Code}": {
-      "get": {
-        "summary": "Get details of a particular supplier",
-        "operationId": "GetSupplier",
-        "tags": [
-          "Suppliers"
-        ],
-        "parameters": [
-          {
-            "name": "Code",
-            "in": "path",
-            "required": true,
-            "description": "The medius/Tenant identifier for the supplier (Supplier code)",
-            "example": "VA001504",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Supplier details document",
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Supplier"
-                },
-                "examples": {
-                  "GetSupplier": {
-                    "value": "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n <Supplier>\n   <Name>Supplier At Corp.</Name>\n   <Code>SUP005</Code>\n   <Active>True</Active>\n   <Description>Steel industry</Description>\n   <SupplierNumber>234234</SupplierNumber>\n   <EmailAddress>sup001@supplier.com</EmailAddress>\n   <SupplierApprovalStatus>New</SupplierApprovalStatus>\n   <SupplierWebsite>www.corp.com</SupplierWebsite>\n   <TaxRegistrationNumber>4565666666</TaxRegistrationNumber>\n   <Telephone>012546895698</Telephone>\n   <Mobile>023564895689</Mobile>\n   <Fax>345345</Fax>\n   <AddressLine1>32</AddressLine1>\n   <AddressLine2>Rurree Drive</AddressLine2>\n   <AddressLine3>Hyde</AddressLine3>\n   <City>Manchester</City>\n   <PostCode>SK14 2AX</PostCode>\n   <OperatingCountry>Albania</OperatingCountry>\n   <Currency>GBP</Currency>\n   <AdditionalAttributes>\n       <Attribute>\n           <Name>AttributeX</Name>\n           <Value>123456789</Value>\n       </Attribute>\n   </AdditionalAttributes>\n   <TradingPartners>\n       <TradingPartner>\n           <PartnerID>americas</PartnerID>\n           <PartnerName>Americas</PartnerName>\n       </TradingPartner>\n       <TradingPartner>\n           <PartnerID />\n           <PartnerName>Asia</PartnerName>\n       </TradingPartner>\n       <TradingPartner>\n           <PartnerID />\n           <PartnerName>EU</PartnerName>\n       </TradingPartner>\n       <TradingPartner>\n           <PartnerID>mediusdev</PartnerID>\n           <PartnerName>medius Dev Site</PartnerName>\n       </TradingPartner>\n   </TradingPartners>\n   <Contacts>\n       <Contact>\n           <Code>VA001504</Code>\n           <Name>John Hamilton</Name>\n           <Username>jack.hamilton@corp.com</Username>\n           <EmailAddress>jack.hamilton@corp.com</EmailAddress>\n       </Contact>\n       <Contact>\n           <Code>VA001504</Code>\n           <Name>John Russel</Name>\n           <Username>jack.russel@corp.com</Username>\n           <EmailAddress>jack.russel@corp.com</EmailAddress>\n       </Contact>\n   </Contacts>\n </Supplier>"
-                  }
-                }
-              },
-              "application/json": {
-                "examples": {
-                  "GetSupplier": {
-                    "value": {
-                      "Name": "Supplier At Corp.",
-                      "Code": "SUP005",
-                      "Active": "True",
-                      "Description": "Steel industry",
-                      "SupplierNumber": "234234",
-                      "EmailAddress": "sup001@supplier.com",
-                      "SupplierApprovalStatus": "New",
-                      "SupplierWebsite": "www.corp.com",
-                      "TaxRegistrationNumber": "4565666666",
-                      "TaxRegistrationCountry": "United Kingdom",
-                      "Telephone": "012546895698",
-                      "Mobile": "023564895689",
-                      "Fax": "345345",
-                      "AddressLine1": "32",
-                      "AddressLine2": "Rurree Drive",
-                      "AddressLine3": "Hyde",
-                      "City": "Manchester",
-                      "PostCode": "SK14 2AX",
-                      "OperatingCountry": "Albania",
-                      "Currency": "GBP",
-                      "AdditionalAttributes": {
-                        "Attribute": [
-                          {
-                            "Name": "AttributeX",
-                            "Value": "123456789"
-                          }
-                        ]
-                      },
-                      "TradingPartners": {
-                        "TradingPartner": [
-                          {
-                            "PartnerID": "americas",
-                            "PartnerName": "Americas"
-                          },
-                          {
-                            "PartnerID": "",
-                            "PartnerName": "Asia"
-                          },
-                          {
-                            "PartnerID": "",
-                            "PartnerName": "EU"
-                          },
-                          {
-                            "PartnerID": "mediusdev",
-                            "PartnerName": "medius Dev Site"
-                          }
-                        ]
-                      },
-                      "Contacts": {
-                        "Contact": [
-                          {
-                            "Code": "VA001504",
-                            "Name": "John Russel",
-                            "Username": "jack.russel@corp.com",
-                            "EmailAddress": "jack.russel@corp.com"
-                          }
-                        ]
-                      }
+  /S2CAPI/v1/contracts:
+    description: Contract Management
+    get:
+      summary: Get all contracts
+      description: Get all contracts filtered between the last modified date and the lastintegrated date. Also supports filtering on multiple contract statuses and types.
+      parameters:
+        - name: LastMediusUpdate
+          in: query
+          required: false
+          description: The date to filter the last modified contracts by (Integrated date), using ISO 8601 format yyyy-MM-ddTHH:mm:ssZ (2021-20-10T14:01:54.9571247Z)
+          example: '2008-09-22T14:01:54.9571247Z'
+          schema:
+            type: string
+        - name: ContractStatus
+          in: query
+          required: false
+          description: Filter the contracts by multiple contract statuses
+          example: Effective,Expired
+          schema:
+            type: string
+        - name: ContractType
+          in: query
+          required: false
+          description: Filter the contracts by multiple contract types
+          example: Framework,NDA
+          schema:
+            type: string
+      operationId: GetContracts
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+              examples:
+                GetContracts:
+                  value: |-
+                    {
+                       
+                         "Contract": [
+                           {
+                             "EntityId": "Company X",
+                             "VendorEntityID": "Paddy Ltd",
+                             "ContractReferenceNumber": "C00861",
+                             "Title": "Software Licence",
+                             "Description": "This is a test contract",
+                             "OwnerId": "Gareth Mawdesley",
+                             "LegalContactId": "Gareth Mawdesley",
+                             "EstimatedContractValue": "500.34",
+                             "CurrencyId": "GBP",
+                             "StartDate": "2012-03-01",
+                             "EffectiveDate": "2012-03-01",
+                             "EndDate": "2012-06-01",
+                             "ReviewDate": "2012-05-01",
+                             "Created": "2012-02-01",
+                             "Modified": "2012-02-03",
+                             "TagContainer": {
+                               "Tags": [
+                                   "Category 1",
+                                   "Category 2"
+                               ]
+                             },
+                             
+                             "SourcingEventName": "RFI_001",
+                             "NoticePeriodValue": "5",
+                             "NoticePeriodUnit": "Days",
+                             "AutoExtensionDurationType": "AutoExtensionMonthly",
+                             "AutoExtensionDurationInMonths": "5",
+                             "ContractDurationInMonths": "5",
+                             "NoticeDate": "2012-06-01",
+                             "Suspended": "false",
+                             "TerminationDate": "2012-06-01",
+                             "TerminationReference": "Contract expired",
+                             "PendingTermination": "true",
+                             "ContractStatus": "Expired",
+                             "LastMediusUpdate": "10/12/2020 11:57:05",
+                             "AdditionalProperties": [
+                                 {
+                                     "PropertyId": "BespokeAdditionPropertyX",
+                                     "PropertyValue": "Bespoke value"
+                                 }
+                             ],
+                             "AdditionalPropertiesMultiValue": [
+                                 {
+                                     "PropertyId": "BespokeAdditionPropertyX",
+                                     "PropertyValues": [
+                                         "Bespoke value",
+                                         "Bespoke value 2",
+                                         "Bespoke value 3"
+                                     ]
+                                 }
+                             ]
+                           },
+                           {
+                             "EntityId": "Company Y",
+                             "VendorEntityID": "Supplier At Corp",
+                             "ContractReferenceNumber": "C00865",
+                             "Title": "Hardware",
+                             "Description": "This is a test contract",
+                             "OwnerId": "John Wasby",
+                             "LegalContactId": "John Wasby",
+                             "EstimatedContractValue": "345.34",
+                             "CurrencyId": "GBP",
+                             "StartDate": "2015-03-01",
+                             "EffectiveDate": "2015-03-01",
+                             "EndDate": "2025-06-01",
+                             "ReviewDate": "2016-05-01",
+                             "Created": "2012-02-01",
+                             "Modified": "2012-02-03",
+                             "TagContainer": {
+                               "Tags": [
+                                   "Category 1",
+                                   "Category 2"
+                               ]
+                             },
+                             "SourcingEventName": "RFI_002",
+                             "NoticePeriodValue": "5",
+                             "NoticePeriodUnit": "Days",
+                             "AutoExtensionDurationType": "AutoExtensionMonthly",
+                             "AutoExtensionDurationInMonths": "5",
+                             "ContractDurationInMonths": "5",
+                             "NoticeDate": "2025-06-01",
+                             "Suspended": "false",
+                             "TerminationDate": "2025-06-01",
+                             "TerminationReference": "Contract expired",
+                             "PendingTermination": "true",
+                             "ContractStatus": "Expired",
+                             "LastMediusUpdate": "10/12/2020 11:57:05",
+                             "AdditionalProperties": [
+                                 {
+                                     "PropertyId": "BespokeAdditionPropertyX",
+                                     "PropertyValue": "Bespoke value"
+                                 }
+                             ],
+                             "AdditionalPropertiesMultiValue": [
+                                 {
+                                     "PropertyId": "BespokeAdditionPropertyX",
+                                     "PropertyValues": [
+                                         "Bespoke value","Bespoke value 2",
+                                         "Bespoke value 3"
+                                     ]
+                                 }
+                             ]
+                           }
+                         ]
+                       }
+                     
+            application/xml:
+              examples:
+                GetContracts:
+                  value: |-
+                    "<?xml version="1.0" encoding="UTF-8" ?>
+                    <root>
+                      <Contract>
+                        <EntityId>Company X</EntityId>
+                        <VendorEntityID>Paddy Ltd</VendorEntityID>
+                        <ContractReferenceNumber>C00861</ContractReferenceNumber>
+                        <Title>Software Licence</Title>
+                        <Description>This is a test contract</Description>
+                        <OwnerId>Gareth Mawdesley</OwnerId>
+                        <LegalContactId>Gareth Mawdesley</LegalContactId>
+                        <EstimatedContractValue>500.34</EstimatedContractValue>
+                        <CurrencyId>GBP</CurrencyId>
+                        <StartDate>2012-03-01</StartDate>
+                        <EffectiveDate>2012-03-01</EffectiveDate>
+                        <EndDate>2012-06-01</EndDate>
+                        <ReviewDate>2012-05-01</ReviewDate>
+                        <Created>2012-02-01</Created>
+                        <Modified>2012-02-03</Modified>
+                        <TagContainer>
+                          <Tags>Category 1</Tags>
+                          <Tags>Category 2</Tags>
+                        </TagContainer>
+                        <SourcingEventName>RFI_001</SourcingEventName>
+                        <NoticePeriodValue>5</NoticePeriodValue>
+                        <NoticePeriodUnit>Days</NoticePeriodUnit>
+                        <AutoExtensionDurationType>AutoExtensionMonthly</AutoExtensionDurationType>
+                        <AutoExtensionDurationInMonths>5</AutoExtensionDurationInMonths>
+                        <ContractDurationInMonths>5</ContractDurationInMonths>
+                        <NoticeDate>2012-06-01</NoticeDate>
+                        <Suspended>false</Suspended>
+                        <TerminationDate>2012-06-01</TerminationDate>
+                        <TerminationReference>Contract expired</TerminationReference>
+                        <PendingTermination>true</PendingTermination>
+                        <ContractStatus>Expired</ContractStatus>
+                        <LastMediusUpdate>10/12/2020 11:57:05</LastMediusUpdate>
+                        <AdditionalProperties>
+                          <PropertyId>BespokeAdditionPropertyX</PropertyId>
+                          <PropertyValue>Bespoke value</PropertyValue>
+                        </AdditionalProperties>
+                        <AdditionalPropertiesMultiValue>
+                          <PropertyId>BespokeAdditionPropertyX</PropertyId>
+                          <PropertyValues>(4641) Willville Solar Limited</PropertyValues>
+                          <PropertyValues>(4632) Wicklow Windfarm Holdings</PropertyValues>
+                          <PropertyValues>(4643) TDC Community Solar Park</PropertyValues>
+                          <PropertyValues>(4636) Blusheens Solar Limited</PropertyValues>
+                          <PropertyValues>(4637) Coolroe Solar Limited</PropertyValues>
+                        </AdditionalPropertiesMultiValue>
+                      </Contract>
+                      <Contract>
+                        <EntityId>Company Y</EntityId>
+                        <VendorEntityID>Supplier At Corp</VendorEntityID>
+                        <ContractReferenceNumber>C00865</ContractReferenceNumber>
+                        <Title>Hardware</Title>
+                        <Description>This is a test contract</Description>
+                        <OwnerId>John Wasby</OwnerId>
+                        <LegalContactId>John Wasby</LegalContactId>
+                        <EstimatedContractValue>345.34</EstimatedContractValue>
+                        <CurrencyId>GBP</CurrencyId>
+                        <StartDate>2015-03-01</StartDate>
+                        <EffectiveDate>2015-03-01</EffectiveDate>
+                        <EndDate>2025-06-01</EndDate>
+                        <ReviewDate>2016-05-01</ReviewDate>
+                        <Created>2012-02-01</Created>
+                        <Modified>2012-02-03</Modified>
+                        <TagContainer>
+                          <Tags>Category 1</Tags>
+                          <Tags>Category 2</Tags>
+                        </TagContainer>
+                        <SourcingEventName>RFI_002</SourcingEventName>
+                        <NoticePeriodValue>5</NoticePeriodValue>
+                        <NoticePeriodUnit>Days</NoticePeriodUnit>
+                        <AutoExtensionDurationType>AutoExtensionMonthly</AutoExtensionDurationType>
+                        <AutoExtensionDurationInMonths>5</AutoExtensionDurationInMonths>
+                        <ContractDurationInMonths>5</ContractDurationInMonths>
+                        <NoticeDate>2025-06-01</NoticeDate>
+                        <Suspended>false</Suspended>
+                        <TerminationDate>2025-06-01</TerminationDate>
+                        <TerminationReference>Contract expired</TerminationReference>
+                        <PendingTermination>true</PendingTermination>
+                        <ContractStatus>Expired</ContractStatus>
+                        <LastMediusUpdate>10/12/2020 11:57:05</LastMediusUpdate>
+                        <AdditionalProperties>
+                          <PropertyId>BespokeAdditionPropertyX</PropertyId>
+                          <PropertyValue>Bespoke value</PropertyValue>
+                        </AdditionalProperties>
+                        <AdditionalPropertiesMultiValue>
+                          <PropertyId>BespokeAdditionPropertyX</PropertyId>
+                          <PropertyValues> Bespoke value</PropertyValues>
+                          <PropertyValues>Bespoke value 2</PropertyValues>
+                          <PropertyValues>Bespoke value 3</PropertyValues>   </AdditionalPropertiesMultiValue>
+                      </Contract>
+                    </root>
+      tags:
+        - Contracts
+  /S2CAPI/v1/contracts/{ContractNumber}:
+    put:
+      summary: Update the contract
+      description: Update the contract by passing in list of properties
+      operationId: PutContract
+      parameters:
+        - name: ContractNumber
+          in: path
+          required: true
+          description: The medius contract reference number
+          example: C01192
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: The updated contract details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContractUpdate'
+            examples:
+              ContractUpdate:
+                value: |-
+                  {
+                    "AdditionalProperties": [
+                    {
+                    "PropertyId": "EstimatedContractValue",
+                    "PropertyValue": "Bespoke value"
+                    },
+                    {
+                    "PropertyId": "SAPIntegrationStatus",
+                    "PropertyValue": "Success"
                     }
+                    ]
                   }
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              },
-              "application/json": {
-                "examples": {
-                  " Error response": {
-                    "value": "{\n   \"Type\": \"https://{tenant}.medius-s2c.com/S2C/api-errors/\",\n   \"Status\": \"401\",\n   \"Title\": \"API key is missing or invalid\",\n   \"Instance\": \"07c8c057-89ae-45a1-98b3-2fcb92725289\"\n}"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/S2CAPI/v1/contracts": {
-      "description": "Contract Management",
-      "get": {
-        "summary": "Get all contracts",
-        "description": "Get all contracts filtered between the last modified date and the lastintegrated date. Also supports filtering on multiple contract statuses and types.",
-        "parameters": [
-          {
-            "name": "LastMediusUpdate",
-            "in": "query",
-            "required": false,
-            "description": "The date to filter the last modified contracts by (Integrated date), using ISO 8601 format yyyy-MM-ddTHH:mm:ssZ (2021-20-10T14:01:54.9571247Z)",
-            "example": "2008-09-22T14:01:54.9571247Z",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "ContractStatus",
-            "in": "query",
-            "required": false,
-            "description": "Filter the contracts by multiple contract statuses",
-            "example": "Effective,Expired",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "ContractType",
-            "in": "query",
-            "required": false,
-            "description": "Filter the contracts by multiple contract types",
-            "example": "Framework,NDA",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "operationId": "GetContracts",
-        "responses": {
-          "default": {
-            "description": "Default error sample response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Contract"
-                },
-                "examples": {
-                  "GetContracts": {
-                    "value": "{\n   \n     \"Contract\": [\n       {\n         \"EntityId\": \"Company X\",\n         \"VendorEntityID\": \"Paddy Ltd\",\n         \"ContractReferenceNumber\": \"C00861\",\n         \"Title\": \"Software Licence\",\n         \"Description\": \"This is a test contract\",\n         \"OwnerId\": \"Gareth Mawdesley\",\n         \"LegalContactId\": \"Gareth Mawdesley\",\n         \"EstimatedContractValue\": \"500.34\",\n         \"CurrencyId\": \"GBP\",\n         \"StartDate\": \"2012-03-01\",\n         \"EffectiveDate\": \"2012-03-01\",\n         \"EndDate\": \"2012-06-01\",\n         \"ReviewDate\": \"2012-05-01\",\n         \"Created\": \"2012-02-01\",\n         \"Modified\": \"2012-02-03\",\n         \"TagContainer\": {\n           \"Tags\": [\n               \"Category 1\",\n               \"Category 2\"\n           ]\n         },\n         \n         \"SourcingEventName\": \"RFI_001\",\n         \"NoticePeriodValue\": \"5\",\n         \"NoticePeriodUnit\": \"Days\",\n         \"AutoExtensionDurationType\": \"AutoExtensionMonthly\",\n         \"AutoExtensionDurationInMonths\": \"5\",\n         \"ContractDurationInMonths\": \"5\",\n         \"NoticeDate\": \"2012-06-01\",\n         \"Suspended\": \"false\",\n         \"TerminationDate\": \"2012-06-01\",\n         \"TerminationReference\": \"Contract expired\",\n         \"PendingTermination\": \"true\",\n         \"ContractStatus\": \"Expired\",\n         \"LastMediusUpdate\": \"10/12/2020 11:57:05\",\n         \"AdditionalProperties\": [\n             {\n                 \"PropertyId\": \"BespokeAdditionPropertyX\",\n                 \"PropertyValue\": \"Bespoke value\"\n             }\n         ],\n         \"AdditionalPropertiesMultiValue\": [\n             {\n                 \"PropertyId\": \"BespokeAdditionPropertyX\",\n                 \"PropertyValues\": [\n                     \"Bespoke value\",\n                     \"Bespoke value 2\",\n                     \"Bespoke value 3\"\n                 ]\n             }\n         ]\n       },\n       {\n         \"EntityId\": \"Company Y\",\n         \"VendorEntityID\": \"Supplier At Corp\",\n         \"ContractReferenceNumber\": \"C00865\",\n         \"Title\": \"Hardware\",\n         \"Description\": \"This is a test contract\",\n         \"OwnerId\": \"John Wasby\",\n         \"LegalContactId\": \"John Wasby\",\n         \"EstimatedContractValue\": \"345.34\",\n         \"CurrencyId\": \"GBP\",\n         \"StartDate\": \"2015-03-01\",\n         \"EffectiveDate\": \"2015-03-01\",\n         \"EndDate\": \"2025-06-01\",\n         \"ReviewDate\": \"2016-05-01\",\n         \"Created\": \"2012-02-01\",\n         \"Modified\": \"2012-02-03\",\n         \"TagContainer\": {\n           \"Tags\": [\n               \"Category 1\",\n               \"Category 2\"\n           ]\n         },\n         \"SourcingEventName\": \"RFI_002\",\n         \"NoticePeriodValue\": \"5\",\n         \"NoticePeriodUnit\": \"Days\",\n         \"AutoExtensionDurationType\": \"AutoExtensionMonthly\",\n         \"AutoExtensionDurationInMonths\": \"5\",\n         \"ContractDurationInMonths\": \"5\",\n         \"NoticeDate\": \"2025-06-01\",\n         \"Suspended\": \"false\",\n         \"TerminationDate\": \"2025-06-01\",\n         \"TerminationReference\": \"Contract expired\",\n         \"PendingTermination\": \"true\",\n         \"ContractStatus\": \"Expired\",\n         \"LastMediusUpdate\": \"10/12/2020 11:57:05\",\n         \"AdditionalProperties\": [\n             {\n                 \"PropertyId\": \"BespokeAdditionPropertyX\",\n                 \"PropertyValue\": \"Bespoke value\"\n             }\n         ],\n         \"AdditionalPropertiesMultiValue\": [\n             {\n                 \"PropertyId\": \"BespokeAdditionPropertyX\",\n                 \"PropertyValues\": [\n                     \"Bespoke value\",\"Bespoke value 2\",\n                     \"Bespoke value 3\"\n                 ]\n             }\n         ]\n       }\n     ]\n   }\n "
-                  }
-                }
-              },
-              "application/xml": {
-                "examples": {
-                  "GetContracts": {
-                    "value": "\"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<root>\n  <Contract>\n    <EntityId>Company X</EntityId>\n    <VendorEntityID>Paddy Ltd</VendorEntityID>\n    <ContractReferenceNumber>C00861</ContractReferenceNumber>\n    <Title>Software Licence</Title>\n    <Description>This is a test contract</Description>\n    <OwnerId>Gareth Mawdesley</OwnerId>\n    <LegalContactId>Gareth Mawdesley</LegalContactId>\n    <EstimatedContractValue>500.34</EstimatedContractValue>\n    <CurrencyId>GBP</CurrencyId>\n    <StartDate>2012-03-01</StartDate>\n    <EffectiveDate>2012-03-01</EffectiveDate>\n    <EndDate>2012-06-01</EndDate>\n    <ReviewDate>2012-05-01</ReviewDate>\n    <Created>2012-02-01</Created>\n    <Modified>2012-02-03</Modified>\n    <TagContainer>\n      <Tags>Category 1</Tags>\n      <Tags>Category 2</Tags>\n    </TagContainer>\n    <SourcingEventName>RFI_001</SourcingEventName>\n    <NoticePeriodValue>5</NoticePeriodValue>\n    <NoticePeriodUnit>Days</NoticePeriodUnit>\n    <AutoExtensionDurationType>AutoExtensionMonthly</AutoExtensionDurationType>\n    <AutoExtensionDurationInMonths>5</AutoExtensionDurationInMonths>\n    <ContractDurationInMonths>5</ContractDurationInMonths>\n    <NoticeDate>2012-06-01</NoticeDate>\n    <Suspended>false</Suspended>\n    <TerminationDate>2012-06-01</TerminationDate>\n    <TerminationReference>Contract expired</TerminationReference>\n    <PendingTermination>true</PendingTermination>\n    <ContractStatus>Expired</ContractStatus>\n    <LastMediusUpdate>10/12/2020 11:57:05</LastMediusUpdate>\n    <AdditionalProperties>\n      <PropertyId>BespokeAdditionPropertyX</PropertyId>\n      <PropertyValue>Bespoke value</PropertyValue>\n    </AdditionalProperties>\n    <AdditionalPropertiesMultiValue>\n      <PropertyId>BespokeAdditionPropertyX</PropertyId>\n      <PropertyValues>(4641) Willville Solar Limited</PropertyValues>\n      <PropertyValues>(4632) Wicklow Windfarm Holdings</PropertyValues>\n      <PropertyValues>(4643) TDC Community Solar Park</PropertyValues>\n      <PropertyValues>(4636) Blusheens Solar Limited</PropertyValues>\n      <PropertyValues>(4637) Coolroe Solar Limited</PropertyValues>\n    </AdditionalPropertiesMultiValue>\n  </Contract>\n  <Contract>\n    <EntityId>Company Y</EntityId>\n    <VendorEntityID>Supplier At Corp</VendorEntityID>\n    <ContractReferenceNumber>C00865</ContractReferenceNumber>\n    <Title>Hardware</Title>\n    <Description>This is a test contract</Description>\n    <OwnerId>John Wasby</OwnerId>\n    <LegalContactId>John Wasby</LegalContactId>\n    <EstimatedContractValue>345.34</EstimatedContractValue>\n    <CurrencyId>GBP</CurrencyId>\n    <StartDate>2015-03-01</StartDate>\n    <EffectiveDate>2015-03-01</EffectiveDate>\n    <EndDate>2025-06-01</EndDate>\n    <ReviewDate>2016-05-01</ReviewDate>\n    <Created>2012-02-01</Created>\n    <Modified>2012-02-03</Modified>\n    <TagContainer>\n      <Tags>Category 1</Tags>\n      <Tags>Category 2</Tags>\n    </TagContainer>\n    <SourcingEventName>RFI_002</SourcingEventName>\n    <NoticePeriodValue>5</NoticePeriodValue>\n    <NoticePeriodUnit>Days</NoticePeriodUnit>\n    <AutoExtensionDurationType>AutoExtensionMonthly</AutoExtensionDurationType>\n    <AutoExtensionDurationInMonths>5</AutoExtensionDurationInMonths>\n    <ContractDurationInMonths>5</ContractDurationInMonths>\n    <NoticeDate>2025-06-01</NoticeDate>\n    <Suspended>false</Suspended>\n    <TerminationDate>2025-06-01</TerminationDate>\n    <TerminationReference>Contract expired</TerminationReference>\n    <PendingTermination>true</PendingTermination>\n    <ContractStatus>Expired</ContractStatus>\n    <LastMediusUpdate>10/12/2020 11:57:05</LastMediusUpdate>\n    <AdditionalProperties>\n      <PropertyId>BespokeAdditionPropertyX</PropertyId>\n      <PropertyValue>Bespoke value</PropertyValue>\n    </AdditionalProperties>\n    <AdditionalPropertiesMultiValue>\n      <PropertyId>BespokeAdditionPropertyX</PropertyId>\n      <PropertyValues> Bespoke value</PropertyValues>\n      <PropertyValues>Bespoke value 2</PropertyValues>\n      <PropertyValues>Bespoke value 3</PropertyValues>   </AdditionalPropertiesMultiValue>\n  </Contract>\n</root>"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Contracts"
-        ]
-      }
-    },
-    "/S2CAPI/v1/contracts/{ContractNumber}": {
-      "put": {
-        "summary": "Update the contract",
-        "description": "Update the contract by passing in list of properties",
-        "operationId": "PutContract",
-        "parameters": [
-          {
-            "name": "ContractNumber",
-            "in": "path",
-            "required": true,
-            "description": "The medius contract reference number",
-            "example": "C01192",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "description": "The updated contract details",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ContractUpdate"
-              },
-              "examples": {
-                "ContractUpdate": {
-                  "value": "{\n  \"AdditionalProperties\": [\n  {\n  \"PropertyId\": \"EstimatedContractValue\",\n  \"PropertyValue\": \"Bespoke value\"\n  },\n  {\n  \"PropertyId\": \"SAPIntegrationStatus\",\n  \"PropertyValue\": \"Success\"\n  }\n  ]\n}\n  "
-                }
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/ContractUpdate"
-              },
-              "examples": {
-                "ContractUpdate": {
-                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<root>\n  <AdditionalProperties>\n    <PropertyId>EstimatedContractValue</PropertyId>\n    <PropertyValue>Bespoke value</PropertyValue>\n  </AdditionalProperties>\n  <AdditionalProperties>\n    <PropertyId>SAPIntegrationStatus</PropertyId>\n    <PropertyValue>Success</PropertyValue>\n  </AdditionalProperties>\n</root>"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Contract details document"
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Contracts"
-        ]
-      }
-    }
-  },
-  "components": {
-    "securitySchemes": {
-      "ApiKeyAuth": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "Authorization"
-      }
-    },
-    "schemas": {
-      "ArrayOfSupplier": {
-        "type": "array",
-        "xml": {
-          "name": "Supplier",
-          "wrapped": false
-        },
-        "items": {
-          "$ref": "#/components/schemas/MinimalSupplier"
-        }
-      },
-      "MinimalSupplier": {
-        "xml": {
-          "name": "Supplier",
-          "wrapped": false
-        },
-        "required": [
-          "Name"
-        ],
-        "properties": {
-          "Name": {
-            "type": "string",
-            "description": "Familiar name for supplier",
-            "example": "Acme Inc"
-          },
-          "Code": {
-            "type": "string",
-            "description": "<Tenant> Id , Unique Id of the supplier.",
-            "example": "ED0001"
-          },
-          "SupplierModifiedDate": {
-            "type": "string",
-            "description": "Date/Time the supplier was last modified.",
-            "example": "05/05/2022 11:27:33"
-          },
-          "SupplierApprovalStatus": {
-            "type": "string",
-            "description": "Approval status of the supplier(New,Rejected,Approved).",
-            "example": "New"
-          }
-        }
-      },
-      "Supplier": {
-        "xml": {
-          "name": "Supplier",
-          "wrapped": false
-        },
-        "required": [
-          "Name"
-        ],
-        "properties": {
-          "Name": {
-            "type": "string",
-            "description": "Familiar name for supplier",
-            "example": "Acme Inc"
-          },
-          "Code": {
-            "type": "string",
-            "description": "<Tenant> Id , Unique Id of the supplier.",
-            "example": "ED0001"
-          },
-          "Active": {
-            "type": "string",
-            "description": "Is the supplier active",
-            "example": true
-          },
-          "Description": {
-            "type": "string",
-            "description": "Description of the supplier",
-            "example": "Business in IT"
-          },
-          "SupplierNumber": {
-            "type": "string",
-            "description": "Registered Company Number",
-            "example": "4220636"
-          },
-          "EmailAddress": {
-            "type": "string",
-            "description": "Email Address",
-            "example": "helpdesk@acme.com"
-          },
-          "SupplierApprovalStatus": {
-            "type": "string",
-            "description": "Supplier approval status mapped in medius, values to use are \"approved\",\"New\",\"rejected\"",
-            "example": "approved"
-          },
-          "SupplierWebsite": {
-            "type": "string",
-            "description": "Suplier website",
-            "example": "www.acme.com"
-          },
-          "TaxRegistrationNumber": {
-            "type": "string",
-            "description": "Tax registration number or supplier number",
-            "example": 123456789
-          },
-          "Telephone": {
-            "type": "string",
-            "description": "Telephone Number",
-            "example": 2254664858
-          },
-          "Mobile": {
-            "type": "string",
-            "description": "Mobile Number",
-            "example": 7897895895
-          },
-          "Fax": {
-            "type": "string",
-            "description": "Fax",
-            "example": 44565689562
-          },
-          "AddressLine1": {
-            "type": "string",
-            "description": "Address Line 1",
-            "example": "P.O. Box 784"
-          },
-          "AddressLine2": {
-            "type": "string",
-            "description": "Address Line 2",
-            "example": "2018 Laoreet Av"
-          },
-          "AddressLine3": {
-            "type": "string",
-            "description": "Address Line 3",
-            "example": "Oswestry"
-          },
-          "City": {
-            "type": "string",
-            "description": "City",
-            "example": "Hyde"
-          },
-          "PostCode": {
-            "type": "string",
-            "description": "PostCode",
-            "example": "SK14 2AX"
-          },
-          "OperatingCountry": {
-            "type": "string",
-            "description": "Operating Country",
-            "example": "United Kingdom"
-          },
-          "Currency": {
-            "type": "string",
-            "description": "3 Letter Medius currency code",
-            "example": "GBP"
-          },
-          "AdditionalProperties": {
-            "type": "array",
-            "xml": {
-              "name": "AdditionalProperties",
-              "wrapped": false
-            },
-            "description": "Custom attributes linked to Medius (Key/Value)",
-            "items": {
-              "$ref": "#/components/schemas/AdditionalProperties"
-            }
-          },
-          "AdditionalPropertiesMultiValue": {
-            "type": "array",
-            "xml": {
-              "name": "AdditionalPropertiesMultiValue",
-              "wrapped": false
-            },
-            "description": "Custom attributes linked to Medius (Key/Value)",
-            "items": {
-              "$ref": "#/components/schemas/AdditionalPropertiesMultiValue"
-            }
-          },
-          "TradingPartners": {
-            "type": "array",
-            "xml": {
-              "name": "TradingPartners",
-              "wrapped": false
-            },
-            "description": "Contact list for the organisation",
-            "items": {
-              "$ref": "#/components/schemas/TradingPartner"
-            }
-          },
-          "Contacts": {
-            "type": "array",
-            "xml": {
-              "name": "Contacts",
-              "wrapped": false
-            },
-            "description": "Contact list for the organisation",
-            "items": {
-              "$ref": "#/components/schemas/Contact"
-            }
-          }
-        }
-      },
-      "Contact": {
-        "required": [
-          "Code",
-          "Name",
-          "Username"
-        ],
-        "properties": {
-          "Code": {
-            "type": "string",
-            "description": "Unique <Tenant> contact code, if available",
-            "example": "ED0001_1"
-          },
-          "Name": {
-            "type": "string",
-            "description": "Common name of the contact",
-            "example": "Fred Bloggs"
-          },
-          "Username": {
-            "type": "string",
-            "format": "email",
-            "description": "Username for the supplier contact,if not provided the email address will be used",
-            "example": "joe-bloggs@acme.com"
-          },
-          "Email": {
-            "type": "string",
-            "format": "email",
-            "description": "Business email address for the contact",
-            "example": "joe-bloggs@acme.com"
-          }
-        }
-      },
-      "AdditionalProperties": {
-        "required": [
-          "PropertyId",
-          "PropertyValue"
-        ],
-        "properties": {
-          "PropertyId": {
-            "type": "string",
-            "description": "Name of the custom property",
-            "example": "AttributeX"
-          },
-          "PropertyValue": {
-            "type": "string",
-            "description": "Value of the custom property",
-            "example": 123456789
-          }
-        }
-      },
-      "AdditionalPropertiesMultiValue": {
-        "required": [
-          "PropertyId",
-          "PropertyValues"
-        ],
-        "properties": {
-          "PropertyId": {
-            "type": "string",
-            "description": "Name of the custom property",
-            "example": "BespokeAdditionPropertyX"
-          },
-          "PropertyValue": {
-            "type": "array",
-            "description": "Mulitple values",
-            "example": "Material Group,(4641) Willville Solar Limited"
-          }
-        }
-      },
-      "TagContainer": {
-        "required": [
-          "Tags"
-        ],
-        "properties": {
-          "Tags": {
-            "type": "array",
-            "description": "Name of the cateogory",
-            "example": "Mechanical,Engineering"
-          }
-        }
-      },
-      "TradingPartner": {
-        "required": [
-          "PartnerID",
-          "PartnerName"
-        ],
-        "properties": {
-          "PartnerID": {
-            "type": "string",
-            "description": "Medius code assigned to the trading relationship entity",
-            "example": "Org_001"
-          },
-          "PartnerName": {
-            "type": "string",
-            "description": "Name of the trading partner in Medius",
-            "example": "Organisation"
-          }
-        }
-      },
-      "Contract": {
-        "xml": {
-          "name": "Contract",
-          "wrapped": false
-        },
-        "required": [
-          "ContractRefereceNumber"
-        ],
-        "properties": {
-          "EntityId": {
-            "type": "string",
-            "description": "Name of the entity.",
-            "example": "Company X"
-          },
-          "VendorEntityID": {
-            "type": "string",
-            "description": "Name of the supplier",
-            "example": "Paddy Ltd"
-          },
-          "ContractReferenceNumber": {
-            "type": "string",
-            "description": "Medius contract number",
-            "example": "C00861"
-          },
-          "Title": {
-            "type": "string",
-            "description": "Contract Title",
-            "example": "Furniture Paddy 2022"
-          },
-          "Description": {
-            "type": "string",
-            "description": "Description of the contract",
-            "example": "This is a test contract"
-          },
-          "OwnerId": {
-            "type": "string",
-            "description": "Owner of the contract",
-            "example": "Gareth Mawdesley"
-          },
-          "LegalContactId": {
-            "type": "string",
-            "description": "Legal contact of the contract",
-            "example": "Gareth Mawdesley"
-          },
-          "EstimatedContractValue": {
-            "type": "string",
-            "description": "Estimated contract value",
-            "example": 500.34
-          },
-          "CurrencyId": {
-            "type": "string",
-            "description": "ISO list of currency",
-            "example": "GBP"
-          },
-          "StartDate": {
-            "type": "string",
-            "description": "Start date of the contract",
-            "example": {}
-          },
-          "EffectiveDate": {
-            "type": "string",
-            "description": "Effective date of the contract",
-            "example": {}
-          },
-          "EndDate": {
-            "type": "string",
-            "description": "End date of the contract",
-            "example": {}
-          },
-          "ReviewDate": {
-            "type": "string",
-            "description": "Review date of the contract",
-            "example": {}
-          },
-          "Created": {
-            "type": "string",
-            "description": "Date the contract was initially created",
-            "example": {}
-          },
-          "Modified": {
-            "type": "string",
-            "description": "Date the contract was modified",
-            "example": {}
-          },
-          "TagContainer": {
-            "type": "array",
-            "xml": {
-              "name": "TagContainer",
-              "wrapped": false
-            },
-            "description": "Categories listed against the contract",
-            "items": {
-              "$ref": "#/components/schemas/TagContainer"
-            }
-          },
-          "SourcingEventName": {
-            "type": "string",
-            "description": "If the contract was created from a sourcing event, the sourcing reference will be populated",
-            "example": "RFI_001"
-          },
-          "NoticePeriodValue": {
-            "type": "integer",
-            "description": "Used with NoticePeriodUnit to state when the notice period is hit",
-            "example": 5
-          },
-          "NoticePeriodUnit": {
-            "type": "string",
-            "description": "Used with NoticePeriodValue to state when the notice period is hit. Will be one of Days, Months, Years",
-            "example": "Days"
-          },
-          "AutoExtensionDurationType": {
-            "type": "string",
-            "description": "Determines the type of auto extension. Will be one of NoExtension, AutoExtensionFull, AutoExtensionMonthly",
-            "example": "AutoExtensionMonthly"
-          },
-          "AutoExtensionDurationInMonths": {
-            "type": "integer",
-            "description": "Used when AutoExtensionDurationType is set to AutoExtensionMonthly to determine how many months the duration will increase by when the contract auto extensions",
-            "example": 5
-          },
-          "ContractDurationInMonths": {
-            "type": "integer",
-            "description": "The duration of the contract from its Effective date to its End Date. If the contract is Evergreen then this will be the duration from the EffectiveDate to the current date",
-            "example": 5
-          },
-          "NoticeDate": {
-            "type": "string",
-            "description": "Notice date of the contract",
-            "example": {}
-          },
-          "Suspended": {
-            "type": "boolean",
-            "description": "Flag to indicate the contract has been set in to a suspended state by a user of the application",
-            "example": false
-          },
-          "TerminationDate": {
-            "type": "string",
-            "description": "The date on which the contract will become terminated. This is used when the contract needs to end prior to it's normal End Date",
-            "example": {}
-          },
-          "TerminationReference": {
-            "type": "string",
-            "description": "Optional reference field for when a contract is being terminated",
-            "example": "Contract expired"
-          },
-          "PendingTermination": {
-            "type": "boolean",
-            "description": "A true/false flag indicating the contract has been set to terminate early, on the Termination Date",
-            "example": true
-          },
-          "ContractStatus": {
-            "type": "string",
-            "description": "Status of the contract, can be the following values InitialCreation,WaitingApproval,Approved,FailedApproval,Activated,FailedActivation,Effective,Expired,Terminated,Archived",
-            "example": "Effective"
-          },
-          "LastMediusUpdate": {
-            "type": "string",
-            "description": "Date/Time the contract was last updated in Medius",
-            "example": "10/12/2020 11:57:05"
-          },
-          "AdditionalProperties": {
-            "type": "array",
-            "xml": {
-              "name": "AdditionalProperties",
-              "wrapped": false
-            },
-            "description": "Custom fields linked to Medius (Key/Value)",
-            "items": {
-              "$ref": "#/components/schemas/AdditionalProperties"
-            }
-          }
-        }
-      },
-      "ContractUpdate": {
-        "type": "array",
-        "xml": {
-          "name": "ContractUpdate",
-          "wrapped": false
-        },
-        "items": {
-          "$ref": "#/components/schemas/Fields"
-        }
-      },
-      "Fields": {
-        "xml": {
-          "name": "Items",
-          "wrapped": false
-        },
-        "properties": {
-          "ContractNumber": {
-            "type": "string",
-            "description": "Unique Id of the contract in medius.",
-            "example": "C00314"
-          },
-          "ContractSpendToDate": {
-            "type": "string",
-            "description": "Contract spend.",
-            "example": 638664.9
-          }
-        }
-      },
-      "Error": {
-        "required": [
-          "Type"
-        ],
-        "properties": {
-          "Type": {
-            "type": "string",
-            "format": "url",
-            "description": "Error type identifier, cannonical reference for implemenors and recipients, providing detailed description of the error and corrective actions if possible",
-            "example": "https://{tenant}.medius-s2c.com/S2C/api-errors/"
-          },
-          "Status": {
-            "type": "integer",
-            "description": "HTTP status code returned with this error",
-            "example": 401
-          },
-          "Title": {
-            "type": "string",
-            "description": "Human readable short description of the error, more details available from 'type' url",
-            "example": "API key is missing or invalid"
-          },
-          "Instance": {
-            "type": "string",
-            "description": "Specific error instance identifier, useful for API implementors to investigate an error",
-            "example": "07c8c057-89ae-45a1-98b3-2fcb92725289"
-          }
-        }
-      }
-    }
-  }
-}
+                    
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ContractUpdate'
+            examples:
+              ContractUpdate:
+                value: |-
+                  <?xml version="1.0" encoding="UTF-8" ?>
+                  <root>
+                    <AdditionalProperties>
+                      <PropertyId>EstimatedContractValue</PropertyId>
+                      <PropertyValue>Bespoke value</PropertyValue>
+                    </AdditionalProperties>
+                    <AdditionalProperties>
+                      <PropertyId>SAPIntegrationStatus</PropertyId>
+                      <PropertyValue>Success</PropertyValue>
+                    </AdditionalProperties>
+                  </root>
+      responses:
+        '200':
+          description: Contract details document
+        default:
+          description: Error response
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - Contracts
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+  schemas:
+    ArrayOfSupplier:
+      type: array
+      xml:
+        name: Supplier
+        wrapped: false
+      items:
+        $ref: '#/components/schemas/MinimalSupplier'
+    MinimalSupplier:
+      xml:
+        name: Supplier
+        wrapped: false
+      required:
+        - Name
+      properties:
+        Name:
+          type: string
+          description: Familiar name for supplier
+          example: Acme Inc
+        Code:
+          type: string
+          description: <Tenant> Id , Unique Id of the supplier.
+          example: ED0001
+        SupplierModifiedDate:
+          type: string
+          description: Date/Time the supplier was last modified.
+          example: 05/05/2022 11:27:33
+        SupplierApprovalStatus:
+          type: string
+          description: Approval status of the supplier(New,Rejected,Approved).
+          example: New
+    Supplier:
+      xml:
+        name: Supplier
+        wrapped: false
+      required:
+        - Name
+      properties:
+        Name:
+          type: string
+          description: Familiar name for supplier
+          example: Acme Inc
+        Code:
+          type: string
+          description: <Tenant> Id , Unique Id of the supplier.
+          example: ED0001
+        Active:
+          type: string
+          description: Is the supplier active
+          example: true
+        Description:
+          type: string
+          description: Description of the supplier
+          example: Business in IT
+        SupplierNumber:
+          type: string
+          description: Registered Company Number
+          example: '4220636'
+        EmailAddress:
+          type: string
+          description: Email Address
+          example: helpdesk@acme.com
+        SupplierApprovalStatus:
+          type: string
+          description: Supplier approval status mapped in medius, values to use are "approved","New","rejected"
+          example: approved
+        SupplierWebsite:
+          type: string
+          description: Suplier website
+          example: www.acme.com
+        TaxRegistrationNumber:
+          type: string
+          description: Tax registration number or supplier number
+          example: 123456789
+        Telephone:
+          type: string
+          description: Telephone Number
+          example: 2254664858
+        Mobile:
+          type: string
+          description: Mobile Number
+          example: 7897895895
+        Fax:
+          type: string
+          description: Fax
+          example: 44565689562
+        AddressLine1:
+          type: string
+          description: Address Line 1
+          example: P.O. Box 784
+        AddressLine2:
+          type: string
+          description: Address Line 2
+          example: 2018 Laoreet Av
+        AddressLine3:
+          type: string
+          description: Address Line 3
+          example: Oswestry
+        City:
+          type: string
+          description: City
+          example: Hyde
+        Region:
+          type: string
+          description: Region
+          example: Greater Manchester
+        PostCode:
+          type: string
+          description: PostCode
+          example: SK14 2AX
+        Country:
+          type: string
+          description: Country
+          example: United Kingdom
+        OperatingCountry:
+          type: string
+          description: Operating Country
+          example: United Kingdom
+        Currency:
+          type: string
+          description: 3 Letter Medius currency code
+          example: GBP
+        AdditionalProperties:
+          type: array
+          xml:
+            name: AdditionalProperties
+            wrapped: false
+          description: Custom attributes linked to Medius (Key/Value)
+          items:
+            $ref: '#/components/schemas/AdditionalProperties'
+        AdditionalPropertiesMultiValue:
+          type: array
+          xml:
+            name: AdditionalPropertiesMultiValue
+            wrapped: false
+          description: Custom attributes linked to Medius (Key/Value)
+          items:
+            $ref: '#/components/schemas/AdditionalPropertiesMultiValue'
+        TradingPartners:
+          type: array
+          xml:
+            name: TradingPartners
+            wrapped: false
+          description: Contact list for the organisation
+          items:
+            $ref: '#/components/schemas/TradingPartner'
+        Contacts:
+          type: array
+          xml:
+            name: Contacts
+            wrapped: false
+          description: Contact list for the organisation
+          items:
+            $ref: '#/components/schemas/Contact'
+    Contact:
+      required:
+        - Code
+        - Name
+        - Username
+      properties:
+        Code:
+          type: string
+          description: Unique <Tenant> contact code, if available
+          example: ED0001_1
+        Name:
+          type: string
+          description: Common name of the contact
+          example: Fred Bloggs
+        Username:
+          type: string
+          format: email
+          description: Username for the supplier contact,if not provided the email address will be used
+          example: joe-bloggs@acme.com
+        Email:
+          type: string
+          format: email
+          description: Business email address for the contact
+          example: joe-bloggs@acme.com
+    AdditionalProperties:
+      required:
+        - PropertyId
+        - PropertyValue
+      properties:
+        PropertyId:
+          type: string
+          description: Name of the custom property
+          example: AttributeX
+        PropertyValue:
+          type: string
+          description: Value of the custom property
+          example: 123456789
+    AdditionalPropertiesMultiValue:
+      required:
+        - PropertyId
+        - PropertyValues
+      properties:
+        PropertyId:
+          type: string
+          description: Name of the custom property
+          example: BespokeAdditionPropertyX
+        PropertyValue:
+          type: array
+          description: Mulitple values
+          example: Material Group,(4641) Willville Solar Limited
+    TagContainer:
+      required:
+        - Tags
+      properties:
+        Tags:
+          type: array
+          description: Name of the cateogory
+          example: Mechanical,Engineering
+    TradingPartner:
+      required:
+        - PartnerID
+        - PartnerName
+      properties:
+        PartnerID:
+          type: string
+          description: Medius code assigned to the trading relationship entity
+          example: Org_001
+        PartnerName:
+          type: string
+          description: Name of the trading partner in Medius
+          example: Organisation
+    Contract:
+      xml:
+        name: Contract
+        wrapped: false
+      required:
+        - ContractRefereceNumber
+      properties:
+        EntityId:
+          type: string
+          description: Name of the entity.
+          example: Company X
+        VendorEntityID:
+          type: string
+          description: Name of the supplier
+          example: Paddy Ltd
+        ContractReferenceNumber:
+          type: string
+          description: Medius contract number
+          example: C00861
+        Title:
+          type: string
+          description: Contract Title
+          example: Furniture Paddy 2022
+        Description:
+          type: string
+          description: Description of the contract
+          example: This is a test contract
+        OwnerId:
+          type: string
+          description: Owner of the contract
+          example: Gareth Mawdesley
+        LegalContactId:
+          type: string
+          description: Legal contact of the contract
+          example: Gareth Mawdesley
+        EstimatedContractValue:
+          type: string
+          description: Estimated contract value
+          example: 500.34
+        CurrencyId:
+          type: string
+          description: ISO list of currency
+          example: GBP
+        StartDate:
+          type: string
+          description: Start date of the contract
+          example: {}
+        EffectiveDate:
+          type: string
+          description: Effective date of the contract
+          example: {}
+        EndDate:
+          type: string
+          description: End date of the contract
+          example: {}
+        ReviewDate:
+          type: string
+          description: Review date of the contract
+          example: {}
+        Created:
+          type: string
+          description: Date the contract was initially created
+          example: {}
+        Modified:
+          type: string
+          description: Date the contract was modified
+          example: {}
+        TagContainer:
+          type: array
+          xml:
+            name: TagContainer
+            wrapped: false
+          description: Categories listed against the contract
+          items:
+            $ref: '#/components/schemas/TagContainer'
+        SourcingEventName:
+          type: string
+          description: If the contract was created from a sourcing event, the sourcing reference will be populated
+          example: RFI_001
+        NoticePeriodValue:
+          type: integer
+          description: Used with NoticePeriodUnit to state when the notice period is hit
+          example: 5
+        NoticePeriodUnit:
+          type: string
+          description: Used with NoticePeriodValue to state when the notice period is hit. Will be one of Days, Months, Years
+          example: Days
+        AutoExtensionDurationType:
+          type: string
+          description: Determines the type of auto extension. Will be one of NoExtension, AutoExtensionFull, AutoExtensionMonthly
+          example: AutoExtensionMonthly
+        AutoExtensionDurationInMonths:
+          type: integer
+          description: Used when AutoExtensionDurationType is set to AutoExtensionMonthly to determine how many months the duration will increase by when the contract auto extensions
+          example: 5
+        ContractDurationInMonths:
+          type: integer
+          description: The duration of the contract from its Effective date to its End Date. If the contract is Evergreen then this will be the duration from the EffectiveDate to the current date
+          example: 5
+        NoticeDate:
+          type: string
+          description: Notice date of the contract
+          example: {}
+        Suspended:
+          type: boolean
+          description: Flag to indicate the contract has been set in to a suspended state by a user of the application
+          example: false
+        TerminationDate:
+          type: string
+          description: The date on which the contract will become terminated. This is used when the contract needs to end prior to it's normal End Date
+          example: {}
+        TerminationReference:
+          type: string
+          description: Optional reference field for when a contract is being terminated
+          example: Contract expired
+        PendingTermination:
+          type: boolean
+          description: A true/false flag indicating the contract has been set to terminate early, on the Termination Date
+          example: true
+        ContractStatus:
+          type: string
+          description: Status of the contract, can be the following values InitialCreation,WaitingApproval,Approved,FailedApproval,Activated,FailedActivation,Effective,Expired,Terminated,Archived
+          example: Effective
+        LastMediusUpdate:
+          type: string
+          description: Date/Time the contract was last updated in Medius
+          example: 10/12/2020 11:57:05
+        AdditionalProperties:
+          type: array
+          xml:
+            name: AdditionalProperties
+            wrapped: false
+          description: Custom fields linked to Medius (Key/Value)
+          items:
+            $ref: '#/components/schemas/AdditionalProperties'
+    ContractUpdate:
+      type: array
+      xml:
+        name: ContractUpdate
+        wrapped: false
+      items:
+        $ref: '#/components/schemas/Fields'
+    Fields:
+      xml:
+        name: Items
+        wrapped: false
+      properties:
+        ContractNumber:
+          type: string
+          description: Unique Id of the contract in medius.
+          example: C00314
+        ContractSpendToDate:
+          type: string
+          description: Contract spend.
+          example: 638664.9
+    Error:
+      required:
+        - Type
+      properties:
+        Type:
+          type: string
+          format: url
+          description: Error type identifier, cannonical reference for implemenors and recipients, providing detailed description of the error and corrective actions if possible
+          example: https://{tenant}.medius-s2c.com/S2C/api-errors/
+        Status:
+          type: integer
+          description: HTTP status code returned with this error
+          example: 401
+        Title:
+          type: string
+          description: Human readable short description of the error, more details available from 'type' url
+          example: API key is missing or invalid
+        Instance:
+          type: string
+          description: Specific error instance identifier, useful for API implementors to investigate an error
+          example: 07c8c057-89ae-45a1-98b3-2fcb92725289
