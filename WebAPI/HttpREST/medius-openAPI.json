@@ -4630,6 +4630,65 @@
         }
       }
     },
+    "/integration/masterdata/v1/supplierPaymentMethods": {
+      "get": {
+        "tags": [
+          "Master data - export"
+        ],
+        "description": "When calling this endpoint a list of suppliers will be returned.\nThere exists one filter parameter to this request, that is updatedSince, it filters out suppliers that have been changed since\nthe updatedSince time stamp.\nIt's possible adjust page sizes and offsets.",
+        "operationId": "SupplierExport_paymentMethods_Get",
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The offset",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": false,
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of records returned(max 1000).",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": false,
+              "default": 1000
+            }
+          },
+          {
+            "name": "updatedSince",
+            "in": "query",
+            "description": "Tells the service that we only want suppliers that have been changed after this date and time.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentMethodsDto"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentMethodsDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/integration/masterdata/v1/supplierImportBatches": {
       "post": {
         "tags": [
@@ -16685,6 +16744,62 @@
         },
         "xml": {
           "name": "PaymentDetails"
+        }
+      },
+      "PaymentMethodsDto": {
+        "type": "object",
+        "properties": {
+          "supplierId": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "The supplier id which is connected to the payment method.",
+            "example": "SUPPLIER_1",
+            "xml": {
+              "name": "SupplierId"
+            }
+          },
+          "remitToId": {
+            "type": "string",
+            "maxLenght": 50,
+            "description": "Identifier for a remittance number or name for a payee.",
+            "example": "345123R",
+            "xml": {
+              "name": "RemitToId"
+            }
+          },
+          "companyId": {
+            "type": "string",
+            "maxLenght": 100,
+            "description": "The company id which is connected to the payment method.",
+            "example": "COMPANY_1",
+            "xml": {
+              "name": "CompanyId"
+            }
+          },
+          "paymentMethods": {
+            "type": "array",
+            "xml": {
+              "wrapped": true,
+              "name": "PaymentMethods"
+            },
+            "items": {
+              "type": "string",
+              "maxLength": 50,
+              "description": "The payment method. Available values listed below.",
+              "example": "MasterCard",
+              "xml": {
+                "name": "PaymentMethod",
+                "wrapped": true
+              },
+              "enum": [
+                "MasterCard",
+                "ACH",
+                "PrintCheck",
+                "Wire",
+                "WireTransfer"
+              ]
+            }
+          }
         }
       },
       "IntegrationSupplierDto": {
