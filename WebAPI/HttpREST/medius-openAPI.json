@@ -16760,7 +16760,7 @@
           },
           "remitToId": {
             "type": "string",
-            "maxLenght": 50,
+            "maxLength": 50,
             "description": "Identifier for a remittance number or name for a payee.",
             "example": "345123R",
             "xml": {
@@ -16769,7 +16769,7 @@
           },
           "companyId": {
             "type": "string",
-            "maxLenght": 100,
+            "maxLength": 100,
             "description": "The company id which is connected to the payment method.",
             "example": "COMPANY_1",
             "xml": {
