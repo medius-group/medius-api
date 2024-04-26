@@ -16770,7 +16770,7 @@
           "companyId": {
             "type": "string",
             "maxLength": 100,
-            "description": "The company id which is connected to the payment method.",
+            "description": "The company id the supplier is connected with.",
             "example": "COMPANY_1",
             "xml": {
               "name": "CompanyId"
