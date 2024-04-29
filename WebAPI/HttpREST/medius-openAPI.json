@@ -4664,6 +4664,7 @@
             "name": "updatedSince",
             "in": "query",
             "description": "Tells the service that we only want suppliers that have been changed after this date and time.",
+            "required": true,
             "schema": {
               "type": "string",
               "nullable": true
