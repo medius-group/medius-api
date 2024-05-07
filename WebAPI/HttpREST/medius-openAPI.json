@@ -17431,6 +17431,17 @@
             "items": {
               "$ref": "#/components/schemas/IntegrationPaymentDetailsDto"
             }
+          },
+          "externalSystemMetadata": {
+            "type": "array",
+            "description": "ExternalSystemMetadata is a custom property that allows you to transfer data between systems. ExternalSystemMetadata is not accessible from the GUI, but is rather used for information or identifiers that need to be passed through Medius.",
+            "xml": {
+              "name": "ExternalSystemMetadata",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/ExternalSystemMetadataEntry"
+            }
           }
         },
         "xml": {
@@ -18743,6 +18754,17 @@
             },
             "items": {
               "$ref": "#/components/schemas/IntegrationSupplierIdentifierDto"
+            }
+          },
+          "supplierExternalSystemMetadata": {
+            "type": "array",
+            "description": "ExternalSystemMetadata is a custom property that allows you to transfer data between systems. ExternalSystemMetadata is not accessible from the GUI, but is rather used for information or identifiers that need to be passed through Medius.",
+            "xml": {
+              "name": "SupplierExternalSystemMetadata",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/ExternalSystemMetadataEntry"
             }
           },
           "supplierName": {
