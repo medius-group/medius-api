@@ -36,7 +36,7 @@
       "description": "Import of supplier invoices from external source."
     },
     {
-      "name": "Procurement: Purchase order document import",
+      "name": "Procurement: Purchase order import",
       "description": "Import of purchase order documents"
     },
     {
@@ -6990,7 +6990,7 @@
     "/integration/documentImport/v1/PurchaseOrderDocument": {
       "post": {
         "tags": [
-          "Procurement: Purchase order document import"
+          "Procurement: Purchase order import"
         ],
         "description": "The POST method allows the client to send a purchase order document that will be imported to Medius Procurement.\nThe import do look-ups for referenced master data entities, and you will get response with success or failure.",
         "operationId": "PurchaseOrderDocument_Post",
@@ -7017,16 +7017,16 @@
         "x-codegen-request-body-name": "purchaseorders"
       }
     },
-    "/integration/documentImport/v1/PurchaseOrderDocument/{viewId}": {
+    "/integration/documentImport/v1/PurchaseOrderDocument/{importTrackingId}": {
       "get": {
         "tags": [
-          "Procurement: Purchase order document import"
+          "Procurement: Purchase order import"
         ],
-        "description": "This method returns the supplier record with all details available. To find a supplier message, use the GET method without {correlationId}.",
+        "description": "This method returns the purchase order document record with a status. You get the `importTrackingId` in the header of the POST API.",
         "operationId": "PurchaseOrderDocument_Get",
         "parameters": [
           {
-            "name": "viewId",
+            "name": "importTrackingId",
             "in": "path",
             "required": true,
             "schema": {
@@ -24791,7 +24791,7 @@
           "status": {
             "type": "string"
           },
-          "purchaseOrderDocumentViewId": {
+          "poDocumentImportTrackingId": {
             "type": "string"
           }
         }
