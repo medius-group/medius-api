@@ -8,7 +8,7 @@
   },
   "externalDocs": {
     "description": "Find out more information in the success portal",
-    "url": "https://success.mediusflow.com/documentation/integration-documentation/technical/rest/general/"
+    "url": "https://success.mediusflow.com/documentation/integration-documentation/"
   },
   "tags": [
     {
@@ -17547,6 +17547,17 @@
             "items": {
               "$ref": "#/components/schemas/IntegrationPaymentDetailsDto"
             }
+          },
+          "externalSystemMetadata": {
+            "type": "array",
+            "description": "ExternalSystemMetadata is a custom property that allows you to transfer data between systems. ExternalSystemMetadata is not accessible from the GUI, but is rather used for information or identifiers that need to be passed through Medius.",
+            "xml": {
+              "name": "ExternalSystemMetadata",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/ExternalSystemMetadataEntry"
+            }
           }
         },
         "xml": {
@@ -18859,6 +18870,17 @@
             },
             "items": {
               "$ref": "#/components/schemas/IntegrationSupplierIdentifierDto"
+            }
+          },
+          "supplierExternalSystemMetadata": {
+            "type": "array",
+            "description": "ExternalSystemMetadata is a custom property that allows you to transfer data between systems. ExternalSystemMetadata is not accessible from the GUI, but is rather used for information or identifiers that need to be passed through Medius.",
+            "xml": {
+              "name": "SupplierExternalSystemMetadata",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/ExternalSystemMetadataEntry"
             }
           },
           "supplierName": {
@@ -24525,6 +24547,38 @@
         },
         "additionalProperties": false
       }
+    },
+    "securitySchemes": {
+      "mediusflowcloudauth": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://login.medius.com/{tenant}/oauth/authorize",
+            "scopes": {
+              "Integration": "Access all integration related services",
+              "Integration.Erp": "Access all Messages and Master data related services",
+              "Integration.DocumentImport": "Access document import service",
+              "Integration.Export": "Access to companies and suppliers export services",
+              "openid": "Access to UserInfo endpoint and openid tokens",
+              "Integration.Pay.PaymentBatchImport": "Access payment related services",
+              "Integration.SupplierManagement": "Access to supplier synchronization with ERP related services"
+            }
+          }
+        }
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "mediusflowcloudauth": [
+        "Integration",
+        "Integration.Erp",
+        "Integration.DocumentImport",
+        "Integration.Export",
+        "openid",
+        "Integration.Pay.PaymentBatchImport",
+        "Integration.SupplierManagement"
+      ]
+    }
+  ]
 }
