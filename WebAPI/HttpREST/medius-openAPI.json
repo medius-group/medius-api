@@ -8880,6 +8880,14 @@
             "items": {
               "$ref": "#/components/schemas/IntegrationCompanyIdentifierDto"
             }
+          },
+          "countryCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "The company country of origin. Can be used to track local regulations and data storage requirements. Format: ISO 3166-1 alpha 2, two-letter country code.",
+            "xml": {
+              "name": "CountryCode"
+            }
           }
         },
         "xml": {
@@ -19209,6 +19217,14 @@
             "xml": {
               "name": "VatDate"
             }
+          },
+          "eInvoiceTrackingId": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "A tracking id for e-invoices for reporting and control.",
+            "xml": {
+              "name": "EInvoiceTrackingId"
+            }
           }
         },
         "xml": {
@@ -22073,6 +22089,14 @@
               "CONTRACT_BASED",
               "PAYMENT_REQUEST"
             ]
+          },
+          "eInvoiceTrackingId": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "A tracking id for e-invoices for reporting and control.",
+            "xml": {
+              "name": "EInvoiceTrackingId"
+            }
           },
           "companyIdentifiers": {
             "type": "array",
