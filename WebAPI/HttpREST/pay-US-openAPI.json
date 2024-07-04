@@ -464,14 +464,6 @@
             "xml": {
               "name": "DiscountCurrencyCode"
             }
-          },
-          "urgentPayment": {
-            "type": "boolean",
-            "description": "FedEx payment for checks, same day payment for electronic payment methods. If not provided the default value is set to false.",
-            "example": true,
-            "xml": {
-              "name": "UrgentPayment"
-            }
           }
         },
         "xml": {
