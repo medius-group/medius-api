@@ -13254,7 +13254,7 @@
           },
           "conversionFactor": {
             "type": "number",
-            "description": "Conversion factor for unit price and quantity. Default is 1. Decimal format (19,5)",
+            "description": "Function not available due to legacy reason. Set ``conversionFactor`` to 1.000 and use the UoM from the PO origin.",
             "format": "decimal",
             "xml": {
               "name": "ConversionFactor"
@@ -13303,7 +13303,7 @@
           "unit": {
             "maxLength": 100,
             "type": "string",
-            "description": "ExternalSystemId to corresponding entity",
+            "description": "ExternalSystemId to corresponding entity. Most common is to set to dash ``-`` which already is available in APA.",
             "xml": {
               "name": "Unit"
             }
@@ -13647,7 +13647,7 @@
           },
           "conversionFactor": {
             "type": "number",
-            "description": "Conversion factor for unit price and quantity. Default is 1. Decimal format (19,5)",
+            "description": "Function not available due to legacy reason. Set ``conversionFactor`` to 1.000 and use the UoM from the PO origin.",
             "format": "decimal",
             "xml": {
               "name": "ConversionFactor"
@@ -13696,7 +13696,7 @@
           "unit": {
             "maxLength": 100,
             "type": "string",
-            "description": "ExternalSystemId to corresponding entity",
+            "description": "ExternalSystemId to corresponding entity. Most common is to set to dash ``-`` which already is available in APA.",
             "xml": {
               "name": "Unit"
             }
