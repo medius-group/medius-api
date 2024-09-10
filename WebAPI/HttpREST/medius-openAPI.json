@@ -6787,6 +6787,16 @@
         "operationId": "GetCorrelations",
         "parameters": [
           {
+            "name": "erp",
+            "in": "query",
+            "description": "ERP Id",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nuallable": false
+            }
+          },
+          {
             "name": "offset",
             "in": "query",
             "schema": {
@@ -6853,45 +6863,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Server Error"
-          }
-        }
-      }
-    },
-    "/integration/message/v1/suppliers/{correlationId}/status/{status}": {
-      "put": {
-        "tags": [
-          "Supplier Onboarding: Suppliers synchronization"
-        ],
-        "description": "Update the status of an integration",
-        "operationId": "UpdateIntegrationStatus",
-        "parameters": [
-          {
-            "name": "correlationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "status",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/SupplierIntegrationStatus"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
           },
           "400": {
             "description": "Bad Request"
@@ -24213,6 +24184,14 @@
             "type": "string",
             "nullable": true
           },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "stateCode": {
+            "type": "string",
+            "nullable": true
+          },
           "country": {
             "type": "string",
             "nullable": true
@@ -24277,6 +24256,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/SupplierIntegrationAddressBookDto"
+            },
+            "nullable": true
+          },
+          "companyRelationships": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompanyRelationshipsDto"
             },
             "nullable": true
           },
@@ -24355,7 +24341,7 @@
       "SupplierIntegrationAddressBookDto": {
         "type": "object",
         "properties": {
-          "active": {
+          "isActive": {
             "type": "boolean"
           },
           "legalEntityName": {
@@ -24390,6 +24376,18 @@
             "type": "string",
             "nullable": true
           },
+          "postCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "stateCode": {
+            "type": "string",
+            "nullable": true
+          },
           "country": {
             "type": "string",
             "nullable": true
@@ -24403,6 +24401,48 @@
             "nullable": true
           },
           "countryCodeNumeric": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompanyRelationshipsDto": {
+        "type": "object",
+        "properties": {
+          "companyId": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalSupplierId": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentTerms": {
+            "type": "string",
+            "nullable": true
+          },
+          "currency": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxIndicator1": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxIndicator2": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxRegistrationNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxIdType": {
             "type": "string",
             "nullable": true
           }
@@ -24445,6 +24485,27 @@
           "supplierId": {
             "type": "string",
             "nullable": true
+          },
+          "companyRelationships": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompanyRelationshipPairDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompanyRelationshipPairDto": {
+        "type": "object",
+        "properties": {
+          "supplierId": {
+            "type": "string",
+            "nullable": false
+          },
+          "companyId": {
+            "type": "string",
+            "nullable": false
           }
         },
         "additionalProperties": false
