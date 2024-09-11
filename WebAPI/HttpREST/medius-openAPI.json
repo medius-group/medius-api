@@ -6793,7 +6793,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "nuallable": false
+              "nullable": false
             }
           },
           {
