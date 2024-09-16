@@ -7664,7 +7664,11 @@
           156,
           157,
           158,
-          159
+          159,
+          160,
+          161,
+          162,
+          163
         ],
         "x-enumNames": [
           "UNKNOWN",
@@ -7826,7 +7830,11 @@
           "AUTHORIZATION_GROUP_CREDITLIMIT_MUST_BE_NEGATIVE",
           "AUTHORIZATION_GROUP_DEBITLIMIT_MUST_BE_POSITIVE",
           "DIMENSION_ALREADY_EXIST",
-          "ISSUE_WITH_SAVING_ITEM_TRANSIENT_ERROR_DETECTED"
+          "ISSUE_WITH_SAVING_ITEM_TRANSIENT_ERROR_DETECTED",
+          "SUPPLIER_MANAGEMENT_FIELD_VALIDATION_ERROR",
+          "PAYMENT_DETAILS_INVALID_COUNTRY_CODE",
+          "PAYMENT_DETAILS_INVALID_STATE_CODE",
+          "COMPANY_INVALID_COUNTRY_CODE"
         ]
       },
       "ActualPaymentDateResponseDto": {
@@ -19601,6 +19609,14 @@
             "format": "int32",
             "xml": {
               "name": "CodingLineNumber"
+            }
+          },
+          "parentCodingLineNumber": {
+            "type": "integer",
+            "description": "When non-deductible tax is used and APA creates an additional coding line based on the configuration, the parent coding line can be found through `parentCodingLineNumber`.",
+            "format": "int32",
+            "xml": {
+              "name": "ParentCodingLineNumber"
             }
           },
           "taxIndicator1": {
