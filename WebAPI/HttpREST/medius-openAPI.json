@@ -19616,7 +19616,7 @@
             "description": "When non-deductible tax is used and APA creates an additional coding line based on the configuration, the parent coding line can be found through `parentCodingLineNumber`.",
             "format": "int32",
             "xml": {
-              "name": "CodingLineNumber"
+              "name": "ParentCodingLineNumber"
             }
           },
           "taxIndicator1": {
