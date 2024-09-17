@@ -13849,6 +13849,19 @@
               "name": "OrderNumber"
             }
           },
+          "revisionNumber": {
+            "type": "string",
+            "xml": {
+              "name": "RevisionNumber"
+            }
+          },
+          "revisionCreatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "xml": {
+              "name": "RevisionCreatedDate"
+            }
+          },
           "requisitionId": {
             "type": "string",
             "xml": {
@@ -14510,6 +14523,19 @@
               "name": "ExternalOrderNumber"
             }
           },
+          "revisionNumber": {
+            "type": "string",
+            "xml": {
+              "name": "RevisionNumber"
+            }
+          },
+          "revisionCreatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "xml": {
+              "name": "RevisionCreatedDate"
+            }
+          },
           "requisitionId": {
             "type": "string",
             "xml": {
@@ -14764,6 +14790,19 @@
             "type": "string",
             "xml": {
               "name": "ExternalOrderNumber"
+            }
+          },
+          "revisionNumber": {
+            "type": "string",
+            "xml": {
+              "name": "RevisionNumber"
+            }
+          },
+          "revisionCreatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "xml": {
+              "name": "RevisionCreatedDate"
             }
           },
           "requisitionId": {
