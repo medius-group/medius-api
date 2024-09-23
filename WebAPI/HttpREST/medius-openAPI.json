@@ -16280,9 +16280,17 @@
         "properties": {
           "type": {
             "type": "string",
+            "description": "The following types exist:\n\n**Required** the value of the selected dimension on the document must be set according to the Value column.\n\n**Forbidden** the value of the selected dimension on the document cannot be set to values specified in the Value column.\n\n**Optional** the value of the selected dimension on the document can be empty or set according to the Value column. If the Value column is set to empty value, only empty value is permitted.\n\n**Fixed** the value of the selected dimension on the document will be automatically set according to the Value column. Users will not be able to change it.\n\n**Default** the value of the selected dimension on the document will be automatically set according to the Value column. Users will be able to change it.",
             "xml": {
               "name": "Type"
-            }
+            },
+            "enum": [
+              "Required",
+              "Forbidden",
+              "Optional",
+              "Fixed",
+              "Default"
+            ]
           },
           "dimensionValues": {
             "$ref": "#/components/schemas/DimensionValueDto"
