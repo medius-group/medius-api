@@ -4270,7 +4270,7 @@
                     }
                   }
                 },
-                "EU-example": {
+                "GoodsReceipt-example": {
                   "value": {
                     "correlationKey": "TC1;MF-549",
                     "purchaseOrderConfirmation": {
