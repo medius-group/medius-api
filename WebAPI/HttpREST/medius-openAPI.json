@@ -4226,13 +4226,21 @@
         "tags": [
           "Procurement: Purchase orders and receipts"
         ],
-        "description": "This method accepts a purchase-order-to-ERP confirmation with or without the goods-receipt-note part\nas a response to either the purchase-order-to-ERP or the goods-receipt-note confirmation or cancellation message, that was retrieved in the earlier step.\nThe confirmation object includes a CorrelationKey that needs to match the corresponding purchase-order-to-ERP or goods-receipt-note message.",
+        "description": "This method accepts a purchase-order-to-ERP confirmation with or without the goods-receipt-note part\n\nas a response to either the purchase-order-to-ERP or the goods-receipt-note confirmation or cancellation message, that was retrieved in the earlier step.\n\nThe confirmation object includes a CorrelationKey that needs to match the corresponding purchase-order-to-ERP or goods-receipt-note message.\n\n**Use one of the schemas below depending if you want to send a purchase order or a goods receipt confirmation.**",
         "operationId": "PurchaseOrderRequestMessage_PostPoToErpOrGrnConfirmation",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PurchaseOrderRequestResponseDto"
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PurchaseOrderRequestResponseDto"
+                  },
+                  {
+                    "$ref": "#/components/schemas/GoodsReceiptNoteRequestResponseDto"
+                  }
+                ]
+                
               }
             },
             "application/xml": {
@@ -15646,6 +15654,7 @@
       },
       "PurchaseOrderRequestResponseDto": {
         "type": "object",
+        "description": "Use this schema when you want to post a purchase order confirmation.",
         "properties": {
           "correlationKey": {
             "type": "string",
@@ -15655,6 +15664,24 @@
           },
           "purchaseOrderConfirmation": {
             "$ref": "#/components/schemas/PurchaseOrderConfirmationDto"
+          }
+        },
+        "xml": {
+          "name": "PurchaseOrderResponse"
+        }
+      },
+      "GoodsReceiptNoteRequestResponseDto": {
+        "type": "object",
+        "description": "Use this schema when you want to send a goods receipt confirmation.",
+        "properties": {
+          "correlationKey": {
+            "type": "string",
+            "xml": {
+              "name": "CorrelationKey"
+            }
+          },
+          "purchaseOrderConfirmation": {
+            "$ref": "#/components/schemas/PurchaseOrderGRConfirmationDto"
           },
           "goodsReceiptNoteConfirmation": {
             "$ref": "#/components/schemas/GoodsReceiptNoteConfirmationDto"
@@ -15666,6 +15693,11 @@
       },
       "PurchaseOrderConfirmationDto": {
         "type": "object",
+        "required":[
+          "orderNumber",
+          "externalOrderNumber",
+          "lines"
+        ],
         "properties": {
           "orderNumber": {
             "type": "string",
@@ -15705,8 +15737,47 @@
           "name": "PurchaseOrderConfirmation"
         }
       },
+      "PurchaseOrderGRConfirmationDto": {
+        "type": "object",
+        "required":[
+          "orderNumber",
+          "externalOrderNumber"
+        ],
+        "properties": {
+          "orderNumber": {
+            "type": "string",
+            "xml": {
+              "name": "OrderNumber"
+            }
+          },
+          "externalOrderNumber": {
+            "type": "string",
+            "xml": {
+              "name": "ExternalOrderNumber"
+            }
+          },
+          "externalSystemMetadata": {
+            "type": "array",
+            "description": "ExternalSystemMetadata is a custom property that allows you to transfer data between systems. ExternalSystemMetadata is not accessible from the GUI, but is rather used for information or identifiers that need to be passed through Medius.",
+            "xml": {
+              "name": "ExternalSystemMetadata",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/ExternalSystemMetadataEntry"
+            }
+          }
+        },
+        "xml": {
+          "name": "PurchaseOrderConfirmation"
+        }
+      },
       "PurchaseOrderLineConfirmationDto": {
         "type": "object",
+        "required":[
+          "lineNumber",
+          "externalOrderLineNumber"
+        ],
         "properties": {
           "lineNumber": {
             "type": "string",
@@ -15738,6 +15809,11 @@
       },
       "GoodsReceiptNoteConfirmationDto": {
         "type": "object",
+        "required":[
+          "referenceNumber",
+          "externalReferenceNumber",
+          "lines"
+        ],
         "properties": {
           "referenceNumber": {
             "type": "string",
@@ -15768,6 +15844,10 @@
       },
       "GoodsReceiptNoteLineConfirmationDto": {
         "type": "object",
+        "required":[
+          "deliveryNumber",
+          "externalDeliveryNumber"
+        ],
         "properties": {
           "deliveryNumber": {
             "type": "string",
