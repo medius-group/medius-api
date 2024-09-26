@@ -4226,7 +4226,7 @@
         "tags": [
           "Procurement: Purchase orders and receipts"
         ],
-        "description": "This method accepts a purchase-order-to-ERP confirmation with or without the goods-receipt-note part\n\nas a response to either the purchase-order-to-ERP or the goods-receipt-note confirmation or cancellation message, that was retrieved in the earlier step.\n\nThe confirmation object includes a CorrelationKey that needs to match the corresponding purchase-order-to-ERP or goods-receipt-note message.\n\n**Use one of the schemas below depending if you want to send a purchase order or a goods receipt confirmation.**",
+        "description": "This method accepts a purchase-order-to-ERP confirmation with or without the goods-receipt-note part\n\nas a response to either the purchase-order-to-ERP or the goods-receipt-note confirmation or cancellation message, that was retrieved in the earlier step.\n\nThe confirmation object includes a CorrelationKey that needs to match the corresponding purchase-order-to-ERP or goods-receipt-note message.\n\n**Use one of the schemas below depending on whether you want to send a purchase order or a goods receipt confirmation.**",
         "operationId": "PurchaseOrderRequestMessage_PostPoToErpOrGrnConfirmation",
         "requestBody": {
           "content": {
@@ -4241,6 +4241,66 @@
                   }
                 ]
                 
+              },
+              "examples": {
+                "PurchaseOrder-example": {
+                  "value": {
+                    "correlationKey": "MyERP;TC1;TS1;MF-549;2024-09-26",
+                    "purchaseOrderConfirmation": {
+                      "orderNumber": "MF-549",
+                      "externalOrderNumber": "ERP-MF-549",
+                      "externalSystemMetadata": [
+                        {
+                          "name": "string",
+                          "value": "string"
+                        }
+                      ],
+                      "lines": [
+                        {
+                          "lineNumber": "1",
+                          "externalOrderLineNumber": "1001",
+                          "externalSystemMetadata": [
+                            {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                "EU-example": {
+                  "value": {
+                    "correlationKey": "TC1;MF-549",
+                    "purchaseOrderConfirmation": {
+                      "orderNumber": "MF-549",
+                      "externalOrderNumber": "ERP-MF-549",
+                      "externalSystemMetadata": [
+                        {
+                          "name": "string",
+                          "value": "string"
+                        }
+                      ]
+                    },
+                    "goodsReceiptNoteConfirmation": {
+                      "referenceNumber": "GRN-549.1",
+                      "externalReferenceNumber": "ERP-GRN-549.1",
+                      "lines": [
+                        {
+                          "deliveryNumber": "5095367-9d4d-4b4d-b7e3-9654a4e03c0c",
+                          "externalDeliveryNumber": "ERP-GRN-549.1-5000100",
+                          "externalSystemMetadata": [
+                            {
+                              "name": "string",
+                              "value": "string"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
               }
             },
             "application/xml": {
@@ -15654,6 +15714,10 @@
       },
       "PurchaseOrderRequestResponseDto": {
         "type": "object",
+        "required": [
+          "correlationKey",
+          "purchaseOrderConfirmation"
+        ],
         "description": "Use this schema when you want to post a purchase order confirmation.",
         "properties": {
           "correlationKey": {
@@ -15672,6 +15736,11 @@
       },
       "GoodsReceiptNoteRequestResponseDto": {
         "type": "object",
+        "required": [
+          "correlationKey",
+          "purchaseOrderConfirmation",
+          "goodsReceiptConfirmation"
+        ],
         "description": "Use this schema when you want to send a goods receipt confirmation.",
         "properties": {
           "correlationKey": {
