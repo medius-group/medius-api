@@ -36,6 +36,10 @@
       "description": "Import of supplier invoices from external source."
     },
     {
+      "name": "Procurement: Purchase order import",
+      "description": "Import of approved requisitions as purchase order documents"
+    },
+    {
       "name": "Procurement: Send orders to supplier",
       "description": "Send orders to supplier"
     },
@@ -7011,6 +7015,74 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/integration/documentImport/v1/PurchaseOrderDocument": {
+      "post": {
+        "tags": [
+          "Procurement: Purchase order import"
+        ],
+        "description": "The POST method allows the client to send a purchase order document that will be imported to Medius Procurement.\nThe import do look-ups for referenced master data entities, and you will get response with success or failure.",
+        "operationId": "PurchaseOrderDocument_Post",
+        "requestBody": {
+          "description": "Create new PurchaseOrderDocument",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentDto"
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "description": "Response includes Location header with a link to the import batch, this link will give the status of how the batch is processing within Medius",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "purchaseorders"
+      }
+    },
+    "/integration/documentImport/v1/PurchaseOrderDocument/{importTrackingId}": {
+      "get": {
+        "tags": [
+          "Procurement: Purchase order import"
+        ],
+        "description": "This method returns the purchase order document record with a status. You get the `importTrackingId` in the header of the POST API.",
+        "operationId": "PurchaseOrderDocument_Get",
+        "parameters": [
+          {
+            "name": "importTrackingId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntegrationStatusDto"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -24960,6 +25032,321 @@
           }
         },
         "additionalProperties": false
+      },
+      "IntegrationPurchaseOrderDocumentDto": {
+        "type": "object",
+        "required": [
+          "deliveryDate",
+          "companyId",
+          "supplierId",
+          "currencyCode",
+          "ourReference",
+          "deliveryAddress",
+          "billingAddress",
+          "purchaseOrderLine"
+        ],
+        "properties": {
+          "deliveryDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Delivery date must be set on header or on all lines."
+          },
+          "orderIdentifier": {
+            "type": "string",
+            "description": "Can't start with 'MF-'. "
+          },
+          "additionalOrderIdentifiers": {
+            "type": "array",
+            "description": "Max 30 additional order identifiers can be added, no duplication allowed.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliveryTermLocation": {
+            "type": "string"
+          },
+          "additionalInformation": {
+            "type": "string"
+          },
+          "yourReference": {
+            "type": "string"
+          },
+          "shippingMarks": {
+            "type": "string"
+          },
+          "companyId": {
+            "type": "string",
+            "description": "Need to be an active, non virtual company."
+          },
+          "supplierId": {
+            "type": "string",
+            "description": "Need to be an active supplier within the company tree."
+          },
+          "ourReference": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentUserDto"
+            }
+          },
+          "buyer": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentUserDto"
+            }
+          },
+          "goodsReceiptBy": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentUserDto"
+            }
+          },
+          "currencyCode": {
+            "type": "string",
+            "description": "Need to be a currency with currency rate within the company tree."
+          },
+          "deliveryTermId": {
+            "type": "string"
+          },
+          "paymentTermId": {
+            "type": "string"
+          },
+          "orderTypeName": {
+            "type": "string"
+          },
+          "requisitionSystem": {
+            "type": "string",
+            "description": "Can't be 'MediusProcurement' or 'MediusBuy'"
+          },
+          "locationId": {
+            "type": "string"
+          },
+          "deliveryAddress": {
+            "type": "array",
+            "description": "Delivery address is required for the purchase order document. If any of address fields is provided we use it as address, if not found we try to retrieve it from `locationId`, if not found we check order company for `deliveryAddress`. If there is single one - we use it.",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentAddressDto"
+            }
+          },
+          "billingAddress": {
+            "type": "array",
+            "description": "Billing address is required for the purchase order document. If any of address fields is provided we use it as address, if not found we check order company for `billingAddress`. If there is single one - we use it.",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentAddressDto"
+            }
+          },
+          "purchaseOrderLines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentLineDto"
+            }
+          }
+        }
+      },
+      "IntegrationPurchaseOrderDocumentUserDto": {
+        "type": "object",
+        "description": "Required to send one of properties - `userName`, `email`, `firstName` or `lastName`. We only consider actvie users.",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "description": "Successful if one `userName` is found."
+          },
+          "email": {
+            "type": "string",
+            "description": "Successful if one `email` is found."
+          },
+          "firstName": {
+            "type": "string",
+            "description": "Successful if `firstName`+`lastName` is found."
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Successful if `firstName`+`lastName` is found."
+          }
+        }
+      },
+      "IntegrationPurchaseOrderDocumentAddressDto": {
+        "type": "object",
+        "properties": {
+          "recipient": {
+            "type": "string"
+          },
+          "street": {
+            "type": "string"
+          },
+          "street2": {
+            "type": "string"
+          },
+          "division": {
+            "type": "string"
+          },
+          "building": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "telephone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "IntegrationPurchaseOrderDocumentLineDto": {
+        "type": "object",
+        "required": [
+          "lineNumber"
+        ],
+        "properties": {
+          "lineNumber": {
+            "type": "string"
+          },
+          "itemNumber": {
+            "type": "string",
+            "description": "Either `itemNumber` or `itemDescription` must be provided."
+          },
+          "itemDescription": {
+            "type": "string",
+            "description": "Either `itemNumber` or `itemDescription` must be provided."
+          },
+          "deliveryDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Delivery date must be set on header or on all lines."
+          },
+          "service": {
+            "type": "boolean"
+          },
+          "additionalInformation": {
+            "type": "string"
+          },
+          "supplierContractNumber": {
+            "type": "string"
+          },
+          "registerGoodsReceipt": {
+            "type": "boolean"
+          },
+          "categoryCode": {
+            "type": "string"
+          },
+          "taxIndicator1": {
+            "type": "string"
+          },
+          "taxIndicator2": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Amount must be greater than zero if the item is a service."
+          },
+          "quantity": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Quantity must be greater than zero if the item is not a service."
+          },
+          "unitPrice": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Unit price must be greater than zero if the item is not a service."
+          },
+          "codingLines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentCodingLineDto"
+            }
+          }
+        }
+      },
+      "IntegrationPurchaseOrderDocumentCodingLineDto": {
+        "type": "object",
+        "description": "When `codingLines` is used, at least one dimension value is required.",
+        "required": [
+          "amount"
+        ],
+        "properties": {
+          "tag": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "string"
+          },
+          "dimension1": {
+            "type": "string"
+          },
+          "dimension2": {
+            "type": "string"
+          },
+          "dimension3": {
+            "type": "string"
+          },
+          "dimension4": {
+            "type": "string"
+          },
+          "dimension5": {
+            "type": "string"
+          },
+          "dimension6": {
+            "type": "string"
+          },
+          "dimension7": {
+            "type": "string"
+          },
+          "dimension8": {
+            "type": "string"
+          },
+          "dimension9": {
+            "type": "string"
+          },
+          "dimension10": {
+            "type": "string"
+          },
+          "dimension11": {
+            "type": "string"
+          },
+          "dimension12": {
+            "type": "string"
+          },
+          "freeText1": {
+            "type": "string"
+          },
+          "freeText2": {
+            "type": "string"
+          },
+          "freeText3": {
+            "type": "string"
+          },
+          "freeText4": {
+            "type": "string"
+          },
+          "freeText5": {
+            "type": "string"
+          }
+        }
+      },
+      "IntegrationStatusDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "poDocumentImportTrackingId": {
+            "type": "string"
+          }
+        }
       }
     },
     "securitySchemes": {
