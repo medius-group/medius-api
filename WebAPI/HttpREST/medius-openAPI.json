@@ -37,7 +37,7 @@
     },
     {
       "name": "Procurement: Purchase order import",
-      "description": "Import of purchase order documents"
+      "description": "Import of approved requisitions as purchase order documents"
     },
     {
       "name": "Procurement: Send orders to supplier",
