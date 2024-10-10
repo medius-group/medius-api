@@ -7161,7 +7161,7 @@
           "accrualCodeString": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/IntegrationCodingDimensionsDto"
+                "$ref": "#/components/schemas/IntegrationCodingDimensionsMasterdataDto"
               }
             ],
             "xml": {
@@ -7590,6 +7590,150 @@
             },
             "items": {
               "$ref": "#/components/schemas/ExternalSystemMetadataEntry"
+            }
+          },
+          "freeText1": {
+            "maxLength": 200,
+            "type": "string",
+            "description": "Custom field of type text.",
+            "xml": {
+              "name": "FreeText1"
+            }
+          },
+          "freeText2": {
+            "maxLength": 200,
+            "type": "string",
+            "description": "Custom field of type text.",
+            "xml": {
+              "name": "FreeText2"
+            }
+          },
+          "freeText3": {
+            "maxLength": 200,
+            "type": "string",
+            "description": "Custom field of type text.",
+            "xml": {
+              "name": "FreeText3"
+            }
+          },
+          "freeText4": {
+            "maxLength": 200,
+            "type": "string",
+            "description": "Custom field of type text.",
+            "xml": {
+              "name": "FreeText4"
+            }
+          },
+          "freeText5": {
+            "maxLength": 200,
+            "type": "string",
+            "description": "Custom field of type text.",
+            "xml": {
+              "name": "FreeText5"
+            }
+          }
+        },
+        "xml": {
+          "name": "Dimensions"
+        }
+      },
+      "IntegrationCodingDimensionsMasterdataDto": {
+        "type": "object",
+        "properties": {
+          "dimension1": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "ExternalSystemId to corresponding entity",
+            "xml": {
+              "name": "Dimension1"
+            }
+          },
+          "dimension2": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "ExternalSystemId to corresponding entity",
+            "xml": {
+              "name": "Dimension2"
+            }
+          },
+          "dimension3": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "ExternalSystemId to corresponding entity",
+            "xml": {
+              "name": "Dimension3"
+            }
+          },
+          "dimension4": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "ExternalSystemId to corresponding entity",
+            "xml": {
+              "name": "Dimension4"
+            }
+          },
+          "dimension5": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "ExternalSystemId to corresponding entity",
+            "xml": {
+              "name": "Dimension5"
+            }
+          },
+          "dimension6": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "ExternalSystemId to corresponding entity",
+            "xml": {
+              "name": "Dimension6"
+            }
+          },
+          "dimension7": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "ExternalSystemId to corresponding entity",
+            "xml": {
+              "name": "Dimension7"
+            }
+          },
+          "dimension8": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "ExternalSystemId to corresponding entity",
+            "xml": {
+              "name": "Dimension8"
+            }
+          },
+          "dimension9": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "ExternalSystemId to corresponding entity",
+            "xml": {
+              "name": "Dimension9"
+            }
+          },
+          "dimension10": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "ExternalSystemId to corresponding entity",
+            "xml": {
+              "name": "Dimension10"
+            }
+          },
+          "dimension11": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "ExternalSystemId to corresponding entity",
+            "xml": {
+              "name": "Dimension11"
+            }
+          },
+          "dimension12": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "ExternalSystemId to corresponding entity",
+            "xml": {
+              "name": "Dimension12"
             }
           },
           "freeText1": {
@@ -13697,7 +13841,7 @@
             }
           },
           "dimensions": {
-            "$ref": "#/components/schemas/IntegrationCodingDimensionsDto"
+            "$ref": "#/components/schemas/IntegrationCodingDimensionsMasterdataDto"
           },
           "type": {
             "maxLength": 450,
@@ -21522,12 +21666,12 @@
             }
           },
           "dimensions": {
-            "$ref": "#/components/schemas/IntegrationCodingDimensionsDto"
+            "$ref": "#/components/schemas/IntegrationCodingDimensionsMasterdataDto"
           },
           "nondeductibleDimensions": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/IntegrationCodingDimensionsDto"
+                "$ref": "#/components/schemas/IntegrationCodingDimensionsMasterdataDto"
               }
             ],
             "xml": {
@@ -21837,7 +21981,7 @@
           "preCodingDimensions": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/IntegrationCodingDimensionsDto"
+                "$ref": "#/components/schemas/IntegrationCodingDimensionsMasterdataDto"
               }
             ],
             "xml": {
@@ -23359,7 +23503,7 @@
             }
           },
           "dimensions": {
-            "$ref": "#/components/schemas/IntegrationCodingDimensionsDto"
+            "$ref": "#/components/schemas/IntegrationCodingDimensionsMasterdataDto"
           }
         },
         "xml": {
