@@ -7037,10 +7037,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentDto"
-                }
+                "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentDto"
               }
             }
           },
@@ -7050,6 +7047,23 @@
           "201": {
             "description": "Response includes Location header with a link to the import batch, this link will give the status of how the batch is processing within Medius",
             "content": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Detailed error message.",
+                      "example": "Required lookup 'CompanyId' ('test') failed"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "x-codegen-request-body-name": "purchaseorders"
@@ -25053,7 +25067,7 @@
           },
           "orderIdentifier": {
             "type": "string",
-            "description": "Can't start with 'MF-'. "
+            "description": "Order identifier. It cannot start with 'MF-' since that is reserved for Medius Procurement. "
           },
           "additionalOrderIdentifiers": {
             "type": "array",
@@ -25083,22 +25097,25 @@
             "description": "Need to be an active supplier within the company tree."
           },
           "ourReference": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentUserDto"
-            }
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentUserDto"
+              }
+            ]
           },
           "buyer": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentUserDto"
-            }
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentUserDto"
+              }
+            ]
           },
           "goodsReceiptBy": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentUserDto"
-            }
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentUserDto"
+              }
+            ]
           },
           "currencyCode": {
             "type": "string",
@@ -25115,24 +25132,26 @@
           },
           "requisitionSystem": {
             "type": "string",
-            "description": "Can't be 'MediusProcurement' or 'MediusBuy'"
+            "description": "Name of the requisition system. 'MediusProcurement' or 'MediusBuy' are reserved names which can't be used."
           },
           "locationId": {
             "type": "string"
           },
           "deliveryAddress": {
-            "type": "array",
-            "description": "Delivery address is required for the purchase order document. If any of address fields is provided we use it as address, if not found we try to retrieve it from `locationId`, if not found we check order company for `deliveryAddress`. If there is single one - we use it.",
-            "items": {
-              "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentAddressDto"
-            }
+            "description": "Delivery address is required for the purchase order document. If any of address fields is provided we use it as address, if not found we try to retrieve it from `locationId`, if not found we check the purchase order company for `deliveryAddress`. If there is single one - we use it.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentAddressDto"
+              }
+            ]
           },
           "billingAddress": {
-            "type": "array",
-            "description": "Billing address is required for the purchase order document. If any of address fields is provided we use it as address, if not found we check order company for `billingAddress`. If there is single one - we use it.",
-            "items": {
-              "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentAddressDto"
-            }
+            "description": "Billing address is required for the purchase order document. If any of address fields is provided we use it as address, if not found we check the purchase order company for `billingAddress`. If there is single one - we use it.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IntegrationPurchaseOrderDocumentAddressDto"
+              }
+            ]
           },
           "purchaseOrderLines": {
             "type": "array",
@@ -25362,6 +25381,7 @@
               "Integration.Export": "Access to companies and suppliers export services",
               "openid": "Access to UserInfo endpoint and openid tokens",
               "Integration.Pay.PaymentBatchImport": "Access payment related services",
+              "Integration.PurchaseOrderDocumentImport": "Access purchase order document import",
               "Integration.SupplierManagement": "Access to supplier synchronization with ERP related services"
             }
           }
@@ -25378,6 +25398,7 @@
         "Integration.Export",
         "openid",
         "Integration.Pay.PaymentBatchImport",
+        "Integration.PurchaseOrderDocumentImport",
         "Integration.SupplierManagement"
       ]
     }
