@@ -7058,7 +7058,7 @@
                     "message": {
                       "type": "string",
                       "description": "Detailed error message.",
-                      "example": "'CompanyId' field is mandatory"
+                      "example": "Required lookup 'CompanyId' ('test') failed"
                     }
                   }
                 }
