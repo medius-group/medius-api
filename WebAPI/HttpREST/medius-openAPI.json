@@ -25381,6 +25381,7 @@
               "Integration.Export": "Access to companies and suppliers export services",
               "openid": "Access to UserInfo endpoint and openid tokens",
               "Integration.Pay.PaymentBatchImport": "Access payment related services",
+              "Integration.PurchaseOrderDocumentImport": "Access purchase order document import",
               "Integration.SupplierManagement": "Access to supplier synchronization with ERP related services"
             }
           }
@@ -25397,6 +25398,7 @@
         "Integration.Export",
         "openid",
         "Integration.Pay.PaymentBatchImport",
+        "Integration.PurchaseOrderDocumentImport",
         "Integration.SupplierManagement"
       ]
     }
