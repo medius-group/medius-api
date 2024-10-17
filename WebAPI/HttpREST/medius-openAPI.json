@@ -6024,6 +6024,66 @@
         }
       }
     },
+    "/integration/masterdata/v1/budget/importSpendLimits": {
+      "post": {
+        "tags": [
+          "Master data - import"
+        ],
+        "description": "The POST method allows the client to send spend limits that will be imported by the Medius master data import queue.\nThe spend limit have the company and the corresponding user as prerequisites.\nRemember that by sending configurations for users the integration will updated them all the time, so manual changes of the properties included\nin this data is not possible to set within Medius. ",
+        "operationId": "ImportSpendLimits_Post",
+        "requestBody": {
+          "description": "The spend limits to import",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ImportSpendLimitsDto"
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "description": "Response includes Location header with a link to the import batch, this link will give the status of how the batch is processing within Medius",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "importSpendLimits"
+      }
+    },
+    "/integration/masterdata/v1/budget/importAdjustments": {
+      "post": {
+        "tags": [
+          "Master data - import"
+        ],
+        "description": "The POST method allows the client to send spend limits that will be imported by the Medius master data import queue.\nThe spend limit have the company and the corresponding user as prerequisites.\nRemember that by sending configurations for users the integration will updated them all the time, so manual changes of the properties included\nin this data is not possible to set within Medius. ",
+        "operationId": "importAdjustments_Post",
+        "requestBody": {
+          "description": "The spend limits to import",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ImportAdjustmentsDto"
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "description": "Response includes Location header with a link to the import batch, this link will give the status of how the batch is processing within Medius",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "importAdjustments"
+      }
+    },
     "/integration/message/v1/supplierInvoice/vouchers/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
@@ -22021,6 +22081,125 @@
         },
         "xml": {
           "name": "UserConfiguration"
+        }
+      },
+      "ImportSpendLimitsDto": {
+        "required": [
+          "companyId",
+          "dimensions",
+          "spendLimitType"
+        ],
+        "type": "object",
+        "properties": {
+          "erpSourceId": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Source of entity"
+          },
+          "companyId": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "ExternalSystemId to corresponding entity."
+          },
+          "dimensions": {
+            "type": "array",
+            "description": "Repeat for each dimension the budget applies to.",
+            "items": {
+              "$ref": "#/components/schemas/DimensionForImportDto"
+            }
+          },
+          "period": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Period of the budget type. Only applicable when using a Periodic budget."
+          },
+          "spendLimitType": {
+            "type": "string",
+            "description": "Sytem action when the spend limit is reached.\n\n*SOFT* - allows for submission, with approval if configured.\n\n*HARD* - prevents submission.",
+            "enum": [
+              "SOFT",
+              "HARD",
+              "NO_LIMIT"
+            ]
+          },
+          "spendLimit": {
+            "type": "number",
+            "format": "decimal",
+            "description": "The default spend limit value for budget keys of this type."
+          }
+        }
+      },
+      "DimensionForImportDto": {
+        "type": "object",
+        "properties": {
+          "dimension": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "The identity of the dimension.",
+            "enum": [
+              "Dimension1",
+              "Dimension2",
+              "Dimension3",
+              "Dimension4",
+              "Dimension5",
+              "Dimension6",
+              "Dimension7",
+              "Dimension8",
+              "Dimension9",
+              "Dimension10",
+              "Dimension11",
+              "Dimension12"
+            ]
+          },
+          "value": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "The financial dimension value connected to the `dimension` above."
+          }
+        }
+      },
+      "ImportAdjustmentsDto": {
+        "required": [
+          "companyId",
+          "dimensions",
+          "spendLimitType"
+        ],
+        "type": "object",
+        "properties": {
+          "erpSourceId": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Source of entity"
+          },
+          "companyId": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "ExternalSystemId to corresponding entity."
+          },
+          "dimensions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DimensionForImportDto"
+            }
+          },
+          "period": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Period of the budget type. Only applicable when using periodic types."
+          },
+          "adjustmentType": {
+            "type": "string",
+            "description": "*INCREMENTAL* - Add to or reduce from existing spend value.\n\n *ABSOLUTE* - Replace existing spend value.",
+            "enum": [
+              "INCREMENTAL",
+              "ABSOLUTE"
+            ]
+          },
+          "adjustment": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Spend for the budget key. Positive or negative values allowed. The latter only if Adjustment type is Incremental. Can be greater than the remaining budget."
+          }
         }
       },
       "IntegrationAuthorizationGroupDto": {
