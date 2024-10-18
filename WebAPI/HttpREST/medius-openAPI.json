@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Medius Web API",
-    "description": "This is the OpenAPI specification for Medius Public APIs. You are welcome to try the APIs below on your tenant. Remember to activate the OpenAPI test portal client application in Medius, for more information [click here](https://https://success.medius.com/documentation/integration-documentation/api_reference/specification/).\n\n Some useful links:\n- [Success documentation](https://https://success.medius.com/documentation/integration-documentation/) - the complete API documentation\n- [Postman collections](https://www.postman.com/medius-developers/medius-public-api) - Medius public API workspace",
+    "description": "This is the OpenAPI specification for Medius Public APIs. You are welcome to try the APIs below on your tenant. Remember to activate the OpenAPI test portal client application in Medius, for more information [click here](https://success.medius.com/documentation/integration-documentation/api_reference/specification/).\n\n Some useful links:\n- [Success documentation](https://success.medius.com/documentation/integration-documentation/) - the complete API documentation\n- [Postman collections](https://www.postman.com/medius-developers/medius-public-api) - Medius public API workspace",
     "termsOfService": "http://www.medius.com",
     "version": "1.0.0"
   },
