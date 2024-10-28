@@ -22857,10 +22857,18 @@
               "name": "DocumentProvider"
             }
           },
+          "documentOriginalFormat": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "Orignal format of the invoice. This is a free text field where you can input the orignal format, before it has been converted by an invoice service provider.",
+            "xml": {
+              "name": "DocumentOriginalFormat"
+            }
+          },
           "documentSource": {
             "maxLength": 450,
             "type": "string",
-            "description": "Obsolete. When 'DocumentFormat' and 'DocumentProvider' is used, 'DocumentSource' is set automatically.",
+            "description": "Deprecated field. When 'DocumentFormat' and 'DocumentProvider' is used, 'DocumentSource' is set automatically.",
             "xml": {
               "name": "DocumentSource"
             },
@@ -22870,7 +22878,8 @@
               "EInvoice",
               "PDF",
               "ManualCreation"
-            ]
+            ],
+            "deprecated": true
           },
           "captureUser": {
             "maxLength": 450,
