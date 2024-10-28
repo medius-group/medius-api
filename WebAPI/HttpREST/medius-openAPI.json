@@ -19820,7 +19820,7 @@
           "addressInformation": {
             "type": "array",
             "xml": {
-              "name": "ExceptionTypeConnections",
+              "name": "AddressInformation",
               "wrapped": true
             },
             "items": {
@@ -21236,14 +21236,19 @@
       },
       "IntegrationAddressInformationDto": {
         "type": "object",
+        "description": "You can use `addressInfomration` to ensure accurate shipment tracking, financial reporting and it aids in applying correct tax rates and compliance at invoice posting to your ERP.",
         "properties": {
           "addressInformationType": {
             "maxLength": 450,
             "type": "string",
-            "description": "AddressInformationType",
+            "description": "The address type can be either `ShipTo` or `ShipFrom`. Only one set of address per address type.",
             "xml": {
               "name": "AddressInformationType"
-            }
+            },
+            "enum": [
+              "ShipTo",
+              "ShipFrom"
+            ]
           },
           "street": {
             "maxLength": 450,
@@ -23652,14 +23657,19 @@
       },
       "EdiAddressInformationDto": {
         "type": "object",
+        "description": "You can use `addressInfomration` to ensure accurate shipment tracking, financial reporting and it aids in applying correct tax rates and compliance at invoice posting to your ERP.",
         "properties": {
           "addressType": {
             "maxLength": 450,
             "type": "string",
-            "description": "AddressType",
+            "description": "The address type can be either `ShipTo` or `ShipFrom`. Only one set of address per address type.",
             "xml": {
               "name": "AddressType"
-            }
+            },
+            "enum": [
+              "ShipTo",
+              "ShipFrom"
+            ]
           },
           "street": {
             "maxLength": 450,
