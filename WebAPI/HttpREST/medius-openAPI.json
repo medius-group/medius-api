@@ -4230,21 +4230,24 @@
         "tags": [
           "Procurement: Purchase orders and receipts"
         ],
-        "description": "This method accepts a purchase-order-to-ERP confirmation with or without the goods-receipt-note part\n\nas a response to either the purchase-order-to-ERP or the goods-receipt-note confirmation or cancellation message, that was retrieved in the earlier step.\n\nThe confirmation object includes a CorrelationKey that needs to match the corresponding purchase-order-to-ERP or goods-receipt-note message.\n\n**Use one of the schemas below depending on whether you want to send a purchase order or a goods receipt confirmation.**",
+        "description": "This method accepts a confirmation response to either the purchase order, goods receipt note or cancellation confirmation response, that was retrieved in the earlier step.\n\nThe confirmation object includes a `correlationKey` that needs to match the corresponding purchase order, goods receipt note or cancelation message.\n\n**The different scenarios expect different amount of response payload. Take a look at the examples and schemas below to see what is needed in the specific scenarios.**",
         "operationId": "PurchaseOrderRequestMessage_PostPoToErpOrGrnConfirmation",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
+                "description": "Use one of the schemas below to send either purchase order, goods receipt or cancelation response confirmation.",
                 "oneOf": [
                   {
                     "$ref": "#/components/schemas/PurchaseOrderRequestResponseDto"
                   },
                   {
                     "$ref": "#/components/schemas/GoodsReceiptNoteRequestResponseDto"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CancelationResponseDto"
                   }
                 ]
-                
               },
               "examples": {
                 "PurchaseOrder-example": {
@@ -4304,12 +4307,28 @@
                       ]
                     }
                   }
+                },
+                "Cancelation-example": {
+                  "value": {
+                    "correlationKey": "TC1;MF-549"
+                  }
                 }
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/PurchaseOrderRequestResponseDto"
+                "$ref": "#/components/schemas/PurchaseOrderRequestResponseXMLDto"
+              },
+              "examples": {
+                "PurchaseOrderXML-example": {
+                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PurchaseOrderResponse>\n    <CorrelationKey>MyERP;TC1;TS1;MF-549;2024-09-26</CorrelationKey>\n    <PurchaseOrderConfirmation>\n        <OrderNumber>MF-549</OrderNumber>\n        <ExternalOrderNumber>ERP-MF-549</ExternalOrderNumber>\n        <ExternalSystemMetadata>\n            <ExternalSystemMetadataEntry>\n                 <Name>string</Name>\n                 <Value>string</Value>\n            </ExternalSystemMetadataEntry>\n        </ExternalSystemMetadata>\n        <Lines>\n            <PurchaseOrderLineConfirmation>\n                <LineNumber>1</LineNumber>\n                <ExternalOrderLineNumber>1001</ExternalOrderLineNumber>\n                <ExternalSystemMetadata>\n                    <ExternalSystemMetadataEntry>\n                        <Name>string</Name>\n                        <Value>string</Value>\n                    </ExternalSystemMetadataEntry>\n                </ExternalSystemMetadata>\n            </PurchaseOrderLineConfirmation>\n        </Lines>\n    </PurchaseOrderConfirmation>\n</PurchaseOrderResponse>"
+                },
+                "GoodsReceiptXML-example": {
+                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PurchaseOrderResponse>\n    <CorrelationKey>TC1;MF-549</CorrelationKey>\n    <PurchaseOrderConfirmation>\n        <OrderNumber>MF-549</OrderNumber>\n        <ExternalOrderNumber>ERP-MF-549</ExternalOrderNumber>\n        <ExternalSystemMetadata>\n            <ExternalSystemMetadataEntry>\n                <Name>string</Name>\n                <Value>string</Value>\n            </ExternalSystemMetadataEntry>\n        </ExternalSystemMetadata>\n    </PurchaseOrderConfirmation>\n    <GoodsReceiptNoteConfirmation>\n        <ReferenceNumber>GRN-549.1</ReferenceNumber>\n        <ExternalReferenceNumber>ERP-GRN-549.1</ExternalReferenceNumber>\n        <Lines>\n            <GoodsReceiptNoteLineConfirmation>\n                <DeliveryNumber>697bf569-8456-4020-90yt-e9740393625</DeliveryNumber>\n                <ExternalDeliveryNumber>ERP-GRN-549.1-5000100</ExternalDeliveryNumber>\n                <ExternalSystemMetadata>\n                    <ExternalSystemMetadataEntry>\n                        <Name>string</Name>\n                        <Value>string</Value>\n                    </ExternalSystemMetadataEntry>\n                </ExternalSystemMetadata>\n            </GoodsReceiptNoteLineConfirmation>\n        </Lines>\n    </GoodsReceiptNoteConfirmation>\n</PurchaseOrderResponse>"
+                },
+                "CancelationXML-example": {
+                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PurchaseOrderResponse>\n    <CorrelationKey>TC1;MF-549</CorrelationKey>\n</PurchaseOrderResponse>"
+                }
               }
             }
           },
@@ -6593,7 +6612,11 @@
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/PaymentBatch"
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PaymentBatch"
+                  }
+                ]
               },
               "examples": {
                 "US-example": {
@@ -15948,10 +15971,10 @@
           "correlationKey",
           "purchaseOrderConfirmation"
         ],
-        "description": "Use this schema when you want to post a purchase order confirmation.",
         "properties": {
           "correlationKey": {
             "type": "string",
+            "description": "A unique identifier that needs to match the `correlationKey` in the corresponding request message.",
             "xml": {
               "name": "CorrelationKey"
             }
@@ -15969,18 +15992,58 @@
         "required": [
           "correlationKey",
           "purchaseOrderConfirmation",
-          "goodsReceiptConfirmation"
+          "goodsReceiptNoteConfirmation"
         ],
-        "description": "Use this schema when you want to send a goods receipt confirmation.",
         "properties": {
           "correlationKey": {
             "type": "string",
+            "description": "A unique identifier that needs to match the `correlationKey` in the corresponding request message.",
             "xml": {
               "name": "CorrelationKey"
             }
           },
           "purchaseOrderConfirmation": {
             "$ref": "#/components/schemas/PurchaseOrderGRConfirmationDto"
+          },
+          "goodsReceiptNoteConfirmation": {
+            "$ref": "#/components/schemas/GoodsReceiptNoteConfirmationDto"
+          }
+        },
+        "xml": {
+          "name": "PurchaseOrderResponse"
+        }
+      },
+      "CancelationResponseDto": {
+        "type": "object",
+        "required": [
+          "correlationKey"
+        ],
+        "properties": {
+          "correlationKey": {
+            "type": "string",
+            "description": "A unique identifier that needs to match the `correlationKey` in the corresponding request message.",
+            "xml": {
+              "name": "CorrelationKey"
+            }
+          }
+        },
+        "xml": {
+          "name": "PurchaseOrderResponse"
+        }
+      },
+      "PurchaseOrderRequestResponseXMLDto": {
+        "type": "object",
+        "description": "Take a look at the examples for information on what is needed in the different scenarios, purchase order, goods receipt or cancelation response confirmation.",
+        "properties": {
+          "correlationKey": {
+            "type": "string",
+            "description": "A unique identifier that needs to match the `correlationKey` in the corresponding request message.",
+            "xml": {
+              "name": "CorrelationKey"
+            }
+          },
+          "purchaseOrderConfirmation": {
+            "$ref": "#/components/schemas/PurchaseOrderConfirmationDto"
           },
           "goodsReceiptNoteConfirmation": {
             "$ref": "#/components/schemas/GoodsReceiptNoteConfirmationDto"
@@ -16000,12 +16063,14 @@
         "properties": {
           "orderNumber": {
             "type": "string",
+            "description": "Order number from Medius Procurement.",
             "xml": {
               "name": "OrderNumber"
             }
           },
           "externalOrderNumber": {
             "type": "string",
+            "description": "Order number received from external system.",
             "xml": {
               "name": "ExternalOrderNumber"
             }
@@ -16045,12 +16110,14 @@
         "properties": {
           "orderNumber": {
             "type": "string",
+            "description": "Order number from Medius Procurement.",
             "xml": {
               "name": "OrderNumber"
             }
           },
           "externalOrderNumber": {
             "type": "string",
+            "description": "Order number received from external system.",
             "xml": {
               "name": "ExternalOrderNumber"
             }
@@ -16080,12 +16147,14 @@
         "properties": {
           "lineNumber": {
             "type": "string",
+            "description": "Purchase order line number from Medius Procurement.",
             "xml": {
               "name": "LineNumber"
             }
           },
           "externalOrderLineNumber": {
             "type": "string",
+            "description": "Purchase order line number received from external system.",
             "xml": {
               "name": "ExternalOrderLineNumber"
             }
@@ -16116,12 +16185,14 @@
         "properties": {
           "referenceNumber": {
             "type": "string",
+            "description": "Reference number received from Medius Procurement.",
             "xml": {
               "name": "ReferenceNumber"
             }
           },
           "externalReferenceNumber": {
             "type": "string",
+            "description": "Reference number received from external system.",
             "xml": {
               "name": "ExternalReferenceNumber"
             }
@@ -16150,12 +16221,14 @@
         "properties": {
           "deliveryNumber": {
             "type": "string",
+            "description": "Delivery number from Medius Procurement.",
             "xml": {
               "name": "DeliveryNumber"
             }
           },
           "externalDeliveryNumber": {
             "type": "string",
+            "description": "Delivery number received from external system.",
             "xml": {
               "name": "ExternalDeliveryNumber"
             }
