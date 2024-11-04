@@ -23125,6 +23125,14 @@
               "name": "VatDate"
             }
           },
+          "preApprovedReference": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "When pre-approved invoices is allowed and configured, the pre-approved reference value can be imported from the invoice.",
+            "xml": {
+              "name": "PreApprovedReference"
+            }
+          },
           "customField_Text1": {
             "maxLength": 450,
             "type": "string",
