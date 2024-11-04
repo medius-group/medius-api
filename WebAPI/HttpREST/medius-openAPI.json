@@ -13456,12 +13456,14 @@
           },
           "additionalOrderIdentifiers": {
             "type": "array",
+
             "xml": {
               "name": "AdditionalOrderIdentifiers",
               "wrapped": true
             },
             "items": {
               "type": "string",
+              "description": "Add additional order identifiers in this array. Make sure not to use the same `orderIdentifier` as provided in the header. No duplicates allowed.",
               "xml": {
                 "name": "AdditionalOrderIdentifier",
                 "wrapped": true
