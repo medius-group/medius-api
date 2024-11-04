@@ -19570,6 +19570,7 @@
           },
           "prepaymentPOConnections": {
             "type": "array",
+            "description": "Used on prepayment invoice when there is a connection to a PO.",
             "xml": {
               "name": "PrepaymentPOConnections",
               "wrapped": true
@@ -19580,6 +19581,7 @@
           },
           "linkedPrepayments": {
             "type": "array",
+            "description": "Used on PO-Invoice when there is a linked prepayment.",
             "xml": {
               "name": "LinkedPrepayments",
               "wrapped": true
@@ -21259,7 +21261,7 @@
           "supplierId": {
             "maxLength": 450,
             "type": "string",
-            "description": "SupplierId",
+            "description": "Supplier Id from the connected PO.",
             "xml": {
               "name": "SupplierId"
             }
@@ -21267,7 +21269,7 @@
           "connectedOrderIdentifier": {
             "maxLength": 450,
             "type": "string",
-            "description": "Connected order identifier.",
+            "description": "Order identifier from the connected PO.",
             "xml": {
               "name": "ConnectedOrderIdentifier"
             }
@@ -21283,7 +21285,7 @@
           "invoiceNumber": {
             "maxLength": 450,
             "type": "string",
-            "description": "InvoiceNumber",
+            "description": "Invoice number for the prepayment invoice.",
             "xml": {
               "name": "InvoiceNumber"
             }
@@ -21291,7 +21293,7 @@
           "InvoiceDate": {
             "type": "string",
             "format": "date-time",
-            "description": "InvoiceDate.",
+            "description": "Invoice date for the prepayment invoice.",
             "xml": {
               "name": "InvoiceDate"
             }
@@ -21299,7 +21301,7 @@
           "supplierId": {
             "maxLength": 450,
             "type": "string",
-            "description": "SupplierId",
+            "description": "Supplier Id from the prepayment invoice.",
             "xml": {
               "name": "SupplierId"
             }
@@ -21307,7 +21309,7 @@
           "orderIdentifier": {
             "maxLength": 450,
             "type": "string",
-            "description": "OrderIdentifier",
+            "description": "Order identifier used in the prepayment invoice.",
             "xml": {
               "name": "OrderIdentifier"
             }
@@ -21315,7 +21317,7 @@
           "finalVoucherNumber": {
             "maxLength": 450,
             "type": "string",
-            "description": "FinalVoucherNumber",
+            "description": "Final voucher number for the prepayment invoice.",
             "xml": {
               "name": "FinalVoucherNumber"
             }
@@ -21323,7 +21325,7 @@
           "prepaidAmount": {
             "maxLength": 450,
             "type": "string",
-            "description": "PrepaidAmount",
+            "description": "The pre paid amount of the prepayment invoice.",
             "xml": {
               "name": "PrepaidAmount"
             }
