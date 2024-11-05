@@ -19581,7 +19581,7 @@
           },
           "linkedPrepayments": {
             "type": "array",
-            "description": "Available on PO-Invoice when there is a linked prepayment.",
+            "description": "Available on Non-PO or PO-invoice when there is a linked prepayment.",
             "xml": {
               "name": "LinkedPrepayments",
               "wrapped": true
@@ -21290,7 +21290,7 @@
               "name": "InvoiceNumber"
             }
           },
-          "InvoiceDate": {
+          "invoiceDate": {
             "type": "string",
             "format": "date-time",
             "description": "Invoice date for the prepayment invoice.",
@@ -21309,7 +21309,7 @@
           "orderIdentifier": {
             "maxLength": 450,
             "type": "string",
-            "description": "Order identifier used in the prepayment invoice.",
+            "description": "Order identifier to which the prepayment invoice is connected.",
             "xml": {
               "name": "OrderIdentifier"
             }
