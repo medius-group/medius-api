@@ -19570,7 +19570,7 @@
           },
           "prepaymentPOConnections": {
             "type": "array",
-            "description": "Used on prepayment invoice when there is a connection to a PO.",
+            "description": "Available on prepayment invoice when there is a connection to a PO.",
             "xml": {
               "name": "PrepaymentPOConnections",
               "wrapped": true
@@ -19581,7 +19581,7 @@
           },
           "linkedPrepayments": {
             "type": "array",
-            "description": "Used on PO-Invoice when there is a linked prepayment.",
+            "description": "Available on PO-Invoice when there is a linked prepayment.",
             "xml": {
               "name": "LinkedPrepayments",
               "wrapped": true
@@ -19842,7 +19842,7 @@
           },
           "prepaymentCategory": {
             "type": "string",
-            "maxLength": 100,
+            "maxLength": 450,
             "description": "The category of the pre payment.",
             "xml": {
               "name": "PrepaymentCategory"
@@ -21259,7 +21259,7 @@
         "type": "object",
         "properties": {
           "supplierId": {
-            "maxLength": 450,
+            "maxLength": 100,
             "type": "string",
             "description": "Supplier Id from the connected PO.",
             "xml": {
@@ -21299,7 +21299,7 @@
             }
           },
           "supplierId": {
-            "maxLength": 450,
+            "maxLength": 100,
             "type": "string",
             "description": "Supplier Id from the prepayment invoice.",
             "xml": {
@@ -21323,9 +21323,9 @@
             }
           },
           "prepaidAmount": {
-            "maxLength": 450,
-            "type": "string",
-            "description": "The pre paid amount of the prepayment invoice.",
+            "type": "number",
+            "format": "decimal",
+            "description": "The pre paid amount of the prepayment invoice. Decimal format (28,14).",
             "xml": {
               "name": "PrepaidAmount"
             }
