@@ -8092,7 +8092,8 @@
           160,
           161,
           162,
-          163
+          163,
+          164
         ],
         "x-enumNames": [
           "UNKNOWN",
@@ -8258,7 +8259,8 @@
           "SUPPLIER_MANAGEMENT_FIELD_VALIDATION_ERROR",
           "PAYMENT_DETAILS_INVALID_COUNTRY_CODE",
           "PAYMENT_DETAILS_INVALID_STATE_CODE",
-          "COMPANY_INVALID_COUNTRY_CODE"
+          "COMPANY_INVALID_COUNTRY_CODE",
+          "PAYMENT_DETAILS_INVALID_DESCRIPTION"
         ]
       },
       "ActualPaymentDateResponseDto": {
@@ -19256,7 +19258,8 @@
               "EXPENSE",
               "ORDER_BASED",
               "CONTRACT_BASED",
-              "PAYMENT_REQUEST"
+              "PAYMENT_REQUEST",
+              "PREPAYMENT"
             ]
           },
           "dueDate": {
@@ -19642,6 +19645,28 @@
               "$ref": "#/components/schemas/IntegrationExceptionTypeConnectionDto"
             }
           },
+          "prepaymentPOConnections": {
+            "type": "array",
+            "description": "Available on prepayment invoice when there is a connection to a PO.",
+            "xml": {
+              "name": "PrepaymentPOConnections",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/IntegrationPrepaymentPOConnectionDto"
+            }
+          },
+          "linkedPrepayments": {
+            "type": "array",
+            "description": "Available on Non-PO or PO-invoice when there is a linked prepayment.",
+            "xml": {
+              "name": "LinkedPrepayments",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/IntegrationLinkedPrepaymentDto"
+            }
+          },
           "orderType": {
             "maxLength": 450,
             "type": "string",
@@ -19890,6 +19915,14 @@
             "description": "A tracking id for e-invoices for reporting and control.",
             "xml": {
               "name": "EInvoiceTrackingId"
+            }
+          },
+          "prepaymentCategory": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "The category of the pre payment.",
+            "xml": {
+              "name": "PrepaymentCategory"
             }
           },
           "addressInformation": {
@@ -21307,6 +21340,86 @@
         },
         "xml": {
           "name": "ExceptionTypeConnection"
+        }
+      },
+      "IntegrationPrepaymentPOConnectionDto": {
+        "type": "object",
+        "properties": {
+          "supplierId": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "Supplier Id from the connected PO.",
+            "xml": {
+              "name": "SupplierId"
+            }
+          },
+          "connectedOrderIdentifier": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Order identifier from the connected PO.",
+            "xml": {
+              "name": "ConnectedOrderIdentifier"
+            }
+          }
+        },
+        "xml": {
+          "name": "PrepaymentPOConnection"
+        }
+      },
+      "IntegrationLinkedPrepaymentDto": {
+        "type": "object",
+        "properties": {
+          "invoiceNumber": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Invoice number for the prepayment invoice.",
+            "xml": {
+              "name": "InvoiceNumber"
+            }
+          },
+          "invoiceDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Invoice date for the prepayment invoice.",
+            "xml": {
+              "name": "InvoiceDate"
+            }
+          },
+          "supplierId": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "Supplier Id from the prepayment invoice.",
+            "xml": {
+              "name": "SupplierId"
+            }
+          },
+          "orderIdentifier": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Order identifier to which the prepayment invoice is connected.",
+            "xml": {
+              "name": "OrderIdentifier"
+            }
+          },
+          "finalVoucherNumber": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Final voucher number for the prepayment invoice.",
+            "xml": {
+              "name": "FinalVoucherNumber"
+            }
+          },
+          "prepaidAmount": {
+            "type": "number",
+            "format": "decimal",
+            "description": "The pre paid amount of the prepayment invoice. Decimal format (28,14).",
+            "xml": {
+              "name": "PrepaidAmount"
+            }
+          }
+        },
+        "xml": {
+          "name": "LinkedPrepayment"
         }
       },
       "IntegrationAddressInformationDto": {
@@ -22887,7 +23000,8 @@
               "EXPENSE",
               "ORDER_BASED",
               "CONTRACT_BASED",
-              "PAYMENT_REQUEST"
+              "PAYMENT_REQUEST",
+              "PREPAYMENT"
             ]
           },
           "eInvoiceTrackingId": {
@@ -23215,6 +23329,14 @@
             },
             "items": {
               "$ref": "#/components/schemas/EdiAddressInformationDto"
+            }
+          },
+          "prepaymentCategory": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "Category for pre payments. Need to match values created in Medius AP Automation.",
+            "xml": {
+              "name": "PrepaymentCategory"
             }
           },
           "customField_Text1": {
