@@ -8069,7 +8069,8 @@
           160,
           161,
           162,
-          163
+          163,
+          164
         ],
         "x-enumNames": [
           "UNKNOWN",
@@ -8235,7 +8236,8 @@
           "SUPPLIER_MANAGEMENT_FIELD_VALIDATION_ERROR",
           "PAYMENT_DETAILS_INVALID_COUNTRY_CODE",
           "PAYMENT_DETAILS_INVALID_STATE_CODE",
-          "COMPANY_INVALID_COUNTRY_CODE"
+          "COMPANY_INVALID_COUNTRY_CODE",
+          "PAYMENT_DETAILS_INVALID_DESCRIPTION"
         ]
       },
       "ActualPaymentDateResponseDto": {
