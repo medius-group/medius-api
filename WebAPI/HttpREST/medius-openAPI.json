@@ -13479,12 +13479,14 @@
           },
           "additionalOrderIdentifiers": {
             "type": "array",
+
             "xml": {
               "name": "AdditionalOrderIdentifiers",
               "wrapped": true
             },
             "items": {
               "type": "string",
+              "description": "Add additional order identifiers in this array. Make sure not to use the same `orderIdentifier` as provided in the header. No duplicates allowed.",
               "xml": {
                 "name": "AdditionalOrderIdentifier",
                 "wrapped": true
@@ -19889,6 +19891,16 @@
             "xml": {
               "name": "EInvoiceTrackingId"
             }
+          },
+          "addressInformation": {
+            "type": "array",
+            "xml": {
+              "name": "AddressInformation",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/IntegrationAddressInformationDto"
+            }
           }
         },
         "xml": {
@@ -21295,6 +21307,67 @@
         },
         "xml": {
           "name": "ExceptionTypeConnection"
+        }
+      },
+      "IntegrationAddressInformationDto": {
+        "type": "object",
+        "description": "You can use `addressInfomration` to ensure accurate shipment tracking, financial reporting and it aids in applying correct tax rates and compliance at invoice posting to your ERP.",
+        "properties": {
+          "addressInformationType": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "The address type can be either `ShipTo` or `ShipFrom`. Only one set of address per address type.",
+            "xml": {
+              "name": "AddressInformationType"
+            },
+            "enum": [
+              "ShipTo",
+              "ShipFrom"
+            ]
+          },
+          "street": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Street",
+            "xml": {
+              "name": "Street"
+            }
+          },
+          "city": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "City",
+            "xml": {
+              "name": "City"
+            }
+          },
+          "state": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "State",
+            "xml": {
+              "name": "State"
+            }
+          },
+          "postalCode": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "PostalCode",
+            "xml": {
+              "name": "PostalCode"
+            }
+          },
+          "country": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Country",
+            "xml": {
+              "name": "Country"
+            }
+          }
+        },
+        "xml": {
+          "name": "AddressInformation"
         }
       },
       "IntegrationTaxGroupDto": {
@@ -22859,10 +22932,18 @@
               "name": "DocumentProvider"
             }
           },
+          "documentOriginalFormat": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "Orignal format of the invoice. This is a free text field where you can input the orignal format, before it has been converted by an invoice service provider.",
+            "xml": {
+              "name": "DocumentOriginalFormat"
+            }
+          },
           "documentSource": {
             "maxLength": 450,
             "type": "string",
-            "description": "Obsolete. When 'DocumentFormat' and 'DocumentProvider' is used, 'DocumentSource' is set automatically.",
+            "description": "Deprecated field. When 'DocumentFormat' and 'DocumentProvider' is used, 'DocumentSource' is set automatically.",
             "xml": {
               "name": "DocumentSource"
             },
@@ -22872,7 +22953,8 @@
               "EInvoice",
               "PDF",
               "ManualCreation"
-            ]
+            ],
+            "deprecated": true
           },
           "captureUser": {
             "maxLength": 450,
@@ -23123,6 +23205,16 @@
             "format": "date-time",
             "xml": {
               "name": "VatDate"
+            }
+          },
+          "addressInformation": {
+            "type": "array",
+            "xml": {
+              "name": "Addressinformation",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/EdiAddressInformationDto"
             }
           },
           "customField_Text1": {
@@ -23645,6 +23737,67 @@
         },
         "xml": {
           "name": "EdiCustomTaxField"
+        }
+      },
+      "EdiAddressInformationDto": {
+        "type": "object",
+        "description": "You can use `addressInfomration` to ensure accurate shipment tracking, financial reporting and it aids in applying correct tax rates and compliance at invoice posting to your ERP.",
+        "properties": {
+          "addressType": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "The address type can be either `ShipTo` or `ShipFrom`. Only one set of address per address type.",
+            "xml": {
+              "name": "AddressType"
+            },
+            "enum": [
+              "ShipTo",
+              "ShipFrom"
+            ]
+          },
+          "street": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Street",
+            "xml": {
+              "name": "Street"
+            }
+          },
+          "city": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "City",
+            "xml": {
+              "name": "City"
+            }
+          },
+          "state": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "State",
+            "xml": {
+              "name": "State"
+            }
+          },
+          "postalCode": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "PostalCode",
+            "xml": {
+              "name": "PostalCode"
+            }
+          },
+          "country": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Country",
+            "xml": {
+              "name": "Country"
+            }
+          }
+        },
+        "xml": {
+          "name": "AddressInformation"
         }
       },
       "EdiCompanyIdentifierDto": {
