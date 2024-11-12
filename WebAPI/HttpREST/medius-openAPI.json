@@ -22099,7 +22099,7 @@
           "companyId": {
             "maxLength": 100,
             "type": "string",
-            "description": "ExternalSystemId to corresponding entity."
+            "description": "Id of the company. Company.CompanyId."
           },
           "dimensions": {
             "type": "array",
@@ -22174,7 +22174,7 @@
           "companyId": {
             "maxLength": 100,
             "type": "string",
-            "description": "ExternalSystemId to corresponding entity."
+            "description": "Id of the company. Company.CompanyId."
           },
           "dimensions": {
             "type": "array",
