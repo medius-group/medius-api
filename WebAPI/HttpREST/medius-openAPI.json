@@ -6029,7 +6029,7 @@
         "tags": [
           "Master data - import"
         ],
-        "description": "The POST method allows the client to send spend limits that will be imported by the Medius master data import queue.\nThe spend limit have the company and the corresponding user as prerequisites.\nRemember that by sending configurations for users the integration will updated them all the time, so manual changes of the properties included\nin this data is not possible to set within Medius. ",
+        "description": "The POST method allows the client to send spend limits that will be imported by the Medius master data import queue.\n\nTo be able to send spend limits, you need to configure a budget type first. For more information on budget types, [click here](https://success.medius.com/documentation/procurement/administration_guide/administration_pages/budget_configuration/).\n\nFor more information on the budget key, [click here](https://success.medius.com/documentation/procurement/administration_guide/administration_pages/budget_keys/)\n\nIf you need to send adjustments to your spend limits, use the importAdjustments API.",
         "operationId": "ImportSpendLimits_Post",
         "requestBody": {
           "description": "The spend limits to import",
@@ -6047,7 +6047,7 @@
         },
         "responses": {
           "201": {
-            "description": "Response includes Location header with a link to the import batch, this link will give the status of how the batch is processing within Medius",
+            "description": "Returned importId which you can find in the Import management.",
             "content": {}
           }
         },
@@ -6059,7 +6059,7 @@
         "tags": [
           "Master data - import"
         ],
-        "description": "The POST method allows the client to send spend limits that will be imported by the Medius master data import queue.\nThe spend limit have the company and the corresponding user as prerequisites.\nRemember that by sending configurations for users the integration will updated them all the time, so manual changes of the properties included\nin this data is not possible to set within Medius. ",
+        "description": "The POST method allows the client to send adjustments to spend limits that will be imported by the Medius master data import queue.\n\nTo be able to send adjustments, you need to have a configured budget type and an existing spend limit in Medius AP Automation.",
         "operationId": "importAdjustments_Post",
         "requestBody": {
           "description": "The spend limits to import",
@@ -6077,7 +6077,7 @@
         },
         "responses": {
           "201": {
-            "description": "Response includes Location header with a link to the import batch, this link will give the status of how the batch is processing within Medius",
+            "description": "Returned importId which you can find in the Import management.",
             "content": {}
           }
         },
