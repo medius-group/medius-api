@@ -17069,7 +17069,7 @@
           },
           "type": {
             "type": "string",
-            "description": "Type of Contact person",
+            "description": "Type of Contact person. Available values listed in enum.",
             "xml": {
               "name": "Type"
             },
@@ -17077,7 +17077,8 @@
               "AdjustmentRequest",
               "Order",
               "Short Payment",
-              "Supplier Portal"
+              "Supplier Portal",
+              "Supplier Conversations"
             ]
           }
         },
