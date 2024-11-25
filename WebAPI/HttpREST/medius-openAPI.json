@@ -24985,7 +24985,7 @@
             "maxLength": 50,
             "type": "string",
             "description": "Payment method",
-            "example": "Wire transfer",
+            "example": "Wire",
             "xml": {
               "name": "PaymentMethod"
             }
