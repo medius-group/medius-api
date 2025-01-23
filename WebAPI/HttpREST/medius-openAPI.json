@@ -22125,7 +22125,7 @@
           "spendLimit": {
             "type": "number",
             "format": "decimal",
-            "description": "The default spend limit value for budget keys of this type."
+            "description": "The spend limit value for this budget key."
           }
         }
       },
