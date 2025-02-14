@@ -8093,7 +8093,10 @@
           161,
           162,
           163,
-          164
+          164,
+          165,
+          166,
+          167
         ],
         "x-enumNames": [
           "UNKNOWN",
@@ -8260,7 +8263,10 @@
           "PAYMENT_DETAILS_INVALID_COUNTRY_CODE",
           "PAYMENT_DETAILS_INVALID_STATE_CODE",
           "COMPANY_INVALID_COUNTRY_CODE",
-          "PAYMENT_DETAILS_INVALID_DESCRIPTION"
+          "PAYMENT_DETAILS_INVALID_DESCRIPTION",
+          "PURCHASE_ORDER_TOO_MANY_ITEM_NUMBERS",
+          "PURCHASE_ORDER_ITEM_NUMBERS_CONTAIN_DUPLICATES",
+          "MULTIPLE_RESTRICTIONS_TYPE_DEFINED_FOR_SAME_CONTROLLING_VALUE"
         ]
       },
       "ActualPaymentDateResponseDto": {
@@ -13835,6 +13841,22 @@
             "format": "decimal",
             "xml": {
               "name": "TwoWayMatchTotalInvoicedQuantity"
+            }
+          },
+          "additionalItemNumbers": {
+            "type": "array",
+            "xml": {
+              "name": "AdditionalItemNumbers",
+              "wrapped": true
+            },
+            "items": {
+              "type": "string",
+              "maxLength": 450,
+              "description": "Add additional item numbers to enhance the automatic connection on invoices. Import up to 5 additional item numbers. Duplicate checks are performed against `itemNumber` and `additionalItemNumbers`.",
+              "xml": {
+                "name": "AdditionalItemNumber",
+                "wrapped": true
+              }
             }
           },
           "externalSystemMetadata": {
