@@ -25744,7 +25744,7 @@
       "GetPaymentIntegrationsResultDto": {
         "type": "object",
         "properties": {
-          "suppliers": {
+          "payments": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PaymentIntegrationUrlDto"
