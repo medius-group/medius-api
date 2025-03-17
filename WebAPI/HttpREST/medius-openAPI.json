@@ -52,6 +52,10 @@
       "description": "Import of payment batches and reconciliation"
     },
     {
+      "name": "Pay: Straight through payments",
+      "description": "Straight through payments"
+    },
+    {
       "name": "Supplier Onboarding: Suppliers synchronization",
       "description": "Synchronize suppliers with ERP"
     },
@@ -6748,7 +6752,182 @@
         }
       }
     },
-    "/integration/message/v1/supplierInvoice/actualPaymentDates/{messageStatus}/{messageId}": {
+    "/integration/message/v1/payments": {
+      "get": {
+        "tags": [
+          "Pay: Straight through payments"
+        ],
+        "description": "This method returns URLs to all payments that are available for ERP synchronization. Use the returned URL to get the complete payment details.",
+        "operationId": "PaymentsGetCorrelations",
+        "parameters": [
+          {
+            "name": "erp",
+            "in": "query",
+            "description": "ERP Id",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPaymentIntegrationsResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/integration/message/v1/payments/{correlationId}": {
+      "get": {
+        "tags": [
+          "Pay: Straight through payments"
+        ],
+        "description": "This method returns the payment items with all details available. To find available payments, use the GET method without {correlationId}.",
+        "operationId": "PaymentsGetCorrelationByKey",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentIntegrationInvoicesDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/integration/message/v1/payments/{correlationId}/response/success": {
+      "post": {
+        "tags": [
+          "Pay: Straight through payments"
+        ],
+        "description": "Post a successful integration response",
+        "operationId": "PaymentsUpdateIntegrationAsSuccess",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentIntegrationSuccessDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/integration/message/v1/payments/{correlationId}/response/error": {
+      "post": {
+        "tags": [
+          "Pay: Straight through payments"
+        ],
+        "description": "Post an error response for an integration",
+        "operationId": "PaymentsUpdateIntegrationAsError",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentIntegrationErrorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/integration/message/v1/payments/actualPaymentDates/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
@@ -25550,6 +25729,181 @@
         "additionalProperties": false
       },
       "SupplierIntegrationErrorDto": {
+        "type": "object",
+        "properties": {
+          "errorMessages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetPaymentIntegrationsResultDto": {
+        "type": "object",
+        "properties": {
+          "suppliers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentIntegrationUrlDto"
+            },
+            "nullable": true
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paging": {
+            "$ref": "#/components/schemas/Paging"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentIntegrationUrlDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentIntegrationInvoicesDto": {
+        "type": "object",
+        "properties": {
+          "correlationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentItemsStatusDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentItemsStatusDto": {
+        "type": "object",
+        "properties": {
+          "batchId": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "postingDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "paidAmount": {
+            "type": "string",
+            "nullable": true
+          },
+          "payeeId": {
+            "type": "string",
+            "nullable": true
+          },
+          "currency": {
+            "type": "string",
+            "nullable": true
+          },
+          "companyId": {
+            "type": "string",
+            "nullable": true
+          },
+          "methodOfPaymentErpId": {
+            "type": "string",
+            "nullable": true
+          },
+          "fundingBankAccountId": {
+            "type": "string",
+            "nullable": true
+          },
+          "invoices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentInvoicesDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentInvoicesDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "invoiceDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "postingDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "supplierId": {
+            "type": "string",
+            "nullable": true
+          },
+          "companyId": {
+            "type": "string",
+            "nullable": true
+          },
+          "voucherNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "currency": {
+            "type": "string",
+            "nullable": true
+          },
+          "invoiceAmount": {
+            "type": "string",
+            "nullable": true
+          },
+          "paidAmount": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentIntegrationSuccessDto": {
+        "type": "object",
+        "properties": {
+          "externalBatchId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentIntegrationErrorDto": {
         "type": "object",
         "properties": {
           "errorMessages": {
