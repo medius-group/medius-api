@@ -24119,8 +24119,7 @@
           "payeeZipOrPostalCode",
           "paymentAmount",
           "paymentCurrencyCode",
-          "payorBankAccountIdentifier",
-          "voucherNumber"
+          "payorBankAccountIdentifier"
         ],
         "type": "object",
         "description": "**Use this schema for US Companies**",
@@ -24485,8 +24484,7 @@
           "payeeName",
           "paymentAmount",
           "paymentCurrencyCode",
-          "payorBankAccountIdentifier",
-          "voucherNumber"
+          "payorBankAccountIdentifier"
         ],
         "type": "object",
         "description": "**Use this schema for EU Companies**",
