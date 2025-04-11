@@ -8096,7 +8096,8 @@
           164,
           165,
           166,
-          167
+          167,
+          168
         ],
         "x-enumNames": [
           "UNKNOWN",
@@ -8266,7 +8267,8 @@
           "PAYMENT_DETAILS_INVALID_DESCRIPTION",
           "PURCHASE_ORDER_TOO_MANY_ITEM_NUMBERS",
           "PURCHASE_ORDER_ITEM_NUMBERS_CONTAIN_DUPLICATES",
-          "MULTIPLE_RESTRICTIONS_TYPE_DEFINED_FOR_SAME_CONTROLLING_VALUE"
+          "MULTIPLE_RESTRICTIONS_TYPE_DEFINED_FOR_SAME_CONTROLLING_VALUE",
+          "ISSUE_WITH_SAVING_WHOLE_BATCH_OF_MASTERDATA_PLEASE_REPROCESS"
         ]
       },
       "ActualPaymentDateResponseDto": {
@@ -19453,6 +19455,14 @@
               "name": "SupplierName"
             }
           },
+          "contractNumber": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Contract number from recurring invoices.",
+            "xml": {
+              "name": "ContractNumber"
+            }
+          },
           "invoiceReference": {
             "maxLength": 450,
             "type": "string",
@@ -19956,6 +19966,14 @@
             },
             "items": {
               "$ref": "#/components/schemas/IntegrationAddressInformationDto"
+            }
+          },
+          "invoiceRemark": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "Remarks/comments from the invoice header.",
+            "xml": {
+              "name": "InvoiceRemark"
             }
           }
         },
