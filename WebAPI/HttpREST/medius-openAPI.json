@@ -25398,6 +25398,14 @@
       "SupplierIntegrationAddressBookDto": {
         "type": "object",
         "properties": {
+          "supplierManagementId": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalAddressId": {
+            "type": "string",
+            "nullable": true
+          },
           "isActive": {
             "type": "boolean"
           },
@@ -25543,12 +25551,33 @@
             "type": "string",
             "nullable": true
           },
+          "addresses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AddressPairDto"
+            },
+            "nullable": true
+          },
           "companyRelationships": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CompanyRelationshipPairDto"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddressPairDto": {
+        "type": "object",
+        "properties": {
+          "supplierManagementId": {
+            "type": "string",
+            "nullable": false
+          },
+          "externalAddressId": {
+            "type": "string",
+            "nullable": false
           }
         },
         "additionalProperties": false
