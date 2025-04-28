@@ -18110,6 +18110,23 @@
             "items": {
               "$ref": "#/components/schemas/ExternalSystemMetadataEntry"
             }
+          },
+          "owningcompanyId": {
+            "type": "string",
+            "description": "test",
+            "xml": {
+              "name": "OwningCompanyId"
+            }
+          },
+          "supplierManagementFields": {
+            "type": "array",
+            "xml": {
+              "name": "SupplierManagementFields",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/IntegrationSupplierManagementFieldDto"
+            }
           }
         },
         "xml": {
@@ -18366,6 +18383,182 @@
             "xml": {
               "name": "CustomField_DateTime5"
             }
+          },
+          "remitToId": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "RemitToId"
+            }
+          },
+          "streetLine1": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "StreetLine1"
+            }
+          },
+          "streetLine2": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "StreedLine2"
+            }
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "City"
+            }
+          },
+          "zipOrPostalCode": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "ZipOrPostalCode"
+            }
+          },
+          "stateCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "State code of the payee. The country subdivision code, ISO 3166-1 alpha-2. Validated when US and Canadian country codes are used.",
+            "xml": {
+              "name": "StateCode"
+            }
+          },
+          "countryCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "Country code of the payee. ISO 3166-1 alpha-2 code, two-letter country code.",
+            "xml": {
+              "name": "CountryCode"
+            }
+          },
+          "currencyCode": {
+            "type": "string",
+            "maxLength": 3,
+            "description": "Currency in which vendor will be paid. ISO Alfa 3 code.",
+            "xml": {
+              "name": "CurrencyCode"
+            }
+          },
+          "payorBankAccountIdentifier": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "PayorBankAccountIdentifier"
+            }
+          },
+          "bankName": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "BankName"
+            }
+          },
+          "bankStreetLine1": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "BankStreetLine1"
+            }
+          },
+          "bankStreetLine2": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "BankStreetLine2"
+            }
+          },
+          "bankCity": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "BankCity"
+            }
+          },
+          "bankCountryCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "Country code of the payee. ISO 3166-1 alpha-2 code, two-letter country code.",
+            "xml": {
+              "name": "BankCountryCode"
+            }
+          },
+          "accountNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "AccountNumber"
+            }
+          },
+          "bankgiroNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "BankgiroNumber"
+            }
+          },
+          "routingNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "RoutingNumber"
+            }
+          },
+          "routingNumberType": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "RoutingNumberType"
+            }
+          },
+          "bankSwiftCode": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "BankSwiftCode"
+            }
+          },
+          "contactEmail": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "ContactEmail"
+            }
+          },
+          "taxRegistrationNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "TaxRegistrationNumber"
+            }
+          },
+          "paymentMethod": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "PaymentMethod"
+            }
           }
         },
         "xml": {
@@ -18560,6 +18753,49 @@
         },
         "xml": {
           "name": "PaymentDetailsIdentifier"
+        }
+      },
+      "IntegrationSupplierManagementFieldDto": {
+        "required": [
+          "fieldName",
+          "value",
+          "fieldType"
+        ],
+        "type": "object",
+        "properties": {
+          "fieldName": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "",
+            "xml": {
+              "name": "fieldName"
+            }
+          },
+          "value": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "",
+            "xml": {
+              "name": "Value"
+            }
+          },
+          "fieldType": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "",
+            "xml": {
+              "name": "FieldType"
+            },
+            "enum": [
+              "int",
+              "date",
+              "boolean",
+              "shorttext"
+            ]
+          }
+        },
+        "xml": {
+          "name": "SupplierIdentifier"
         }
       },
       "ImportDocumentStatusDto": {
