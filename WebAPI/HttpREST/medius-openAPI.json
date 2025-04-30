@@ -18118,6 +18118,14 @@
               "name": "OwningCompanyId"
             }
           },
+          "taxRegistrationNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "TaxRegistrationNumber"
+            }
+          },
           "supplierManagementFields": {
             "type": "array",
             "xml": {
@@ -18387,7 +18395,7 @@
           "remitToId": {
             "type": "string",
             "maxLength": 450,
-            "description": "",
+            "description": "Identifier for a different remittance number or name for a payee (payees with multiple locations).",
             "xml": {
               "name": "RemitToId"
             }
@@ -18440,22 +18448,6 @@
               "name": "CountryCode"
             }
           },
-          "currencyCode": {
-            "type": "string",
-            "maxLength": 3,
-            "description": "Currency in which vendor will be paid. ISO Alfa 3 code.",
-            "xml": {
-              "name": "CurrencyCode"
-            }
-          },
-          "payorBankAccountIdentifier": {
-            "type": "string",
-            "maxLength": 450,
-            "description": "",
-            "xml": {
-              "name": "PayorBankAccountIdentifier"
-            }
-          },
           "bankName": {
             "type": "string",
             "maxLength": 450,
@@ -18486,6 +18478,22 @@
             "description": "",
             "xml": {
               "name": "BankCity"
+            }
+          },
+          "bankZipOrPostalCode": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "BankZipOrPostalCode"
+            }
+          },
+          "bankStateCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "State code of the bank. The country subdivision code, ISO 3166-1 alpha-2. Validated when US and Canadian country codes are used.",
+            "xml": {
+              "name": "BankStateCode"
             }
           },
           "bankCountryCode": {
@@ -18542,22 +18550,6 @@
             "description": "",
             "xml": {
               "name": "ContactEmail"
-            }
-          },
-          "taxRegistrationNumber": {
-            "type": "string",
-            "maxLength": 450,
-            "description": "",
-            "xml": {
-              "name": "TaxRegistrationNumber"
-            }
-          },
-          "paymentMethod": {
-            "type": "string",
-            "maxLength": 450,
-            "description": "",
-            "xml": {
-              "name": "PaymentMethod"
             }
           }
         },
