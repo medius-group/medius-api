@@ -13440,7 +13440,7 @@
           },
           "prepayment": {
             "type": "boolean",
-            "description": "If the purchase order is valid for Prepayment or not",
+            "description": "Indicates whether the purchase order was prepaid outside of Medius. Invoices connected to a purchase order that was prepaid in the ERP can be stopped for manual post control using the *Match - Prepayment detected on connected PO(s)* document validation rule. Note that this field is imported with a purchase order and cannot be changed in Medius.",
             "xml": {
               "name": "Prepayment"
             }
