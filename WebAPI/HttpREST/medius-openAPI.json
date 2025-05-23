@@ -25483,6 +25483,13 @@
           },
           "status": {
             "type": "string",
+            "description": "Status of the company relationship: Pending, Active, or Inactive",
+            "nullable": true
+          },
+          "isActive": 
+          {
+            "type": "boolean",
+            "description": "True if the company relationship is Pending or Active; otherwise, false.",
             "nullable": true
           },
           "paymentTerms": {
