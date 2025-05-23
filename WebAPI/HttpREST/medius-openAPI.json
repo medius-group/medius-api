@@ -18090,6 +18090,22 @@
               "name": "Prepayment"
             }
           },
+          "defaultPaymentMethod": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "DefaultPaymentMethod"
+            }
+          },
+          "taxRegistrationNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "TaxRegistrationNumber"
+            }
+          },
           "paymentDetails": {
             "type": "array",
             "xml": {
@@ -18116,14 +18132,6 @@
             "description": "test",
             "xml": {
               "name": "OwningCompanyId"
-            }
-          },
-          "taxRegistrationNumber": {
-            "type": "string",
-            "maxLength": 450,
-            "description": "",
-            "xml": {
-              "name": "TaxRegistrationNumber"
             }
           },
           "supplierManagementFields": {
@@ -18480,12 +18488,12 @@
               "name": "BankCity"
             }
           },
-          "bankZipOrPostalCode": {
+          "bankCountryCode": {
             "type": "string",
-            "maxLength": 450,
-            "description": "",
+            "maxLength": 2,
+            "description": "Country code of the payee. ISO 3166-1 alpha-2 code, two-letter country code.",
             "xml": {
-              "name": "BankZipOrPostalCode"
+              "name": "BankCountryCode"
             }
           },
           "bankStateCode": {
@@ -18496,12 +18504,12 @@
               "name": "BankStateCode"
             }
           },
-          "bankCountryCode": {
+          "bankZipOrPostalCode": {
             "type": "string",
-            "maxLength": 2,
-            "description": "Country code of the payee. ISO 3166-1 alpha-2 code, two-letter country code.",
+            "maxLength": 450,
+            "description": "",
             "xml": {
-              "name": "BankCountryCode"
+              "name": "BankZipOrPostalCode"
             }
           },
           "accountNumber": {
