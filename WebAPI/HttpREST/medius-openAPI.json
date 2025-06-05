@@ -8097,7 +8097,8 @@
           165,
           166,
           167,
-          168
+          168,
+          169
         ],
         "x-enumNames": [
           "UNKNOWN",
@@ -8268,7 +8269,8 @@
           "PURCHASE_ORDER_TOO_MANY_ITEM_NUMBERS",
           "PURCHASE_ORDER_ITEM_NUMBERS_CONTAIN_DUPLICATES",
           "MULTIPLE_RESTRICTIONS_TYPE_DEFINED_FOR_SAME_CONTROLLING_VALUE",
-          "ISSUE_WITH_SAVING_WHOLE_BATCH_OF_MASTERDATA_PLEASE_REPROCESS"
+          "ISSUE_WITH_SAVING_WHOLE_BATCH_OF_MASTERDATA_PLEASE_REPROCESS",
+          "SUPPLIER_COUNTRY_CODE_NOT_EXIST"
         ]
       },
       "ActualPaymentDateResponseDto": {
@@ -8953,6 +8955,12 @@
             "type": "string",
             "xml": {
               "name": "AccountingCurrencyCode"
+            }
+          },
+          "countryCode": {
+            "type": "string",
+            "xml": {
+              "name": "CountryCode"
             }
           }
         },
@@ -9768,7 +9776,7 @@
           },
           "rate": {
             "type": "number",
-            "description": "Currency rate. Decimal format (28,14). In 'to-format', e.g. Invoice currency * rate = Accounting currency",
+            "description": "Currency rate. In 'to-format', e.g. Invoice currency * rate = Accounting currency. If you import rate = 0, the rate will automatically be set to inactive within the application. Decimal format (28,14).",
             "format": "decimal",
             "xml": {
               "name": "Rate"
@@ -17298,6 +17306,12 @@
             "xml": {
               "name": "GlobalId"
             }
+          },
+          "countryCode": {
+            "type": "string",
+            "xml": {
+              "name": "CountryCode"
+            }
           }
         },
         "allOf": [
@@ -18088,6 +18102,14 @@
             "description": "If the supplier is to be used for pre payment",
             "xml": {
               "name": "Prepayment"
+            }
+          },
+          "countryCode": {
+            "maxLength": 2,
+            "type": "string",
+            "description": "The supplier country of origin. Can be used to track local regulations and data storage requirements. Format: ISO 3166-1 alpha 2, two-letter country code.",
+            "xml": {
+              "name": "CountryCode"
             }
           },
           "paymentDetails": {
