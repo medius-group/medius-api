@@ -8633,10 +8633,16 @@
               "name": "OriginOrderIdentifier"
             }
           },
-          "itemNumber": {
+          "orderItemNumber": {
             "type": "string",
             "xml": {
-              "name": "ItemNumber"
+              "name": "OrderItemNumber"
+            }
+          },
+          "invoiceItemNumber": {
+            "type": "string",
+            "xml": {
+              "name": "InvoiceItemNumber"
             }
           },
           "itemDescription": {
