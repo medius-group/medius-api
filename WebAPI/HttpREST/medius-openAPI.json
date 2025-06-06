@@ -11449,6 +11449,7 @@
             "type": "integer",
             "description": "Only for backward compatibility. Line with 0 cash discount should be used for NET payment term.",
             "format": "int32",
+            "deprecated": true,
             "xml": {
               "name": "NumberOfDays"
             }
@@ -11457,6 +11458,7 @@
             "type": "integer",
             "description": "Only for backward compatibility. Line with 0 cash discount should be used for NET payment term.",
             "format": "int32",
+            "deprecated": true,
             "xml": {
               "name": "NumberOfFreeMonths"
             }
