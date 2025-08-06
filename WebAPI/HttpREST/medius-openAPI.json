@@ -290,6 +290,7 @@
           {
             "name": "offset",
             "in": "query",
+            "description": "The offset",
             "schema": {
               "type": "integer",
               "format": "int32",
