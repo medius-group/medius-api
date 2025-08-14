@@ -6764,7 +6764,7 @@
             "name": "erpId",
             "in": "query",
             "description": "ERP Id",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string",
               "nullable": false
