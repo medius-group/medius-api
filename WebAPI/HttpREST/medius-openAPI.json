@@ -52,8 +52,8 @@
       "description": "Import of payment batches and reconciliation"
     },
     {
-      "name": "Pay: Straight through payments",
-      "description": "Straight through payments"
+      "name": "Payments",
+      "description": "Settlement for payment batches initiated in Medius"
     },
     {
       "name": "Supplier Onboarding: Suppliers synchronization",
@@ -6755,7 +6755,7 @@
     "/integration/message/v1/payments": {
       "get": {
         "tags": [
-          "Pay: Straight through payments"
+          "Payments"
         ],
         "description": "This method returns URLs to all payments that are available for ERP synchronization. Use the returned URL to get the complete payment details. Items that have changed status to Processing, Error or Success are not be able to be retrieved.",
         "operationId": "PaymentsGetCorrelations",
@@ -6764,7 +6764,7 @@
             "name": "erpId",
             "in": "query",
             "description": "ERP Id",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string",
               "nullable": false
@@ -6809,7 +6809,7 @@
     "/integration/message/v1/payments/{correlationId}": {
       "get": {
         "tags": [
-          "Pay: Straight through payments"
+          "Payments"
         ],
         "description": "This method returns the payment items with all details available. To find available payments, use the GET method without {correlationId}.",
         "operationId": "PaymentsGetCorrelationByKey",
@@ -6847,7 +6847,7 @@
     "/integration/message/v1/payments/{correlationId}/processing": {
       "put": {
         "tags": [
-          "Pay: Straight through payments"
+          "Payments"
         ],
         "description": "PUT a processing integration status. Updates status of message with given correlationId to Processing indicating that message is processing. This is first possible status to set.",
         "operationId": "PaymentsUpdateIntegrationAsProcessing",
@@ -6878,7 +6878,7 @@
     "/integration/message/v1/payments/{correlationId}/response/success": {
       "post": {
         "tags": [
-          "Pay: Straight through payments"
+          "Payments"
         ],
         "description": "POST a successful integration response. Sets payment journal id (externalBatchId field) for given payments and updates status of message to Success. To use this endpoint, the status must first be set to Processing by calling the PUT processing endpoint.",
         "operationId": "PaymentsUpdateIntegrationAsSuccess",
@@ -6918,7 +6918,7 @@
     "/integration/message/v1/payments/{correlationId}/response/error": {
       "post": {
         "tags": [
-          "Pay: Straight through payments"
+          "Payments"
         ],
         "description": "POST an error response for an integration. Set error messages for given payments and updates status of message to Error in case of failure of integration with ERP. To use this endpoint, the status must first be set to Processing by calling the PUT processing endpoint.",
         "operationId": "PaymentsUpdateIntegrationAsError",
@@ -25804,7 +25804,7 @@
             "type": "string",
             "nullable": false,
             "example": "https://api.medius.com/tenant1/integration/message/v1/payments/1",
-            "description": "URL that can be use GET payment details. 'tenant1' is place for tenant."
+            "description": "URL that can be use GET payment details. 'tenant1' is place for tenant"
           }
         },
         "additionalProperties": false
@@ -25820,7 +25820,7 @@
           },
           "items": {
             "type": "array",
-            "description": "Collection of items. Item represents single payment, all invoices are paid within single payment.",
+            "description": "Collection of items. Item represents single payment, all invoices are paid within single payment",
             "items": {
               "$ref": "#/components/schemas/PaymentItemsStatusDto"
             }
@@ -25835,44 +25835,44 @@
             "type": "string",
             "nullable": false,
             "example": "123456",
-            "description": "Payment id."
+            "description": "Payment id"
           },
           "status": {
             "type": "string",
             "nullable": false,
             "example": "Paid",
-            "description": "Paid or Issued depending on the configuration."
+            "description": "Paid or Issued depending on the configuration"
           },
           "paymentDate": {
             "type": "string",
             "nullable": false,
             "example": "2019-01-29",
-            "description": "Payment date or Issued date depending on configuration."
+            "description": "Payment date or Issued date depending on configuration"
           },
           "postingDate": {
             "type": "string",
             "nullable": false,
             "example": "2019-02-01",
-            "description": "Current day for new messages In case of error returned from ERP, user can change it and create new message."
+            "description": "Current day for new messages In case of error returned from ERP, user can change it and create new message"
           },
           "paidAmount": {
             "type": "number",
             "format": "double",
             "nullable": false,
             "example": "123456",
-            "description": "Sum of PaymentAmount from all invoices."
+            "description": "Sum of PaymentAmount from all invoices"
           },
           "payeeId": {
             "type": "string",
             "nullable": false,
             "example": "1234",
-            "description": "PayeeId."
+            "description": "PayeeId"
           },
           "currency": {
             "type": "string",
             "nullable": false,
             "example": "USD",
-            "description": "PaymentAmount currency."
+            "description": "PaymentAmount currency"
           },
           "companyId": {
             "type": "string",
@@ -25884,7 +25884,7 @@
             "type": "string",
             "nullable": false,
             "example": "Bank",
-            "description": "PaymentMethod mapped by ERP pockets from BankAccount configuration"
+            "description": "ERP payment method mapped in bank account configuration"
           },
           "fundingBankAccountId": {
             "type": "string",
@@ -25896,7 +25896,7 @@
             "type": "string",
             "nullable": false,
             "example": "BankAccount",
-            "description": "Bank account type"
+            "description": "Bank account type. Possible values are BankAccount and GLAccount"
           },
           "currencyRate": {
             "type": "string",
@@ -25906,7 +25906,7 @@
           },
           "invoices": {
             "type": "array",
-            "description": "Collection of invoices that belong to given payment.",
+            "description": "Collection of invoices that belong to given payment",
             "items": {
               "$ref": "#/components/schemas/PaymentInvoicesDto"
             }
@@ -25921,58 +25921,58 @@
             "type": "string",
             "nullable": false,
             "example": "DebitInvoice",
-            "description": "DebitInvoice when paymentAmount>=0, CreditInvoice when paymentAmount<0."
+            "description": "DebitInvoice when paymentAmount>=0, CreditInvoice when paymentAmount<0"
           },
           "invoiceNumber": {
             "type": "string",
             "nullable": false,
             "example": "11234",
-            "description": "Invoice number."
+            "description": "Invoice number"
           },
           "invoiceDate": {
             "type": "string",
             "nullable": false,
             "example": "2019-01-01",
-            "description": "Invoice date."
+            "description": "Invoice date"
           },
           "supplierId": {
             "type": "string",
             "nullable": false,
             "example": "1234",
-            "description": "Value of PayeeId."
+            "description": "PayeeId"
           },
           "companyId": {
             "type": "string",
             "nullable": false,
             "example": "MED",
-            "description": "Value of InvoiceCompanyId."
+            "description": "InvoiceCompanyId"
           },
           "voucherNumber": {
             "type": "string",
             "nullable": false,
             "example": "MED-900001",
-            "description": "Value of InvoiceVoucherNumber."
+            "description": "InvoiceVoucherNumber"
           },
           "invoiceAmount": {
             "type": "number",
             "format": "double",
             "nullable": false,
             "example": 100,
-            "description": "Invoice amount. Should be negative value in case of credit notes."
+            "description": "Invoice amount. Should be negative value in case of credit notes"
           },
           "discountAmount": {
             "type": "number",
             "format": "double",
             "nullable": true,
             "example": 0,
-            "description": "Discount amount. 0 if not set."
+            "description": "Discount amount. 0 if not set"
           },
           "paidAmount": {
             "type": "number",
             "format": "double",
             "nullable": false,
             "example": 100,
-            "description": "Payment amount."
+            "description": "Payment amount"
           }
         },
         "additionalProperties": false
@@ -25998,7 +25998,7 @@
               "type": "string",
               "example": "error message",
               "nullable": false,
-              "description": "Error message that informs about reason of rejection of payments."
+              "description": "Error message that informs about reason of rejection of payments"
             },
             "nullable": false
           }
