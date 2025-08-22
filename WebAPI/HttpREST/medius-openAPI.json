@@ -6590,7 +6590,7 @@
                         "preferredPaymentDate": "2021-04-10T00:00:00.000Z",
                         "invoiceAmount": 732.43,
                         "invoiceCurrencyCode": "USD",
-                        "comment": "Comment for payee",
+                        "comment": "Payment related comment to supplier",
                         "payorBankAccountIdentifier": "Bank1",
                         "payeeBankName": "Bank Zachodni WBK S.A.",
                         "payeeBankStreetLine1": "PL.WOLNOSCI 15",
@@ -6623,7 +6623,7 @@
                   "value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PaymentBatch>\n    <PayorId>Medius</PayorId>\n    <ExternalBatchId>WBC43728</ExternalBatchId>\n    <Items>\n        <Item>\n            <InvoiceNumber>2/2021</InvoiceNumber>\n            <VoucherNumber>1519c142-c405-4753-bb2f-5fbec59375d4</VoucherNumber>\n            <InvoiceVoucherNumber>2419c142-c405-4753-bb2f-5fbec5937556</InvoiceVoucherNumber>\n            <InvoiceCompanyId>Medius</InvoiceCompanyId>\n            <PayeeId>sinid</PayeeId>\n            <RemitToId>345123R</RemitToId>\n            <PayeeName>Larson - Roob</PayeeName>\n            <PayeeStreetLine1>3346 Pagac Union</PayeeStreetLine1>\n            <PayeeStreetLine2>PO box 1202</PayeeStreetLine2>\n            <PayeeCity>Lake Miller</PayeeCity>\n            <PayeeZipOrPostalCode>32202-4934</PayeeZipOrPostalCode>\n            <PayeeStateCode>RI</PayeeStateCode>\n            <PayeeCountryCode>US</PayeeCountryCode>\n            <PaymentAmount>732.43</PaymentAmount>\n            <PaymentCurrencyCode>USD</PaymentCurrencyCode>\n            <InvoiceDate>2021-04-10T00:00:00.000Z</InvoiceDate>\n            <InvoiceDueDate>2021-04-10T00:00:00.000Z</InvoiceDueDate>\n            <InvoiceAmount>732.43</InvoiceAmount>\n            <InvoiceCurrencyCode>USD</InvoiceCurrencyCode>\n            <PayorBankAccountIdentifier>BankId1</PayorBankAccountIdentifier>\n            <Comment>Comment for payee</Comment>\n            <PayorIdInPayeeSystem>897578762</PayorIdInPayeeSystem>\n                        <PayeeBankName>Bank Zachodni WBK S.A.</PayeeBankName>\n            <PayeeBankStreetLine1>PL.WOLNOSCI 15</PayeeBankStreetLine1>\n            <PayeeBankStreetLine2>BUILDING B</PayeeBankStreetLine2>\n            <PayeeBankCity>POZNAN</PayeeBankCity>\n            <PayeeBankCountryCode>PL</PayeeBankCountryCode>\n            <PayeeAccountNumber>PL88109013620000000036000000</PayeeAccountNumber>\n            <PayeeRoutingNumber>202020</PayeeRoutingNumber>\n            <PayeeRoutingNumberType>ACH</PayeeRoutingNumberType>\n            <PayeeBankSwiftCode>WBKPPLPP</PayeeBankSwiftCode>\n            <PurposeOfPayment>BillPayment</PurposeOfPayment>\n            <PayeeContactEmail>email1@example.com, email2@example.com</PayeeContactEmail>\n            <PaymentReference>P012701</PaymentReference>\n            <DiscountAmount>0</DiscountAmount>\n            <DiscountCurrencyCode>USD</DiscountCurrencyCode>\n            </Item>\n    </Items>\n</PaymentBatch>"
                 },
                 "EU-example": {
-                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PaymentBatch>\n    <PayorId>Medius</PayorId>\n    <ExternalBatchId>WBC43728</ExternalBatchId>\n    <Items>\n        <Item>\n            <InvoiceNumber>2/2021</InvoiceNumber>\n            <VoucherNumber>1519c142-c405-4753-bb2f-5fbec59375d4</VoucherNumber>\n            <InvoiceVoucherNumber>2419c142-c405-4753-bb2f-5fbec5937556</InvoiceVoucherNumber>\n            <InvoiceCompanyId>Medius</InvoiceCompanyId>\n            <PayeeId>sinid</PayeeId>\n            <RemitToId>345123R</RemitToId>\n            <PayeeName>Larson - Roob</PayeeName>\n            <PayeeStreetLine1>3346 Pagac Union</PayeeStreetLine1>\n            <PayeeStreetLine2>PO box 1202</PayeeStreetLine2>\n            <PayeeCity>Lake Miller</PayeeCity>\n            <PayeeZipOrPostalCode>89262-8263</PayeeZipOrPostalCode>\n            <PayeeStateCode>RI</PayeeStateCode>\n            <PayeeCountryCode>US</PayeeCountryCode>\n            <PaymentAmount>732.43</PaymentAmount>\n            <PaymentCurrencyCode>USD</PaymentCurrencyCode>\n            <InvoiceDate>2021-04-10T00:00:00.000Z</InvoiceDate>\n            <InvoiceDueDate>2021-04-10T00:00:00.000Z</InvoiceDueDate>\n            <PreferredPaymentDate>2021-04-10T00:00:00.000Z</PreferredPaymentDate>\n            <InvoiceAmount>732.43</InvoiceAmount>\n            <InvoiceCurrencyCode>USD</InvoiceCurrencyCode>\n            <Comment>Comment for payee</Comment>\n            <PayorBankAccountIdentifier>Bank1</PayorBankAccountIdentifier>\n            <PayeeBankName>Bank Zachodni WBK S.A.</PayeeBankName>\n            <PayeeBankStreetLine1>PL.WOLNOSCI 15</PayeeBankStreetLine1>\n            <PayeeBankStreetLine2>BUILDING B</PayeeBankStreetLine2>\n            <PayeeBankCity>POZNAN</PayeeBankCity>\n            <PayeeBankCountryCode>PL</PayeeBankCountryCode>\n            <PayeeAccountNumber>PL88109013620000000036000000</PayeeAccountNumber>\n            <PayeeBankgiroNumber>3452334</PayeeBankgiroNumber>\n            <PayeeRoutingNumber>202020</PayeeRoutingNumber>\n            <PayeeBankSwiftCode>WBKPPLPP</PayeeBankSwiftCode>\n            <PayeeContactEmail>email1@example.com, email2@example.com</PayeeContactEmail>\n            <PaymentReference>P012701</PaymentReference>\n            <PayeeTaxRegistrationNumber>12598</PayeeTaxRegistrationNumber>\n        </Item>\n    </Items>\n</PaymentBatch>"
+                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PaymentBatch>\n    <PayorId>Medius</PayorId>\n    <ExternalBatchId>WBC43728</ExternalBatchId>\n    <Items>\n        <Item>\n            <InvoiceNumber>2/2021</InvoiceNumber>\n            <VoucherNumber>1519c142-c405-4753-bb2f-5fbec59375d4</VoucherNumber>\n            <InvoiceVoucherNumber>2419c142-c405-4753-bb2f-5fbec5937556</InvoiceVoucherNumber>\n            <InvoiceCompanyId>Medius</InvoiceCompanyId>\n            <PayeeId>sinid</PayeeId>\n            <RemitToId>345123R</RemitToId>\n            <PayeeName>Larson - Roob</PayeeName>\n            <PayeeStreetLine1>3346 Pagac Union</PayeeStreetLine1>\n            <PayeeStreetLine2>PO box 1202</PayeeStreetLine2>\n            <PayeeCity>Lake Miller</PayeeCity>\n            <PayeeZipOrPostalCode>89262-8263</PayeeZipOrPostalCode>\n            <PayeeStateCode>RI</PayeeStateCode>\n            <PayeeCountryCode>US</PayeeCountryCode>\n            <PaymentAmount>732.43</PaymentAmount>\n            <PaymentCurrencyCode>USD</PaymentCurrencyCode>\n            <InvoiceDate>2021-04-10T00:00:00.000Z</InvoiceDate>\n            <InvoiceDueDate>2021-04-10T00:00:00.000Z</InvoiceDueDate>\n            <PreferredPaymentDate>2021-04-10T00:00:00.000Z</PreferredPaymentDate>\n            <InvoiceAmount>732.43</InvoiceAmount>\n            <InvoiceCurrencyCode>USD</InvoiceCurrencyCode>\n            <Comment>Payment related comment to supplier</Comment>\n            <PayorBankAccountIdentifier>Bank1</PayorBankAccountIdentifier>\n            <PayeeBankName>Bank Zachodni WBK S.A.</PayeeBankName>\n            <PayeeBankStreetLine1>PL.WOLNOSCI 15</PayeeBankStreetLine1>\n            <PayeeBankStreetLine2>BUILDING B</PayeeBankStreetLine2>\n            <PayeeBankCity>POZNAN</PayeeBankCity>\n            <PayeeBankCountryCode>PL</PayeeBankCountryCode>\n            <PayeeAccountNumber>PL88109013620000000036000000</PayeeAccountNumber>\n            <PayeeBankgiroNumber>3452334</PayeeBankgiroNumber>\n            <PayeeRoutingNumber>202020</PayeeRoutingNumber>\n            <PayeeBankSwiftCode>WBKPPLPP</PayeeBankSwiftCode>\n            <PayeeContactEmail>email1@example.com, email2@example.com</PayeeContactEmail>\n            <PaymentReference>P012701</PaymentReference>\n            <PayeeTaxRegistrationNumber>12598</PayeeTaxRegistrationNumber>\n        </Item>\n    </Items>\n</PaymentBatch>"
                 }
               }
             }
@@ -24169,7 +24169,7 @@
           "invoiceVoucherNumber": {
             "maxLength": 50,
             "type": "string",
-            "description": "Invoice voucher number from ERP, used to match the payment against an invoice posted in AP Automation",
+            "description": "Invoice voucher number assigned in the ERP.",
             "example": "2419c142-c405-4753-bb2f-5fbec5937556",
             "xml": {
               "name": "InvoiceVoucherNumber"
@@ -24534,7 +24534,7 @@
           "invoiceVoucherNumber": {
             "maxLength": 50,
             "type": "string",
-            "description": "Invoice voucher number from ERP, used to match the payment against an invoice posted in AP Automation",
+            "description": "Invoice voucher number assigned in the ERP.",
             "example": "2419c142-c405-4753-bb2f-5fbec5937556",
             "xml": {
               "name": "InvoiceVoucherNumber"
@@ -24578,7 +24578,7 @@
           "payeeStreetLine1": {
             "maxLength": 34,
             "type": "string",
-            "description": "Street address of the payee. __Note:__ required for international payments.",
+            "description": "Street address of the payee.\n\n __Note:__ required for:\n* international payments.\n* US domestic payments.",
             "example": "3346 Pagac Union",
             "xml": {
               "name": "PayeeStreetLine1"
@@ -24596,7 +24596,7 @@
           "payeeCity": {
             "maxLength": 35,
             "type": "string",
-            "description": "City of the payee. __Note:__ required for international payments.",
+            "description": "City of the payee.\n\n __Note:__ required for:\n* international payments.\n* US domestic payments.",
             "example": "Lake Miller",
             "xml": {
               "name": "PayeeCity"
@@ -24605,7 +24605,7 @@
           "payeeZipOrPostalCode": {
             "maxLength": 16,
             "type": "string",
-            "description": "Zip or Postal Code of the payee. __Note:__ required for international payments.",
+            "description": "Zip or Postal Code of the payee.\n\n __Note:__ required for:\n* international payments.\n* US domestic payments.",
             "example": "89262-8263",
             "xml": {
               "name": "PayeeZipOrPostalCode"
@@ -24614,7 +24614,7 @@
           "payeeStateCode": {
             "maxLength": 2,
             "type": "string",
-            "description": "State code of the payee. The country subdivision code, ISO 3166-2. __Note:__ required for international payments.",
+            "description": "State code of the payee. The country subdivision code, ISO 3166-2.\n\n __Note:__ required for:\n* international payments.\n* US domestic payments.\n* Canadian domestic payments.",
             "example": "RI",
             "xml": {
               "name": "PayeeStateCode"
@@ -24695,7 +24695,7 @@
           "comment": {
             "maxLength": 80,
             "type": "string",
-            "description": "Comment for invoice from payor accounting system for information purposes during batch authorization process.",
+            "description": "Payment related comment to supplier, presented on checks and remittance advice.",
             "example": "Comment for payee",
             "xml": {
               "name": "Comment"
@@ -24776,7 +24776,7 @@
           "payeeRoutingNumber": {
             "maxLength": 35,
             "type": "string",
-            "description": "Required field when basic account number provided in payeeAccountNumber field. Optional if IBAN provided. This could be known as RoutingNumber, BranchCode, ABA number, transit number, MICR, IFSC, etc. Required for international payments in some countries.",
+            "description": "When basic bank account number (BBAN) is provided in `payeeAccountNumber` field, the need of `payeeRoutingNumber` depends on the specific requirements of the country and the bank involved.\n\n Optional if IBAN provided.\n\n Required for international payments in some countries.\n\n This could be known as RoutingNumber, BranchCode, ABA number, transit number, MICR, IFSC, etc. Required for international payments in some countries.",
             "example": "202020",
             "xml": {
               "name": "PayeeRoutingNumber"
@@ -24790,6 +24790,15 @@
             "example": "WBKPPLPP",
             "xml": {
               "name": "PayeeBankSwiftCode"
+            }
+          },
+          "purposeOfPayment": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "Purpose of payment. Required for international payment to some countries.",
+            "example": "BillPayment",
+            "xml": {
+              "name": "PurposeOfPayment"
             }
           },
           "payeeContactEmail": {
@@ -24891,8 +24900,9 @@
           },
           "status": {
             "type": "string",
-            "description": "Possible statuses, see list.",
+            "description": "Available for backwards compatibility. Possible statuses, see list.",
             "example": "AwaitingApproval",
+            "deprecated": true,
             "xml": {
               "name": "Status"
             },
@@ -25085,13 +25095,17 @@
             "enum": [
               "AwaitingApproval",
               "SentForPayment",
+              "Scheduled",
               "Rejected",
               "PaymentInProgress",
               "ReadyForPayment",
               "Paid",
               "PaymentFailed",
               "ReloadingPaymentInformation",
-              "Issued"
+              "Issued",
+              "Processing",
+              "Expired",
+              "Voided"
             ]
           },
           "checkNumber": {
