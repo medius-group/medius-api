@@ -463,15 +463,6 @@
             "xml": {
               "name": "DiscountCurrencyCode"
             }
-          },
-          "importedCheckNumber": {
-            "maxLength": 10,
-            "type": "string",
-            "description": "The ImportedCheckNumber, or check number, from the customer's ERP system will be displayed on the remittance advice. Note: If not specified, an error will occur during the batch import process. When provided during the payment process, a single check number will be used for all invoices paid to one payee.",
-            "example": "0000007455",
-            "xml": {
-              "name": "ImportedCheckNumber"
-            }
           }
         },
         "xml": {
