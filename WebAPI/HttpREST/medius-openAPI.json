@@ -18102,7 +18102,7 @@
           },
           "prepayment": {
             "type": "boolean",
-            "description": "Indicates whether the supplier requires prepayment. Invoices from suppliers who require prepayment can be stopped for manual post control using the Prepayment detected on supplier document validation rules. Note that this field is imported from the ERP system and cannot be changed in Medius.",
+            "description": "Indicates whether the supplier requires prepayment. Invoices from suppliers who require prepayment can be stopped for manual post control using the *Match - Prepayment detected on supplier* validation rules. Note that this field is imported from the ERP system and cannot be changed in Medius.",
             "xml": {
               "name": "Prepayment"
             }
