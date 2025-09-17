@@ -25831,7 +25831,7 @@
       "PaymentItemsStatusDto": {
         "type": "object",
         "properties": {
-          "batchId": {
+          "paymentId": {
             "type": "string",
             "nullable": false,
             "example": "123456",
@@ -25980,7 +25980,7 @@
       "PaymentIntegrationSuccessDto": {
         "type": "object",
         "properties": {
-          "externalBatchId": {
+          "externalId": {
             "type": "string",
             "nullable": false,
             "example": "abc-12345",
