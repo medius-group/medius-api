@@ -25835,7 +25835,7 @@
             "type": "string",
             "nullable": false,
             "example": "123456",
-            "description": "Payment id"
+            "description": "End-to-end ID or Checknumber."
           },
           "status": {
             "type": "string",
