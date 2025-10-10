@@ -6386,6 +6386,9 @@
     },
     "/integration/documentImport/v1/supplierinvoices": {
       "post": {
+        "tags": [
+          "AP Automation: Invoice import"
+        ],
         "summary": "Import a supplier invoice (multipart)",
         "description": "Upload an invoice using multipart/form-data:\n\n- invoiceData (JSON) or invoiceDataXml (XML) — send one of these.\n- image — a single PDF representing the invoice image.\n- attachments — zero or more files (any format).\n- ccfInvoiceId — optional tracking id (GUID recommended).\n\nNotes:\n- Requests larger than the configured maximum are rejected with 413 Payload Too Large.\n- On success, responds 201 Created with a Location header linking to the GET endpoint.",
         "operationId": "importSupplierInvoice",
@@ -6396,8 +6399,8 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "invoiceData": {
-                    "$ref": "#/components/schemas/EdiSupplierInvoiceDto",
+                  "EdiSupplierInvoiceImportEnvelope": {
+                    "$ref": "#/components/schemas/EdiSupplierInvoiceImportEnvelope",
                     "description": "Invoice payload as JSON. Use this OR invoiceDataXml."
                   },
                   "invoiceDataXml": {
@@ -6442,10 +6445,7 @@
           "400": { "description": "Bad request (e.g., missing invoice data)" },
           "413": { "description": "Payload Too Large" },
           "500": { "description": "Server error" }
-        },
-        "security": [
-          { "oauth2": ["integration", "integration.documentImport"] }
-        ]
+        }
       }
     },
     "/integration/documentImport/v1/file/supplierInvoices/": {
@@ -23094,16 +23094,17 @@
         "type": "object",
         "properties": {
           "invoiceData": {
-            "type": "object",
-            "properties": {
-              "ediSupplierInvoice": {
-                "$ref": "#/components/schemas/EdiSupplierInvoiceDto"
-              }
-            },
-            "xml": {
-              "name": "InvoiceData",
-              "wrapped": true
-            }
+            "$ref": "#/components/schemas/EdiSupplierInvoiceDto"
+          },
+          "image": {
+            "type": "string",
+            "format": "binary",
+            "description": "Invoice image as PDF."
+          },
+          "attachments": {
+            "type": "array",
+            "description": "Optional attachments (any file type).",
+            "items": { "type": "string", "format": "binary" }
           }
         },
         "description": "Image and Attachment(s) are available as properties here, see above disclaimer. Please see Postman example for full specification.",
