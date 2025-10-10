@@ -6403,10 +6403,6 @@
                     "$ref": "#/components/schemas/EdiSupplierInvoiceImportEnvelope",
                     "description": "Invoice payload as JSON. Use this OR invoiceDataXml."
                   },
-                  "invoiceDataXml": {
-                    "type": "string",
-                    "description": "Invoice payload as XML (string). Use this OR invoiceData."
-                  },
                   "image": {
                     "type": "string",
                     "format": "binary",
@@ -6422,12 +6418,6 @@
                     "description": "Optional correlation/tracking id. If a valid GUID, it may be used as an import tracking id."
                   }
                 }
-              },
-              "encoding": {
-                "invoiceData": { "contentType": "application/json" },
-                "invoiceDataXml": { "contentType": "application/xml" },
-                "image": { "contentType": "application/pdf" },
-                "attachments": { "contentType": "application/octet-stream" }
               }
             }
           }
@@ -23107,10 +23097,7 @@
             "items": { "type": "string", "format": "binary" }
           }
         },
-        "description": "Image and Attachment(s) are available as properties here, see above disclaimer. Please see Postman example for full specification.",
-        "xml": {
-          "name": "EdiSupplierInvoiceImportEnvelope"
-        }
+        "description": "Image and Attachment(s) are available as properties here, see above disclaimer. Please see Postman example for full specification."
       },
       "EdiSupplierInvoiceDto": {
         "required": [
