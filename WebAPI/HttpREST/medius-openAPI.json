@@ -25563,6 +25563,148 @@
           "taxIdType": {
             "type": "string",
             "nullable": true
+          },
+          "paymentDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompanyRelationshipPaymentDetailsDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompanyRelationshipPaymentDetailsDto": {
+        "type": "object",
+        "properties": {
+          "supplierManagementId": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalPaymentDetailId": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": 
+          {
+            "type": "boolean",
+            "nullable": true
+          },
+          "paymentDetailId": {
+            "type": "string",
+            "nullable": true
+          },
+          "remitToId": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine1": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine2": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "postCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "stateCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryISO2": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryISO3": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryNumeric": {
+            "type": "string",
+            "nullable": true
+          },
+          "currencyCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankName": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankAddressLine1": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankAddressLine2": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankCity": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankCountry": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankCountryISO2": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankCountryISO3": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankCountryNumeric": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankPostCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankGiroNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "routingNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "routingNumberType": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankSwiftCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentMethod": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -25643,6 +25785,27 @@
             "nullable": false
           },
           "companyId": {
+            "type": "string",
+            "nullable": false
+          },
+          "paymentDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompanyRelationshipPaymentDetailsPairDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompanyRelationshipPaymentDetailsPairDto": {
+        "type": "object",
+        "properties": {
+          "supplierManagementId": {
+            "type": "string",
+            "nullable": false
+          },
+          "externalPaymentDetailId": {
             "type": "string",
             "nullable": false
           }
