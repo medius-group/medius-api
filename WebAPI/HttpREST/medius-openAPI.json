@@ -6048,6 +6048,7 @@
         "tags": [
           "Users"
         ],
+        "summary": "User export",
         "description": "When calling this endpoint a list of users will be returned.\nThere exists one filter parameter to this request, updatedSince, it filters out users that have been changed since\nthe updatedSince time stamp.\nIt's possible to adjust page sizes and offsets.",
         "operationId": "UserExport_Get",
         "parameters": [
