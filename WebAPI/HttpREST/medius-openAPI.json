@@ -18107,6 +18107,22 @@
               "name": "Prepayment"
             }
           },
+          "defaultPaymentMethod": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "DefaultPaymentMethod"
+            }
+          },
+          "taxRegistrationNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "TaxRegistrationNumber"
+            }
+          },
           "countryCode": {
             "maxLength": 2,
             "type": "string",
@@ -18390,6 +18406,166 @@
             "format": "date-time",
             "xml": {
               "name": "CustomField_DateTime5"
+            }
+          },
+          "remitToId": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "Identifier for a different remittance number or name for a payee (payees with multiple locations).",
+            "xml": {
+              "name": "RemitToId"
+            }
+          },
+          "streetLine1": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "StreetLine1"
+            }
+          },
+          "streetLine2": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "StreedLine2"
+            }
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "City"
+            }
+          },
+          "zipOrPostalCode": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "ZipOrPostalCode"
+            }
+          },
+          "stateCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "State code of the payee. The country subdivision code, ISO 3166-1 alpha-2. Validated when US and Canadian country codes are used.",
+            "xml": {
+              "name": "StateCode"
+            }
+          },
+          "countryCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "Country code of the payee. ISO 3166-1 alpha-2 code, two-letter country code.",
+            "xml": {
+              "name": "CountryCode"
+            }
+          },
+          "bankName": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "BankName"
+            }
+          },
+          "bankStreetLine1": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "BankStreetLine1"
+            }
+          },
+          "bankStreetLine2": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "BankStreetLine2"
+            }
+          },
+          "bankCity": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "BankCity"
+            }
+          },
+          "bankCountryCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "Country code of the payee. ISO 3166-1 alpha-2 code, two-letter country code.",
+            "xml": {
+              "name": "BankCountryCode"
+            }
+          },
+          "bankStateCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "State code of the bank. The country subdivision code, ISO 3166-1 alpha-2. Validated when US and Canadian country codes are used.",
+            "xml": {
+              "name": "BankStateCode"
+            }
+          },
+          "bankZipOrPostalCode": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "BankZipOrPostalCode"
+            }
+          },
+          "accountNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "AccountNumber"
+            }
+          },
+          "bankgiroNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "BankgiroNumber"
+            }
+          },
+          "routingNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "RoutingNumber"
+            }
+          },
+          "routingNumberType": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "RoutingNumberType"
+            }
+          },
+          "bankSwiftCode": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "BankSwiftCode"
+            }
+          },
+          "contactEmail": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "",
+            "xml": {
+              "name": "ContactEmail"
             }
           }
         },
