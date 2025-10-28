@@ -20,8 +20,8 @@
       "description": "Companies and suppliers export"
     },
     {
-      "name": "User import",
-      "description": "User and user configuration import"
+      "name": "Users",
+      "description": "User and user configuration import and user export"
     },
     {
       "name": "AP Automation: Supplier invoices",
@@ -5828,7 +5828,7 @@
     "/integration/masterdata/v1/userImportBatches": {
       "post": {
         "tags": [
-          "User import"
+          "Users"
         ],
         "description": "The POST method allows the client to send users that will be imported by the Medius master data import queue.\nThe users have the company and the corresponding role to set for the user as prerequisites.",
         "operationId": "UserImportBatch_Post",
@@ -5874,7 +5874,7 @@
     "/integration/masterdata/v1/userImportBatches/{importId}": {
       "get": {
         "tags": [
-          "User import"
+          "Users"
         ],
         "description": "The GET method will allow you to check status for an imported batch. When performing a POST, the link returned is pointing to this method.\nThis method allows the client to orchestrate so that the client can wait until dependent master data is imported correctly before sending that data.",
         "operationId": "UserImportBatch_Get",
@@ -5910,7 +5910,7 @@
       },
       "delete": {
         "tags": [
-          "User import"
+          "Users"
         ],
         "description": "The DELETE method allows a client to remove an import item from the queue, this to allow an integration to take full responsibility\nof resending master data batches and handle all error on the client side instead of within Medius. it's only possible to remove items that are not in a running state.",
         "operationId": "UserImportBatch_Delete",
@@ -5937,7 +5937,7 @@
     "/integration/masterdata/v1/userConfigurationImportBatches": {
       "post": {
         "tags": [
-          "User import"
+          "Users"
         ],
         "description": "The POST method allows the client to send user configurations that will be imported by the Medius master data import queue.\nThe user configurations have the company and the corresponding user as prerequisites.\nRemember that by sending configurations for users the integration will updated them all the time, so manual changes of the properties included\nin this data is not possible to set within Medius. ",
         "operationId": "UserConfigurationImportBatch_Post",
@@ -5983,7 +5983,7 @@
     "/integration/masterdata/v1/userConfigurationImportBatches/{importId}": {
       "get": {
         "tags": [
-          "User import"
+          "Users"
         ],
         "description": "The GET method will allow you to check status for an imported batch. When performing a POST, the link returned is pointing to this method.\nThis method allows the client to orchestrate so that the client can wait until dependent master data is imported correctly before sending that data.",
         "operationId": "UserConfigurationImportBatch_Get",
@@ -6019,7 +6019,7 @@
       },
       "delete": {
         "tags": [
-          "User import"
+          "Users"
         ],
         "description": "The DELETE method allows a client to remove an import item from the queue, this to allow an integration to take full responsibility\nof resending master data batches and handle all error on the client side instead of within Medius. it's only possible to remove items that are not in a running state.",
         "operationId": "UserConfigurationImportBatch_Delete",
@@ -6039,6 +6039,74 @@
           "200": {
             "description": "",
             "content": {}
+          }
+        }
+      }
+    },
+    "/integration/masterdata/v1/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "When calling this endpoint a list of users will be returned.\nThere exists one filter parameter to this request, updatedSince, it filters out users that have been changed since\nthe updatedSince time stamp.\nIt's possible to adjust page sizes and offsets.",
+        "operationId": "UserExport_Get",
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The offset",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": false,
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of records returned(max 1000).",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": false,
+              "default": 1000
+            }
+          },
+          {
+            "name": "updatedSince",
+            "in": "query",
+            "description": "Return users updated since the given UTC timestamp.",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paged user export result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserExportPageDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Unrecognizable format of provided Date and Time. Please follow ISO 8601 and input date or date and time, e.g. '2025-10-28T08:22:20'. Please note that all input is treated as UTC"
+                }
+              }
+            }
           }
         }
       }
@@ -22832,6 +22900,140 @@
         "xml": {
           "name": "IdentityProvider"
         }
+      },
+      "UserExportPageDto": {
+        "type": "object",
+        "description": "Paged container for exported users.",
+        "properties": {
+          "users": {
+            "type": "array",
+            "description": "List of exported users.",
+            "items": {
+              "$ref": "#/components/schemas/UserExportDto" 
+            }
+          },
+          "total": {
+            "type": "integer",
+            "description": "Total number of users matching the query."
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Offset used for this page."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Limit used for this page."
+          },
+          "paging": {
+            "$ref": "#/components/schemas/Paging"
+          }
+        },
+        "required": [
+          "users", 
+          "total", 
+          "offset", 
+          "limit" 
+        ]
+      },
+      "UserExportDto": {
+        "type": "object",
+        "description": "Exported user with profile, company, roles and configuration.",
+        "properties": {
+          "externalSystemId": {
+            "type": "string",
+            "description": "Unique identifier in the external system."
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Indicates if the user is active."
+          },
+          "userName": {
+            "type": "string",
+            "description": "Login name."
+          },
+          "firstName": {
+            "type": "string",
+            "description": "Given name."
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Family name."
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Primary email address."
+          },
+          "defaultCompany": {
+            "$ref": "#/components/schemas/UserExportCompanyDto"
+          },
+          "globalId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Global GUID for the user."
+          },
+          "language": {
+            "type": "string",
+            "description": "Preferred language code."
+          },
+          "format": {
+            "type": "string",
+            "description": "Preferred formatting settings."
+          },
+          "roles": {
+            "type": "array",
+            "description": "Assigned roles.",
+            "items": {
+              "$ref": "#/components/schemas/RoleExportDto" 
+            }
+          }
+        },
+        "required": [
+          "externalSystemId", 
+          "isActive", 
+          "userName", 
+          "firstName", 
+          "lastName", 
+          "email", 
+          "globalId" 
+        ]
+      },
+      "UserExportCompanyDto": {
+        "type": "object",
+        "description": "Default company assigned to the user.",
+        "properties": {
+          "companyId": {
+            "type": "string",
+            "description": "Internal company identifier."
+          },
+          "globalId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Company global GUID."
+          }
+        },
+        "required": [
+          "companyId", 
+          "globalId" 
+        ]
+      },
+      "RoleExportDto": {
+        "type": "object",
+        "description": "User role assignment within a company.",
+        "properties": {
+          "roleCompany": {
+            "type": "string",
+            "description": "Company identifier for the role."
+          },
+          "roleName": {
+            "type": "string",
+            "description": "Role name."
+          }
+        },
+        "required": [
+          "roleCompany", 
+          "roleName" 
+        ]
       },
       "VoucherResponseDto": {
         "type": "object",
