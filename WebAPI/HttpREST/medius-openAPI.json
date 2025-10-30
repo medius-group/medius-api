@@ -25904,6 +25904,11 @@
             "example": "0,000000",
             "description": "Currency rate of payment when funding bank account currency != payment amount currency"
           },
+          "isPrintCheck": {
+            "type": "boolean",
+            "nullable": false,
+            "description": "Indicates whether the payment was performed via payment method Check"
+          },
           "invoices": {
             "type": "array",
             "description": "Collection of invoices that belong to given payment",
@@ -25973,6 +25978,12 @@
             "nullable": false,
             "example": 100,
             "description": "Payment amount"
+          },
+          "documentType": {
+            "type": "string",
+            "nullable": true,
+            "example": "EXPENSE",
+            "description": "Document type. Possible values are EXPENSE, ORDER_BASED, CONTRACT_BASED, PAYMENT_REQUEST, PREPAYMENT"
           }
         },
         "additionalProperties": false
