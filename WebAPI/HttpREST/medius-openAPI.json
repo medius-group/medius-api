@@ -6539,7 +6539,7 @@
         "tags": [
           "AP Automation: Invoice import"
         ],
-        "summary": "Get list of available status messages of E-Invoices.",
+        "summary": "Get list of URLs of available status messages of E-Invoices. globalCompanyID as parameter.",
         "description": "This method returns URLs to all available e-invoices. Use the returned URL to get the e-invoice message status. Items that have changed status to Processing, Error or Success are not be able to be retrieved.",
         "operationId": "EInvoiceGetCorrelations",
         "parameters": [
