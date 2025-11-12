@@ -6461,6 +6461,287 @@
         "x-codegen-request-body-name": "invoice"
       }
     },
+    "/integration/documentImport/v1/einvoice/supplierInvoices/": {
+      "post": {
+        "tags": [
+          "AP Automation: Invoice import"
+        ],
+        "summary": "E-Invoice from service provider, with ability to get status messages",
+        "description": "The POST method uploads a PDF or XML invoice file from body to Capture.\nIt returns id of uploaded file. Note: the self testing experience in Swagger UI is limited. It is only possible to paste the XML body. Please use Postman or other test tools to send in PDF and XML files as binary.",
+        "operationId": "EInvoice_SupplierInvoice_Post",
+        "parameters": [
+          {
+            "name": "companyGlobalId",
+            "in": "query",
+            "description": "Unique company identifier",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          },
+          {
+            "name": "supplierGlobalId",
+            "in": "query",
+            "description": "Unique supplier identifier",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "externalId",
+            "in": "query",
+            "description": "Unique external identifier to corresponding entity",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "A PEPPOL BIS Billing 3.0 XML or PDF file containing invoice for Capture. Maximum file size is 50 MB.",
+          "content": {
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportDocumentSupplierInvoiceFile"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Response includes the id of uploaded file",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "invoice"
+      }
+    },
+    "/integration/message/v1/einvoices": {
+      "get": {
+        "tags": [
+          "AP Automation: Invoice import"
+        ],
+        "summary": "Get list of available status messages of E-Invoices.",
+        "description": "This method returns URLs to all available e-invoices. Use the returned URL to get the e-invoice message status. Items that have changed status to Processing, Error or Success are not be able to be retrieved.",
+        "operationId": "EInvoiceGetCorrelations",
+        "parameters": [
+          {
+            "name": "erpId",
+            "in": "query",
+            "description": "ERP Id",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEInvoiceIntegrationsResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "When server was unable to parse request. 400 status code with generic error is returned."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/einvoices/{correlationId}": {
+      "get": {
+        "tags": [
+          "AP Automation: Invoice import"
+        ],
+        "summary": "Get status message of E-Invoices. ",
+        "description": "This method returns the E-Invoice items with all details available. To find available E-Invoices, use the GET method without {correlationId}.",
+        "operationId": "EInvoiceGetCorrelationByKey",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "description": "Sequential number, unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EInvoiceIntegrationInvoicesDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "When server was unable to parse request. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "EInvoice not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/einvoices/{correlationId}/processing": {
+      "put": {
+        "tags": [
+          "AP Automation: Invoice import"
+        ],
+        "summary": "Update status of the E-Invoice message to Processing",
+        "description": "PUT a processing status. Updates status of message with given correlationId to Processing indicating that message is processing. This is first possible status to set.",
+        "operationId": "EInvoiceUpdateIntegrationAsProcessing",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "description": "Sequential number, unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated the integration status to processing."
+          },
+          "400": {
+            "description": "When server was unable to parse request. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "EInvoice not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/einvoices/{correlationId}/response/success": {
+      "post": {
+        "tags": [
+          "AP Automation: Invoice import"
+        ],
+        "summary": "Post confirmation on E-Invoice document status.",
+        "description": "POST a successful response.",
+        "operationId": "EInvoiceUpdateIntegrationAsSuccess",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "description": "Sequential number, unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EInvoiceIntegrationSuccessDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the integration status to success and set the externalBatchId."
+          },
+          "400": {
+            "description": "When server was unable to parse request, or status modification is not expected. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "EInvoice not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/einvoices/{correlationId}/response/error": {
+      "post": {
+        "tags": [
+          "AP Automation: Invoice import"
+        ],
+        "summary": "Post error on E-Invoice document status.",
+        "description": "POST an error response.",
+        "operationId": "EInvoiceUpdateIntegrationAsError",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "description": "Sequential number, unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EInvoiceIntegrationErrorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the integration status to error and set the error messages."
+          },
+          "400": {
+            "description": "When server was unable to parse request, or status modification is not expected. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "EInvoice not found."
+          }
+        }
+      }
+    },
     "/integration/payment/v1/paymentBatches": {
       "get": {
         "tags": [
@@ -25765,6 +26046,86 @@
               "type": "string"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetEInvoiceIntegrationsResultDto": {
+        "type": "object",
+        "properties": {
+          "einvoices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EInvoiceIntegrationUrlDto"
+            },
+            "nullable": false
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int32",
+            "example": 0
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32",
+            "example": 10
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32",
+            "example": 10
+          }
+        },
+        "additionalProperties": false
+      },
+      "EInvoiceIntegrationUrlDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "nullable": false,
+            "example": "https://api.medius.com/tenant1/integration/message/v1/einvoices/1",
+            "description": "URL that can be use GET e-invoice details. 'tenant1' is place for tenant"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EInvoiceIntegrationInvoicesDto": {
+        "type": "object",
+        "properties": {
+          "correlationId": {
+            "type": "string",
+            "nullable": false,
+            "example": "1",
+            "description": "Sequential number, unique identifier of message"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EInvoiceIntegrationSuccessDto": {
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "nullable": false,
+            "example": "abc-12345",
+            "description": "EInvoice id"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EInvoiceIntegrationErrorDto": {
+        "type": "object",
+        "properties": {
+          "errorMessages": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "error message",
+              "nullable": false,
+              "description": "Error message that informs about reason of rejection of the status message for E-Invoice"
+            },
+            "nullable": false
           }
         },
         "additionalProperties": false
