@@ -6461,7 +6461,7 @@
         "x-codegen-request-body-name": "invoice"
       }
     },
-    "/integration/documentImport/v1/einvoice/supplierInvoices/": {
+    "/integration/documentImport/v1/einvoices/supplierInvoices/": {
       "post": {
         "tags": [
           "AP Automation: Invoice import"
