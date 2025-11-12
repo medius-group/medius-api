@@ -6544,9 +6544,9 @@
         "operationId": "EInvoiceGetCorrelations",
         "parameters": [
           {
-            "name": "erpId",
+            "name": "globalCompanyID",
             "in": "query",
-            "description": "ERP Id",
+            "description": "Global Company ID",
             "required": false,
             "schema": {
               "type": "string",
