@@ -20000,6 +20000,14 @@
             "xml": {
               "name": "InvoiceRemark"
             }
+          },
+          "platformAssignedDate": {
+            "type": "string",
+            "description": "Platform assigned date records the official date when an invoice is accepted into an e-invoicing system. This is needed as the official date might differ from the date an invoice is received in Medius.",
+            "format": "date-time",
+            "xml": {
+              "name": "PlatformAssignedDate"
+            }
           }
         },
         "xml": {
@@ -23182,6 +23190,14 @@
             "format": "date-time",
             "xml": {
               "name": "FinalBookingDate"
+            }
+          },
+          "platformAssignedDate": {
+            "type": "string",
+            "description": "Platform assigned date records the official date when an invoice is accepted into an e-invoicing system. This is needed as the official date might differ from the date an invoice is received in Medius.",
+            "format": "date-time",
+            "xml": {
+              "name": "PlatformAssignedDate"
             }
           },
           "currencyCode": {
