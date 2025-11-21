@@ -49,7 +49,11 @@
     },
     {
       "name": "Pay",
-      "description": "Import of payment batches and reconciliation"
+      "description": "Import of payment batches initiated in ERP and reconciliation"
+    },
+    {
+      "name": "Payments",
+      "description": "Settlement for payment batches initiated in Medius"
     },
     {
       "name": "Supplier Onboarding: Suppliers synchronization",
@@ -6745,6 +6749,209 @@
           "404": {
             "description": "Payment batch with given paymentBatchId not found",
             "content": {}
+          }
+        }
+      }
+    },
+    "/integration/message/v1/payments": {
+      "get": {
+        "tags": [
+          "Payments"
+        ],
+        "description": "This method returns URLs to all payments that are available for ERP synchronization. Use the returned URL to get the complete payment details. Items that have changed status to Processing, Error or Success are not be able to be retrieved.",
+        "operationId": "PaymentsGetCorrelations",
+        "parameters": [
+          {
+            "name": "erpId",
+            "in": "query",
+            "description": "ERP Id",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPaymentIntegrationsResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "When server was unable to parse request. 400 status code with generic error is returned."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/payments/{correlationId}": {
+      "get": {
+        "tags": [
+          "Payments"
+        ],
+        "description": "This method returns the payment items with all details available. To find available payments, use the GET method without {correlationId}.",
+        "operationId": "PaymentsGetCorrelationByKey",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "description": "Sequential number, unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentIntegrationInvoicesDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "When server was unable to parse request. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Payment not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/payments/{correlationId}/processing": {
+      "put": {
+        "tags": [
+          "Payments"
+        ],
+        "description": "PUT a processing integration status. Updates status of message with given correlationId to Processing indicating that message is processing. This is first possible status to set.",
+        "operationId": "PaymentsUpdateIntegrationAsProcessing",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "description": "Sequential number, unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated the integration status to processing."
+          },
+          "400": {
+            "description": "When server was unable to parse request. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Payment not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/payments/{correlationId}/response/success": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "description": "POST a successful integration response. Sets payment journal id (externalBatchId field) for given payments and updates status of message to Success. To use this endpoint, the status must first be set to Processing by calling the PUT processing endpoint.",
+        "operationId": "PaymentsUpdateIntegrationAsSuccess",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "description": "Sequential number, unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentIntegrationSuccessDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the integration status to success and set the externalBatchId."
+          },
+          "400": {
+            "description": "When server was unable to parse request, or status modification is not expected. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Payment not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/payments/{correlationId}/response/error": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "description": "POST an error response for an integration. Set error messages for given payments and updates status of message to Error in case of failure of integration with ERP. To use this endpoint, the status must first be set to Processing by calling the PUT processing endpoint.",
+        "operationId": "PaymentsUpdateIntegrationAsError",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "description": "Sequential number, unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentIntegrationErrorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the integration status to error and set the error messages."
+          },
+          "400": {
+            "description": "When server was unable to parse request, or status modification is not expected. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Payment not found."
           }
         }
       }
@@ -26014,6 +26221,253 @@
               "type": "string"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetPaymentIntegrationsResultDto": {
+        "type": "object",
+        "properties": {
+          "payments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentIntegrationUrlDto"
+            },
+            "nullable": false
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int32",
+            "example": 0
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32",
+            "example": 10
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32",
+            "example": 10
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentIntegrationUrlDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "nullable": false,
+            "example": "https://api.medius.com/tenant1/integration/message/v1/payments/1",
+            "description": "URL that can be use GET payment details. 'tenant1' is place for tenant"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentIntegrationInvoicesDto": {
+        "type": "object",
+        "properties": {
+          "correlationId": {
+            "type": "string",
+            "nullable": false,
+            "example": "1",
+            "description": "Sequential number, unique identifier of message"
+          },
+          "items": {
+            "type": "array",
+            "description": "Collection of items. Item represents single payment, all invoices are paid within single payment",
+            "items": {
+              "$ref": "#/components/schemas/PaymentItemsStatusDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentItemsStatusDto": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "nullable": false,
+            "example": "123456",
+            "description": "End-to-end ID or Checknumber."
+          },
+          "status": {
+            "type": "string",
+            "nullable": false,
+            "example": "Paid",
+            "description": "Paid or Issued depending on the configuration"
+          },
+          "paymentDate": {
+            "type": "string",
+            "nullable": false,
+            "example": "2019-01-29",
+            "description": "Payment date or Issued date depending on configuration"
+          },
+          "postingDate": {
+            "type": "string",
+            "nullable": false,
+            "example": "2019-02-01",
+            "description": "Current day for new messages In case of error returned from ERP, user can change it and create new message"
+          },
+          "paidAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": false,
+            "example": "123456",
+            "description": "Sum of PaymentAmount from all invoices"
+          },
+          "payeeId": {
+            "type": "string",
+            "nullable": false,
+            "example": "1234",
+            "description": "PayeeId"
+          },
+          "currency": {
+            "type": "string",
+            "nullable": false,
+            "example": "USD",
+            "description": "PaymentAmount currency"
+          },
+          "companyId": {
+            "type": "string",
+            "nullable": false,
+            "example": "MED",
+            "description": "PayorCompanyId"
+          },
+          "methodOfPaymentErpId": {
+            "type": "string",
+            "nullable": false,
+            "example": "Bank",
+            "description": "ERP payment method mapped in bank account configuration"
+          },
+          "fundingBankAccountId": {
+            "type": "string",
+            "nullable": false,
+            "example": "MED-1234",
+            "description": "Bank account identifier"
+          },
+          "fundingBankAccountType": {
+            "type": "string",
+            "nullable": false,
+            "example": "BankAccount",
+            "description": "Bank account type. Possible values are BankAccount and GLAccount"
+          },
+          "currencyRate": {
+            "type": "string",
+            "nullable": true,
+            "example": "0,000000",
+            "description": "Currency rate of payment when funding bank account currency != payment amount currency"
+          },
+          "isPrintCheck": {
+            "type": "boolean",
+            "nullable": false,
+            "description": "Indicates whether the payment was performed via payment method Check"
+          },
+          "invoices": {
+            "type": "array",
+            "description": "Collection of invoices that belong to given payment",
+            "items": {
+              "$ref": "#/components/schemas/PaymentInvoicesDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentInvoicesDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": false,
+            "example": "DebitInvoice",
+            "description": "DebitInvoice when paymentAmount>=0, CreditInvoice when paymentAmount<0"
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "nullable": false,
+            "example": "11234",
+            "description": "Invoice number"
+          },
+          "invoiceDate": {
+            "type": "string",
+            "nullable": false,
+            "example": "2019-01-01",
+            "description": "Invoice date"
+          },
+          "supplierId": {
+            "type": "string",
+            "nullable": false,
+            "example": "1234",
+            "description": "PayeeId"
+          },
+          "companyId": {
+            "type": "string",
+            "nullable": false,
+            "example": "MED",
+            "description": "InvoiceCompanyId"
+          },
+          "voucherNumber": {
+            "type": "string",
+            "nullable": false,
+            "example": "MED-900001",
+            "description": "InvoiceVoucherNumber"
+          },
+          "invoiceAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": false,
+            "example": 100,
+            "description": "Invoice amount. Should be negative value in case of credit notes"
+          },
+          "discountAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": 0,
+            "description": "Discount amount. 0 if not set"
+          },
+          "paidAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": false,
+            "example": 100,
+            "description": "Payment amount"
+          },
+          "documentType": {
+            "type": "string",
+            "nullable": true,
+            "example": "EXPENSE",
+            "description": "Document type. Possible values are EXPENSE, ORDER_BASED, CONTRACT_BASED, PAYMENT_REQUEST, PREPAYMENT"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentIntegrationSuccessDto": {
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "nullable": false,
+            "example": "abc-12345",
+            "description": "Payment journal id"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentIntegrationErrorDto": {
+        "type": "object",
+        "properties": {
+          "errorMessages": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "error message",
+              "nullable": false,
+              "description": "Error message that informs about reason of rejection of payments"
+            },
+            "nullable": false
           }
         },
         "additionalProperties": false
