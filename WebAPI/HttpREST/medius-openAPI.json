@@ -18107,6 +18107,22 @@
               "name": "Prepayment"
             }
           },
+          "defaultPaymentMethod": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - Default payment method for the supplier. Used in Medius Supplier Onboarding to set the default payment method when working with company relationships.",
+            "xml": {
+              "name": "DefaultPaymentMethod"
+            }
+          },
+          "taxRegistrationNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The tax registration number of the supplier. Used in Medius Supplier Onboarding for tax compliance checks and validations.",
+            "xml": {
+              "name": "TaxRegistrationNumber"
+            }
+          },
           "countryCode": {
             "maxLength": 2,
             "type": "string",
@@ -18117,6 +18133,7 @@
           },
           "paymentDetails": {
             "type": "array",
+            "description": "Payment details in Medius are used to validate that invoice data matches the supplier’s registered information. The selected payment details follow the invoice through posting and, when using Medius Pay, are also used in the payment process. Some payment detail fields are only passed to Supplier Onboarding and used by Medius Payments; these fields are not shown in AP Automation and are marked as **Passed to SO** in the section below.",
             "xml": {
               "name": "PaymentDetails",
               "wrapped": true
@@ -18390,6 +18407,166 @@
             "format": "date-time",
             "xml": {
               "name": "CustomField_DateTime5"
+            }
+          },
+          "remitToId": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - Identifier for a different remittance number or name for a payee (payees with multiple locations).",
+            "xml": {
+              "name": "RemitToId"
+            }
+          },
+          "streetLine1": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The first line of the payee address.",
+            "xml": {
+              "name": "StreetLine1"
+            }
+          },
+          "streetLine2": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The second line of the payee address.",
+            "xml": {
+              "name": "StreetLine2"
+            }
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The town/city of the payee address.",
+            "xml": {
+              "name": "City"
+            }
+          },
+          "zipOrPostalCode": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The zip/postal code of the payee address.",
+            "xml": {
+              "name": "ZipOrPostalCode"
+            }
+          },
+          "stateCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "**Passed to SO** - State code of the payee. The country subdivision code, ISO 3166-1 alpha-2. Validated when US and Canadian country codes are used.",
+            "xml": {
+              "name": "StateCode"
+            }
+          },
+          "countryCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "**Passed to SO** - Country code of the payee. ISO 3166-1 alpha-2 code, two-letter country code.",
+            "xml": {
+              "name": "CountryCode"
+            }
+          },
+          "bankName": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - Name of the payee bank.",
+            "xml": {
+              "name": "BankName"
+            }
+          },
+          "bankStreetLine1": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The first line of the address of the payee bank.",
+            "xml": {
+              "name": "BankStreetLine1"
+            }
+          },
+          "bankStreetLine2": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The second line of the address of the payee bank.",
+            "xml": {
+              "name": "BankStreetLine2"
+            }
+          },
+          "bankCity": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The town/city of the payee bank address.",
+            "xml": {
+              "name": "BankCity"
+            }
+          },
+          "bankCountryCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "**Passed to SO** - Country code of the payee bank. ISO 3166-1 alpha-2 code, two-letter country code.",
+            "xml": {
+              "name": "BankCountryCode"
+            }
+          },
+          "bankStateCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "**Passed to SO** - State code of the bank. The country subdivision code, ISO 3166-1 alpha-2. Validated when US and Canadian country codes are used.",
+            "xml": {
+              "name": "BankStateCode"
+            }
+          },
+          "bankZipOrPostalCode": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The zip/postal code of the payee bank address.",
+            "xml": {
+              "name": "BankZipOrPostalCode"
+            }
+          },
+          "accountNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The account number of the payee bank.",
+            "xml": {
+              "name": "AccountNumber"
+            }
+          },
+          "bankgiroNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The bankgiro number of the payee bank.",
+            "xml": {
+              "name": "BankgiroNumber"
+            }
+          },
+          "routingNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The routing number of the payee bank.",
+            "xml": {
+              "name": "RoutingNumber"
+            }
+          },
+          "routingNumberType": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The type of the routing number of the payee bank.",
+            "xml": {
+              "name": "RoutingNumberType"
+            }
+          },
+          "bankSwiftCode": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The SWIFT code of the payee bank.",
+            "xml": {
+              "name": "BankSwiftCode"
+            }
+          },
+          "contactEmail": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The email address of a contact person or team within the supplier’s organization.",
+            "xml": {
+              "name": "ContactEmail"
             }
           }
         },
