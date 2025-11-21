@@ -49,7 +49,7 @@
     },
     {
       "name": "Pay",
-      "description": "Import of payment batches and reconciliation"
+      "description": "Import of payment batches initiated in ERP and reconciliation"
     },
     {
       "name": "Payments",
@@ -6955,7 +6955,7 @@
         }
       }
     },
-    "/integration/message/v1/payments/actualPaymentDates/{messageStatus}/{messageId}": {
+    "/integration/message/v1/supplierInvoice/actualPaymentDates/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
           "AP Automation: Supplier invoices"
