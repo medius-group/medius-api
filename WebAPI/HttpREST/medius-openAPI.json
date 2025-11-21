@@ -9567,6 +9567,7 @@
               "VAT_REGISTRATION_NUMBER",
               "GLN_NUMBER",
               "IBAN_NUMBER",
+              "ELECTRONIC_ADDRESS_ID",
               "OTHER",
               "ExternalSystemIdentifier",
               "CompanyNameIdentifier",
