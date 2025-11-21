@@ -20003,7 +20003,7 @@
           },
           "platformAssignedDate": {
             "type": "string",
-            "description": "Platform assigned date records the official date when an invoice is accepted into an e-invoicing system. This is needed as the official date might differ from the date an invoice is received in Medius.",
+            "description": "Platform assigned date records the official date when an invoice is accepted into an e-invoicing system. This is needed as the official date might differ from the date an invoice is received in Medius. This is used to determine when VAT should be recognized.",
             "format": "date-time",
             "xml": {
               "name": "PlatformAssignedDate"
@@ -23194,7 +23194,7 @@
           },
           "platformAssignedDate": {
             "type": "string",
-            "description": "Platform assigned date records the official date when an invoice is accepted into an e-invoicing system. This is needed as the official date might differ from the date an invoice is received in Medius.",
+            "description": "Platform assigned date records the official date when an invoice is accepted into an e-invoicing system. This is needed as the official date might differ from the date an invoice is received in Medius. This is used to determine when VAT should be recognized.",
             "format": "date-time",
             "xml": {
               "name": "PlatformAssignedDate"
