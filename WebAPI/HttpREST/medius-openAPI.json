@@ -13,7 +13,7 @@
   "tags": [
     {
       "name": "Master data - import",
-      "description": "Master data import used by the suite"
+      "description": "Master data import used by the suite of Medius products"
     },
     {
       "name": "Master data - export",
