@@ -6358,7 +6358,7 @@
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/EdiSupplierInvoiceImportEnvelope"
+                "$ref": "#/components/schemas/EdiSupplierInvoiceImportEnvelopeXML"
               }
             }
           },
@@ -23421,6 +23421,15 @@
         }
       },
       "EdiSupplierInvoiceImportEnvelope": {
+        "type": "object",
+        "properties": {
+          "invoiceData": {
+            "$ref": "#/components/schemas/EdiSupplierInvoiceDto"
+          }
+        },
+        "description": "Image and Attachment(s) are available as properties here, see above disclaimer. Please see Postman example for full specification."
+      },
+      "EdiSupplierInvoiceImportEnvelopeXML": {
         "type": "object",
         "properties": {
           "invoiceData": {
