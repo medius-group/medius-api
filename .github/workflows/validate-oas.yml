@@ -12,7 +12,6 @@ jobs:
       - name: Validate OpenAPI definition medius-openAPI
         uses: swaggerexpert/swagger-editor-validate@v1
         with:
-          swagger-editor-url: https://editor-next.swagger.io
           definition-file: WebAPI/HttpREST/medius-openAPI.json
           default-timeout: 100000
       - name: Validate OpenAPI definition s2c-openAPI
