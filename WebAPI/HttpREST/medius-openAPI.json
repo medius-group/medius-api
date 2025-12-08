@@ -53,7 +53,7 @@
     },
     {
       "name": "Payments: Batch creation in ERP",
-      "description": "Import of payment batches initiated in ERP and reconciliation"
+      "description": "Import of payment batches initiated in ERP and reconciliation APIs"
     },
     {
       "name": "Supplier Onboarding: Suppliers synchronization",
