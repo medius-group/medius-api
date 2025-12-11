@@ -48,12 +48,12 @@
       "description": "Purchase order and goods receipt ERP synchronization"
     },
     {
-      "name": "Pay",
-      "description": "Import of payment batches initiated in ERP and reconciliation"
+      "name": "Payments: Batch creation in Medius",
+      "description": "Settlement for payment batches initiated in Medius"
     },
     {
-      "name": "Payments",
-      "description": "Settlement for payment batches initiated in Medius"
+      "name": "Payments: Batch creation in ERP",
+      "description": "Import of payment batches initiated in ERP and reconciliation APIs"
     },
     {
       "name": "Supplier Onboarding: Suppliers synchronization",
@@ -6358,7 +6358,7 @@
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/EdiSupplierInvoiceImportEnvelope"
+                "$ref": "#/components/schemas/EdiSupplierInvoiceImportEnvelopeXML"
               }
             }
           },
@@ -6464,7 +6464,7 @@
     "/integration/payment/v1/paymentBatches": {
       "get": {
         "tags": [
-          "Pay"
+          "Payments: Batch creation in ERP"
         ],
         "description": "Get payment batch reconciliation status. Basic information about payment batches",
         "operationId": "paymentBatches_Get_externalBatchId",
@@ -6510,7 +6510,7 @@
       },
       "post": {
         "tags": [
-          "Pay"
+          "Payments: Batch creation in ERP"
         ],
         "description": "The POST method allows the client to send payment batches that will be imported into Medius Pay to be approved and paid. When import fails, incorrect payment batch is saved in Import error inbox within Medius Pay. This API has region settings, you will find both US and EU PaymentItem in schemas. The schema is decided on your company location. You can also see both US and EU example files.",
         "operationId": "paymentBatches_Post",
@@ -6662,7 +6662,7 @@
     "/integration/payment/v1/paymentBatches/{paymentBatchId}": {
       "get": {
         "tags": [
-          "Pay"
+          "Payments: Batch creation in ERP"
         ],
         "description": "Get payment batch reconciliation status. Basic information about payment batch",
         "operationId": "paymentBatches_Get_paymentBatchId",
@@ -6704,7 +6704,7 @@
     "/integration/payment/v1/paymentBatches/{paymentBatchId}/items": {
       "get": {
         "tags": [
-          "Pay"
+          "Payments: Batch creation in ERP"
         ],
         "description": "Get payment items reconciliation status. Detailed information about the items of payment batch",
         "operationId": "paymentBatches_Get_paymentBatchId_Items",
@@ -6756,7 +6756,7 @@
     "/integration/message/v1/payments": {
       "get": {
         "tags": [
-          "Payments"
+          "Payments: Batch creation in Medius"
         ],
         "description": "This method returns URLs to all payments that are available for ERP synchronization. Use the returned URL to get the complete payment details. Items that have changed status to Processing, Error or Success are not be able to be retrieved.",
         "operationId": "PaymentsGetCorrelations",
@@ -6810,7 +6810,7 @@
     "/integration/message/v1/payments/{correlationId}": {
       "get": {
         "tags": [
-          "Payments"
+          "Payments: Batch creation in Medius"
         ],
         "description": "This method returns the payment items with all details available. To find available payments, use the GET method without {correlationId}.",
         "operationId": "PaymentsGetCorrelationByKey",
@@ -6848,7 +6848,7 @@
     "/integration/message/v1/payments/{correlationId}/processing": {
       "put": {
         "tags": [
-          "Payments"
+          "Payments: Batch creation in Medius"
         ],
         "description": "PUT a processing integration status. Updates status of message with given correlationId to Processing indicating that message is processing. This is first possible status to set.",
         "operationId": "PaymentsUpdateIntegrationAsProcessing",
@@ -6879,7 +6879,7 @@
     "/integration/message/v1/payments/{correlationId}/response/success": {
       "post": {
         "tags": [
-          "Payments"
+          "Payments: Batch creation in Medius"
         ],
         "description": "POST a successful integration response. Sets payment journal id (externalBatchId field) for given payments and updates status of message to Success. To use this endpoint, the status must first be set to Processing by calling the PUT processing endpoint.",
         "operationId": "PaymentsUpdateIntegrationAsSuccess",
@@ -6919,7 +6919,7 @@
     "/integration/message/v1/payments/{correlationId}/response/error": {
       "post": {
         "tags": [
-          "Payments"
+          "Payments: Batch creation in Medius"
         ],
         "description": "POST an error response for an integration. Set error messages for given payments and updates status of message to Error in case of failure of integration with ERP. To use this endpoint, the status must first be set to Processing by calling the PUT processing endpoint.",
         "operationId": "PaymentsUpdateIntegrationAsError",
@@ -23421,6 +23421,15 @@
         }
       },
       "EdiSupplierInvoiceImportEnvelope": {
+        "type": "object",
+        "properties": {
+          "invoiceData": {
+            "$ref": "#/components/schemas/EdiSupplierInvoiceDto"
+          }
+        },
+        "description": "Image and Attachment(s) are available as properties here, see above disclaimer. Please see Postman example for full specification."
+      },
+      "EdiSupplierInvoiceImportEnvelopeXML": {
         "type": "object",
         "properties": {
           "invoiceData": {
