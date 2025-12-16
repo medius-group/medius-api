@@ -6428,7 +6428,7 @@
           {
             "name": "originalFormat",
             "in": "query",
-            "description": "The original format of the invoice if it originated from PDF, another XML format, EDI, scanning etc.",
+            "description": "The original format of the invoice, if it originated as a PDF, another XML format, EDI, a scanned document, or similar.",
             "schema": {
               "type": "string",
               "nullable": true
@@ -6437,7 +6437,7 @@
           {
             "name": "eInvoiceTrackingId",
             "in": "query",
-            "description": "Used to populate the field Invoice tracking id with for example KSeF number, or any other government-specific identifier.",
+            "description": "Specifies a value used to populate the Invoice Tracking ID field, such as a KSeF number or another government-specific identifier.",
             "schema": {
               "type": "string",
               "nullable": true
