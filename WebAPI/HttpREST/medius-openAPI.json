@@ -6424,10 +6424,28 @@
               "type": "string",
               "nullable": true
             }
+          },
+          {
+            "name": "originalFormat",
+            "in": "query",
+            "description": "The original format of the invoice, if it originated as a PDF, another XML format, EDI, a scanned document, or similar.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "eInvoiceTrackingId",
+            "in": "query",
+            "description": "Specifies a value used to populate the Invoice Tracking ID field, such as a KSeF number or another government-specific identifier.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
           }
         ],
         "requestBody": {
-          "description": "A PEPPOL BIS Billing 3.0 XML or PDF file containing invoice for Capture. Maximum file size is 50 MB.",
+          "description": "An invoice provided either as a PDF file or in a supported e-invoice format. For a complete list of supported formats, see [E-invoice formats](https://success.medius.com/documentation/capture/user_guide/e-invoice/#e-invoice-formats) in our Success Portal. The maximum file size is 50 MB.",
           "content": {
             "application/xml": {
               "schema": {
