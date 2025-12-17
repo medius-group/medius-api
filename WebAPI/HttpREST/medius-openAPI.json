@@ -21,7 +21,7 @@
     },
     {
       "name": "Users",
-      "description": "User and user configuration import and user export"
+      "description": "User import, user configuration and user export"
     },
     {
       "name": "AP Automation: Supplier invoices",
@@ -6463,7 +6463,7 @@
           "AP Automation: Invoice import"
         ],
         "summary": "Supplier invoice file import to Capture",
-        "description": "The POST method uploads a PDF or XML invoice file from body to Capture.\nIt returns id of uploaded file. Note: the self testing experience in Swagger UI is limited. It is only possible to paste the XML body. Please use Postman or other test tools to send in PDF and XML files as binary.",
+        "description": "The POST method uploads a PDF or XML invoice file from body to Capture. It returns an id of the uploaded file.\n\n Provide an invoice either as a PDF file or in a supported e-invoice format. For a complete list of supported formats, see [E-invoice formats](https://success.medius.com/documentation/capture/user_guide/e-invoice/#e-invoice-formats) in our Success Portal.\n\n **Note:** the self testing experience in Swagger UI is limited. It is only possible to paste the XML body. Please use Postman or other test tools to send in PDF and XML files as binary.",
         "operationId": "File_SupplierInvoice_Post",
         "parameters": [
           {
