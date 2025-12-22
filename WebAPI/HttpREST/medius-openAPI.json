@@ -14210,6 +14210,9 @@
             "enum": [
               "Cost",
               "ExceptionType",
+              "CostBalancing",
+              "Clearance",
+              "ExceptionTypeAutoApproved",
               "DeviationUnitPrice",
               "DeviationQuantity",
               "DeviationLineTotal",
@@ -14217,6 +14220,7 @@
               "DeviationUnitPriceWithinTolerance",
               "DeviationQuantityWithinTolerance",
               "DeviationLineTotalWithinTolerance",
+              "DeviationNetAmountWithinTolerance",
               "DeviationLineTotalApproved",
               "DeviationLineTotalRejected",
               "DeviationUnitPriceApproved",
@@ -14225,6 +14229,15 @@
               "DeviationQuantityRejected",
               "DeviationNetAmountApproved",
               "DeviationNetAmountRejected",
+              "DeviationExceptionType",
+              "DeviationExceptionTypeApproved",
+              "DeviationExceptionTypeRejected",
+              "ItemCharge",
+              "Tax",
+              "RejectedWithShortPayment",
+              "DeviationGoodsReceipt",
+              "DeviationGoodsReceiptApproved",
+              "DeviationGoodsReceiptRejected",
               "DeviationSameAsCost"
             ]
           }
@@ -20925,7 +20938,11 @@
               "DeviationExceptionTypeRejected",
               "ItemCharge",
               "Tax",
-              "RejectedWithShortPayment"
+              "RejectedWithShortPayment",
+              "DeviationGoodsReceipt",
+              "DeviationGoodsReceiptApproved",
+              "DeviationGoodsReceiptRejected",
+              "DeviationSameAsCost"
             ]
           },
           "poConnectionLineNumbers": {
