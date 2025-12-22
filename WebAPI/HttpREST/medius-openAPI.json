@@ -6116,6 +6116,53 @@
         }
       }
     },
+    "/integration/masterdata/v1/users/{externalSystemId}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "User export by external system ID",
+        "description": "When calling this endpoint the user with corresponding externalSystemId will be returned.",
+        "operationId": "UserExport_GetByExternalSystemId",
+        "parameters": [
+          {
+            "name": "externalSystemId",
+            "in": "path",
+            "description": "The external system ID of the user to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User export result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserExportPageByExternalSystemIdDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Bad request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/integration/message/v1/supplierInvoice/vouchers/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
@@ -23356,6 +23403,25 @@
           },
           "paging": {
             "$ref": "#/components/schemas/Paging"
+          }
+        },
+        "required": [
+          "users", 
+          "total", 
+          "offset", 
+          "limit" 
+        ]
+      },
+      "UserExportPageByExternalSystemIdDto": {
+        "type": "object",
+        "description": "Container for exported users.",
+        "properties": {
+          "users": {
+            "type": "array",
+            "description": "List of exported users.",
+            "items": {
+              "$ref": "#/components/schemas/UserExportDto" 
+            }
           }
         },
         "required": [
