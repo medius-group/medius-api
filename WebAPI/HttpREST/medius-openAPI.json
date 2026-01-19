@@ -25900,6 +25900,14 @@
             "type": "string",
             "nullable": true
           },
+          "emails": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false
+            },
+            "nullable": true
+          },
           "workNumber": {
             "type": "string",
             "nullable": true
@@ -26351,6 +26359,14 @@
             "type": "string",
             "nullable": true
           },
+          "contactEmails": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false
+            },
+            "nullable": true
+          },
           "paymentMethod": {
             "type": "string",
             "nullable": true
@@ -26429,6 +26445,10 @@
       "CompanyRelationshipPairDto": {
         "type": "object",
         "properties": {
+          "supplierManagementId": {
+            "type": "string",
+            "nullable": false
+          },
           "supplierId": {
             "type": "string",
             "nullable": false
