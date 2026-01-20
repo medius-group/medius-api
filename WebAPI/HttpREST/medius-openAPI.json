@@ -25898,7 +25898,9 @@
           },
           "email": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "deprecated": true,
+            "description": "This will still work for existing customers, but will contain only the first of potentially multiple email addresses"
           },
           "emails": {
             "type": "array",
@@ -26357,7 +26359,9 @@
           },
           "contactEmail": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "deprecated": true,
+            "description": "This will still work for existing customers, but will contain only the first of potentially multiple email addresses"
           },
           "contactEmails": {
             "type": "array",
