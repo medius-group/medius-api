@@ -25898,6 +25898,16 @@
           },
           "email": {
             "type": "string",
+            "nullable": true,
+            "deprecated": true,
+            "description": "This will still work for existing customers, but will contain only the first of potentially multiple email addresses"
+          },
+          "emails": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false
+            },
             "nullable": true
           },
           "workNumber": {
@@ -26349,6 +26359,16 @@
           },
           "contactEmail": {
             "type": "string",
+            "nullable": true,
+            "deprecated": true,
+            "description": "This will still work for existing customers, but will contain only the first of potentially multiple email addresses"
+          },
+          "contactEmails": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false
+            },
             "nullable": true
           },
           "paymentMethod": {
@@ -26429,6 +26449,10 @@
       "CompanyRelationshipPairDto": {
         "type": "object",
         "properties": {
+          "supplierManagementId": {
+            "type": "string",
+            "nullable": false
+          },
           "supplierId": {
             "type": "string",
             "nullable": false
