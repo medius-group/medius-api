@@ -6121,14 +6121,14 @@
         "tags": [
           "Users"
         ],
-        "summary": "User export by external system ID",
+        "summary": "User export by externalSystemId",
         "description": "When calling this endpoint the user with corresponding externalSystemId will be returned.",
         "operationId": "UserExport_GetByExternalSystemId",
         "parameters": [
           {
             "name": "externalSystemId",
             "in": "path",
-            "description": "The external system ID of the user to retrieve.",
+            "description": "The externalSystemId of the user to retrieve.",
             "required": true,
             "schema": {
               "type": "string",
@@ -6142,7 +6142,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserExportPageByExternalSystemIdDto"
+                  "$ref": "#/components/schemas/UserExportDto"
                 }
               }
             }
