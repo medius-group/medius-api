@@ -6116,6 +6116,53 @@
         }
       }
     },
+    "/integration/masterdata/v1/users/{externalSystemId}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "User export by externalSystemId",
+        "description": "When calling this endpoint the user with corresponding externalSystemId will be returned.",
+        "operationId": "UserExport_GetByExternalSystemId",
+        "parameters": [
+          {
+            "name": "externalSystemId",
+            "in": "path",
+            "description": "The externalSystemId of the user to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User export result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserExportDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Bad request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/integration/message/v1/supplierInvoice/vouchers/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
