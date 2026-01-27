@@ -23412,25 +23412,6 @@
           "limit" 
         ]
       },
-      "UserExportPageByExternalSystemIdDto": {
-        "type": "object",
-        "description": "Container for exported users.",
-        "properties": {
-          "users": {
-            "type": "array",
-            "description": "List of exported users.",
-            "items": {
-              "$ref": "#/components/schemas/UserExportDto" 
-            }
-          }
-        },
-        "required": [
-          "users", 
-          "total", 
-          "offset", 
-          "limit" 
-        ]
-      },
       "UserExportDto": {
         "type": "object",
         "description": "Exported user with profile, company, roles and configuration.",
