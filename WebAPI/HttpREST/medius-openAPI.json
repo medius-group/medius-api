@@ -22049,6 +22049,19 @@
               "ShipFrom"
             ]
           },
+          "addressInformationType": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "**Deprecated**. This field was incorrectly documented and has never returned any values. It is not supported. Use addressType instead.",
+            "xml": {
+              "name": "AddressInformationType"
+            },
+            "enum": [
+              "ShipTo",
+              "ShipFrom"
+            ],
+            "deprecated": true
+          },
           "street": {
             "maxLength": 450,
             "type": "string",
