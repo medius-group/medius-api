@@ -22037,17 +22037,30 @@
         "type": "object",
         "description": "You can use `addressInfomration` to ensure accurate shipment tracking, financial reporting and it aids in applying correct tax rates and compliance at invoice posting to your ERP.",
         "properties": {
-          "addressInformationType": {
+          "addressType": {
             "maxLength": 450,
             "type": "string",
             "description": "The address type can be either `ShipTo` or `ShipFrom`. Only one set of address per address type.",
+            "xml": {
+              "name": "AddressType"
+            },
+            "enum": [
+              "ShipTo",
+              "ShipFrom"
+            ]
+          },
+          "addressInformationType": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "**Deprecated**. This field was incorrectly documented and has never returned any values. It is not supported. Use addressType instead.",
             "xml": {
               "name": "AddressInformationType"
             },
             "enum": [
               "ShipTo",
               "ShipFrom"
-            ]
+            ],
+            "deprecated": true
           },
           "street": {
             "maxLength": 450,
