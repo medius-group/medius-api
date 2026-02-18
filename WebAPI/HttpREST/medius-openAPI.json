@@ -6511,6 +6511,16 @@
               "type": "string",
               "nullable": true
             }
+          },
+          {
+            "name": "platformAssignedDate",
+            "in": "query",
+            "description": "Used to populate the field Platform assigned date with the legal invoice creation/assignment date assigned by governmental portals. Format: Date (ISO 8601 2026-01-16T08:54:43.559Z).",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            }
           }
         ],
         "requestBody": {
