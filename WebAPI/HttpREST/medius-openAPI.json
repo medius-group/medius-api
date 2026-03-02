@@ -26453,7 +26453,8 @@
         "properties": {
           "question": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "question or field are human-readable and may change"
           },
           "answer": {
             "type": "string",
@@ -26465,6 +26466,11 @@
               "type": "string"
             },
             "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true,
+            "description": "code is intended for stable integration mapping"
           }
         },
         "additionalProperties": false
