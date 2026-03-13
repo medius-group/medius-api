@@ -1,0 +1,572 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Medius AR API",
+    "description": "This is the OpenAPI specification for Medius AR APIs. You are welcome to try the APIs below on your tenant. Remember to activate the OpenAPI test portal client application in Medius, for more information [click here](https://success.medius.com/documentation/integration-documentation/api_reference/specification/).\n\n Some useful links:\n- [Success documentation](https://success.medius.com/documentation/integration-documentation/) - the complete API documentation\n- [Postman collections](https://www.postman.com/medius-developers/medius-public-api) - Medius public API workspace",
+    "termsOfService": "http://www.medius.com",
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "Find out more information in the success portal",
+    "url": "https://success.mediusflow.com/documentation/integration-documentation/"
+  },
+  "tags": [
+    {
+      "name": "Accounts receivable",
+      "description": "Accounts receivable related services"
+    }
+  ],
+  "paths": {
+    "/integration/accountsReceivable/v1/companies/{companyGlobalId}/einvoices": {
+      "post": {
+        "tags": [
+          "Accounts receivable"
+        ],
+        "summary": "Send e-invoices to Medius Flow",
+        "description": "This endpoint allows you to send e-invoices to Medius Flow. The e-invoices will be processed and stored in Medius Flow, and can be accessed through the Medius Flow user interface or other APIs.",
+        "operationId": "sendEinvoices",
+        "parameters": [
+          {
+            "name": "companyGlobalId",
+            "in": "path",
+            "description": "The global ID of the company for which the e-invoices are being sent.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },          
+          {
+            "name": "externalId",
+            "in": "query",
+            "description": "The external ID of the e-invoice batch.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The list of e-invoices to be sent to Medius Flow.",
+          "required": true,
+          "content": {
+            "application/xml": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "application/pdf": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "E-invoices were successfully sent to Medius Flow.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "importTrackingId": {
+                      "type": "string",
+                      "example": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. The request was invalid or cannot be otherwise served."
+          },
+          "401": {
+            "description": "Unauthorized. Authentication is required and has failed or has not yet been provided."
+          },
+          "404": {
+            "description": "Not found. The requested resource could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "The requested resource could not be found."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integration/accountsReceivable/v1/companies/{companyGlobalId}/einvoices/generate": {
+      "post": {
+        "tags": [
+          "Accounts receivable"
+        ],
+        "summary": "Generate and submit e-invoices",
+        "description": "Post endpoint that generates invoice from JSON (only) in selected format and optionally submits it to network.",
+        "operationId": "sendEinvoicesjson",
+        "parameters": [
+          {
+            "name": "companyGlobalId",
+            "in": "path",
+            "description": "The global ID of the company for which the e-invoices are being sent.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Request payload used to generate an e-invoice in the selected format and optionally submit it.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateEinvoiceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "E-invoices were successfully sent to Medius Flow.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateEinvoiceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. The request was invalid or cannot be otherwise served."
+          },
+          "401": {
+            "description": "Unauthorized. Authentication is required and has failed or has not yet been provided."
+          },
+          "404": {
+            "description": "Not found. The requested resource could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "The requested resource could not be found."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GenerateEinvoiceRequest": {
+        "type": "object",
+        "required": [
+          "format",
+          "invoiceData"
+        ],
+        "properties": {
+          "format": {
+            "type": "string",
+            "description": "Output e-invoice format.",
+            "enum": [
+              "cii",
+              "facturx",
+              "ubl"
+            ]
+          },
+          "submit": {
+            "type": "boolean",
+            "description": "If true, submit the generated e-invoice to network.",
+            "default": false
+          },
+          "externalId": {
+            "type": "string",
+            "description": "Optional external identifier for idempotency or tracking."
+          },
+          "invoiceData": {
+            "$ref": "#/components/schemas/InvoiceData"
+          }
+        }
+      },
+      "GenerateEinvoiceResponse": {
+        "type": "object",
+        "required": [
+          "importTrackingId",
+          "invoiceFile"
+        ],
+        "properties": {
+          "importTrackingId": {
+            "type": "string",
+            "format": "uuid",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "invoiceFile": {
+            "$ref": "#/components/schemas/GeneratedInvoiceFile"
+          }
+        }
+      },
+      "GeneratedInvoiceFile": {
+        "type": "object",
+        "required": [
+          "mimeType",
+          "format",
+          "content"
+        ],
+        "properties": {
+          "mimeType": {
+            "type": "string",
+            "enum": [
+              "application/xml",
+              "application/pdf"
+            ]
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "cii",
+              "facturx",
+              "ubl"
+            ]
+          },
+          "content": {
+            "type": "string",
+            "format": "byte",
+            "description": "Base64-encoded invoice content."
+          }
+        }
+      },
+      "InvoiceData": {
+        "type": "object",
+        "required": [
+          "type",
+          "invoiceId",
+          "invoiceDate",
+          "buyer",
+          "seller",
+          "lines",
+          "taxDetails",
+          "monetary"
+        ],
+        "properties": {
+          "type": {
+            "type": "number"
+          },
+          "invoiceId": {
+            "type": "string"
+          },
+          "invoiceDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "paymentTerms": {
+            "type": "string"
+          },
+          "referenceData": {
+            "$ref": "#/components/schemas/ReferenceData"
+          },
+          "buyer": {
+            "$ref": "#/components/schemas/Party"
+          },
+          "seller": {
+            "$ref": "#/components/schemas/Party"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoiceLine"
+            }
+          },
+          "taxDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoiceTaxDetail"
+            }
+          },
+          "monetary": {
+            "$ref": "#/components/schemas/Monetary"
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Attachment"
+            }
+          }
+        }
+      },
+      "ReferenceData": {
+        "type": "object",
+        "properties": {
+          "buyerOrderReferenceId": {
+            "type": "string"
+          }
+        }
+      },
+      "Party": {
+        "type": "object",
+        "required": [
+          "name",
+          "electronicAddress",
+          "postalAddress"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "electronicAddress": {
+            "type": "string"
+          },
+          "vatNumber": {
+            "type": "string"
+          },
+          "postalAddress": {
+            "$ref": "#/components/schemas/PostalAddress"
+          }
+        }
+      },
+      "PostalAddress": {
+        "type": "object",
+        "required": [
+          "addressLineOne",
+          "cityName",
+          "postalCode",
+          "country"
+        ],
+        "properties": {
+          "addressLineOne": {
+            "type": "string"
+          },
+          "cityName": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          }
+        }
+      },
+      "InvoiceLine": {
+        "type": "object",
+        "required": [
+          "id",
+          "item",
+          "billedQuantity",
+          "totalAmount",
+          "taxDetail",
+          "price"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "item": {
+            "$ref": "#/components/schemas/InvoiceLineItem"
+          },
+          "billedQuantity": {
+            "$ref": "#/components/schemas/InvoiceLineQuantity"
+          },
+          "totalAmount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "taxDetail": {
+            "$ref": "#/components/schemas/LineTaxDetail"
+          },
+          "price": {
+            "$ref": "#/components/schemas/Price"
+          }
+        }
+      },
+      "InvoiceLineItem": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "InvoiceLineQuantity": {
+        "type": "object",
+        "required": [
+          "unitCode",
+          "quantity"
+        ],
+        "properties": {
+          "unitCode": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          }
+        }
+      },
+      "Amount": {
+        "type": "object",
+        "required": [
+          "amount",
+          "currency"
+        ],
+        "properties": {
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          }
+        }
+      },
+      "LineTaxDetail": {
+        "type": "object",
+        "required": [
+          "taxType",
+          "categoryCode",
+          "percent"
+        ],
+        "properties": {
+          "taxType": {
+            "type": "string"
+          },
+          "categoryCode": {
+            "type": "string"
+          },
+          "percent": {
+            "type": "number"
+          }
+        }
+      },
+      "Price": {
+        "type": "object",
+        "required": [
+          "netAmount"
+        ],
+        "properties": {
+          "netAmount": {
+            "$ref": "#/components/schemas/Amount"
+          }
+        }
+      },
+      "InvoiceTaxDetail": {
+        "type": "object",
+        "required": [
+          "taxableAmount",
+          "taxAmount",
+          "taxType",
+          "categoryCode",
+          "percent"
+        ],
+        "properties": {
+          "taxableAmount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "taxAmount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "taxType": {
+            "type": "string"
+          },
+          "categoryCode": {
+            "type": "string"
+          },
+          "percent": {
+            "type": "number"
+          }
+        }
+      },
+      "Monetary": {
+        "type": "object",
+        "required": [
+          "invoiceAmount",
+          "taxBasisTotalAmount",
+          "taxTotalAmount",
+          "payableAmount",
+          "lineTotalAmount",
+          "invoiceCurrency"
+        ],
+        "properties": {
+          "invoiceAmount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "taxBasisTotalAmount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "taxTotalAmount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "payableAmount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "lineTotalAmount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "invoiceCurrency": {
+            "type": "string"
+          }
+        }
+      },
+      "Attachment": {
+        "type": "object",
+        "properties": {
+          "reference": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "mimeType": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "mediusflowcloudauth": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://login.medius.com/{tenant}/oauth/authorize",
+            "scopes": {
+              "Integration": "Access all integration related services",
+              "Integration.AccountsReceivable": "Access accounts receivable related services"
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "mediusflowcloudauth": [
+        "Integration",
+        "Integration.AccountsReceivable"
+      ]
+    }
+  ]
+}
