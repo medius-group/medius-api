@@ -6575,7 +6575,7 @@
           "content": {
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/ImportDocumentSupplierInvoiceFile"
+                "type": "string"
               }
             },
             "application/pdf": {
@@ -19192,14 +19192,6 @@
               "name": "FinalDocumentId"
             }
           }
-        }
-      },
-      "ImportDocumentSupplierInvoiceFile": {
-        "type": "string",
-        "xml": {
-          "name": "Invoice",
-          "namespace": "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
-          "wrapped": true
         }
       },
       "InvoiceRequestDto": {
