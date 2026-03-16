@@ -6510,7 +6510,7 @@
           "AP Automation: Invoice import"
         ],
         "summary": "Supplier invoice file import to Capture",
-        "description": "The POST method uploads a PDF or XML invoice file from body to Capture. It returns an id of the uploaded file.\n\n Provide an invoice either as a PDF file or in a supported e-invoice format. For a complete list of supported formats, see [E-invoice formats](https://success.medius.com/documentation/capture/user_guide/e-invoice/#e-invoice-formats) in our Success Portal.\n\n **Note:** the self testing experience in Swagger UI is limited. It is only possible to paste the XML body. Please use Postman or other test tools to send in PDF and XML files as binary.",
+        "description": "The POST method uploads a supplier invoice document from the request body to Capture and returns the id of the uploaded file.\n\nSupported media types are: `application/xml`, `application/pdf`, `application/edi-x12`, `application/edifact`, and `application/zip`.\n\nFor XML and EDI media types , send the document content as text in the request body (either raw body content or content read from a file).\n For PDF and ZIP, send binary file content.\n\nFor a complete list of supported e-invoice formats, see [E-invoice formats](https://success.medius.com/documentation/capture/user_guide/e-invoice/#e-invoice-formats) in our Success Portal.\n\n**Note:** the self testing experience in Swagger UI is limited for this endpoint. Please use Postman or another API test tool when sending binary payloads or when testing all supported media types.",
         "operationId": "File_SupplierInvoice_Post",
         "parameters": [
           {
@@ -6571,11 +6571,33 @@
           }
         ],
         "requestBody": {
-          "description": "An invoice provided either as a PDF file or in a supported e-invoice format. For a complete list of supported formats, see [E-invoice formats](https://success.medius.com/documentation/capture/user_guide/e-invoice/#e-invoice-formats) in our Success Portal. The maximum file size is 50 MB.",
+          "description": "Upload an invoice document in one of the supported formats.\n\nSupported media types:\n- application/xml — XML e-invoice document\n- application/pdf — PDF file\n- application/edi-x12 — X12 EDI invoice message\n- application/edifact — EDIFACT invoice message\n- application/zip — ZIP archive containing a supported invoice document\n\nText-based formats\n\nFor application/xml, application/edi-x12, and application/edifact, the request body contains the document content itself. The content may be sent either:\n- as raw payload in the request body, or\n- as content of a file containing the document.\n\nBinary formats\n\nFor application/pdf and application/zip, the request body must contain the binary file content.\n\nMaximum file size: 50 MB.\n\nFor a complete list of supported e-invoice formats, see:\n [E-invoice formats](https://success.medius.com/documentation/capture/user_guide/e-invoice/#e-invoice-formats)",
           "content": {
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/ImportDocumentSupplierInvoiceFile"
+                "type": "string"
+              }
+            },
+            "application/pdf": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "application/edi-x12": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/edifact": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/zip": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
               }
             }
           },
@@ -6583,8 +6605,32 @@
         },
         "responses": {
           "201": {
-            "description": "Response includes the id of uploaded file",
-            "content": {}
+            "description": "Response includes uploaded file id and import tracking id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "FileId",
+                    "ImportTrackingId"
+                  ],
+                  "properties": {
+                    "FileId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "ImportTrackingId": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                },
+                "example": {
+                  "FileId": "20f9f440-7d15-483a-814e-228a43cfcb71",
+                  "ImportTrackingId": "7edd55e2-7be5-41bb-a66d-c6c205ee546a"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request",
@@ -19146,14 +19192,6 @@
               "name": "FinalDocumentId"
             }
           }
-        }
-      },
-      "ImportDocumentSupplierInvoiceFile": {
-        "type": "string",
-        "xml": {
-          "name": "Invoice",
-          "namespace": "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
-          "wrapped": true
         }
       },
       "InvoiceRequestDto": {
