@@ -6577,6 +6577,30 @@
               "schema": {
                 "$ref": "#/components/schemas/ImportDocumentSupplierInvoiceFile"
               }
+            },
+            "application/pdf": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "application/edi-x12": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "application/edifact": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "application/zip": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
             }
           },
           "required": true
