@@ -6605,8 +6605,32 @@
         },
         "responses": {
           "201": {
-            "description": "Response includes the id of uploaded file",
-            "content": {}
+            "description": "Response includes uploaded file id and import tracking id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "FileId",
+                    "ImportTrackingId"
+                  ],
+                  "properties": {
+                    "FileId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "ImportTrackingId": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                },
+                "example": {
+                  "FileId": "20f9f440-7d15-483a-814e-228a43cfcb71",
+                  "ImportTrackingId": "7edd55e2-7be5-41bb-a66d-c6c205ee546a"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request",
