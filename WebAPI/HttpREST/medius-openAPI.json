@@ -17524,7 +17524,8 @@
               "Order",
               "Short Payment",
               "Supplier Portal",
-              "Supplier Conversations"
+              "Supplier Conversations",
+              "Remittance advice"
             ]
           }
         },
@@ -25095,15 +25096,6 @@
               "name": "PayorBankAccountIdentifier"
             }
           },
-          "payorLocationIdentifier": {
-            "type": "string",
-            "description": "[Deprecated field. The field will be ignored by new customers and removed by the end of December 2024.] Legal entity, department, branch office, etc.",
-            "example": "1",
-            "deprecated": true,
-            "xml": {
-              "name": "PayorLocationIdentifier"
-            }
-          },
           "comment": {
             "maxLength": 80,
             "type": "string",
@@ -26491,7 +26483,8 @@
         "properties": {
           "question": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "question or field are human-readable and may change"
           },
           "answer": {
             "type": "string",
@@ -26503,6 +26496,11 @@
               "type": "string"
             },
             "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true,
+            "description": "code is intended for stable integration mapping"
           }
         },
         "additionalProperties": false
