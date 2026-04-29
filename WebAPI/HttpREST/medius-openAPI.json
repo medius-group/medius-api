@@ -23525,8 +23525,117 @@
             "items": {
               "$ref": "#/components/schemas/RoleExportDto" 
             }
+          },
+          "approvalGroups": {
+            "type": "array",
+            "description": "Approval groups connected to the user.",
+            "items": {
+              "$ref": "#/components/schemas/ApprovalGroupExportDto"
+            }
+          },
+          "followupGroups": {
+            "type": "array",
+            "description": "Follow-up groups connected to the user.",
+            "items": {
+              "$ref": "#/components/schemas/FollowupGroupExportDto"
+            }
+          },
+          "customField_Text1": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Custom field of type text."
+          },
+          "customField_Text2": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Custom field of type text."
+          },
+          "customField_Text3": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Custom field of type text."
+          },
+          "customField_Text4": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Custom field of type text."
+          },
+          "customField_Text5": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Custom field of type text."
+          },
+          "customField_Numeric1": {
+            "type": "number",
+            "description": "Custom field of type numeric. Decimal format (28,14).",
+            "format": "decimal"
+          },
+          "customField_Numeric2": {
+            "type": "number",
+            "description": "Custom field of type numeric. Decimal format (28,14).",
+            "format": "decimal"
+          },
+          "customField_Numeric3": {
+            "type": "number",
+            "description": "Custom field of type numeric. Decimal format (28,14).",
+            "format": "decimal"
+          },
+          "customField_Numeric4": {
+            "type": "number",
+            "description": "Custom field of type numeric. Decimal format (28,14).",
+            "format": "decimal"
+          },
+          "customField_Numeric5": {
+            "type": "number",
+            "description": "Custom field of type numeric. Decimal format (28,14).",
+            "format": "decimal"
+          },
+          "customField_Boolean1": {
+            "type": "boolean",
+            "description": "Custom field of type bit."
+          },
+          "customField_Boolean2": {
+            "type": "boolean",
+            "description": "Custom field of type bit."
+          },
+          "customField_Boolean3": {
+            "type": "boolean",
+            "description": "Custom field of type bit."
+          },
+          "customField_Boolean4": {
+            "type": "boolean",
+            "description": "Custom field of type bit."
+          },
+          "customField_Boolean5": {
+            "type": "boolean",
+            "description": "Custom field of type bit."
+          },
+          "customField_DateTime1": {
+            "type": "string",
+            "description": "Custom Field of type datetime.",
+            "format": "date-time"
+          },
+          "customField_DateTime2": {
+            "type": "string",
+            "description": "Custom Field of type datetime.",
+            "format": "date-time"
+          },
+          "customField_DateTime3": {
+            "type": "string",
+            "description": "Custom Field of type datetime.",
+            "format": "date-time"
+          },
+          "customField_DateTime4": {
+            "type": "string",
+            "description": "Custom Field of type datetime.",
+            "format": "date-time"
+          },
+          "customField_DateTime5": {
+            "type": "string",
+            "description": "Custom Field of type datetime.",
+            "format": "date-time"
           }
-        },
+        },        
         "required": [
           "externalSystemId", 
           "isActive", 
@@ -23572,6 +23681,42 @@
         "required": [
           "roleCompany", 
           "roleName" 
+        ]
+      },
+      "ApprovalGroupExportDto": {
+        "type": "object",
+        "description": "Approval group connected to the user.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the approval group"
+          },
+          "companyId": {
+            "type": "string",
+            "description": "Company id where the approval group is assigned to the user."
+          }
+        },
+        "required": [
+          "name", 
+          "companyId" 
+        ]
+      },
+      "FollowupGroupExportDto": {
+        "type": "object",
+        "description": "Follow-up group connected to the user.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the follow-up group"
+          },
+          "companyId": {
+            "type": "string",
+            "description": "Company id where the follow-up group is assigned to the user."
+          }
+        },
+        "required": [
+          "name", 
+          "companyId" 
         ]
       },
       "VoucherResponseDto": {
