@@ -7276,13 +7276,13 @@
         "tags": [
           "Supplier Onboarding: Suppliers synchronization"
         ],
-        "description": "This method returns URLs to all suppliers that are available for ERP synchronization. Use the returned URL to get the complete supplier record.",
+        "description": "Returns a paginated list of supplier correlation URLs for all suppliers that are available for ERP synchronization. Each entry contains a URL that can be used to retrieve the full supplier record. Use the `erp` query parameter to filter by a specific ERP system, and `offset`/`limit` for pagination. The response also includes paging links for navigating through the result set.",
         "operationId": "GetCorrelations",
         "parameters": [
           {
             "name": "erp",
             "in": "query",
-            "description": "ERP Id",
+            "description": "Optional ERP system identifier. When provided, only suppliers assigned to the specified ERP are returned.",
             "required": false,
             "schema": {
               "type": "string",
@@ -7292,6 +7292,7 @@
           {
             "name": "offset",
             "in": "query",
+            "description": "Zero-based index of the first supplier to return. Used for pagination.",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -7301,6 +7302,7 @@
           {
             "name": "limit",
             "in": "query",
+            "description": "Maximum number of suppliers to return per page.",
             "schema": {
               "type": "integer",
               "format": "int32",
@@ -7333,12 +7335,13 @@
         "tags": [
           "Supplier Onboarding: Suppliers synchronization"
         ],
-        "description": "This method returns the supplier record with all details available. To find a supplier message, use the GET method without {correlationId}.",
+        "description": "Returns the complete supplier record for a given correlation ID, including supplier details, registered address, company relationships, payment details, address book entries, onboarding questions, and custom fields. Use the GET method on `/integration/message/v1/suppliers` to discover available correlation IDs.",
         "operationId": "GetCorrelationByKey",
         "parameters": [
           {
             "name": "correlationId",
             "in": "path",
+            "description": "Unique identifier for the supplier integration record. Obtained from the list endpoint.",
             "required": true,
             "schema": {
               "type": "string",
@@ -7348,7 +7351,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "The complete supplier record with all available details.",
             "content": {
               "application/json": {
                 "schema": {
@@ -7371,12 +7374,13 @@
         "tags": [
           "Supplier Onboarding: Suppliers synchronization"
         ],
-        "description": "Post a successful integration response",
+        "description": "Posts a success response for a supplier integration. Call this endpoint after the supplier has been successfully created or updated in the ERP system. The request body must include either a `supplierId` (the ERP-assigned supplier identifier) or `companyRelationships` with ERP-assigned identifiers for each company relationship, address, and payment detail — but not both. This completes the synchronization cycle and removes the supplier from the pending queue.",
         "operationId": "UpdateIntegrationAsSuccess",
         "parameters": [
           {
             "name": "correlationId",
             "in": "path",
+            "description": "Unique identifier for the supplier integration record to mark as successfully processed.",
             "required": true,
             "schema": {
               "type": "string",
@@ -7411,12 +7415,13 @@
         "tags": [
           "Supplier Onboarding: Suppliers synchronization"
         ],
-        "description": "Post an error response for an integration",
+        "description": "Posts an error response for a supplier integration. Call this endpoint when the ERP system was unable to process the supplier record. Provide one or more error messages describing the failure. The supplier will be marked as failed in Supplier Onboarding, allowing users to review and retry the synchronization.",
         "operationId": "UpdateIntegrationAsError",
         "parameters": [
           {
             "name": "correlationId",
             "in": "path",
+            "description": "Unique identifier for the supplier integration record to mark as failed.",
             "required": true,
             "schema": {
               "type": "string",
@@ -26075,9 +26080,11 @@
       },
       "GetSupplierIntegrationsResultDto": {
         "type": "object",
+        "description": "Paginated result containing supplier integration URLs for ERP synchronization.",
         "properties": {
           "suppliers": {
             "type": "array",
+            "description": "List of supplier correlation URLs. Each entry represents a supplier available for ERP synchronization.",
             "items": {
               "$ref": "#/components/schemas/SupplierIntegrationUrlDto"
             },
@@ -26085,14 +26092,17 @@
           },
           "offset": {
             "type": "integer",
+            "description": "The zero-based index of the first item in the current page.",
             "format": "int32"
           },
           "limit": {
             "type": "integer",
+            "description": "The maximum number of items requested per page.",
             "format": "int32"
           },
           "total": {
             "type": "integer",
+            "description": "The total number of suppliers available for synchronization.",
             "format": "int32"
           },
           "paging": {
@@ -26103,9 +26113,11 @@
       },
       "SupplierIntegrationUrlDto": {
         "type": "object",
+        "description": "A reference to a supplier integration record.",
         "properties": {
           "url": {
             "type": "string",
+            "description": "Full URL to retrieve the complete supplier record for this integration.",
             "nullable": true
           }
         },
@@ -26113,13 +26125,16 @@
       },
       "SupplierIntegrationSupplierDto": {
         "type": "object",
+        "description": "Complete supplier record from Medius Supplier Onboarding, including supplier details, registered address, contacts, company relationships, payment details, address book entries, onboarding questions, and custom fields.",
         "properties": {
           "correlationId": {
             "type": "string",
+            "description": "Unique identifier for this supplier integration record. Used in success/error response endpoints.",
             "nullable": true
           },
           "supplierName": {
             "type": "string",
+            "description": "The registered name of the supplier.",
             "nullable": true
           },
           "approvalStatus": {
@@ -26127,6 +26142,7 @@
           },
           "approvalTags": {
             "type": "array",
+            "description": "Tags assigned during the approval process, used for categorization and filtering.",
             "items": {
               "type": "string"
             },
@@ -26134,18 +26150,22 @@
           },
           "supplierDescription": {
             "type": "string",
+            "description": "Free-text description of the supplier provided during onboarding.",
             "nullable": true
           },
           "supplierManagementId": {
             "type": "string",
+            "description": "Internal Medius identifier for the supplier, used for tracking across the Medius suite.",
             "nullable": true
           },
           "externalSupplierId": {
             "type": "string",
+            "description": "The supplier's identifier in the external system (ERP). Set when the supplier has been previously synchronized.",
             "nullable": true
           },
           "supplierGroups": {
             "type": "array",
+            "description": "Groups the supplier belongs to, used for categorization within Medius.",
             "items": {
               "type": "string"
             },
@@ -26153,6 +26173,7 @@
           },
           "founded": {
             "type": "integer",
+            "description": "Year the supplier company was founded.",
             "format": "int32"
           },
           "companySize": {
@@ -26160,10 +26181,12 @@
           },
           "website": {
             "type": "string",
+            "description": "The supplier's website URL.",
             "nullable": true
           },
           "currencies": {
             "type": "array",
+            "description": "Currencies the supplier operates in.",
             "items": {
               "$ref": "#/components/schemas/SupplierIntegrationCurrencyDto"
             },
@@ -26171,6 +26194,7 @@
           },
           "operatingCountries": {
             "type": "array",
+            "description": "Countries where the supplier operates.",
             "items": {
               "$ref": "#/components/schemas/SupplierIntegrationCountryDto"
             },
@@ -26178,24 +26202,28 @@
           },
           "companyRegistrationNumber": {
             "type": "string",
+            "description": "The supplier's company registration number (e.g., organization number).",
             "nullable": true
           },
           "taxRegistrationNumber": {
             "type": "string",
+            "description": "The supplier's tax or VAT registration number.",
             "nullable": true
           },
           "mainContactName": {
             "type": "string",
+            "description": "Full name of the supplier's primary contact person.",
             "nullable": true
           },
           "email": {
             "type": "string",
             "nullable": true,
             "deprecated": true,
-            "description": "This will still work for existing customers, but will contain only the first of potentially multiple email addresses"
+            "description": "Deprecated. Use `emails` instead. Contains only the first of potentially multiple email addresses for backward compatibility."
           },
           "emails": {
             "type": "array",
+            "description": "Email addresses of the supplier's primary contact.",
             "items": {
               "type": "string",
               "nullable": false
@@ -26204,70 +26232,87 @@
           },
           "workNumber": {
             "type": "string",
+            "description": "Work phone number of the supplier's primary contact.",
             "nullable": true
           },
           "mobileNumber": {
             "type": "string",
+            "description": "Mobile phone number of the supplier's primary contact.",
             "nullable": true
           },
           "faxNumber": {
             "type": "string",
+            "description": "Fax number of the supplier's primary contact.",
             "nullable": true
           },
           "addressLine1": {
             "type": "string",
+            "description": "First line of the supplier's registered address.",
             "nullable": true
           },
           "addressLine2": {
             "type": "string",
+            "description": "Second line of the supplier's registered address.",
             "nullable": true
           },
           "addressLine3": {
             "type": "string",
+            "description": "Third line of the supplier's registered address.",
             "nullable": true
           },
           "city": {
             "type": "string",
+            "description": "City of the supplier's registered address.",
             "nullable": true
           },
           "county": {
             "type": "string",
+            "description": "County of the supplier's registered address.",
             "nullable": true
           },
           "postCode": {
             "type": "string",
+            "description": "Postal code of the supplier's registered address.",
             "nullable": true
           },
           "state": {
             "type": "string",
+            "description": "State or province name of the supplier's registered address.",
             "nullable": true
           },
           "stateCode": {
             "type": "string",
+            "description": "State or province code of the supplier's registered address.",
             "nullable": true
           },
           "country": {
             "type": "string",
+            "description": "Country name of the supplier's registered address.",
             "nullable": true
           },
           "countryISO2": {
             "type": "string",
+            "description": "ISO 3166-1 alpha-2 country code (e.g., 'SE', 'US').",
             "nullable": true
           },
           "countryISO3": {
             "type": "string",
+            "description": "ISO 3166-1 alpha-3 country code (e.g., 'SWE', 'USA').",
             "nullable": true
           },
           "countryNumeric": {
             "type": "string",
+            "description": "ISO 3166-1 numeric country code (e.g., '752', '840').",
             "nullable": true
           },
           "supplierIndustry": {
             "type": "string",
+            "description": "The supplier's primary industry classification.",
             "nullable": true
           },
           "otherIndustries": {
             "type": "array",
+            "description": "Additional industries the supplier operates in.",
             "items": {
               "type": "string"
             },
@@ -26275,6 +26320,7 @@
           },
           "commodities": {
             "type": "array",
+            "description": "Commodities or product categories the supplier provides.",
             "items": {
               "type": "string"
             },
@@ -26282,32 +26328,39 @@
           },
           "facebookLink": {
             "type": "string",
+            "description": "URL to the supplier's Facebook page.",
             "nullable": true
           },
           "instagramLink": {
             "type": "string",
+            "description": "URL to the supplier's Instagram profile.",
             "nullable": true
           },
           "linkedInLink": {
             "type": "string",
+            "description": "URL to the supplier's LinkedIn page.",
             "nullable": true
           },
           "youTubeLink": {
             "type": "string",
+            "description": "URL to the supplier's YouTube channel.",
             "nullable": true
           },
           "createDate": {
             "type": "string",
+            "description": "Date and time when the supplier record was created in Supplier Onboarding.",
             "format": "date-time",
             "nullable": true
           },
           "lastModifiedDate": {
             "type": "string",
+            "description": "Date and time when the supplier record was last modified in Supplier Onboarding.",
             "format": "date-time",
             "nullable": true
           },
           "addresses": {
             "type": "array",
+            "description": "The supplier's address book entries (additional addresses beyond the registered address).",
             "items": {
               "$ref": "#/components/schemas/SupplierIntegrationAddressBookDto"
             },
@@ -26315,6 +26368,7 @@
           },
           "companyRelationships": {
             "type": "array",
+            "description": "Company-specific relationships for the supplier, including ERP supplier IDs, payment terms, tax settings, and payment details per company.",
             "items": {
               "$ref": "#/components/schemas/CompanyRelationshipsDto"
             },
@@ -26322,6 +26376,7 @@
           },
           "onboardingQuestions": {
             "type": "array",
+            "description": "Responses to onboarding questionnaire questions collected during the supplier onboarding process.",
             "items": {
               "$ref": "#/components/schemas/SupplierIntegrationQuestionResponseDto"
             },
@@ -26329,6 +26384,7 @@
           },
           "customFields": {
             "type": "array",
+            "description": "Responses to custom fields configured for the supplier in Supplier Onboarding.",
             "items": {
               "$ref": "#/components/schemas/SupplierIntegrationQuestionResponseDto"
             },
@@ -26338,6 +26394,7 @@
         "additionalProperties": false
       },
       "SupplierStatus": {
+        "description": "Approval status of the supplier. 1 = New, 2 = Approved, 3 = OnHold, 4 = Rejected, 5 = Archived.",
         "enum": [
           1,
           2,
@@ -26349,6 +26406,7 @@
         "format": "int32"
       },
       "SupplierCompanySize": {
+        "description": "Size category of the supplier company. 1 = SelfEmployed, 2 = 1-500 employees, 3 = 501-1000, 4 = 1001-5000, 5 = 5001-10000, 6 = More than 10000.",
         "enum": [
           1,
           2,
@@ -26362,9 +26420,11 @@
       },
       "SupplierIntegrationCurrencyDto": {
         "type": "object",
+        "description": "Currency the supplier operates in.",
         "properties": {
           "isoCode": {
             "type": "string",
+            "description": "ISO 4217 currency code (e.g., 'USD', 'EUR', 'SEK').",
             "nullable": true
           }
         },
@@ -26372,21 +26432,26 @@
       },
       "SupplierIntegrationCountryDto": {
         "type": "object",
+        "description": "Country where the supplier operates.",
         "properties": {
           "name": {
             "type": "string",
+            "description": "Full country name.",
             "nullable": true
           },
           "countryCode": {
             "type": "string",
+            "description": "ISO 3166-1 alpha-3 country code (e.g., 'SWE', 'USA').",
             "nullable": true
           },
           "countryCode2Letter": {
             "type": "string",
+            "description": "ISO 3166-1 alpha-2 country code (e.g., 'SE', 'US').",
             "nullable": true
           },
           "countryCodeNumeric": {
             "type": "string",
+            "description": "ISO 3166-1 numeric country code (e.g., '752', '840').",
             "nullable": true
           }
         },
@@ -26394,76 +26459,95 @@
       },
       "SupplierIntegrationAddressBookDto": {
         "type": "object",
+        "description": "An address book entry for the supplier, representing an additional address beyond the registered address.",
         "properties": {
           "supplierManagementId": {
             "type": "string",
+            "description": "Internal Medius identifier for this address record. Used to map back the ERP-assigned address ID via the success response.",
             "nullable": true
           },
           "externalAddressId": {
             "type": "string",
+            "description": "ERP-assigned identifier for this address. Set when the address has been previously synchronized.",
             "nullable": true
           },
           "isActive": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether this address is currently active."
           },
           "legalEntityName": {
             "type": "string",
+            "description": "Legal entity name associated with this address.",
             "nullable": true
           },
           "mainContactName": {
             "type": "string",
+            "description": "Name of the main contact person at this address.",
             "nullable": true
           },
           "mainContactEmail": {
             "type": "string",
+            "description": "Email of the main contact person at this address.",
             "nullable": true
           },
           "addressLine1": {
             "type": "string",
+            "description": "First line of the address.",
             "nullable": true
           },
           "addressLine2": {
             "type": "string",
+            "description": "Second line of the address.",
             "nullable": true
           },
           "addressLine3": {
             "type": "string",
+            "description": "Third line of the address.",
             "nullable": true
           },
           "city": {
             "type": "string",
+            "description": "City.",
             "nullable": true
           },
           "county": {
             "type": "string",
+            "description": "County.",
             "nullable": true
           },
           "postCode": {
             "type": "string",
+            "description": "Postal or ZIP code.",
             "nullable": true
           },
           "state": {
             "type": "string",
+            "description": "State or province name.",
             "nullable": true
           },
           "stateCode": {
             "type": "string",
+            "description": "State or province code.",
             "nullable": true
           },
           "country": {
             "type": "string",
+            "description": "Country name.",
             "nullable": true
           },
           "countryCodeIso2": {
             "type": "string",
+            "description": "ISO 3166-1 alpha-2 country code.",
             "nullable": true
           },
           "countryCodeIso3": {
             "type": "string",
+            "description": "ISO 3166-1 alpha-3 country code.",
             "nullable": true
           },
           "countryCodeNumeric": {
             "type": "string",
+            "description": "ISO 3166-1 numeric country code.",
             "nullable": true
           }
         },
@@ -26471,18 +26555,21 @@
       },
       "CompanyRelationshipsDto": {
         "type": "object",
+        "description": "A company-specific relationship for the supplier, defining how the supplier is set up for a particular Medius company including ERP identifiers, payment terms, tax settings, and payment details.",
         "properties": {
           "companyId": {
             "type": "string",
+            "description": "The Medius company identifier (APA company ID) this relationship belongs to.",
             "nullable": true
           },
           "externalSupplierId": {
             "type": "string",
+            "description": "ERP-assigned supplier identifier for this company relationship.",
             "nullable": true
           },
           "status": {
             "type": "string",
-            "description": "Status of the company relationship: Pending, Active, or Inactive",
+            "description": "Status of the company relationship: Pending, Active, or Inactive.",
             "nullable": true
           },
           "isActive": 
@@ -26493,30 +26580,37 @@
           },
           "paymentTerms": {
             "type": "string",
+            "description": "Payment terms for this company relationship (e.g., 'Net 30').",
             "nullable": true
           },
           "currency": {
             "type": "string",
+            "description": "Currency code for this company relationship.",
             "nullable": true
           },
           "taxIndicator1": {
             "type": "string",
+            "description": "First tax indicator for this company relationship, used for tax classification in the ERP.",
             "nullable": true
           },
           "taxIndicator2": {
             "type": "string",
+            "description": "Second tax indicator for this company relationship, used for tax classification in the ERP.",
             "nullable": true
           },
           "taxRegistrationNumber": {
             "type": "string",
+            "description": "Tax registration number specific to this company relationship.",
             "nullable": true
           },
           "taxIdType": {
             "type": "string",
+            "description": "Type of tax ID for this company relationship (e.g., 'VAT', 'EIN').",
             "nullable": true
           },
           "paymentDetails": {
             "type": "array",
+            "description": "Payment details (bank accounts) associated with this company relationship.",
             "items": {
               "$ref": "#/components/schemas/CompanyRelationshipPaymentDetailsDto"
             },
@@ -26527,74 +26621,92 @@
       },
       "CompanyRelationshipPaymentDetailsDto": {
         "type": "object",
+        "description": "Payment details (bank account information) for a supplier's company relationship.",
         "properties": {
           "supplierManagementId": {
             "type": "string",
+            "description": "Internal Medius identifier for this payment detail record. Used to map back the ERP-assigned payment detail ID via the success response.",
             "nullable": true
           },
           "externalPaymentDetailId": {
             "type": "string",
+            "description": "ERP-assigned identifier for this payment detail. Set when the payment detail has been previously synchronized.",
             "nullable": true
           },
           "isActive": 
           {
             "type": "boolean",
+            "description": "Whether this payment detail is currently active.",
             "nullable": true
           },
           "paymentDetailId": {
             "type": "string",
+            "description": "Internal Medius domain identifier for this payment detail.",
             "nullable": true
           },
           "remitToId": {
             "type": "string",
+            "description": "Remit-to identifier used to link payments to a specific remittance address.",
             "nullable": true
           },
           "addressLine1": {
             "type": "string",
+            "description": "First line of the payee address.",
             "nullable": true
           },
           "addressLine2": {
             "type": "string",
+            "description": "Second line of the payee address.",
             "nullable": true
           },
           "city": {
             "type": "string",
+            "description": "City of the payee address.",
             "nullable": true
           },
           "postCode": {
             "type": "string",
+            "description": "Postal or ZIP code of the payee address.",
             "nullable": true
           },
           "state": {
             "type": "string",
+            "description": "State or province name of the payee address.",
             "nullable": true
           },
           "stateCode": {
             "type": "string",
+            "description": "State or province code of the payee address.",
             "nullable": true
           },
           "country": {
             "type": "string",
+            "description": "Country name of the payee address.",
             "nullable": true
           },
           "countryISO2": {
             "type": "string",
+            "description": "ISO 3166-1 alpha-2 country code of the payee address.",
             "nullable": true
           },
           "countryISO3": {
             "type": "string",
+            "description": "ISO 3166-1 alpha-3 country code of the payee address.",
             "nullable": true
           },
           "countryNumeric": {
             "type": "string",
+            "description": "ISO 3166-1 numeric country code of the payee address.",
             "nullable": true
           },
           "currencyCode": {
             "type": "string",
+            "description": "ISO 4217 currency code for this payment detail.",
             "nullable": true
           },
           "bankName": {
             "type": "string",
+            "description": "Name of the bank.",
             "nullable": true
           },
           "accountOwnerName": {
@@ -26603,38 +26715,47 @@
           },
           "bankAddressLine1": {
             "type": "string",
+            "description": "First line of the bank address.",
             "nullable": true
           },
           "bankAddressLine2": {
             "type": "string",
+            "description": "Second line of the bank address.",
             "nullable": true
           },
           "bankCity": {
             "type": "string",
+            "description": "City of the bank address.",
             "nullable": true
           },
           "bankCountry": {
             "type": "string",
+            "description": "Country name of the bank address.",
             "nullable": true
           },
           "bankCountryISO2": {
             "type": "string",
+            "description": "ISO 3166-1 alpha-2 country code of the bank address.",
             "nullable": true
           },
           "bankCountryISO3": {
             "type": "string",
+            "description": "ISO 3166-1 alpha-3 country code of the bank address.",
             "nullable": true
           },
           "bankCountryNumeric": {
             "type": "string",
+            "description": "ISO 3166-1 numeric country code of the bank address.",
             "nullable": true
           },
           "bankPostCode": {
             "type": "string",
+            "description": "Postal or ZIP code of the bank address.",
             "nullable": true
           },
           "accountNumber": {
             "type": "string",
+            "description": "Bank account number (IBAN or domestic format).",
             "nullable": true
           },
           "iban": {
@@ -26643,28 +26764,33 @@
           },
           "bankGiroNumber": {
             "type": "string",
+            "description": "Bank giro number, used in some countries (e.g., Sweden) for payments.",
             "nullable": true
           },
           "routingNumber": {
             "type": "string",
+            "description": "Bank routing number (e.g., ABA routing number in the US).",
             "nullable": true
           },
           "routingNumberType": {
             "type": "string",
+            "description": "Type of routing number (e.g., 'ABA', 'Sort Code').",
             "nullable": true
           },
           "bankSwiftCode": {
             "type": "string",
+            "description": "SWIFT/BIC code of the bank.",
             "nullable": true
           },
           "contactEmail": {
             "type": "string",
             "nullable": true,
             "deprecated": true,
-            "description": "This will still work for existing customers, but will contain only the first of potentially multiple email addresses"
+            "description": "Deprecated. Use `contactEmails` instead. Contains only the first of potentially multiple email addresses for backward compatibility."
           },
           "contactEmails": {
             "type": "array",
+            "description": "Email addresses for payment-related contact.",
             "items": {
               "type": "string",
               "nullable": false
@@ -26673,6 +26799,7 @@
           },
           "paymentMethod": {
             "type": "string",
+            "description": "The payment method name (e.g., 'Bank Transfer', 'Check').",
             "nullable": true
           },
           "accountDescription": {
@@ -26688,18 +26815,21 @@
       },
       "SupplierIntegrationQuestionResponseDto": {
         "type": "object",
+        "description": "A question-answer pair from onboarding questionnaires or custom fields.",
         "properties": {
           "question": {
             "type": "string",
             "nullable": true,
-            "description": "question or field are human-readable and may change"
+            "description": "The human-readable question or field label. Note: this text may change over time; use `code` for stable integration mapping."
           },
           "answer": {
             "type": "string",
+            "description": "The answer value as a single string. For multi-select answers, use `answerArray` instead.",
             "nullable": true
           },
           "answerArray": {
             "type": "array",
+            "description": "Array of answer values for multi-select questions.",
             "items": {
               "type": "string"
             },
@@ -26708,12 +26838,13 @@
           "code": {
             "type": "string",
             "nullable": true,
-            "description": "code is intended for stable integration mapping"
+            "description": "Stable code identifier for the question. Use this for integration mapping instead of the `question` field."
           }
         },
         "additionalProperties": false
       },
       "SupplierIntegrationStatus": {
+        "description": "Status of the supplier integration record. Pending = awaiting ERP pickup, Fetched = retrieved by ERP, Error = ERP reported an error, Success = successfully synchronized.",
         "enum": [
           "Pending",
           "Fetched",
@@ -26724,13 +26855,16 @@
       },
       "SupplierIntegrationSuccessDto": {
         "type": "object",
+        "description": "Request body for reporting a successful supplier synchronization to ERP. Provide either `supplierId` or `companyRelationships`, but not both.",
         "properties": {
           "supplierId": {
             "type": "string",
+            "description": "The ERP-assigned supplier identifier. Use this when the ERP assigns a single ID at the supplier level. Mutually exclusive with `companyRelationships`.",
             "nullable": true
           },
           "addresses": {
             "type": "array",
+            "description": "Mapping of Medius address IDs to ERP-assigned address IDs for each synchronized address.",
             "items": {
               "$ref": "#/components/schemas/AddressPairDto"
             },
@@ -26738,6 +26872,7 @@
           },
           "companyRelationships": {
             "type": "array",
+            "description": "Mapping of Medius company relationship IDs to ERP-assigned supplier IDs per company. Use this when the ERP assigns supplier IDs per company. Mutually exclusive with `supplierId`.",
             "items": {
               "$ref": "#/components/schemas/CompanyRelationshipPairDto"
             },
@@ -26748,13 +26883,16 @@
       },
       "AddressPairDto": {
         "type": "object",
+        "description": "Maps a Medius address to its ERP-assigned identifier.",
         "properties": {
           "supplierManagementId": {
             "type": "string",
+            "description": "The Medius internal identifier for the address (from the `supplierManagementId` field in the address book entry).",
             "nullable": false
           },
           "externalAddressId": {
             "type": "string",
+            "description": "The ERP-assigned identifier for this address.",
             "nullable": false
           }
         },
@@ -26762,21 +26900,26 @@
       },
       "CompanyRelationshipPairDto": {
         "type": "object",
+        "description": "Maps a Medius company relationship to its ERP-assigned supplier identifier.",
         "properties": {
           "supplierManagementId": {
             "type": "string",
+            "description": "The Medius internal identifier for the company relationship.",
             "nullable": false
           },
           "supplierId": {
             "type": "string",
+            "description": "The ERP-assigned supplier identifier for this company relationship.",
             "nullable": false
           },
           "companyId": {
             "type": "string",
+            "description": "The Medius company identifier this relationship belongs to.",
             "nullable": false
           },
           "paymentDetails": {
             "type": "array",
+            "description": "Mapping of Medius payment detail IDs to ERP-assigned payment detail IDs.",
             "items": {
               "$ref": "#/components/schemas/CompanyRelationshipPaymentDetailsPairDto"
             },
@@ -26787,13 +26930,16 @@
       },
       "CompanyRelationshipPaymentDetailsPairDto": {
         "type": "object",
+        "description": "Maps a Medius payment detail to its ERP-assigned identifier.",
         "properties": {
           "supplierManagementId": {
             "type": "string",
+            "description": "The Medius internal identifier for the payment detail.",
             "nullable": false
           },
           "externalPaymentDetailId": {
             "type": "string",
+            "description": "The ERP-assigned identifier for this payment detail.",
             "nullable": false
           }
         },
@@ -26801,9 +26947,11 @@
       },
       "SupplierIntegrationErrorDto": {
         "type": "object",
+        "description": "Request body for reporting a failed supplier synchronization to ERP.",
         "properties": {
           "errorMessages": {
             "type": "array",
+            "description": "One or more error messages describing why the ERP could not process the supplier record.",
             "items": {
               "type": "string"
             },
