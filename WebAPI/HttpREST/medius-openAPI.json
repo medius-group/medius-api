@@ -23135,7 +23135,7 @@
           "timezone": {
             "maxLength": 60,
             "type": "string",
-            "description": "Default time zone for user. Example: 'UTC'",
+            "description": "The user's default time zone, specified as a Windows time zone identifier. Controls how dates and times are displayed in the UI. Example: 'UTC', 'W. Europe Standard Time', 'Eastern Standard Time'. A full list of valid values is available in the [Microsoft time zone index](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones).",
             "xml": {
               "name": "Timezone"
             }
@@ -23167,7 +23167,7 @@
           "format": {
             "maxLength": 60,
             "type": "string",
-            "description": "Default format for user. Based on .NET CultureInfo code. Example: English (United kingdom) 'en-GB', English (United States) 'en-US', Swedish (Sweden) 'sv-SE'. List of possible values can be seen on User configuration in Medius AP Automation.",
+            "description": "The user's default regional format, specified as a .NET culture name (BCP 47 format). Controls formatting of numbers, dates, and currencies in the UI. Example: 'en-GB' (English, United Kingdom), 'en-US' (English, United States), 'sv-SE' (Swedish, Sweden). For a full list of valid values, see the [Microsoft locale identifier reference](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c).",
             "xml": {
               "name": "Format"
             }
