@@ -6401,6 +6401,150 @@
         "x-codegen-request-body-name": "releasePaymentResponseDto"
       }
     },
+     "/integration/message/v1/supplierInvoice/einvoices": {
+      "get": {
+        "tags": [
+          "AP Automation: Supplier invoices"
+        ],
+        "summary": "Get list of Pending self billed E-Invoices.",
+        "description": "This method returns all pending self billed e-invoices. Use the returned URL to get the self billed e-invoice details. Items that have changed status to Processing, Error or Success are not be able to be retrieved.",
+        "operationId": "GetListPendingSelfBilledEInvoices",
+        "parameters": [
+          {
+            "name": "companyGlobalId",
+            "in": "query",
+            "description": "Company Global ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSelfBilledEInvoicesIntegrationsResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Server was unable to parse request. 400 status code with generic error is returned."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/supplierInvoice/einvoices/{messageId}": {
+      "get": {
+        "tags": [
+          "AP Automation: Supplier invoices"
+        ],
+        "summary": "[Response need to be extended]Get self billed E-Invoice message by ID.",
+        "description": "This method returns the self billed E-Invoice message with all details available. To find available self billed E-Invoices, use the GET method without {messageId}.",
+        "operationId": "GetSelfBilledEInvoiceMessageById",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "description": "unique identifier of message",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "nullable": false,
+              "example": "5f33c095-44a4-4f38-b8e6-b379c093681f"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SelfBilledEInvoiceMessageDto"
+                }
+              }
+            }
+      
+          },
+          "400": {
+            "description": "When server was unable to parse request. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Self billed E-Invoice message not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/supplierInvoice/einvoices/{messageId}/processing": {
+      "put": {
+        "tags": [
+          "AP Automation: Supplier invoices"
+        ],
+        "summary": "Update processing status of the self billed E-Invoice message to Processing",
+        "description": "POST a processing status. Updates status of message with given messageId to Processing indicating that message is processing. This is first possible status to set.",
+        "operationId": "SelfBilledEInvoiceUpdateMessageAsProcessing",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "description": " unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully updated the integration status to processing."
+          },
+          "400": {
+            "description": "When server was unable to parse request. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Self billed E-Invoice message not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/supplierInvoice/einvoices/{messageId}/response/success": {
+      "post": {
+        "tags": [
+          "AP Automation: Supplier invoices"
+        ],
+        "summary": "Post confirmation on self billed E-Invoice document status.",
+        "description": "POST a successful response.",
+        "operationId": "SelfBilledEInvoiceUpdateIntegrationAsSuccess",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "description": "unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully updated the integration status to success."
+          },
+          "400": {
+            "description": "When server was unable to parse request, or status modification is not expected. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Self billed E-Invoice message not found."
+          }
+        }
+      }
+    },
     "/integration/documentImport/v1/supplierInvoices/{id}": {
       "get": {
         "tags": [
@@ -27313,6 +27457,65 @@
           },
           "poDocumentImportTrackingId": {
             "type": "string"
+          }
+        }
+      },
+      "GetSelfBilledEInvoicesIntegrationsResultDto": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBilledEInvoiceIntegrationMessageListDto"
+            },
+            "nullable": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "SelfBilledEInvoiceIntegrationMessageListDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "nullable": false,
+            "example": "https://api.medius.com/tenant1/integration/message/v1/supplierInvoices/einvoices/1e7d8f9a-3c4b-4d2e-8f9a-3c4b4d2e8f9a",
+            "description": "URL that can be use GET self billed e-invoice details. 'tenant1' is place for tenant"
+          }
+        },
+        "additionalProperties": false
+      },
+       "SelfBilledEInvoiceMessageDto":{
+        "type": "object",
+        "properties":{
+          "ublVersionId": {
+            "type": "string",
+            "nullable": false
+          },
+          "customizationId": {
+            "type": "string",
+            "nullable": false
+          },
+          "profileId": {
+            "type": "string",
+            "nullable": false
+          },
+          "id": {
+            "type": "string",
+            "nullable": false
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": false
+          },
+          "invoiceTypeCode": {
+            "type": "string",
+            "nullable": false
+          },
+          "documentCurrencyCode": {
+            "type": "string",
+            "nullable": false
           }
         }
       }
