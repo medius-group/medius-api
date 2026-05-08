@@ -6545,6 +6545,38 @@
         }
       }
     },
+    "/integration/message/v1/supplierInvoice/einvoices/{messageId}/response/error": {
+      "post": {
+        "tags": [
+          "AP Automation: Supplier invoices"
+        ],
+        "summary": "Post confirmation on self billed E-Invoice document status.",
+        "description": "POST an error response.",
+        "operationId": "SelfBilledEInvoiceUpdateIntegrationAsError",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "description": "unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully updated the integration status to error."
+          },
+          "400": {
+            "description": "When server was unable to parse request, or status modification is not expected. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Self billed E-Invoice message not found."
+          }
+        }
+      }
+    },
     "/integration/documentImport/v1/supplierInvoices/{id}": {
       "get": {
         "tags": [
