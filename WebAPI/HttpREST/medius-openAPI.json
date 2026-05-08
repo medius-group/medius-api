@@ -26619,6 +26619,14 @@
           "paymentMethod": {
             "type": "string",
             "nullable": true
+          },
+          "accountDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "default": {
+            "type": "boolean",
+            "description": "Indicates whether this payment detail is the default for the company relationship."
           }
         },
         "additionalProperties": false
