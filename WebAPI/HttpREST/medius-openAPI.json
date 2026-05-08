@@ -6550,7 +6550,7 @@
         "tags": [
           "AP Automation: Supplier invoices"
         ],
-        "summary": "Post confirmation on self billed E-Invoice document status.",
+        "summary": "Post error on self billed E-Invoice document status.",
         "description": "POST an error response.",
         "operationId": "SelfBilledEInvoiceUpdateIntegrationAsError",
         "parameters": [
