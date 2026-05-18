@@ -48,6 +48,10 @@
       "description": "Purchase order and goods receipt ERP synchronization"
     },
     {
+      "name": "Procurement: Register goods receipts",
+      "description": "Register goods receipt delivery notes from ERP into Medius Procurement"
+    },
+    {
       "name": "Payments: Batch creation in Medius",
       "description": "Settlement for payment batches initiated in Medius"
     },
@@ -7142,6 +7146,182 @@
           },
           "404": {
             "description": "Payment not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/procurement/inbound/goodsReceipts": {
+      "post": {
+        "tags": [
+          "Procurement: Register goods receipts"
+        ],
+        "description": "The POST method allows the client to register a goods receipt delivery note into Medius Procurement. The delivery is validated and queued for processing. The request body must contain a valid goods receipt delivery with company, purchase order reference, delivery date, and line items. On success, returns a 201 Created with a Location header containing a link to check the message status.",
+        "operationId": "RegisterGoodsReceipt_Post",
+        "requestBody": {
+          "description": "The goods receipt delivery to register",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoodsReceiptDeliveryDto"
+              },
+              "example": {
+                "companyId": "COMP001",
+                "deliveryId": "DEL-2024-001",
+                "deliveryDate": "2024-06-15T00:00:00",
+                "deliveryNote": "Delivery received at warehouse A",
+                "purchaseOrder": {
+                  "orderNumber": "PO-10001",
+                  "externalOrderNumber": "EXT-PO-10001"
+                },
+                "lines": [
+                  {
+                    "deliveryLineId": "LINE-001",
+                    "purchaseOrderLine": {
+                      "lineNumber": "1",
+                      "externalOrderLineNumber": "EXT-1"
+                    },
+                    "quantity": 100.0,
+                    "unit": "PCS",
+                    "unitPrice": 25.50,
+                    "amount": 2550.00,
+                    "isActive": true
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Goods receipt delivery message created successfully. Location header contains the URL to check message status.",
+            "content": {}
+          },
+          "400": {
+            "description": "Invalid request body or validation errors. Returned when the goods receipt delivery data does not match the expected format or fails validation rules.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoodsReceiptValidationErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An error occurred while processing the message.",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/integration/message/v1/procurement/inbound/goodsReceipts/{messageId}": {
+      "get": {
+        "tags": [
+          "Procurement: Register goods receipts"
+        ],
+        "description": "Returns the current message status and a link to fetch the goods receipt delivery content. Use the returned link to retrieve the full delivery details at the appropriate status endpoint.",
+        "operationId": "RegisterGoodsReceipt_GetStatus",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "description": "The id of the goods receipt message",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the status and a link to the goods receipt delivery content.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoodsReceiptStatusLink"
+                },
+                "example": {
+                  "ref": "https://api.medius.com/{tenant}/integration/message/v1/procurement/inbound/goods-receipts/Posted/123",
+                  "status": "Posted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Message not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/procurement/inbound/goodsReceipts/{messageStatus}/{messageId}": {
+      "get": {
+        "tags": [
+          "Procurement: Register goods receipts"
+        ],
+        "description": "Returns the goods receipt delivery content from a message that matches the provided status and id. If the message id is in another status, nothing is returned.",
+        "operationId": "RegisterGoodsReceipt_GetContent",
+        "parameters": [
+          {
+            "name": "messageStatus",
+            "in": "path",
+            "description": "The message status (e.g. Posted, Fetched, Processing, Sent, Closed, Error)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          },
+          {
+            "name": "messageId",
+            "in": "path",
+            "description": "The id of the goods receipt message",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the goods receipt delivery content.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoodsReceiptDeliveryDto"
+                },
+                "example": {
+                  "companyId": "COMP001",
+                  "deliveryId": "DEL-2024-001",
+                  "deliveryDate": "2024-06-15T00:00:00",
+                  "deliveryNote": "Delivery received at warehouse A",
+                  "purchaseOrder": {
+                    "orderNumber": "PO-10001",
+                    "externalOrderNumber": "EXT-PO-10001"
+                  },
+                  "lines": [
+                    {
+                      "deliveryLineId": "LINE-001",
+                      "purchaseOrderLine": {
+                        "lineNumber": "1",
+                        "externalOrderLineNumber": "EXT-1"
+                      },
+                      "quantity": 100.0,
+                      "unit": "PCS",
+                      "unitPrice": 25.50,
+                      "amount": 2550.00,
+                      "isActive": true
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Message not found or status mismatch."
           }
         }
       }
@@ -27000,6 +27180,180 @@
               "description": "Error message that informs about reason of rejection of payments"
             },
             "nullable": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "GoodsReceiptDeliveryDto": {
+        "type": "object",
+        "required": [
+          "companyId",
+          "deliveryDate",
+          "purchaseOrder",
+          "lines"
+        ],
+        "properties": {
+          "companyId": {
+            "type": "string",
+            "nullable": false,
+            "description": "The company identifier for the goods receipt delivery",
+            "example": "COMP001"
+          },
+          "deliveryId": {
+            "type": "string",
+            "nullable": true,
+            "description": "External delivery identifier",
+            "example": "DEL-2024-001"
+          },
+          "deliveryDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": false,
+            "description": "The date of the goods receipt delivery",
+            "example": "2024-06-15T00:00:00"
+          },
+          "deliveryNote": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional note or comment for the delivery",
+            "example": "Delivery received at warehouse A"
+          },
+          "purchaseOrder": {
+            "$ref": "#/components/schemas/GoodsReceiptPurchaseOrderDto"
+          },
+          "lines": {
+            "type": "array",
+            "description": "Collection of goods receipt delivery lines",
+            "items": {
+              "$ref": "#/components/schemas/GoodsReceiptDeliveryLineDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "GoodsReceiptPurchaseOrderDto": {
+        "type": "object",
+        "required": [
+          "orderNumber"
+        ],
+        "properties": {
+          "orderNumber": {
+            "type": "string",
+            "nullable": false,
+            "description": "The purchase order number in Medius",
+            "example": "PO-10001"
+          },
+          "externalOrderNumber": {
+            "type": "string",
+            "nullable": true,
+            "description": "The external purchase order number from the ERP system",
+            "example": "EXT-PO-10001"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GoodsReceiptDeliveryLineDto": {
+        "type": "object",
+        "required": [
+          "purchaseOrderLine",
+          "quantity"
+        ],
+        "properties": {
+          "deliveryLineId": {
+            "type": "string",
+            "nullable": true,
+            "description": "External delivery line identifier",
+            "example": "LINE-001"
+          },
+          "purchaseOrderLine": {
+            "$ref": "#/components/schemas/GoodsReceiptPurchaseOrderLineDto"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double",
+            "nullable": false,
+            "description": "The quantity of goods received",
+            "example": 100.0
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true,
+            "description": "Unit of measurement",
+            "example": "PCS"
+          },
+          "unitPrice": {
+            "type": "number",
+            "format": "double",
+            "nullable": false,
+            "description": "Price per unit",
+            "example": 25.50
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": false,
+            "description": "Total amount for the line (quantity × unitPrice)",
+            "example": 2550.00
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": false,
+            "description": "Indicates whether the delivery line is active. Defaults to true.",
+            "example": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GoodsReceiptPurchaseOrderLineDto": {
+        "type": "object",
+        "required": [
+          "lineNumber"
+        ],
+        "properties": {
+          "lineNumber": {
+            "type": "string",
+            "nullable": false,
+            "description": "The purchase order line number",
+            "example": "1"
+          },
+          "externalOrderLineNumber": {
+            "type": "string",
+            "nullable": true,
+            "description": "The external purchase order line number from the ERP system",
+            "example": "EXT-1"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GoodsReceiptStatusLink": {
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string",
+            "nullable": false,
+            "description": "URL to fetch the goods receipt delivery content at the current status",
+            "example": "https://api.medius.com/{tenant}/integration/message/v1/procurement/inbound/goods-receipts/Posted/123"
+          },
+          "status": {
+            "type": "string",
+            "nullable": false,
+            "description": "The current status of the message (e.g. Posted, Fetched, Processing, Sent, Closed, Error)",
+            "example": "Posted"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GoodsReceiptValidationErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "CompanyId is required",
+              "description": "Validation error message"
+            },
+            "description": "List of validation errors for the goods receipt delivery"
           }
         },
         "additionalProperties": false
