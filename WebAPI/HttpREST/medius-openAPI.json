@@ -1504,6 +1504,94 @@
         }
       }
     },
+    "/integration/masterdata/v1/locationImportBatches": {
+      "post": {
+        "tags": [
+          "Master data - import"
+        ],
+        "description": "The POST method imports locations into Medius Procurement.\nThe company must exist, be active, and not be virtual.\nThe import upserts by company + locationId (existing location is updated, otherwise a new location is created).\nAll users in `users` must exist in Medius; if any user is missing, the location import fails.\nCoding lines are validated for uniqueness within the company and duplicate coding combinations are rejected.",
+        "operationId": "LocationBatchImportBatch_Post",
+        "requestBody": {
+          "description": "The locations to import",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IntegrationLocationDto"
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "description": "Response includes Location header with a link to the import batch, this link will give the status of how the batch is processing within Medius",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "locationDtos"
+      }
+    },
+    "/integration/masterdata/v1/locationImportBatches/{importId}": {
+      "get": {
+        "tags": [
+          "Master data - import"
+        ],
+        "description": "The GET method will allow you to check status for an imported batch. When performing a POST, the link returned is pointing to this method.\nThis method allows the client to orchestrate so that the client can wait until dependent master data is imported correctly before sending that data.",
+        "operationId": "LocationBatchImportBatch_Get",
+        "parameters": [
+          {
+            "name": "importId",
+            "in": "path",
+            "description": "The import id is either retrieved by the full link from the result of the POST or from within the Medius master data import queue",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Master data - import"
+        ],
+        "description": "The DELETE method allows a client to remove an import item from the queue, this to allow an integration to take full responsibility\nof resending master data batches and handle all error on the client side instead of within Medius. it's only possible to remove items that are not in a running state.",
+        "operationId": "LocationBatchImportBatch_Delete",
+        "parameters": [
+          {
+            "name": "importId",
+            "in": "path",
+            "description": "The import id is either retrieved by the full link from the result of the POST or from within the Medius master data import queue",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {}
+          }
+        }
+      }
+    },
     "/integration/message/v1/supplierInvoice/paymentInformations/{messageStatus}/{messageId}": {
       "get": {
         "tags": [
@@ -11095,6 +11183,207 @@
         },
         "xml": {
           "name": "Item"
+        }
+      },
+      "IntegrationLocationDto": {
+        "required": [
+          "companyId",
+          "locationId",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "erpSourceId": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Source system identifier for the entity."
+          },
+          "locationId": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "External identifier for the location. Used together with companyId for upsert matching. If empty, Medius generates a GUID."
+          },
+          "companyId": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "CompanyId of the company in Medius Procurement. The company must exist, be active, and not be virtual."
+          },
+          "name": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Location name. The value is trimmed before persistence."
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Set location active/inactive status."
+          },
+          "address": {
+            "$ref": "#/components/schemas/IntegrationLocationAddressDto"
+          },
+          "codingLines": {
+            "maxItems": 500,
+            "type": "array",
+            "description": "Coding rules connected to the location. Each serialized coding combination must be unique within the company.",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationLocationCodingLineDto"
+            }
+          },
+          "users": {
+            "maxItems": 500,
+            "type": "array",
+            "description": "Users connected to the location. All provided usernames must exist in Medius; otherwise the import fails for this location.",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationLocationUserDto"
+            }
+          },
+          "limitToThisAddress": {
+            "type": "boolean",
+            "description": "If true, restrict location usage to the provided address."
+          }
+        }
+      },
+      "IntegrationLocationAddressDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Address type key from Medius address type configuration. If omitted or not found, default `ExternalDeliveryAddress` is used.",
+            "enum": [
+              "ExternalDeliveryAddress"
+            ]
+          },
+          "recipient": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Recipient name."
+          },
+          "street": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Street address."
+          },
+          "street2": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Additional street address information."
+          },
+          "building": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Building."
+          },
+          "zipOrPostalCode": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Zip or postal code."
+          },
+          "city": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "City."
+          },
+          "location": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Location."
+          },
+          "division": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Division."
+          },
+          "state": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "State."
+          },
+          "country": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Country."
+          },
+          "email": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "E-mail address.",
+            "format": "email"
+          },
+          "telephone": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Telephone."
+          },
+          "website": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Website.",
+            "format": "uri"
+          },
+          "fax": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Fax."
+          }
+        }
+      },
+      "IntegrationLocationCodingLineDto": {
+        "type": "object",
+        "properties": {
+          "dimensions": {
+            "type": "array",
+            "description": "Dimensions that form one coding rule for the location.",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationLocationDimensionsDto"
+            }
+          }
+        }
+      },
+      "IntegrationLocationDimensionsDto": {
+        "type": "object",
+        "properties": {
+          "dimension": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "Target dimension key.",
+            "enum": [
+              "DIMENSION1",
+              "DIMENSION2",
+              "DIMENSION3",
+              "DIMENSION4",
+              "DIMENSION5",
+              "DIMENSION6",
+              "DIMENSION7",
+              "DIMENSION8",
+              "DIMENSION9",
+              "DIMENSION10",
+              "DIMENSION11",
+              "DIMENSION12"
+            ]
+          },
+          "startsWith": {
+            "maxLength": 200,
+            "type": "string",
+            "description": "Prefix match operator. If provided, Medius stores it with a trailing `*` and uses this value instead of `is`."
+          },
+          "is": {
+            "maxLength": 200,
+            "type": "string",
+            "description": "Exact match operator. Used when `startsWith` is empty. If both `startsWith` and `is` are empty, wildcard `*` is applied."
+          }
+        }
+      },
+      "IntegrationLocationUserDto": {
+        "required": [
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "userName": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Username in Medius."
+          }
         }
       },
       "IntegrationSupplierItemDto": {
