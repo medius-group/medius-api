@@ -27188,6 +27188,7 @@
         "type": "object",
         "required": [
           "companyId",
+          "deliveryId",
           "deliveryDate",
           "purchaseOrder",
           "lines"
@@ -27201,7 +27202,7 @@
           },
           "deliveryId": {
             "type": "string",
-            "nullable": true,
+            "nullable": false,
             "description": "External delivery identifier",
             "example": "DEL-2024-001"
           },
@@ -27233,20 +27234,18 @@
       },
       "GoodsReceiptPurchaseOrderDto": {
         "type": "object",
-        "required": [
-          "orderNumber"
-        ],
+        "description": "At least one of orderNumber or externalOrderNumber must be provided.",
         "properties": {
           "orderNumber": {
             "type": "string",
-            "nullable": false,
-            "description": "The purchase order number in Medius",
+            "nullable": true,
+            "description": "The purchase order number in Medius. At least orderNumber or externalOrderNumber must be provided.",
             "example": "PO-10001"
           },
           "externalOrderNumber": {
             "type": "string",
             "nullable": true,
-            "description": "The external purchase order number from the ERP system",
+            "description": "The external purchase order number from the ERP system. At least orderNumber or externalOrderNumber must be provided.",
             "example": "EXT-PO-10001"
           }
         },
@@ -27255,13 +27254,16 @@
       "GoodsReceiptDeliveryLineDto": {
         "type": "object",
         "required": [
+          "deliveryLineId",
           "purchaseOrderLine",
-          "quantity"
+          "quantity",
+          "unitPrice",
+          "amount"
         ],
         "properties": {
           "deliveryLineId": {
             "type": "string",
-            "nullable": true,
+            "nullable": false,
             "description": "External delivery line identifier",
             "example": "LINE-001"
           },
@@ -27306,20 +27308,18 @@
       },
       "GoodsReceiptPurchaseOrderLineDto": {
         "type": "object",
-        "required": [
-          "lineNumber"
-        ],
+        "description": "At least one of lineNumber or externalOrderLineNumber must be provided.",
         "properties": {
           "lineNumber": {
             "type": "string",
-            "nullable": false,
-            "description": "The purchase order line number",
+            "nullable": true,
+            "description": "The purchase order line number. At least lineNumber or externalOrderLineNumber must be provided.",
             "example": "1"
           },
           "externalOrderLineNumber": {
             "type": "string",
             "nullable": true,
-            "description": "The external purchase order line number from the ERP system",
+            "description": "The external purchase order line number from the ERP system. At least lineNumber or externalOrderLineNumber must be provided.",
             "example": "EXT-1"
           }
         },
