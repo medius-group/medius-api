@@ -10482,7 +10482,7 @@
           },
           "responsibles": {
             "type": "array",
-            "description": "Beta feature. Only available for Pilot customers.",
+            "description": "List of responsibles for this dimension value configuration. When provided, these are used to set up routing distribution rules with multiple responsible users/roles.",
             "xml": {
               "name": "Responsibles",
               "wrapped": true
@@ -10504,28 +10504,28 @@
         "properties": {
           "responsibleUser": {
             "type": "string",
-            "description": "Beta feature. Only available for Pilot customers.",
+            "description": "User name of the responsible. Must match a User.Name in Medius. Can be used instead of or together with ResponsibleRole.",
             "xml": {
               "name": "ResponsibleUser"
             }
           },
           "responsibleRole": {
             "type": "string",
-            "description": "Beta feature. Only available for Pilot customers.",
+            "description": "Role name of the responsible. Must match a Role.Name in Medius. Can be used instead of or together with ResponsibleUser.",
             "xml": {
               "name": "ResponsibleRole"
             }
           },
           "orderId": {
             "type": "integer",
-            "description": "Beta feature. Only available for Pilot customers.",
+            "description": "The priority order of this responsible in the routing distribution rule.",
             "format": "int32",
             "xml": {
               "name": "OrderId"
             }
           }
         },
-        "description": "Beta feature. Only available for Pilot customers.",
+        "description": "Represents a responsible user or role entry for a dimension value configuration routing rule.",
         "xml": {
           "name": "DimensionValueConfigurationResponsible"
         }
