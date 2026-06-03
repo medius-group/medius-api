@@ -10482,7 +10482,7 @@
           },
           "responsibles": {
             "type": "array",
-            "description": "Beta feature. Only available for Pilot customers.",
+            "description": "List of responsibles for this dimension value configuration. When provided, these are used to set up routing distribution rules with multiple responsible users/roles.",
             "xml": {
               "name": "Responsibles",
               "wrapped": true
@@ -10504,28 +10504,28 @@
         "properties": {
           "responsibleUser": {
             "type": "string",
-            "description": "Beta feature. Only available for Pilot customers.",
+            "description": "User name of the responsible. Must match a User.Name in Medius. Can be used instead of or together with ResponsibleRole.",
             "xml": {
               "name": "ResponsibleUser"
             }
           },
           "responsibleRole": {
             "type": "string",
-            "description": "Beta feature. Only available for Pilot customers.",
+            "description": "Role name of the responsible. Must match a Role.Name in Medius. Can be used instead of or together with ResponsibleUser.",
             "xml": {
               "name": "ResponsibleRole"
             }
           },
           "orderId": {
             "type": "integer",
-            "description": "Beta feature. Only available for Pilot customers.",
+            "description": "The priority order of this responsible in the routing distribution rule.",
             "format": "int32",
             "xml": {
               "name": "OrderId"
             }
           }
         },
-        "description": "Beta feature. Only available for Pilot customers.",
+        "description": "Represents a responsible user or role entry for a dimension value configuration routing rule.",
         "xml": {
           "name": "DimensionValueConfigurationResponsible"
         }
@@ -10776,7 +10776,8 @@
           },
           "usableInPurchase": {
             "type": "boolean",
-            "description": "Is dimension usable in Medius Buy",
+            "nullable": true,
+            "description": "Is dimension usable in Medius Buy. If omitted or null when creating a new dimension value, defaults to true. If omitted or null when updating an existing dimension value, the current value in Medius is kept.",
             "xml": {
               "name": "UsableInPurchase"
             }
@@ -17382,7 +17383,8 @@
           },
           "expectedDeliveryTimeInDays": {
             "type": "integer",
-            "description": "Number of days that invoice should be hidden when using Goods in Transit inbox filter.",
+            "nullable": true,
+            "description": "Number of days that invoice should be hidden when using Goods in Transit inbox filter. If not provided or null, the existing value in Medius is kept. Default for new configurations is empty (no value). Once set, it cannot be cleared back to empty via the integration.",
             "format": "int32",
             "xml": {
               "name": "ExpectedDeliveryTimeInDays"
@@ -17390,21 +17392,24 @@
           },
           "sendPurchaseOrderAsIntegrationMessage": {
             "type": "boolean",
-            "description": "Enable this option to automatically send the purchase order as an integration message. Integration message setting must be active for the PO to be sent. You can combine this option with sending the order as a PDF file.",
+            "nullable": true,
+            "description": "Enable this option to automatically send the purchase order as an integration message. Integration message setting must be active for the PO to be sent. You can combine this option with sending the order as a PDF file. If not provided or null, the existing value in Medius is kept. Default for new configurations: false.",
             "xml": {
               "name": "SendPurchaseOrderAsIntegrationMessage"
             }
           },
           "sendPurchaseOrderAsPdf": {
             "type": "boolean",
-            "description": "Enable this option to be able to send the purchase order as a PDF file attached to an email directly in Medius. You can combine this option with sending the purchase order as an integration message.",
+            "nullable": true,
+            "description": "Enable this option to be able to send the purchase order as a PDF file attached to an email directly in Medius. You can combine this option with sending the purchase order as an integration message. If not provided or null, the existing value in Medius is kept. Default for new configurations: true.",
             "xml": {
               "name": "SendPurchaseOrderAsPdf"
             }
           },
           "registerGoodsReceiptType": {
             "type": "string",
-            "description": "Change this parameter if the default behavior for the supplier should be to skip the goods receipt step and work with two-way match. If not provided, setting in Medius is kept.",
+            "nullable": true,
+            "description": "Change this parameter if the default behavior for the supplier should be to skip the goods receipt step and work with two-way match. If not provided or null, the existing value in Medius is kept. Default for new configurations: Yes_ThreeWayMatch.",
             "xml": {
               "name": "RegisterGoodsReceiptType"
             },
@@ -18507,7 +18512,8 @@
           },
           "isProcurable": {
             "type": "boolean",
-            "description": "If the supplier is to be used by the Medius Buy module. Default value 1",
+            "nullable": true,
+            "description": "If the supplier is to be used by the Medius Buy module. If omitted or null when creating a new supplier, defaults to true. If omitted or null when updating an existing supplier, the current value in Medius is kept.",
             "xml": {
               "name": "IsProcurable"
             }
@@ -24288,6 +24294,14 @@
             "format": "date-time",
             "xml": {
               "name": "VatDate"
+            }
+          },
+          "preApprovedReference": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Indicates the pre-approved invoice reference imported from the invoice. This value is only used when pre-approved invoices are allowed and configured. For configuration details, see [Success portal](https://success.medius.com/documentation/administration_guide/administration_pages/pre-approved_invoices/#pre-approved-invoices-configuration).",
+            "xml": {
+              "name": "PreApprovedReference"
             }
           },
           "addressInformation": {
