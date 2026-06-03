@@ -24290,6 +24290,14 @@
               "name": "VatDate"
             }
           },
+          "preApprovedReference": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Indicates the pre-approved invoice reference imported from the invoice. This value is only used when pre-approved invoices are allowed and configured. For configuration details, see [Success portal](https://success.medius.com/documentation/administration_guide/administration_pages/pre-approved_invoices/#pre-approved-invoices-configuration).",
+            "xml": {
+              "name": "PreApprovedReference"
+            }
+          },
           "addressInformation": {
             "type": "array",
             "xml": {
