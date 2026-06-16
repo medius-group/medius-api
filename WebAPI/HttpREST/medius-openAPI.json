@@ -12674,6 +12674,12 @@
               "name": "IsTwoWayMatch"
             }
           },
+          "orderType": {
+            "type": "string",
+            "xml": {
+              "name": "OrderType"
+            }
+          },
           "codingLines": {
             "type": "array",
             "xml": {
@@ -14254,6 +14260,17 @@
             "xml": {
               "name": "TwoWayMatchTotalInvoicedQuantity"
             }
+          },
+          "orderType": {
+            "type": "string",
+            "description": "If the order line should be treated as internal or external order line in Medius. T=external (default), M=internal.",
+            "xml": {
+              "name": "OrderType"
+            },
+            "enum": [
+              "T",
+              "M"
+            ]
           },
           "additionalItemNumbers": {
             "type": "array",
