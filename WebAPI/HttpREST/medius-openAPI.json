@@ -10782,6 +10782,9 @@
               "name": "UsableInPurchase"
             }
           },
+          "configuration": {
+            "$ref": "#/components/schemas/IntegrationDimensionValueConfigurationDataDto"
+          },
           "externalSystemMetadata": {
             "type": "array",
             "description": "ExternalSystemMetadata is a custom property that allows you to transfer data between systems. ExternalSystemMetadata is not accessible from the GUI, but is rather used for information or identifiers that need to be passed through Medius.",
@@ -10796,6 +10799,42 @@
         },
         "xml": {
           "name": "DimensionValue"
+        }
+      },
+      "IntegrationDimensionValueConfigurationDataDto": {
+        "type": "object",
+        "description": "Optional configuration for the dimension value, holding its responsible assignment. Setting responsible here resolves and stores it on the dimension value's configuration in Medius, exactly as the dimensionValueConfigurationImportBatches API does. Omit the whole object to leave any existing configuration unchanged. The configuration is always applied for the dimension value's own company (the company in this request); to set a responsible at a different company level, use the dimensionValueConfigurationImportBatches API, which takes the company explicitly.",
+        "properties": {
+          "responsible": {
+            "maxLength": 60,
+            "type": "string",
+            "description": "Responsible user for the dimension value. Needs to be User.Username in Medius. Omit to leave the current responsible unchanged; send an empty string to clear it. *Can be empty if ResponsibleRole is used.",
+            "xml": {
+              "name": "Responsible"
+            }
+          },
+          "responsibleRole": {
+            "maxLength": 60,
+            "type": "string",
+            "description": "Same as Responsible, but a Role name instead of a User name. Needs to be Role.Name in Medius. *Can be used instead of Responsible.",
+            "xml": {
+              "name": "ResponsibleRole"
+            }
+          },
+          "responsibles": {
+            "type": "array",
+            "description": "List of responsibles for the dimension value. When provided, these set up routing distribution rules with multiple responsible users/roles, identically to the dimensionValueConfigurationImportBatches API. Omit or send an empty list to leave existing routing unchanged.",
+            "xml": {
+              "name": "Responsibles",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/IntegrationDimensionValueConfigurationResponsibleDto"
+            }
+          }
+        },
+        "xml": {
+          "name": "Configuration"
         }
       },
       "FileLink": {
@@ -18575,6 +18614,14 @@
             },
             "items": {
               "$ref": "#/components/schemas/IntegrationPaymentDetailsDto"
+            }
+          },
+          "inactivateMissingPaymentDetails": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Controls how the supplier's payment details are reconciled during import. When **true**, the payment details included in this request become the supplier's complete set of active payment details: details in the request are added or reactivated/updated (matched by ExternalSystemId), and any currently-active payment detail that is **not** included in the request is set to inactive. Payment details are never deleted, only deactivated. An empty or omitted paymentDetails array therefore inactivates all of the supplier's existing payment details. When **false, null, or omitted (default)**, the existing behavior applies: the payment details in the request are upserted by ExternalSystemId and any payment details not included in the request are left unchanged. Use this flag when the sending system cannot track removed payment details and instead always sends the full set that should be active.",
+            "xml": {
+              "name": "InactivateMissingPaymentDetails"
             }
           },
           "externalSystemMetadata": {
