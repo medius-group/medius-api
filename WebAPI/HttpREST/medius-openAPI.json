@@ -27521,14 +27521,6 @@
         "type": "object",
         "description": "Self-billing invoice message",
         "properties": {
-          "ublVersionID": {
-            "type": "string",
-            "description": "UBL Version ID (e.g. 2.3)"
-          },
-          "customizationID": {
-            "type": "string",
-            "description": "Document specification identifier (e.g. urn:medius.com:medius:billing:1.0)"
-          },
           "profileID": {
             "type": "string",
             "description": "Business process type (e.g. urn:medius.com:medius:billing:1.0)"
@@ -27549,11 +27541,11 @@
             "description": "Due date",
             "example": "2024-01-31T23:59:00Z"
           },
-          "invoiceTypeCode": {
+          "documentTypeCode": {
             "type": "string",
             "description": "Invoice type code (UNCL1001). For Credit Note: creditNoteTypeCode"
           },
-          "invoiceTypeLabel": {
+          "documentTypeLabel": {
             "type": "string",
             "description": "Human-readable label for the invoice type"
           },
@@ -27739,7 +27731,7 @@
               "$ref": "#/components/schemas/InvoicedPrepaymentAmount"
             }
           },
-          "invoiceLine": {
+          "lines": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/InvoiceLine"
@@ -29257,11 +29249,11 @@
             "type": "string",
             "description": "Line note"
           },
-          "invoicedQuantity": {
+          "quantity": {
             "type": "number",
             "description": "Quantity invoiced (Credit Note: creditedQuantity)"
           },
-          "invoicedQuantityUnitCode": {
+          "quantityUnitCode": {
             "type": "string",
             "description": "Quantity unit of measure UN/ECE Rec 20 (Credit Note: creditedQuantityUnitCode)"
           },
