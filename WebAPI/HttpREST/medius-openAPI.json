@@ -26617,6 +26617,10 @@
             "type": "string",
             "nullable": true
           },
+          "accountOwnerName": {
+            "type": "string",
+            "nullable": true
+          },
           "bankGiroNumber": {
             "type": "string",
             "nullable": true
@@ -26630,6 +26634,10 @@
             "nullable": true
           },
           "bankSwiftCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "iban": {
             "type": "string",
             "nullable": true
           },
