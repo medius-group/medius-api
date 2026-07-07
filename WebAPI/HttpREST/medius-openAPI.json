@@ -26581,6 +26581,10 @@
             "type": "string",
             "nullable": true
           },
+          "accountOwnerName": {
+            "type": "string",
+            "nullable": true
+          },
           "bankAddressLine1": {
             "type": "string",
             "nullable": true
@@ -26617,7 +26621,7 @@
             "type": "string",
             "nullable": true
           },
-          "accountOwnerName": {
+          "iban": {
             "type": "string",
             "nullable": true
           },
@@ -26634,10 +26638,6 @@
             "nullable": true
           },
           "bankSwiftCode": {
-            "type": "string",
-            "nullable": true
-          },
-          "iban": {
             "type": "string",
             "nullable": true
           },
