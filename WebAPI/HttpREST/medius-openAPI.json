@@ -27575,8 +27575,8 @@
 					"paymentMethod": {
 						"type": "string",
 						"nullable": true,
-						"description": "Payment method name (e.g. BACS, SEPA, Wire). Null when none is assigned.",
-						"example": "SEPA"
+						"description": "Payment method name (e.g. Wire). Null when none is assigned.",
+						"example": "Wire"
 					},
 					"active": {
 						"type": "boolean",
@@ -27681,7 +27681,7 @@
 						"type": "string",
 						"nullable": true,
 						"description": "Payee address — state or province code.",
-						"example": "ENG"
+						"example": "NY"
 					},
 					"supplierCountryCode": {
 						"type": "string",
