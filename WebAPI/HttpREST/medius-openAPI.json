@@ -4737,7 +4737,7 @@
 						"in": "query",
 						"required": false,
 						"description": "Return only records whose lastModifiedAt is strictly after this timestamp. Omit to return all records.",
-						"schema": { "type": "string", "format": "date-time", "example": "2024-01-01T00:00:00+00:00" }
+						"schema": { "type": "string", "format": "date-time", "example": "2024-01-01T00:00:00Z" }
 					},
 					{
 						"name": "erpId",
