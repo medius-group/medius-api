@@ -4729,14 +4729,14 @@
 			"get": {
 				"tags": ["Master data - export"],
 				"summary": "Export payment details for supplier-company relationships updated since a given time.",
-				"description": "Returns payment detail records for supplier-company relationships whose lastModifiedAt is strictly greater than the supplied updatedSince value. Results are paged with offset/limit.",
+				"description": "Returns payment detail records for supplier-company relationships whose updatedSince is strictly greater than the supplied updatedSince value. Results are paged with offset/limit.",
 				"operationId": "PaymentDetailsExport_Get",
 				"parameters": [
 					{
 						"name": "updatedSince",
 						"in": "query",
 						"required": false,
-						"description": "Return only records whose lastModifiedAt is strictly after this timestamp. Omit to return all records.",
+						"description": "Return only records whose updatedSince is strictly after this timestamp. Omit to return all records.",
 						"schema": { "type": "string", "format": "date-time", "example": "2024-01-01T00:00:00Z" }
 					},
 					{
@@ -4781,7 +4781,7 @@
 											"supplierId": "SUPP-0042",
 											"supplierGlobalId": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
 											"defaultPaymentMethod": "BACS",
-											"lastModifiedAt": "2024-06-01T12:00:00+00:00",
+											"updatedSince": "2024-06-01T12:00:00+00:00",
 											"paymentDetails": [
 												{
 													"remitToId": "REMIT-001",
@@ -27550,7 +27550,7 @@
 						"description": "The default payment method assigned to this supplier-company relationship.",
 						"example": "BACS"
 					},
-					"lastModifiedAt": {
+					"updatedSince": {
 						"type": "string",
 						"format": "date-time",
 						"description": "Timestamp of the most recent change to any payment detail in this relationship.",
