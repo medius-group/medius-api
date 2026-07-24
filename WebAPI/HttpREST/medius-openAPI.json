@@ -4728,12 +4728,12 @@
     "/integration/masterdata/v1/paymentDetails": {
 			"get": {
 				"tags": ["Master data - export"],
-				"summary": "Export payment details for supplier-company relationships modified after a given time.",
-				"description": "Returns payment detail records for supplier-company relationships whose lastModifiedAt is strictly greater than the supplied modifiedAfter value. Results are paged with offset/limit.",
+				"summary": "Export payment details for supplier-company relationships updated since a given time.",
+				"description": "Returns payment detail records for supplier-company relationships whose lastModifiedAt is strictly greater than the supplied updatedSince value. Results are paged with offset/limit.",
 				"operationId": "PaymentDetailsExport_Get",
 				"parameters": [
 					{
-						"name": "modifiedAfter",
+						"name": "updatedSince",
 						"in": "query",
 						"required": false,
 						"description": "Return only records whose lastModifiedAt is strictly after this timestamp. Omit to return all records.",
