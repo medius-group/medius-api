@@ -18957,6 +18957,14 @@
               "name": "BankZipOrPostalCode"
             }
           },
+          "accountOwnerName": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The account owner name / payee name of the payee bank.",
+            "xml": {
+              "name": "AccountOwnerName"
+            }
+          },
           "accountNumber": {
             "type": "string",
             "maxLength": 450,
@@ -18995,6 +19003,14 @@
             "description": "**Passed to SO** - The SWIFT code of the payee bank.",
             "xml": {
               "name": "BankSwiftCode"
+            }
+          },
+          "iban": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The IBAN of the payee bank.",
+            "xml": {
+              "name": "Iban"
             }
           },
           "contactEmail": {
@@ -26581,6 +26597,10 @@
             "type": "string",
             "nullable": true
           },
+          "accountOwnerName": {
+            "type": "string",
+            "nullable": true
+          },
           "bankAddressLine1": {
             "type": "string",
             "nullable": true
@@ -26614,6 +26634,10 @@
             "nullable": true
           },
           "accountNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "iban": {
             "type": "string",
             "nullable": true
           },
