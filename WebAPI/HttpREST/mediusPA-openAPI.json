@@ -14,6 +14,10 @@
     {
       "name": "Accounts Receivable",
       "description": "Accounts receivable related services"
+    },
+    {
+      "name": "E-Reporting",
+      "description": "E-Reporting related services.\n\n⚠️ **This API is under active development. Endpoints, request/response schemas, and field definitions are subject to change without notice. Do not use in production until a stable version is released.**"
     }
   ],
   "paths": {
@@ -65,7 +69,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.SubmitInvoiceFileResponseDto"
+                  "$ref": "#/components/schemas/SubmitInvoiceFileResponse"
                 }
               }
             }
@@ -75,7 +79,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.Common.Presentation.BadRequestDto"
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -91,7 +95,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.Common.Presentation.BadRequestDto"
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -113,7 +117,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.GenerateEInvoiceRequestDto"
+                "$ref": "#/components/schemas/GenerateEInvoiceRequest"
               },
               "example": {
                 "companyId": "COMPANY_1",
@@ -247,12 +251,12 @@
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.GenerateEInvoiceRequestDto"
+                "$ref": "#/components/schemas/GenerateEInvoiceRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.GenerateEInvoiceRequestDto"
+                "$ref": "#/components/schemas/GenerateEInvoiceRequest"
               }
             }
           }
@@ -263,7 +267,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.GenerateEInvoiceResponseDto"
+                  "$ref": "#/components/schemas/GenerateEInvoiceResponse"
                 }
               }
             }
@@ -273,7 +277,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.Common.Presentation.BadRequestDto"
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -289,7 +293,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.Common.Presentation.BadRequestDto"
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -319,7 +323,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PendingNetworkStatusesResponseDto"
+                  "$ref": "#/components/schemas/PendingNetworkStatusesResponse"
                 }
               }
             }
@@ -329,7 +333,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.Common.Presentation.BadRequestDto"
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -352,7 +356,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.SubmitNetworkStatusRequestDto"
+                "$ref": "#/components/schemas/SubmitNetworkStatusRequest"
               },
               "example": {
                 "companyId": "COMPANY_1",
@@ -378,7 +382,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.SubmitNetworkStatusResponseDto"
+                  "$ref": "#/components/schemas/SubmitNetworkStatusResponse"
                 }
               }
             }
@@ -388,7 +392,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.Common.Presentation.BadRequestDto"
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -426,7 +430,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.NetworkStatusMessageResponseDto"
+                  "$ref": "#/components/schemas/NetworkStatusMessageResponse"
                 }
               }
             }
@@ -436,7 +440,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.Common.Presentation.BadRequestDto"
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -452,7 +456,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.Common.Presentation.BadRequestDto"
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -487,7 +491,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.Common.Presentation.BadRequestDto"
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -503,7 +507,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.Common.Presentation.BadRequestDto"
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -541,7 +545,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.Common.Presentation.BadRequestDto"
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -557,7 +561,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.Common.Presentation.BadRequestDto"
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -588,7 +592,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.UpdateNetworkStatusToErrorRequestDto"
+                "$ref": "#/components/schemas/UpdateNetworkStatusToErrorRequest"
               }
             }
           }
@@ -602,7 +606,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.Common.Presentation.BadRequestDto"
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -618,7 +622,710 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EInvoicingService.Common.Presentation.BadRequestDto"
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integration/ereporting/v1/b2bInternationalInvoice": {
+      "post": {
+        "tags": [
+          "E-Reporting"
+        ],
+        "summary": "Submits a B2B international invoice for French e-reporting.\nCovers invoices where at least one party is located outside France.",
+        "requestBody": {
+          "description": "The B2B international invoice data.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SubmitB2BInternationalInvoiceRequest"
+                  }
+                ],
+                "description": "Submission of a B2B international invoice for French e-reporting."
+              },
+              "examples": {
+                "Minimal (seller-declarant)": {
+                  "value": {
+                    "companyId": "COMP-001",
+                    "externalId": null,
+                    "invoice": {
+                      "invoiceNumber": "INV-001",
+                      "invoiceDate": "2026-02-16",
+                      "invoiceDueDate": "2026-03-16",
+                      "type": "380",
+                      "processType": "B1",
+                      "taxPaymentOption": "INVOICE_DATE",
+                      "notes": null,
+                      "referencedDocuments": null,
+                      "monetary": {
+                        "invoiceCurrency": "EUR",
+                        "taxBasisTotalAmount": {
+                          "amount": 100
+                        },
+                        "taxTotalAmount": {
+                          "amount": 20,
+                          "currency": "EUR"
+                        }
+                      },
+                      "taxDetails": [
+                        {
+                          "taxableAmount": {
+                            "amount": 100
+                          },
+                          "taxAmount": {
+                            "amount": 20
+                          },
+                          "percent": 20,
+                          "categoryCode": "S",
+                          "exemptionReason": null,
+                          "exemptionReasonCode": null
+                        }
+                      ],
+                      "seller": {
+                        "identifier": {
+                          "type": "0009",
+                          "value": "12345678900017"
+                        },
+                        "vatNumber": "FR12345678901",
+                        "postalAddress": {
+                          "country": "FR",
+                          "addressLineOne": null,
+                          "addressLineTwo": null,
+                          "addressLineThree": null,
+                          "cityName": null,
+                          "postalCode": null,
+                          "countrySubDivision": null
+                        }
+                      },
+                      "buyer": {
+                        "vatNumber": "DE123456789",
+                        "identifier": {
+                          "type": "0009",
+                          "value": "98765432100042"
+                        },
+                        "postalAddress": {
+                          "country": "DE",
+                          "addressLineOne": null,
+                          "addressLineTwo": null,
+                          "addressLineThree": null,
+                          "cityName": null,
+                          "postalCode": null,
+                          "countrySubDivision": null
+                        }
+                      },
+                      "sellerTaxRepresentative": null,
+                      "shipping": null,
+                      "billingPeriod": null,
+                      "allowances": null,
+                      "charges": null,
+                      "paymentMeans": null,
+                      "lines": null
+                    }
+                  }
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SubmitB2BInternationalInvoiceRequest"
+                  }
+                ],
+                "description": "Submission of a B2B international invoice for French e-reporting."
+              },
+              "examples": {
+                "Minimal (seller-declarant)": {
+                  "value": {
+                    "companyId": "COMP-001",
+                    "externalId": null,
+                    "invoice": {
+                      "invoiceNumber": "INV-001",
+                      "invoiceDate": "2026-02-16",
+                      "invoiceDueDate": "2026-03-16",
+                      "type": "380",
+                      "processType": "B1",
+                      "taxPaymentOption": "INVOICE_DATE",
+                      "notes": null,
+                      "referencedDocuments": null,
+                      "monetary": {
+                        "invoiceCurrency": "EUR",
+                        "taxBasisTotalAmount": {
+                          "amount": 100
+                        },
+                        "taxTotalAmount": {
+                          "amount": 20,
+                          "currency": "EUR"
+                        }
+                      },
+                      "taxDetails": [
+                        {
+                          "taxableAmount": {
+                            "amount": 100
+                          },
+                          "taxAmount": {
+                            "amount": 20
+                          },
+                          "percent": 20,
+                          "categoryCode": "S",
+                          "exemptionReason": null,
+                          "exemptionReasonCode": null
+                        }
+                      ],
+                      "seller": {
+                        "identifier": {
+                          "type": "0009",
+                          "value": "12345678900017"
+                        },
+                        "vatNumber": "FR12345678901",
+                        "postalAddress": {
+                          "country": "FR",
+                          "addressLineOne": null,
+                          "addressLineTwo": null,
+                          "addressLineThree": null,
+                          "cityName": null,
+                          "postalCode": null,
+                          "countrySubDivision": null
+                        }
+                      },
+                      "buyer": {
+                        "vatNumber": "DE123456789",
+                        "identifier": {
+                          "type": "0009",
+                          "value": "98765432100042"
+                        },
+                        "postalAddress": {
+                          "country": "DE",
+                          "addressLineOne": null,
+                          "addressLineTwo": null,
+                          "addressLineThree": null,
+                          "cityName": null,
+                          "postalCode": null,
+                          "countrySubDivision": null
+                        }
+                      },
+                      "sellerTaxRepresentative": null,
+                      "shipping": null,
+                      "billingPeriod": null,
+                      "allowances": null,
+                      "charges": null,
+                      "paymentMeans": null,
+                      "lines": null
+                    }
+                  }
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SubmitB2BInternationalInvoiceRequest"
+                  }
+                ],
+                "description": "Submission of a B2B international invoice for French e-reporting."
+              },
+              "examples": {
+                "Minimal (seller-declarant)": {
+                  "value": {
+                    "companyId": "COMP-001",
+                    "externalId": null,
+                    "invoice": {
+                      "invoiceNumber": "INV-001",
+                      "invoiceDate": "2026-02-16",
+                      "invoiceDueDate": "2026-03-16",
+                      "type": "380",
+                      "processType": "B1",
+                      "taxPaymentOption": "INVOICE_DATE",
+                      "notes": null,
+                      "referencedDocuments": null,
+                      "monetary": {
+                        "invoiceCurrency": "EUR",
+                        "taxBasisTotalAmount": {
+                          "amount": 100
+                        },
+                        "taxTotalAmount": {
+                          "amount": 20,
+                          "currency": "EUR"
+                        }
+                      },
+                      "taxDetails": [
+                        {
+                          "taxableAmount": {
+                            "amount": 100
+                          },
+                          "taxAmount": {
+                            "amount": 20
+                          },
+                          "percent": 20,
+                          "categoryCode": "S",
+                          "exemptionReason": null,
+                          "exemptionReasonCode": null
+                        }
+                      ],
+                      "seller": {
+                        "identifier": {
+                          "type": "0009",
+                          "value": "12345678900017"
+                        },
+                        "vatNumber": "FR12345678901",
+                        "postalAddress": {
+                          "country": "FR",
+                          "addressLineOne": null,
+                          "addressLineTwo": null,
+                          "addressLineThree": null,
+                          "cityName": null,
+                          "postalCode": null,
+                          "countrySubDivision": null
+                        }
+                      },
+                      "buyer": {
+                        "vatNumber": "DE123456789",
+                        "identifier": {
+                          "type": "0009",
+                          "value": "98765432100042"
+                        },
+                        "postalAddress": {
+                          "country": "DE",
+                          "addressLineOne": null,
+                          "addressLineTwo": null,
+                          "addressLineThree": null,
+                          "cityName": null,
+                          "postalCode": null,
+                          "countrySubDivision": null
+                        }
+                      },
+                      "sellerTaxRepresentative": null,
+                      "shipping": null,
+                      "billingPeriod": null,
+                      "allowances": null,
+                      "charges": null,
+                      "paymentMeans": null,
+                      "lines": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "B2B international invoice accepted and submitted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/B2bInternationalInvoiceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (validation errors) or external service rejection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — insufficient permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A submission with the same externalId already exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "No SIREN registered for the company in masterdata.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "External service error during submission.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integration/ereporting/v1/b2bInternationalPayment": {
+      "post": {
+        "tags": [
+          "E-Reporting"
+        ],
+        "summary": "Submits B2B international invoice payment data for French e-reporting.",
+        "requestBody": {
+          "description": "The B2B international payment request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/B2bInternationalPaymentRequest"
+                  }
+                ],
+                "description": "Submission of payment data for a B2B international invoice, for French e-reporting."
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/B2bInternationalPaymentRequest"
+                  }
+                ],
+                "description": "Submission of payment data for a B2B international invoice, for French e-reporting."
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/B2bInternationalPaymentRequest"
+                  }
+                ],
+                "description": "Submission of payment data for a B2B international invoice, for French e-reporting."
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "B2B international payment data accepted for processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/B2bInternationalPaymentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request or external service validation rejection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - missing or invalid credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Module not active or insufficient permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A submission with the same externalId already exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "No SIREN registered for the company in masterdata.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "External service error during submission.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integration/ereporting/v1/b2cPaymentsAggregate": {
+      "post": {
+        "tags": [
+          "E-Reporting"
+        ],
+        "summary": "Submits B2C payment aggregate data for French e-reporting.\nDeclares collected amounts for previously reported B2C transactions, broken down by VAT rate.",
+        "requestBody": {
+          "description": "The B2C payments aggregate request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/B2cPaymentsAggregateRequest"
+                  }
+                ],
+                "description": "Declaration of collected amounts for previously reported B2C transactions."
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/B2cPaymentsAggregateRequest"
+                  }
+                ],
+                "description": "Declaration of collected amounts for previously reported B2C transactions."
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/B2cPaymentsAggregateRequest"
+                  }
+                ],
+                "description": "Declaration of collected amounts for previously reported B2C transactions."
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "B2C payment data accepted for processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/B2cPaymentsAggregateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (e.g., validation errors).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — insufficient permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A submission with the same externalId already exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "No SIREN registered for the company in masterdata.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "External service error during submission.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integration/ereporting/v1/b2cTransactionsAggregate": {
+      "post": {
+        "tags": [
+          "E-Reporting"
+        ],
+        "summary": "Submits B2C transaction aggregate data for French e-reporting.\nReports B2C transaction details including monetary values and tax breakdowns by category.",
+        "requestBody": {
+          "description": "The B2C transactions aggregate request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/B2cTransactionsAggregateRequest"
+                  }
+                ],
+                "description": "Report of B2C transaction aggregates for a single transaction date."
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/B2cTransactionsAggregateRequest"
+                  }
+                ],
+                "description": "Report of B2C transaction aggregates for a single transaction date."
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/B2cTransactionsAggregateRequest"
+                  }
+                ],
+                "description": "Report of B2C transaction aggregates for a single transaction date."
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "B2C transaction data accepted for processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/B2cTransactionsAggregateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (e.g., validation errors).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized — missing or invalid credentials.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden — insufficient permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A submission with the same externalId already exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "No SIREN registered for the company in masterdata.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "External service error during submission.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
                 }
               }
             }
@@ -629,7 +1336,7 @@
   },
   "components": {
     "schemas": {
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.AllowanceChargeData": {
+      "AllowanceChargeData": {
         "required": [
           "actualAmount"
         ],
@@ -641,10 +1348,10 @@
             "nullable": true
           },
           "actualAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "basisAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "calculationPercent": {
             "type": "number",
@@ -653,7 +1360,7 @@
             "nullable": true
           },
           "taxDetail": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AllowanceChargeTaxDetailData"
+            "$ref": "#/components/schemas/AllowanceChargeTaxDetailData"
           },
           "reason": {
             "type": "string",
@@ -669,7 +1376,7 @@
         "additionalProperties": false,
         "description": "An allowance (deduction) or charge (addition) applied to the invoice or a line."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.AllowanceChargeTaxDetailData": {
+      "AllowanceChargeTaxDetailData": {
         "type": "object",
         "properties": {
           "taxType": {
@@ -692,7 +1399,7 @@
         "additionalProperties": false,
         "description": "VAT details for an allowance or charge."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData": {
+      "AmountData": {
         "required": [
           "amount"
         ],
@@ -712,7 +1419,7 @@
         "additionalProperties": false,
         "description": "A monetary amount with an optional currency."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountDto": {
+      "Amount": {
         "type": "object",
         "properties": {
           "amount": {
@@ -729,7 +1436,7 @@
         "additionalProperties": false,
         "description": "A monetary amount with an optional currency."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.AttachmentData": {
+      "AttachmentData": {
         "required": [
           "description",
           "reference"
@@ -768,7 +1475,7 @@
         "additionalProperties": false,
         "description": "A document attached to the invoice."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.AttachmentDto": {
+      "Attachment": {
         "required": [
           "content",
           "fileName",
@@ -792,7 +1499,7 @@
         "additionalProperties": false,
         "description": "Attachment entry for a status update."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.BankDirectDebitData": {
+      "BankDirectDebitData": {
         "type": "object",
         "properties": {
           "iban": {
@@ -804,7 +1511,7 @@
         "additionalProperties": false,
         "description": "Direct debit payment details."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.BankTransferData": {
+      "BankTransferData": {
         "type": "object",
         "properties": {
           "iban": {
@@ -826,7 +1533,7 @@
         "additionalProperties": false,
         "description": "Bank transfer (credit) payment details."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.BaseQuantityData": {
+      "BaseQuantityData": {
         "required": [
           "quantity"
         ],
@@ -846,7 +1553,7 @@
         "additionalProperties": false,
         "description": "Quantity to which a unit price applies."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.BilledQuantityData": {
+      "BilledQuantityData": {
         "required": [
           "quantity",
           "unitCode"
@@ -863,13 +1570,13 @@
             "description": "UN/ECE unit of measure code."
           },
           "totalAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           }
         },
         "additionalProperties": false,
         "description": "Quantity billed on an invoice line."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.BillingPeriodData": {
+      "BillingPeriodData": {
         "type": "object",
         "properties": {
           "begin": {
@@ -886,7 +1593,7 @@
         "additionalProperties": false,
         "description": "The period the invoice or line covers."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.CharacteristicDto": {
+      "Characteristic": {
         "type": "object",
         "properties": {
           "id": {
@@ -915,7 +1622,7 @@
             "nullable": true
           },
           "valueAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountDto"
+            "$ref": "#/components/schemas/Amount"
           },
           "valueDateTime": {
             "type": "string",
@@ -933,7 +1640,7 @@
         "additionalProperties": false,
         "description": "A characteristic affected by a status change."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.ContactData": {
+      "ContactData": {
         "type": "object",
         "properties": {
           "personName": {
@@ -960,11 +1667,11 @@
         "additionalProperties": false,
         "description": "Contact details for a party."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.DocumentReferenceDetailDto": {
+      "DocumentReferenceDetail": {
         "type": "object",
         "properties": {
           "issuer": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PartyDto"
+            "$ref": "#/components/schemas/Party"
           },
           "typeCode": {
             "type": "string",
@@ -992,7 +1699,7 @@
         "additionalProperties": false,
         "description": "Detailed information about a referenced document."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.DocumentReferenceDto": {
+      "DocumentReference": {
         "type": "object",
         "properties": {
           "typeCode": {
@@ -1006,13 +1713,13 @@
             "nullable": true
           },
           "documentReference": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.DocumentReferenceDetailDto"
+            "$ref": "#/components/schemas/DocumentReferenceDetail"
           }
         },
         "additionalProperties": false,
         "description": "A reference to a related document."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.GenerateEInvoiceInvoiceFileDto": {
+      "GenerateEInvoiceInvoiceFile": {
         "required": [
           "content",
           "format",
@@ -1036,7 +1743,7 @@
         "additionalProperties": false,
         "description": "Details of a generated invoice file."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.GenerateEInvoiceRequestDto": {
+      "GenerateEInvoiceRequest": {
         "required": [
           "companyId",
           "format",
@@ -1062,13 +1769,13 @@
             "nullable": true
           },
           "invoiceData": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.InvoiceDataRequestDto"
+            "$ref": "#/components/schemas/InvoiceDataRequest"
           }
         },
         "additionalProperties": false,
         "description": "Request to generate an e-invoice from structured invoice data."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.GenerateEInvoiceResponseDto": {
+      "GenerateEInvoiceResponse": {
         "required": [
           "importTrackingId",
           "invoiceFile"
@@ -1081,13 +1788,13 @@
             "format": "uuid"
           },
           "invoiceFile": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.GenerateEInvoiceInvoiceFileDto"
+            "$ref": "#/components/schemas/GenerateEInvoiceInvoiceFile"
           }
         },
         "additionalProperties": false,
         "description": "Response containing the generated e-invoice and its tracking identifier."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.InvoiceDataRequestDto": {
+      "InvoiceDataRequest": {
         "required": [
           "buyer",
           "invoiceDate",
@@ -1126,72 +1833,72 @@
             "nullable": true
           },
           "taxPaymentOption": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.TaxPaymentOptionData"
+            "$ref": "#/components/schemas/TaxPaymentOptionData"
           },
           "notes": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.NoteData"
+              "$ref": "#/components/schemas/NoteData"
             },
             "description": "Invoice-level notes. UBL format allows at most one note.",
             "nullable": true
           },
           "referenceData": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.ReferenceDataData"
+            "$ref": "#/components/schemas/ReferenceDataData"
           },
           "seller": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PartyData"
+            "$ref": "#/components/schemas/PartyData"
           },
           "buyer": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PartyData"
+            "$ref": "#/components/schemas/PartyData"
           },
           "sellerTaxRepresentative": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PartyData"
+            "$ref": "#/components/schemas/PartyData"
           },
           "referencedDocuments": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.ReferencedDocumentData"
+              "$ref": "#/components/schemas/ReferencedDocumentData"
             },
             "description": "Previously issued invoices referenced by this invoice.",
             "nullable": true
           },
           "monetary": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.MonetaryData"
+            "$ref": "#/components/schemas/MonetaryData"
           },
           "taxDetails": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.TaxDetailData"
+              "$ref": "#/components/schemas/TaxDetailData"
             },
             "description": "VAT breakdown grouped by tax category and rate. At least one entry is required."
           },
           "lines": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.InvoiceLineData"
+              "$ref": "#/components/schemas/InvoiceLineData"
             },
             "description": "Individual invoice lines describing the goods or services billed.",
             "nullable": true
           },
           "shipping": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.ShippingData"
+            "$ref": "#/components/schemas/ShippingData"
           },
           "paymentMeans": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PaymentMeansData"
+              "$ref": "#/components/schemas/PaymentMeansData"
             },
             "description": "Payment instructions for settling the invoice.",
             "nullable": true
           },
           "billingPeriod": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.BillingPeriodData"
+            "$ref": "#/components/schemas/BillingPeriodData"
           },
           "allowances": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AllowanceChargeData"
+              "$ref": "#/components/schemas/AllowanceChargeData"
             },
             "description": "Invoice-level allowances (deductions applied to the total).",
             "nullable": true
@@ -1199,7 +1906,7 @@
           "charges": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AllowanceChargeData"
+              "$ref": "#/components/schemas/AllowanceChargeData"
             },
             "description": "Invoice-level charges (additions applied to the total).",
             "nullable": true
@@ -1207,7 +1914,7 @@
           "attachments": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AttachmentData"
+              "$ref": "#/components/schemas/AttachmentData"
             },
             "description": "Documents attached to the invoice.",
             "nullable": true
@@ -1216,7 +1923,7 @@
         "additionalProperties": false,
         "description": "Structured invoice data conforming to the e-invoicing data model."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.InvoiceLineData": {
+      "InvoiceLineData": {
         "required": [
           "billedQuantity",
           "id",
@@ -1232,36 +1939,36 @@
             "description": "Unique identifier of the line within the invoice."
           },
           "totalAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "billedQuantity": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.BilledQuantityData"
+            "$ref": "#/components/schemas/BilledQuantityData"
           },
           "taxDetail": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.LineTaxDetailData"
+            "$ref": "#/components/schemas/LineTaxDetailData"
           },
           "price": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PriceData"
+            "$ref": "#/components/schemas/PriceData"
           },
           "item": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.ItemData"
+            "$ref": "#/components/schemas/ItemData"
           },
           "notes": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.NoteData"
+            "$ref": "#/components/schemas/NoteData"
           },
           "billingPeriod": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.BillingPeriodData"
+            "$ref": "#/components/schemas/BillingPeriodData"
           },
           "referenceData": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.LineReferenceDataData"
+            "$ref": "#/components/schemas/LineReferenceDataData"
           },
           "shipping": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.ShippingData"
+            "$ref": "#/components/schemas/ShippingData"
           },
           "allowances": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AllowanceChargeData"
+              "$ref": "#/components/schemas/AllowanceChargeData"
             },
             "description": "Allowances applied to the line.",
             "nullable": true
@@ -1269,7 +1976,7 @@
           "charges": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AllowanceChargeData"
+              "$ref": "#/components/schemas/AllowanceChargeData"
             },
             "description": "Charges applied to the line.",
             "nullable": true
@@ -1278,7 +1985,7 @@
         "additionalProperties": false,
         "description": "BG-25 — Invoice line."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.ItemData": {
+      "ItemData": {
         "required": [
           "name"
         ],
@@ -1309,13 +2016,13 @@
             "nullable": true
           },
           "itemIdentifier": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.ItemIdentifierData"
+            "$ref": "#/components/schemas/ItemIdentifierData"
           }
         },
         "additionalProperties": false,
         "description": "Item being billed on an invoice line."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.ItemIdentifierData": {
+      "ItemIdentifierData": {
         "required": [
           "scheme",
           "value"
@@ -1334,7 +2041,7 @@
         "additionalProperties": false,
         "description": "A standard identifier for an item."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.LineBuyerOrderReferenceData": {
+      "LineBuyerOrderReferenceData": {
         "required": [
           "id"
         ],
@@ -1353,7 +2060,7 @@
         "additionalProperties": false,
         "description": "Reference to the buyer's order for a line."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.LineInvoiceReferenceData": {
+      "LineInvoiceReferenceData": {
         "type": "object",
         "properties": {
           "invoiceId": {
@@ -1376,14 +2083,14 @@
         "additionalProperties": false,
         "description": "Reference to a preceding invoice for a line."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.LineReferenceDataData": {
+      "LineReferenceDataData": {
         "type": "object",
         "properties": {
           "invoiceReference": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.LineInvoiceReferenceData"
+            "$ref": "#/components/schemas/LineInvoiceReferenceData"
           },
           "buyerOrderReference": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.LineBuyerOrderReferenceData"
+            "$ref": "#/components/schemas/LineBuyerOrderReferenceData"
           },
           "accountingCostId": {
             "type": "string",
@@ -1394,7 +2101,7 @@
         "additionalProperties": false,
         "description": "References related to an invoice line."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.LineTaxDetailData": {
+      "LineTaxDetailData": {
         "required": [
           "categoryCode"
         ],
@@ -1419,7 +2126,7 @@
         "additionalProperties": false,
         "description": "VAT details for an invoice line."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.MonetaryData": {
+      "MonetaryData": {
         "required": [
           "invoiceAmount",
           "invoiceCurrency",
@@ -1439,40 +2146,40 @@
             "nullable": true
           },
           "invoiceAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "taxBasisTotalAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "taxTotalAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "payableAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "lineTotalAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "chargeTotalAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "allowanceTotalAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "prepaidTotalAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "taxTotalAmountAccounting": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "roundingAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           }
         },
         "additionalProperties": false,
         "description": "BG-22 — Invoice monetary totals."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.NetworkStatusDocumentIdentifierDto": {
+      "NetworkStatusDocumentIdentifier": {
         "type": "object",
         "properties": {
           "externalId": {
@@ -1489,7 +2196,7 @@
         "additionalProperties": false,
         "description": "Identifiers linking a status message to its invoice."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.NetworkStatusDocumentStatusDto": {
+      "NetworkStatusDocumentStatus": {
         "type": "object",
         "properties": {
           "labels": {
@@ -1508,7 +2215,7 @@
         "additionalProperties": false,
         "description": "Status of a document with optional human-readable labels."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.NetworkStatusMessageResponseDto": {
+      "NetworkStatusMessageResponse": {
         "required": [
           "documentIdentifier",
           "documentStatus",
@@ -1523,10 +2230,10 @@
             "format": "uuid"
           },
           "documentIdentifier": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.NetworkStatusDocumentIdentifierDto"
+            "$ref": "#/components/schemas/NetworkStatusDocumentIdentifier"
           },
           "documentStatus": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.NetworkStatusDocumentStatusDto"
+            "$ref": "#/components/schemas/NetworkStatusDocumentStatus"
           },
           "issuedDateTime": {
             "type": "string",
@@ -1541,35 +2248,35 @@
           "statusDetails": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.StatusDetailDto"
+              "$ref": "#/components/schemas/StatusDetail"
             },
             "description": "Detailed reasons and actions explaining the status.",
             "nullable": true
           },
           "sender": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PartyDto"
+            "$ref": "#/components/schemas/Party"
           },
           "issuer": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PartyDto"
+            "$ref": "#/components/schemas/Party"
           },
           "recipient": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PartyDto"
+            "$ref": "#/components/schemas/Party"
           },
           "response": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.DocumentReferenceDto"
+            "$ref": "#/components/schemas/DocumentReference"
           }
         },
         "additionalProperties": false,
         "description": "Details of a network status message for an outbound invoice."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.NoteData": {
+      "NoteData": {
         "required": [
           "content"
         ],
         "type": "object",
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.NoteTypeData"
+            "$ref": "#/components/schemas/NoteTypeData"
           },
           "content": {
             "type": "string",
@@ -1579,7 +2286,7 @@
         "additionalProperties": false,
         "description": "A free-text note attached to the invoice or an invoice line."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.NoteDto": {
+      "Note": {
         "type": "object",
         "properties": {
           "content": {
@@ -1591,7 +2298,7 @@
         "additionalProperties": false,
         "description": "A free-text note."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.NoteTypeData": {
+      "NoteTypeData": {
         "type": "object",
         "properties": {
           "code": {
@@ -1608,7 +2315,7 @@
         "additionalProperties": false,
         "description": "Classification of an invoice note."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.PartyContactDto": {
+      "PartyContact": {
         "type": "object",
         "properties": {
           "name": {
@@ -1630,7 +2337,7 @@
         "additionalProperties": false,
         "description": "Contact details for a party."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.PartyData": {
+      "PartyData": {
         "required": [
           "electronicAddress",
           "name"
@@ -1666,15 +2373,15 @@
             "nullable": true
           },
           "postalAddress": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PostalAddressData"
+            "$ref": "#/components/schemas/PostalAddressData"
           },
           "contact": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.ContactData"
+            "$ref": "#/components/schemas/ContactData"
           },
           "identifiers": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PartyIdentifierData"
+              "$ref": "#/components/schemas/PartyIdentifierData"
             },
             "description": "Additional identifiers assigned to the party.",
             "nullable": true
@@ -1683,7 +2390,7 @@
         "additionalProperties": false,
         "description": "A trading party such as the seller or buyer."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.PartyDto": {
+      "Party": {
         "type": "object",
         "properties": {
           "name": {
@@ -1702,16 +2409,16 @@
             "nullable": true
           },
           "identifiers": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PartyIdentifiersDto"
+            "$ref": "#/components/schemas/PartyIdentifiers"
           },
           "contact": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PartyContactDto"
+            "$ref": "#/components/schemas/PartyContact"
           }
         },
         "additionalProperties": false,
         "description": "A party involved in the document exchange."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.PartyIdentifierData": {
+      "PartyIdentifierData": {
         "type": "object",
         "properties": {
           "type": {
@@ -1738,7 +2445,7 @@
         "additionalProperties": false,
         "description": "An identifier assigned to a party."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.PartyIdentifiersDto": {
+      "PartyIdentifiers": {
         "type": "object",
         "properties": {
           "electronicAddress": {
@@ -1765,7 +2472,7 @@
         "additionalProperties": false,
         "description": "Electronic and party identifiers for a party."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.PaymentDto": {
+      "Payment": {
         "required": [
           "amount",
           "currency"
@@ -1791,7 +2498,7 @@
         "additionalProperties": false,
         "description": "Payment entry for a status update."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.PaymentMeansData": {
+      "PaymentMeansData": {
         "required": [
           "typeCode"
         ],
@@ -1808,16 +2515,16 @@
             "nullable": true
           },
           "bankTransfer": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.BankTransferData"
+            "$ref": "#/components/schemas/BankTransferData"
           },
           "bankDirectDebit": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.BankDirectDebitData"
+            "$ref": "#/components/schemas/BankDirectDebitData"
           }
         },
         "additionalProperties": false,
         "description": "Payment instructions for settling the invoice."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.PendingNetworkStatusMessageDto": {
+      "PendingNetworkStatusMessage": {
         "type": "object",
         "properties": {
           "url": {
@@ -1828,13 +2535,13 @@
         "additionalProperties": false,
         "description": "A reference to a pending network status message."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.PendingNetworkStatusesResponseDto": {
+      "PendingNetworkStatusesResponse": {
         "type": "object",
         "properties": {
           "messages": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PendingNetworkStatusMessageDto"
+              "$ref": "#/components/schemas/PendingNetworkStatusMessage"
             },
             "description": "URLs of the pending network status messages."
           }
@@ -1842,7 +2549,7 @@
         "additionalProperties": false,
         "description": "List of pending network status messages."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.PostalAddressData": {
+      "PostalAddressData": {
         "required": [
           "country"
         ],
@@ -1886,29 +2593,29 @@
         "additionalProperties": false,
         "description": "A postal address."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.PriceData": {
+      "PriceData": {
         "required": [
           "netAmount"
         ],
         "type": "object",
         "properties": {
           "netAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "allowanceAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "baseAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "baseQuantity": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.BaseQuantityData"
+            "$ref": "#/components/schemas/BaseQuantityData"
           }
         },
         "additionalProperties": false,
         "description": "Unit price details for an invoice line."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.ReferenceDataData": {
+      "ReferenceDataData": {
         "type": "object",
         "properties": {
           "buyerOrderReferenceId": {
@@ -1920,7 +2627,7 @@
         "additionalProperties": false,
         "description": "References to related buyer documents."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.ReferencedDocumentData": {
+      "ReferencedDocumentData": {
         "required": [
           "invoiceNumber"
         ],
@@ -1939,7 +2646,7 @@
         "additionalProperties": false,
         "description": "A previously issued invoice referenced by this invoice."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.RejectionDetailDto": {
+      "RejectionDetail": {
         "required": [
           "reason"
         ],
@@ -1953,11 +2660,11 @@
         "additionalProperties": false,
         "description": "Rejection detail for a status update."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.ShippingData": {
+      "ShippingData": {
         "type": "object",
         "properties": {
           "tradeParty": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.ShippingTradePartyData"
+            "$ref": "#/components/schemas/ShippingTradePartyData"
           },
           "deliveryDate": {
             "type": "string",
@@ -1968,7 +2675,7 @@
         "additionalProperties": false,
         "description": "Delivery / shipping details."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.ShippingTradePartyData": {
+      "ShippingTradePartyData": {
         "type": "object",
         "properties": {
           "name": {
@@ -1977,13 +2684,13 @@
             "nullable": true
           },
           "postalAddress": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PostalAddressData"
+            "$ref": "#/components/schemas/PostalAddressData"
           }
         },
         "additionalProperties": false,
         "description": "Party the goods are shipped to."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.StatusDataDto": {
+      "StatusData": {
         "required": [
           "code"
         ],
@@ -1996,7 +2703,7 @@
           "payment": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.PaymentDto"
+              "$ref": "#/components/schemas/Payment"
             },
             "description": "Optional payment entries.",
             "nullable": true
@@ -2004,19 +2711,19 @@
           "attachments": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AttachmentDto"
+              "$ref": "#/components/schemas/Attachment"
             },
             "description": "Optional attachment entries.",
             "nullable": true
           },
           "rejectionDetail": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.RejectionDetailDto"
+            "$ref": "#/components/schemas/RejectionDetail"
           }
         },
         "additionalProperties": false,
         "description": "Status information to submit for the invoice."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.StatusDetailDto": {
+      "StatusDetail": {
         "type": "object",
         "properties": {
           "reasonCode": {
@@ -2048,7 +2755,7 @@
           "notes": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.NoteDto"
+              "$ref": "#/components/schemas/Note"
             },
             "description": "Additional notes about the status.",
             "nullable": true
@@ -2056,7 +2763,7 @@
           "characteristics": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.CharacteristicDto"
+              "$ref": "#/components/schemas/Characteristic"
             },
             "description": "Specific characteristics affected by the status.",
             "nullable": true
@@ -2065,7 +2772,7 @@
         "additionalProperties": false,
         "description": "Detailed reason and action information for a status."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.SubmitInvoiceFileResponseDto": {
+      "SubmitInvoiceFileResponse": {
         "type": "object",
         "properties": {
           "importTrackingId": {
@@ -2077,7 +2784,7 @@
         "additionalProperties": false,
         "description": "Response returned when an invoice file is accepted for processing."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.SubmitNetworkStatusRequestDto": {
+      "SubmitNetworkStatusRequest": {
         "required": [
           "companyId",
           "statusData"
@@ -2100,13 +2807,13 @@
             "nullable": true
           },
           "statusData": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.StatusDataDto"
+            "$ref": "#/components/schemas/StatusData"
           }
         },
         "additionalProperties": false,
         "description": "Request DTO for submitting a network status update for an outbound invoice."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.SubmitNetworkStatusResponseDto": {
+      "SubmitNetworkStatusResponse": {
         "type": "object",
         "properties": {
           "messageId": {
@@ -2118,7 +2825,7 @@
         "additionalProperties": false,
         "description": "Response DTO for a successful network status submission."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.TaxDetailData": {
+      "TaxDetailData": {
         "required": [
           "categoryCode",
           "taxableAmount",
@@ -2127,10 +2834,10 @@
         "type": "object",
         "properties": {
           "taxableAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "taxAmount": {
-            "$ref": "#/components/schemas/EInvoicingService.AccountsReceivable.Presentation.Dtos.AmountData"
+            "$ref": "#/components/schemas/AmountData"
           },
           "taxType": {
             "type": "string",
@@ -2161,7 +2868,7 @@
         "additionalProperties": false,
         "description": "BG-23 — VAT breakdown item."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.TaxPaymentOptionData": {
+      "TaxPaymentOptionData": {
         "required": [
           "code"
         ],
@@ -2176,7 +2883,7 @@
         "additionalProperties": false,
         "description": "Tax point / VAT payment option for the invoice."
       },
-      "EInvoicingService.AccountsReceivable.Presentation.Dtos.UpdateNetworkStatusToErrorRequestDto": {
+      "UpdateNetworkStatusToErrorRequest": {
         "type": "object",
         "properties": {
           "errorMessage": {
@@ -2187,7 +2894,1564 @@
         "additionalProperties": false,
         "description": "Request body for marking a network status message as error."
       },
-      "EInvoicingService.Common.Presentation.BadRequestDto": {
+      "SubmitB2BInternationalInvoiceRequest": {
+        "required": [
+          "companyId",
+          "invoice"
+        ],
+        "type": "object",
+        "properties": {
+          "companyId": {
+            "type": "string",
+            "description": "Company identifier in Medius. Used to route the declaration to the correct business entity\nand to resolve the declarant SIREN (TT-12 / TT-13) from company masterdata."
+          },
+          "externalId": {
+            "type": "string",
+            "description": "Optional caller-supplied deduplication key. A 409 Conflict is returned if this value has\nalready been submitted. Not transmitted to PPF.",
+            "nullable": true
+          },
+          "invoice": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoice"
+              }
+            ],
+            "description": "The invoice to report."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Submission of a B2B international invoice for French e-reporting."
+      },
+      "B2BInternationalInvoice": {
+        "required": [
+          "buyer",
+          "invoiceDate",
+          "invoiceDueDate",
+          "invoiceNumber",
+          "monetary",
+          "processType",
+          "seller",
+          "taxDetails",
+          "taxPaymentOption",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "invoiceNumber": {
+            "type": "string",
+            "description": "[TT-19] Invoice number. Unique identifier for the invoice issued by the seller (BT-1)."
+          },
+          "invoiceDate": {
+            "type": "string",
+            "description": "[TT-20] Invoice issue date. Date the invoice was issued (BT-2). ISO 8601 format YYYY-MM-DD."
+          },
+          "invoiceDueDate": {
+            "type": "string",
+            "description": "[TT-201] Invoice due date. Payment due date. ISO 8601 format YYYY-MM-DD."
+          },
+          "type": {
+            "enum": [
+              "380",
+              "389",
+              "393",
+              "501",
+              "386",
+              "500",
+              "384",
+              "471",
+              "472",
+              "473",
+              "261",
+              "381",
+              "396",
+              "502",
+              "503"
+            ],
+            "type": "string",
+            "description": "[TT-21] Invoice type code. Functional type of the invoice (BT-3, UNTDID 1001).\nOnly the values listed here are permitted (rule G1.01)."
+          },
+          "processType": {
+            "enum": [
+              "B1",
+              "S1",
+              "M1",
+              "B2",
+              "S2",
+              "M2",
+              "B4",
+              "S4",
+              "M4",
+              "S5",
+              "S6",
+              "B7",
+              "S7"
+            ],
+            "type": "string",
+            "description": "[TT-28] Business process type (billing framework). Identifies the business context of the\ntransaction. B=goods, S=services, M=mixed."
+          },
+          "taxPaymentOption": {
+            "enum": [
+              "INVOICE_DATE",
+              "DELIVERY_DATE",
+              "PAYMENT_DATE"
+            ],
+            "type": "string",
+            "description": "[TT-24] VAT due date. Specifies when VAT becomes chargeable (BT-8). Required when the SIREN\napplies cash-basis VAT."
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/B2BInternationalInvoiceNote"
+            },
+            "description": "[TT-26 / TT-27] Invoice notes. Each entry contains free-text content (TT-27) and an optional\nsubject code (TT-26).",
+            "nullable": true
+          },
+          "referencedDocuments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/B2BInternationalInvoiceReferencedDocument"
+            },
+            "description": "[TT-30 / TT-31] References to preceding invoices. Each entry identifies a prior invoice by its\nnumber (TT-30) and its issue date (TT-31). Used for corrected invoices, credit notes, or final\ninvoices after an advance payment.",
+            "nullable": true
+          },
+          "monetary": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceMonetary"
+              }
+            ],
+            "description": "Invoice monetary totals."
+          },
+          "taxDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/B2BInternationalInvoiceTaxDetail"
+            },
+            "description": "VAT breakdowns, one entry per applicable VAT category and rate. At least one entry required."
+          },
+          "seller": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceSeller"
+              }
+            ],
+            "description": "The party supplying the goods or services."
+          },
+          "buyer": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceBuyer"
+              }
+            ],
+            "description": "The party to whom the goods or services are supplied."
+          },
+          "sellerTaxRepresentative": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceSellerTaxRepresentative"
+              }
+            ],
+            "description": "Party representing the seller for VAT purposes (BT-62 group).",
+            "nullable": true
+          },
+          "shipping": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceShipping"
+              }
+            ],
+            "description": "Delivery information for the goods or services.",
+            "nullable": true
+          },
+          "billingPeriod": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceBillingPeriod"
+              }
+            ],
+            "description": "[TT-42 / TT-43] Invoice-level billing period (BG-14).",
+            "nullable": true
+          },
+          "allowances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/B2BInternationalInvoiceAllowance"
+            },
+            "description": "Document-level discounts or price reductions (BG-20).",
+            "nullable": true
+          },
+          "charges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/B2BInternationalInvoiceCharge"
+            },
+            "description": "Document-level charges or fees (BG-21).",
+            "nullable": true
+          },
+          "paymentMeans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/B2BInternationalInvoicePaymentMeans"
+            },
+            "description": "Payment instructions (BG-16).",
+            "nullable": true
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/B2BInternationalInvoiceLine"
+            },
+            "description": "Invoice line items (BG-25).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A B2B international invoice. Covers invoices where at least one party is located outside France."
+      },
+      "B2BInternationalInvoiceAllowance": {
+        "required": [
+          "actualAmount",
+          "taxDetail"
+        ],
+        "type": "object",
+        "properties": {
+          "actualAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceAmount"
+              }
+            ],
+            "description": "[TT-45] Allowance amount excluding VAT (BT-92)."
+          },
+          "taxDetail": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceAllowanceChargeTaxDetail"
+              }
+            ],
+            "description": "VAT classification of this allowance."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A document-level discount or price reduction (BG-20)."
+      },
+      "B2BInternationalInvoiceAllowanceChargeTaxDetail": {
+        "required": [
+          "categoryCode"
+        ],
+        "type": "object",
+        "properties": {
+          "categoryCode": {
+            "enum": [
+              "S",
+              "Z",
+              "E",
+              "AE",
+              "K",
+              "G",
+              "O"
+            ],
+            "type": "string",
+            "description": "[TT-46 / TT-49] VAT category code (UNCL5305). TT-46 for allowances (BT-95),\nTT-49 for charges (BT-102)."
+          },
+          "taxType": {
+            "enum": [
+              "VAT"
+            ],
+            "type": "string",
+            "description": "Tax type code. Must be 'VAT'.",
+            "nullable": true
+          },
+          "percent": {
+            "type": "number",
+            "description": "[TT-47 / TT-50] VAT rate as a percentage. TT-47 for allowances (BT-96),\nTT-50 for charges (BT-103).",
+            "format": "double",
+            "nullable": true
+          },
+          "exemptionReason": {
+            "type": "string",
+            "description": "[TT-58] Free-text reason for VAT exemption on this allowance or charge (BT-120).",
+            "nullable": true
+          },
+          "exemptionReasonCode": {
+            "type": "string",
+            "description": "[TT-59] Coded reason for VAT exemption on this allowance or charge (BT-121).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "VAT classification of a document-level allowance or charge."
+      },
+      "B2BInternationalInvoiceAmount": {
+        "required": [
+          "amount"
+        ],
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "The monetary amount value.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A monetary amount."
+      },
+      "B2BInternationalInvoiceBankDirectDebit": {
+        "required": [
+          "iban"
+        ],
+        "type": "object",
+        "properties": {
+          "iban": {
+            "type": "string",
+            "description": "Debited bank account IBAN (BT-91). Maximum 19 characters."
+          }
+        },
+        "additionalProperties": false,
+        "description": "SEPA direct debit details (BG-19)."
+      },
+      "B2BInternationalInvoiceBankTransfer": {
+        "required": [
+          "iban"
+        ],
+        "type": "object",
+        "properties": {
+          "iban": {
+            "type": "string",
+            "description": "Payee's bank account IBAN (BT-84). Maximum 50 characters."
+          },
+          "accountName": {
+            "type": "string",
+            "description": "Account holder name (BT-85). Maximum 100 characters.",
+            "nullable": true
+          },
+          "bic": {
+            "type": "string",
+            "description": "Bank BIC/SWIFT code (BT-86). Maximum 12 characters.",
+            "nullable": true
+          },
+          "proprietaryId": {
+            "type": "string",
+            "description": "Proprietary bank identifier.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Credit transfer details (BG-17)."
+      },
+      "B2BInternationalInvoiceBilledQuantity": {
+        "required": [
+          "quantity"
+        ],
+        "type": "object",
+        "properties": {
+          "quantity": {
+            "type": "number",
+            "description": "[TT-62] Quantity of items invoiced (BT-129).",
+            "format": "double"
+          },
+          "unitCode": {
+            "type": "string",
+            "description": "[TT-63] Unit of measurement code (BT-130, EN16931 codelists). Maximum 3 characters.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Invoiced quantity details."
+      },
+      "B2BInternationalInvoiceBillingPeriod": {
+        "required": [
+          "begin",
+          "end"
+        ],
+        "type": "object",
+        "properties": {
+          "begin": {
+            "type": "string",
+            "description": "[TT-42] Billing period start date (BT-73). ISO 8601 format YYYY-MM-DD."
+          },
+          "end": {
+            "type": "string",
+            "description": "[TT-43] Billing period end date (BT-74). ISO 8601 format YYYY-MM-DD."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A billing period."
+      },
+      "B2BInternationalInvoiceBuyer": {
+        "required": [
+          "identifier",
+          "postalAddress"
+        ],
+        "type": "object",
+        "properties": {
+          "vatNumber": {
+            "type": "string",
+            "description": "[TT-38] Buyer VAT number. VAT identification number of the buyer (BT-48).\nRequired when the buyer is an EU-registered taxable person (rule G6.14).",
+            "nullable": true
+          },
+          "identifier": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceIdentifier"
+              }
+            ],
+            "description": "[TT-36] Buyer identifier. Official registration identifier. The scheme is specified in the\nnested 'type' field (TT-36-1)."
+          },
+          "postalAddress": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoicePostalAddress"
+              }
+            ],
+            "description": "[TT-39] Buyer postal address. Country code (TT-39) is mandatory."
+          }
+        },
+        "additionalProperties": false,
+        "description": "The party to whom the goods or services are supplied."
+      },
+      "B2BInternationalInvoiceCharge": {
+        "required": [
+          "actualAmount",
+          "taxDetail"
+        ],
+        "type": "object",
+        "properties": {
+          "actualAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceAmount"
+              }
+            ],
+            "description": "[TT-48] Charge amount excluding VAT (BT-99)."
+          },
+          "taxDetail": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceAllowanceChargeTaxDetail"
+              }
+            ],
+            "description": "VAT classification of this charge."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A document-level charge or fee (BG-21)."
+      },
+      "B2BInternationalInvoiceCreditCard": {
+        "required": [
+          "cardHolderName",
+          "cardId"
+        ],
+        "type": "object",
+        "properties": {
+          "cardId": {
+            "type": "string",
+            "description": "Payment card primary account number (BT-87). Maximum 19 characters."
+          },
+          "cardHolderName": {
+            "type": "string",
+            "description": "Name of the card holder (BT-88). Maximum 100 characters."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Payment card details (BG-18)."
+      },
+      "B2BInternationalInvoiceIdentifier": {
+        "required": [
+          "type",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "0002",
+              "0009",
+              "0223",
+              "0227"
+            ],
+            "type": "string",
+            "description": "[TT-33-1 / TT-36-1] Identifier scheme code. '0002'=SIREN (FR), '0009'=SIRET (FR),\n'0223'=EU VAT number, '0227'=non-EU identifier."
+          },
+          "value": {
+            "type": "string",
+            "description": "Identifier value corresponding to the scheme. Maximum 18 characters."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A party identifier with its scheme."
+      },
+      "B2BInternationalInvoiceInvoiceReference": {
+        "type": "object",
+        "properties": {
+          "invoiceNumber": {
+            "type": "string",
+            "description": "Invoice number of the previously issued invoice. Maximum 20 characters.",
+            "nullable": true
+          },
+          "date": {
+            "type": "string",
+            "description": "Issue date of the previous invoice. ISO 8601 format YYYY-MM-DD.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A reference to a previously issued invoice at line level."
+      },
+      "B2BInternationalInvoiceItem": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "[TT-76] Item or service name (BT-153). Maximum 255 characters."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Item or product description (BG-31)."
+      },
+      "B2BInternationalInvoiceLine": {
+        "required": [
+          "billedQuantity",
+          "item",
+          "price"
+        ],
+        "type": "object",
+        "properties": {
+          "billedQuantity": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceBilledQuantity"
+              }
+            ],
+            "description": "Invoiced quantity details."
+          },
+          "price": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoicePrice"
+              }
+            ],
+            "description": "Unit price details (BG-29)."
+          },
+          "item": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceItem"
+              }
+            ],
+            "description": "Item or product description (BG-31)."
+          },
+          "notes": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceNote"
+              }
+            ],
+            "description": "[TT-61-1] Free-text note at line level (BT-127).",
+            "nullable": true
+          },
+          "billingPeriod": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceBillingPeriod"
+              }
+            ],
+            "description": "[TT-65 / TT-66] Billing period for this line (BG-26).",
+            "nullable": true
+          },
+          "referenceData": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceLineReferenceData"
+              }
+            ],
+            "description": "Line-level references to orders, advice documents, and previous invoices.",
+            "nullable": true
+          },
+          "shipping": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceLineShipping"
+              }
+            ],
+            "description": "Line-level delivery information. Use if different from document-level shipping.",
+            "nullable": true
+          },
+          "allowances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/B2BInternationalInvoiceLineAllowance"
+            },
+            "description": "Line-level discounts (BG-27).",
+            "nullable": true
+          },
+          "charges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/B2BInternationalInvoiceLineCharge"
+            },
+            "description": "Line-level charges (BG-28).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An invoice line item (BG-25)."
+      },
+      "B2BInternationalInvoiceLineAllowance": {
+        "required": [
+          "actualAmount"
+        ],
+        "type": "object",
+        "properties": {
+          "actualAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceAmount"
+              }
+            ],
+            "description": "[TT-67] Actual line discount amount (BT-136)."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A line-level discount (BG-27)."
+      },
+      "B2BInternationalInvoiceLineCharge": {
+        "required": [
+          "actualAmount"
+        ],
+        "type": "object",
+        "properties": {
+          "actualAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceAmount"
+              }
+            ],
+            "description": "[TT-68] Actual line charge amount (BT-141)."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A line-level charge (BG-28)."
+      },
+      "B2BInternationalInvoiceLineReferenceData": {
+        "type": "object",
+        "properties": {
+          "invoiceReference": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceInvoiceReference"
+              }
+            ],
+            "description": "Reference to a previous invoice; used for online transfer management (TG-40).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Line-level references to orders, advice documents, and previous invoices."
+      },
+      "B2BInternationalInvoiceLineShipping": {
+        "required": [
+          "tradeParty"
+        ],
+        "type": "object",
+        "properties": {
+          "tradeParty": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceTradeParty"
+              }
+            ],
+            "description": "Delivery party for this line."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Line-level delivery information."
+      },
+      "B2BInternationalInvoiceMonetary": {
+        "required": [
+          "invoiceCurrency",
+          "taxBasisTotalAmount",
+          "taxTotalAmount"
+        ],
+        "type": "object",
+        "properties": {
+          "invoiceCurrency": {
+            "type": "string",
+            "description": "[TT-22] Invoice currency code. Currency in which all invoice amounts are expressed (BT-5).\nISO 4217 code (e.g. 'EUR')."
+          },
+          "taxBasisTotalAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceAmount"
+              }
+            ],
+            "description": "[TT-51] Total invoice amount excluding VAT (BT-109)."
+          },
+          "taxTotalAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceTaxTotalAmount"
+              }
+            ],
+            "description": "[TT-52 / TT-202] Total VAT amount on the invoice (BT-110). Currency must be EUR (TT-202)."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Invoice monetary totals."
+      },
+      "B2BInternationalInvoiceNote": {
+        "required": [
+          "content"
+        ],
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "[TT-27] Note text (BT-22). Maximum 1024 characters."
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceNoteType"
+              }
+            ],
+            "description": "Note subject classification.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An unstructured note attached to the invoice or to an invoice line."
+      },
+      "B2BInternationalInvoiceNoteType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "[TT-26] Note subject code (BT-21, UNTDID 4451).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Note subject classification."
+      },
+      "B2BInternationalInvoicePaymentMeans": {
+        "required": [
+          "paymentReference",
+          "typeCode"
+        ],
+        "type": "object",
+        "properties": {
+          "typeCode": {
+            "type": "string",
+            "description": "Payment means type code (BT-81, UNTDID 4461, e.g. 30 = credit transfer, 49 = direct debit)."
+          },
+          "paymentReference": {
+            "type": "string",
+            "description": "Payment reference or remittance information (BT-83). Maximum 100 characters."
+          },
+          "label": {
+            "type": "string",
+            "description": "Descriptive label for the payment means (BT-82). Maximum 100 characters.",
+            "nullable": true
+          },
+          "bankTransfer": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceBankTransfer"
+              }
+            ],
+            "description": "Credit transfer details (BG-17).",
+            "nullable": true
+          },
+          "creditCard": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceCreditCard"
+              }
+            ],
+            "description": "Payment card details (BG-18).",
+            "nullable": true
+          },
+          "bankDirectDebit": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceBankDirectDebit"
+              }
+            ],
+            "description": "SEPA direct debit details (BG-19).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Payment instructions (BG-16)."
+      },
+      "B2BInternationalInvoicePostalAddress": {
+        "required": [
+          "country"
+        ],
+        "type": "object",
+        "properties": {
+          "country": {
+            "type": "string",
+            "description": "[TT-35 / TT-39] Country code. ISO 3166-1 alpha-2. Mandatory for both seller (TT-35, BT-40)\nand buyer (TT-39, BT-55)."
+          },
+          "addressLineOne": {
+            "type": "string",
+            "description": "Main address line. Maximum 255 characters. For a delivery address this carries BT-75 (TT-103).",
+            "nullable": true
+          },
+          "addressLineTwo": {
+            "type": "string",
+            "description": "Additional address line. Maximum 255 characters. For a delivery address this carries BT-76 (TT-104).",
+            "nullable": true
+          },
+          "addressLineThree": {
+            "type": "string",
+            "description": "Additional address line. Maximum 255 characters. For a delivery address this carries BT-165 (TT-105).",
+            "nullable": true
+          },
+          "cityName": {
+            "type": "string",
+            "description": "City or locality. Maximum 255 characters.",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "Postal code. Maximum 10 characters.",
+            "nullable": true
+          },
+          "countrySubDivision": {
+            "type": "string",
+            "description": "Country subdivision (region, state, province). Maximum 255 characters.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A postal address."
+      },
+      "B2BInternationalInvoicePrice": {
+        "required": [
+          "netAmount"
+        ],
+        "type": "object",
+        "properties": {
+          "netAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceAmount"
+              }
+            ],
+            "description": "[TT-69] Net price per unit, excluding VAT (BT-146)."
+          },
+          "allowanceAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceAmount"
+              }
+            ],
+            "description": "[TT-70] Unit price discount amount before applying to the net price (BT-147).",
+            "nullable": true
+          },
+          "baseAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceAmount"
+              }
+            ],
+            "description": "[TT-71] Gross price before the price discount (BT-148).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Unit price details (BG-29)."
+      },
+      "B2BInternationalInvoiceReferencedDocument": {
+        "required": [
+          "date",
+          "invoiceNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "invoiceNumber": {
+            "type": "string",
+            "description": "[TT-30] Invoice number of the previously issued invoice (BT-25). Maximum 20 characters."
+          },
+          "date": {
+            "type": "string",
+            "description": "[TT-31] Issue date of the previous invoice (BT-26). ISO 8601 format YYYY-MM-DD."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A reference to a previously issued invoice."
+      },
+      "B2BInternationalInvoiceSeller": {
+        "required": [
+          "identifier",
+          "postalAddress",
+          "vatNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceIdentifier"
+              }
+            ],
+            "description": "[TT-33] Seller identifier. Official registration identifier (e.g. SIREN for French sellers).\nThe scheme is specified in the nested 'type' field (TT-33-1)."
+          },
+          "vatNumber": {
+            "type": "string",
+            "description": "[TT-34] Seller VAT number. VAT identification number of the seller (BT-31, e.g. 'FR12345678901').\nMandatory from 01/09/2026 (rule G6.14)."
+          },
+          "postalAddress": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoicePostalAddress"
+              }
+            ],
+            "description": "[TT-35] Seller postal address. Country code (TT-35) is mandatory."
+          }
+        },
+        "additionalProperties": false,
+        "description": "The party supplying the goods or services."
+      },
+      "B2BInternationalInvoiceSellerTaxRepresentative": {
+        "required": [
+          "postalAddress"
+        ],
+        "type": "object",
+        "properties": {
+          "postalAddress": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoicePostalAddress"
+              }
+            ],
+            "description": "Fiscal representative's postal address."
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/B2BInternationalInvoiceIdentifier"
+            },
+            "description": "Additional identifiers for the fiscal representative.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Party representing the seller for VAT purposes (BT-62 group)."
+      },
+      "B2BInternationalInvoiceShipping": {
+        "required": [
+          "deliveryDate",
+          "tradeParty"
+        ],
+        "type": "object",
+        "properties": {
+          "deliveryDate": {
+            "type": "string",
+            "description": "[TT-41] Effective delivery date (BT-72). ISO 8601 format YYYY-MM-DD."
+          },
+          "billingPeriod": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceBillingPeriod"
+              }
+            ],
+            "description": "[TT-42 / TT-43] Billing period, when the delivery spans a range of dates (BG-14).",
+            "nullable": true
+          },
+          "tradeParty": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceTradeParty"
+              }
+            ],
+            "description": "Party to whom the goods are delivered. Use only if different from the buyer (BT-70)."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Delivery information for the goods or services."
+      },
+      "B2BInternationalInvoiceTaxDetail": {
+        "required": [
+          "percent",
+          "taxableAmount",
+          "taxAmount"
+        ],
+        "type": "object",
+        "properties": {
+          "taxableAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceAmount"
+              }
+            ],
+            "description": "[TT-54] VAT taxable amount. Sum of all taxable amounts subject to this VAT category and rate (BT-116)."
+          },
+          "taxAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoiceAmount"
+              }
+            ],
+            "description": "[TT-55] VAT amount. Total VAT amount for this VAT type (BT-117)."
+          },
+          "percent": {
+            "type": "number",
+            "description": "[TT-57] VAT rate as a percentage (e.g. 20 for 20%).",
+            "format": "double"
+          },
+          "categoryCode": {
+            "enum": [
+              "S",
+              "Z",
+              "E",
+              "AE",
+              "K",
+              "G",
+              "O"
+            ],
+            "type": "string",
+            "description": "[TT-56] VAT category code. UNCL5305 code identifying the VAT treatment applied (BT-118).",
+            "nullable": true
+          },
+          "exemptionReason": {
+            "type": "string",
+            "description": "[TT-58] VAT exemption reason. Free-text explanation for VAT exemption (BT-120).\nRequired when the VAT category code is exempt (rules G6.14 and G1.40).",
+            "nullable": true
+          },
+          "exemptionReasonCode": {
+            "type": "string",
+            "description": "[TT-59] VAT exemption reason code. Coded reason for VAT exemption (BT-121).\nRequired when the VAT category code is exempt (rules G6.14 and G1.40).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A VAT breakdown for one VAT category and rate."
+      },
+      "B2BInternationalInvoiceTaxTotalAmount": {
+        "required": [
+          "amount",
+          "currency"
+        ],
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "[TT-52] Total VAT amount (BT-110).",
+            "format": "double"
+          },
+          "currency": {
+            "enum": [
+              "EUR"
+            ],
+            "type": "string",
+            "description": "[TT-202] Currency for the total VAT amount. Must be 'EUR'."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Total VAT amount with its currency."
+      },
+      "B2BInternationalInvoiceTradeParty": {
+        "required": [
+          "postalAddress"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the delivery party (BT-70). Maximum 100 characters.",
+            "nullable": true
+          },
+          "postalAddress": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2BInternationalInvoicePostalAddress"
+              }
+            ],
+            "description": "Delivery address."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A delivery party."
+      },
+      "B2bInternationalInvoiceResponse": {
+        "type": "object",
+        "properties": {
+          "importTrackingId": {
+            "type": "string",
+            "description": "Tracking identifier for the submitted B2B international invoice.",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Response returned when a B2B international invoice submission is accepted."
+      },
+      "B2bInternationalPayment": {
+        "required": [
+          "paymentDate",
+          "taxDetails"
+        ],
+        "type": "object",
+        "properties": {
+          "paymentDate": {
+            "type": "string",
+            "description": "[TT-92] Payment date. Date on which payment was received. ISO 8601 format YYYY-MM-DD."
+          },
+          "taxDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/B2bInternationalPaymentTaxDetail"
+            },
+            "description": "VAT breakdown of the collected payment. At least one entry required."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Payment details for a B2B international invoice."
+      },
+      "B2bInternationalPaymentInvoice": {
+        "required": [
+          "invoiceDate",
+          "invoiceNumber",
+          "payment"
+        ],
+        "type": "object",
+        "properties": {
+          "invoiceNumber": {
+            "type": "string",
+            "description": "[TT-91] Invoice number. Unique identifier of the invoice (BT-1). Maximum 20 characters."
+          },
+          "invoiceDate": {
+            "type": "string",
+            "description": "[TT-102] Invoice date. Date of the invoice (BT-2). ISO 8601 format YYYY-MM-DD."
+          },
+          "payment": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2bInternationalPayment"
+              }
+            ],
+            "description": "Payment details for the invoice."
+          }
+        },
+        "additionalProperties": false,
+        "description": "The invoice for which the payment is declared."
+      },
+      "B2bInternationalPaymentRequest": {
+        "required": [
+          "companyId",
+          "invoice"
+        ],
+        "type": "object",
+        "properties": {
+          "companyId": {
+            "type": "string",
+            "description": "Company identifier in Medius. Used to route the declaration to the correct business entity\nand to resolve the declarant SIREN (TT-12 / TT-13) from company masterdata."
+          },
+          "externalId": {
+            "type": "string",
+            "description": "Optional caller-supplied deduplication key. A 409 Conflict is returned if this value has\nalready been submitted. Not transmitted to PPF.",
+            "nullable": true
+          },
+          "invoice": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2bInternationalPaymentInvoice"
+              }
+            ],
+            "description": "The invoice for which the payment is declared."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Submission of payment data for a B2B international invoice, for French e-reporting."
+      },
+      "B2bInternationalPaymentResponse": {
+        "type": "object",
+        "properties": {
+          "importTrackingId": {
+            "type": "string",
+            "description": "Unique identifier for the submitted B2B international payment.",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Response returned when a B2B international payment submission is accepted."
+      },
+      "B2bInternationalPaymentTaxDetail": {
+        "required": [
+          "collectedAmount",
+          "taxRate"
+        ],
+        "type": "object",
+        "properties": {
+          "taxRate": {
+            "type": "number",
+            "description": "[TT-93] VAT rate. Tax rate as a percentage (e.g. 20 for 20%). Up to 2 decimal places.",
+            "format": "double"
+          },
+          "collectedAmount": {
+            "type": "string",
+            "description": "[TT-95] Collected amount. Amount collected for this VAT rate, as a string with up to\n2 decimal places (e.g. \"1200.00\")."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A single VAT rate entry with the collected amount."
+      },
+      "B2cAmount": {
+        "required": [
+          "amount"
+        ],
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "The amount value.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A simple amount value."
+      },
+      "B2cPayment": {
+        "required": [
+          "paymentDate",
+          "taxDetails"
+        ],
+        "type": "object",
+        "properties": {
+          "paymentDate": {
+            "type": "string",
+            "description": "[TT-96] Payment date. Date on which payment was received. ISO 8601 format YYYY-MM-DD."
+          },
+          "taxDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/B2cTaxDetail"
+            },
+            "description": "VAT breakdown of collected B2C payments. At least one entry required."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Payment details for a B2C transaction."
+      },
+      "B2cPaymentTransaction": {
+        "required": [
+          "payment"
+        ],
+        "type": "object",
+        "properties": {
+          "payment": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2cPayment"
+              }
+            ],
+            "description": "Payment details for the transaction."
+          }
+        },
+        "additionalProperties": false,
+        "description": "The B2C transaction for which payment is declared."
+      },
+      "B2cPaymentsAggregateRequest": {
+        "required": [
+          "companyId",
+          "transaction"
+        ],
+        "type": "object",
+        "properties": {
+          "companyId": {
+            "type": "string",
+            "description": "Company identifier in Medius. Used to route the declaration to the correct business entity\nand to resolve the declarant SIREN (TT-12 / TT-13) from company masterdata."
+          },
+          "externalId": {
+            "type": "string",
+            "description": "Optional caller-supplied deduplication key. A 409 Conflict is returned if this value has\nalready been submitted. Not transmitted to PPF.",
+            "nullable": true
+          },
+          "transaction": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2cPaymentTransaction"
+              }
+            ],
+            "description": "The B2C transaction for which payment is declared."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Declaration of collected amounts for previously reported B2C transactions."
+      },
+      "B2cPaymentsAggregateResponse": {
+        "type": "object",
+        "properties": {
+          "importTrackingId": {
+            "type": "string",
+            "description": "System-generated identifier for the submitted B2C payments aggregate.",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Response returned when a B2C payments aggregate submission is accepted."
+      },
+      "B2cTaxDetail": {
+        "required": [
+          "collectedAmount",
+          "taxRate"
+        ],
+        "type": "object",
+        "properties": {
+          "taxRate": {
+            "type": "number",
+            "description": "[TT-97] VAT rate. Tax rate as a percentage (e.g. 20 for 20%). Up to 2 decimal places.",
+            "format": "double"
+          },
+          "collectedAmount": {
+            "type": "string",
+            "description": "[TT-99] Collected amount. Total EUR amount collected for this VAT rate, as a string with\nup to 2 decimal places (e.g. \"1200.00\")."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A single VAT rate entry with the collected amount."
+      },
+      "B2cTaxTotalAmount": {
+        "required": [
+          "amount"
+        ],
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "The amount value.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Tax total amount."
+      },
+      "B2cTransaction": {
+        "required": [
+          "categoryCode",
+          "currency",
+          "monetary",
+          "taxDetails"
+        ],
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string",
+            "description": "[TT-78] Transaction currency code. Currency in which the transaction amounts are expressed.\nISO 4217 code (e.g. 'EUR')."
+          },
+          "categoryCode": {
+            "enum": [
+              "TLB1",
+              "TPS1",
+              "TMA1",
+              "TNT1"
+            ],
+            "type": "string",
+            "description": "[TT-81] Transaction category code. Classifies the type of B2C transaction.\nMust be unique within the transactions list."
+          },
+          "taxPaymentOption": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2cTransactionTaxPaymentOption"
+              }
+            ],
+            "description": "[TT-80] VAT due date option. Specifies when VAT becomes chargeable for this transaction category.",
+            "nullable": true
+          },
+          "monetary": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2cTransactionMonetary"
+              }
+            ],
+            "description": "Monetary totals for this transaction category."
+          },
+          "taxDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/B2cTransactionTaxDetail"
+            },
+            "description": "VAT breakdown for this transaction category. At least one entry required."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A single B2C transaction entry within the aggregate."
+      },
+      "B2cTransactionMonetary": {
+        "required": [
+          "taxBasisTotalAmount",
+          "taxTotalAmount"
+        ],
+        "type": "object",
+        "properties": {
+          "taxBasisTotalAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2cAmount"
+              }
+            ],
+            "description": "[TT-82] Total amount excluding VAT. Total turnover for this category before VAT."
+          },
+          "taxTotalAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2cTaxTotalAmount"
+              }
+            ],
+            "description": "[TT-83] Total VAT amount. Total VAT collected for this category."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Monetary values for a B2C transaction."
+      },
+      "B2cTransactionTaxDetail": {
+        "required": [
+          "percent",
+          "taxableAmount",
+          "taxAmount"
+        ],
+        "type": "object",
+        "properties": {
+          "taxableAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2cAmount"
+              }
+            ],
+            "description": "[TT-87] Taxable amount. Sum of all taxable amounts subject to this VAT rate."
+          },
+          "taxAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/B2cAmount"
+              }
+            ],
+            "description": "[TT-88] VAT amount. Total VAT for this VAT rate."
+          },
+          "percent": {
+            "type": "number",
+            "description": "[TT-86] VAT rate as a percentage (e.g. 20 for 20%).",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Tax detail for a B2C transaction."
+      },
+      "B2cTransactionTaxPaymentOption": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "enum": [
+              3,
+              5,
+              29,
+              35,
+              72,
+              432
+            ],
+            "type": "integer",
+            "description": "[TT-80] VAT due date code (BT-8, UNCL2475). Specifies when VAT becomes chargeable.\n3 / 5 = invoice date, 29 / 35 = delivery date, 72 / 432 = payment date.",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Tax payment option for a B2C transaction."
+      },
+      "B2cTransactionsAggregateRequest": {
+        "required": [
+          "companyId",
+          "transactionDate",
+          "transactions"
+        ],
+        "type": "object",
+        "properties": {
+          "companyId": {
+            "type": "string",
+            "description": "Company identifier in Medius. Used to route the declaration to the correct business entity\nand to resolve the declarant SIREN (TT-12 / TT-13) from company masterdata."
+          },
+          "transactionDate": {
+            "type": "string",
+            "description": "[TT-77] Transaction date. Date on which the transactions were recorded by the point-of-sale\nsystem. ISO 8601 format YYYY-MM-DD. All transactions in this submission must relate to this date."
+          },
+          "externalId": {
+            "type": "string",
+            "description": "Optional caller-supplied deduplication key. A 409 Conflict is returned if this value has\nalready been submitted. Not transmitted to PPF.",
+            "nullable": true
+          },
+          "storeId": {
+            "type": "string",
+            "description": "Optional store identifier for POS deployments. Identifies the physical or logical point of\nsale where the transactions were recorded, allowing per-store submission granularity.",
+            "nullable": true
+          },
+          "registerId": {
+            "type": "string",
+            "description": "Optional register identifier. Identifies the cash register or POS terminal that recorded the\ntransactions. Used with storeId to distinguish individual registers.",
+            "nullable": true
+          },
+          "closureId": {
+            "type": "string",
+            "description": "Optional closure identifier of the register closure that produced the reported totals\n(e.g. a Z-report reference).",
+            "nullable": true
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/B2cTransaction"
+            },
+            "description": "List of B2C transactions for the given date, each identified by a unique category code.\nCan be submitted individually or pre-aggregated by category."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Report of B2C transaction aggregates for a single transaction date."
+      },
+      "B2cTransactionsAggregateResponse": {
+        "type": "object",
+        "properties": {
+          "importTrackingId": {
+            "type": "string",
+            "description": "Unique identifier for the submitted B2C transactions aggregate.",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Response returned when a B2C transactions aggregate submission is accepted."
+      },
+      "Microsoft.AspNetCore.Mvc.ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "BadRequest": {
         "type": "object",
         "properties": {
           "message": {
