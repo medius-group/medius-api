@@ -26711,6 +26711,7 @@
           },
           "accountOwnerName": {
             "type": "string",
+            "description": "The account owner name / payee name of the payee bank.",
             "nullable": true
           },
           "bankAddressLine1": {
@@ -26755,11 +26756,12 @@
           },
           "accountNumber": {
             "type": "string",
-            "description": "Bank account number (IBAN or domestic format).",
+            "description": "Bank account number domestic format.",
             "nullable": true
           },
           "iban": {
             "type": "string",
+            "description": "The IBAN of the payee bank.",
             "nullable": true
           },
           "bankGiroNumber": {
@@ -26804,6 +26806,7 @@
           },
           "accountDescription": {
             "type": "string",
+            "description": "Description of the bank account or payment detail.",
             "nullable": true
           },
           "default": {
