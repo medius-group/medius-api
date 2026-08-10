@@ -6105,6 +6105,8 @@
           }
         },
         "x-codegen-request-body-name": "importAdjustments"
+      }
+    },
     "/integration/masterdata/v1/users": {
       "get": {
         "tags": [
