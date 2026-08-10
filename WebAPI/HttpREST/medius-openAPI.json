@@ -6461,6 +6461,182 @@
         "x-codegen-request-body-name": "releasePaymentResponseDto"
       }
     },
+     "/integration/message/v1/supplierInvoice/einvoices": {
+      "get": {
+        "tags": [
+          "AP Automation: Supplier invoices"
+        ],
+        "summary": "Get list of Pending self billed E-Invoices.",
+        "description": "This method returns all pending self billed e-invoices. Use the returned URL to get the self billed e-invoice details. Items that have changed status to Processing, Error or Success are not be able to be retrieved.",
+        "operationId": "GetListPendingSelfBilledEInvoices",
+        "parameters": [
+          {
+            "name": "companyGlobalId",
+            "in": "query",
+            "description": "Company Global ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSelfBilledEInvoicesIntegrationsResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Server was unable to parse request. 400 status code with generic error is returned."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/supplierInvoice/einvoices/{messageId}": {
+      "get": {
+        "tags": [
+          "AP Automation: Supplier invoices"
+        ],
+        "summary": "[Response need to be extended]Get self billed E-Invoice message by ID.",
+        "description": "This method returns the self billed E-Invoice message with all details available. To find available self billed E-Invoices, use the GET method without {messageId}.",
+        "operationId": "GetSelfBilledEInvoiceMessageById",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "description": "unique identifier of message",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "nullable": false,
+              "example": "5f33c095-44a4-4f38-b8e6-b379c093681f"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SelfBilledEInvoiceMessageDto"
+                }
+              }
+            }
+      
+          },
+          "400": {
+            "description": "When server was unable to parse request. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Self billed E-Invoice message not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/supplierInvoice/einvoices/{messageId}/processing": {
+      "put": {
+        "tags": [
+          "AP Automation: Supplier invoices"
+        ],
+        "summary": "Update processing status of the self billed E-Invoice message to Processing",
+        "description": "POST a processing status. Updates status of message with given messageId to Processing indicating that message is processing. This is first possible status to set.",
+        "operationId": "SelfBilledEInvoiceUpdateMessageAsProcessing",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "description": " unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully updated the integration status to processing."
+          },
+          "400": {
+            "description": "When server was unable to parse request. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Self billed E-Invoice message not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/supplierInvoice/einvoices/{messageId}/response/success": {
+      "post": {
+        "tags": [
+          "AP Automation: Supplier invoices"
+        ],
+        "summary": "Post confirmation on self billed E-Invoice document status.",
+        "description": "POST a successful response.",
+        "operationId": "SelfBilledEInvoiceUpdateIntegrationAsSuccess",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "description": "unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully updated the integration status to success."
+          },
+          "400": {
+            "description": "When server was unable to parse request, or status modification is not expected. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Self billed E-Invoice message not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/supplierInvoice/einvoices/{messageId}/response/error": {
+      "post": {
+        "tags": [
+          "AP Automation: Supplier invoices"
+        ],
+        "summary": "Post error on self billed E-Invoice document status.",
+        "description": "POST an error response.",
+        "operationId": "SelfBilledEInvoiceUpdateIntegrationAsError",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "description": "unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully updated the integration status to error."
+          },
+          "400": {
+            "description": "When server was unable to parse request, or status modification is not expected. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Self billed E-Invoice message not found."
+          }
+        }
+      }
+    },
     "/integration/documentImport/v1/supplierInvoices/{id}": {
       "get": {
         "tags": [
@@ -27557,7 +27733,2309 @@
             "type": "string"
           }
         }
+      },
+      "GetSelfBilledEInvoicesIntegrationsResultDto": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBilledEInvoiceIntegrationMessageListDto"
+            },
+            "nullable": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "SelfBilledEInvoiceIntegrationMessageListDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "nullable": false,
+            "example": "https://api.medius.com/tenant1/integration/message/v1/supplierInvoices/einvoices/1e7d8f9a-3c4b-4d2e-8f9a-3c4b4d2e8f9a",
+            "description": "URL that can be use GET self billed e-invoice details. 'tenant1' is place for tenant"
+          }
+        },
+        "additionalProperties": false
+      },
+       "SelfBilledEInvoiceMessageDto":{
+        "type": "object",
+        "description": "Self-billing invoice message",
+        "properties": {
+          "profileID": {
+            "type": "string",
+            "description": "Business process type (e.g. urn:medius.com:medius:billing:1.0)"
+          },
+          "id": {
+            "type": "string",
+            "description": "Invoice / Credit note number"
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Issue date",
+            "example": "2024-01-01T12:13:00Z"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Due date",
+            "example": "2024-01-31T23:59:00Z"
+          },
+          "documentTypeCode": {
+            "type": "string",
+            "description": "Invoice type code (UNCL1001). For Credit Note: creditNoteTypeCode"
+          },
+          "documentTypeLabel": {
+            "type": "string",
+            "description": "Human-readable label for the invoice type"
+          },
+          "note": {
+            "type": "string",
+            "description": "Free text"
+          },
+          "noteTypeCode": {
+            "type": "string",
+            "description": "Subject code for the preceding note text (BT-21)"
+          },
+          "taxPointDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "VAT point date",
+            "example": "2024-01-15T00:00:00Z"
+          },
+          "documentCurrencyCode": {
+            "type": "string",
+            "description": "Document currency code (ISO 4217)"
+          },
+          "taxCurrencyCode": {
+            "type": "string",
+            "description": "Tax currency code (ISO 4217)"
+          },
+          "accountingCost": {
+            "type": "string",
+            "description": "Accounting cost"
+          },
+          "buyerReference": {
+            "type": "string",
+            "description": "Buyer reference"
+          },
+          "copyIndicator": {
+            "type": "boolean",
+            "description": "Indicates if the document is a copy"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "Universally unique identifier for the document"
+          },
+          "placeOfIssue": {
+            "type": "string",
+            "description": "Place of issue of the invoice"
+          },
+          "eInvoiceTrackingId": {
+            "type": "string",
+            "description": "Tracking identifier for the e-invoice"
+          },
+          "invoiceMessageCreationDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date when the invoice message was created"
+          },
+          "invoiceMessageDirection": {
+            "type": "string",
+            "description": "Direction of the invoice message (inbound/outbound)"
+          },
+          "dueDateFromPayment": {
+            "type": "string",
+            "description": "Due date derived from payment terms"
+          },
+          "vehicleIdentificationNumber": {
+            "type": "string",
+            "description": "Vehicle identification number (VIN)"
+          },
+          "vehicleRegistrationNumber": {
+            "type": "string",
+            "description": "Vehicle registration number"
+          },
+          "preapprovedInvoiceString": {
+            "type": "string",
+            "description": "Pre-approved invoice indicator"
+          },
+          "meansOfPaymentCodes": {
+            "type": "string",
+            "description": "Payment means type codes"
+          },
+          "clearanceReferenceID": {
+            "type": "string",
+            "description": "Clearance system reference identifier"
+          },
+          "issueTimestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Full timestamp of document issue including time"
+          },
+          "invoicePeriod": {
+            "$ref": "#/components/schemas/InvoicePeriod"
+          },
+          "orderReference": {
+            "$ref": "#/components/schemas/OrderReference"
+          },
+          "billingReference": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BillingReference"
+            },
+            "description": "Preceding invoice references"
+          },
+          "despatchDocumentReference": {
+            "$ref": "#/components/schemas/DespatchDocumentReference"
+          },
+          "receiptDocumentReference": {
+            "$ref": "#/components/schemas/SimpleDocumentReference"
+          },
+          "originatorDocumentReference": {
+            "$ref": "#/components/schemas/SimpleDocumentReference"
+          },
+          "contractDocumentReference": {
+            "$ref": "#/components/schemas/ContractDocumentReference"
+          },
+          "additionalDocumentReference": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdditionalDocumentReference"
+            },
+            "description": "Additional document references"
+          },
+          "projectReference": {
+            "$ref": "#/components/schemas/ProjectReference"
+          },
+          "accountingSupplierParty": {
+            "$ref": "#/components/schemas/SupplierParty"
+          },
+          "accountingCustomerParty": {
+            "$ref": "#/components/schemas/CustomerParty"
+          },
+          "payeeParty": {
+            "$ref": "#/components/schemas/PayeeParty"
+          },
+          "taxRepresentativeParty": {
+            "$ref": "#/components/schemas/TaxRepresentativeParty"
+          },
+          "delivery": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Delivery"
+            }
+          },
+          "deliveryTerms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeliveryTerms"
+            }
+          },
+          "paymentMeans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentMeans"
+            }
+          },
+          "paymentTerms": {
+            "$ref": "#/components/schemas/PaymentTerms"
+          },
+          "allowanceCharge": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AllowanceCharge"
+            }
+          },
+          "taxExchangeRate": {
+            "$ref": "#/components/schemas/TaxExchangeRate"
+          },
+          "taxTotal": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaxTotal"
+            }
+          },
+          "withholdingTaxTotal": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WithholdingTaxTotal"
+            }
+          },
+          "legalMonetaryTotal": {
+            "$ref": "#/components/schemas/LegalMonetaryTotal"
+          },
+          "invoicedPrepaymentAmount": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoicedPrepaymentAmount"
+            }
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoiceLine"
+            },
+            "description": "Invoice lines. For Credit Note: creditNoteLine"
+          },
+          "orderLine": {
+            "$ref": "#/components/schemas/OrderLine"
+          }
+        }
+      },
+      "InvoicePeriod": {
+        "type": "object",
+        "description": "Invoicing period",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Invoicing period start date (YYYY-MM-DD)"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Invoicing period end date (YYYY-MM-DD)"
+          },
+          "descriptionCode": {
+            "type": "string",
+            "description": "Value added tax point date code (UNCL2005)"
+          }
+        }
+      },
+      "OrderReference": {
+        "type": "object",
+        "description": "Purchase order reference",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Purchase order reference"
+          },
+          "salesOrderID": {
+            "type": "string",
+            "description": "Sales order reference"
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Order issue date"
+          },
+          "manufacturerId": {
+            "type": "string",
+            "description": "Manufacturer order reference identifier"
+          }
+        }
+      },
+      "BillingReference": {
+        "type": "object",
+        "properties": {
+          "invoiceDocumentReference": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Preceding invoice number"
+              },
+              "issueDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Issue date of previous invoice (YYYY-MM-DD)"
+              },
+              "documentTypeCode": {
+                "type": "string",
+                "description": "Document type code"
+              }
+            }
+          },
+          "additionalDocumentReference": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Document identifier"
+                },
+                "issueDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Issue date"
+                }
+              }
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the billing reference"
+          },
+          "billingWithResponseId": {
+            "type": "string",
+            "description": "Billing with response identifier"
+          }
+        }
+      },
+      "DespatchDocumentReference": {
+        "type": "object",
+        "description": "Despatch advice reference",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Despatch advice reference"
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date of Despatch Advice Reference (YYYY-MM-DD)"
+          }
+        }
+      },
+      "SimpleDocumentReference": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Document reference identifier"
+          }
+        }
+      },
+      "ContractDocumentReference": {
+        "type": "object",
+        "description": "Contract reference",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Contract reference"
+          },
+          "documentType": {
+            "type": "string",
+            "description": "Document type"
+          }
+        }
+      },
+      "AdditionalDocumentReference": {
+        "type": "object",
+        "description": "Additional document reference",
+        "properties": {
+          "identifier": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Document reference identifier"
+              },
+              "schemeID": {
+                "type": "string",
+                "description": "Scheme identifier for the document reference"
+              }
+            }
+          },
+          "documentTypeCode": {
+            "type": "string",
+            "description": "Document type code"
+          },
+          "documentDescription": {
+            "type": "string",
+            "description": "Description of the referenced document"
+          },
+          "attachment": {
+            "type": "object",
+            "description": "Attached document",
+            "properties": {
+              "embeddedDocumentBinaryObject": {
+                "type": "string",
+                "description": "Base64 encoded document"
+              },
+              "mimeCode": {
+                "type": "string",
+                "description": "MIME type of the attached document"
+              },
+              "filename": {
+                "type": "string",
+                "description": "Filename of the attached document"
+              },
+              "externalReference": {
+                "type": "object",
+                "properties": {
+                  "uri": {
+                    "type": "string",
+                    "description": "URL to the referenced document"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "ProjectReference": {
+        "type": "object",
+        "description": "Project reference",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Project reference"
+          },
+          "name": {
+            "type": "string",
+            "description": "Project name (BT-11-0)"
+          }
+        }
+      },
+      "EndpointID": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier"
+          },
+          "schemeID": {
+            "type": "string",
+            "description": "Identifier scheme"
+          }
+        }
+      },
+      "PartyIdentification": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Party identifier"
+          },
+          "schemeID": {
+            "type": "string",
+            "description": "Party identifier scheme ID (ISO 6523 ICD)"
+          }
+        }
+      },
+      "PostalAddress": {
+        "type": "object",
+        "properties": {
+          "streetName": {
+            "type": "string",
+            "description": "Street name"
+          },
+          "additionalStreetName": {
+            "type": "string",
+            "description": "Additional street name"
+          },
+          "addressLine": {
+            "type": "string",
+            "description": "Address line 3"
+          },
+          "cityName": {
+            "type": "string",
+            "description": "City name"
+          },
+          "postalZone": {
+            "type": "string",
+            "description": "Postal code"
+          },
+          "countrySubentity": {
+            "type": "string",
+            "description": "Country subentity"
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "Country code"
+          },
+          "gln": {
+            "type": "string",
+            "description": "Global Location Number (GLN)"
+          }
+        }
+      },
+      "PartyTaxScheme": {
+        "type": "object",
+        "properties": {
+          "companyID": {
+            "type": "string",
+            "description": "Tax registration number"
+          },
+          "taxSchemeID": {
+            "type": "string",
+            "description": "Tax scheme identifier (e.g. VAT)"
+          }
+        }
+      },
+      "PartyLegalEntity": {
+        "type": "object",
+        "properties": {
+          "registrationName": {
+            "type": "string",
+            "description": "Registration name"
+          },
+          "companyID": {
+            "type": "string",
+            "description": "Legal company identifier"
+          },
+          "companyIDSchemeID": {
+            "type": "string",
+            "description": "Legal company scheme identifier (ISO 6523 ICD)"
+          }
+        }
+      },
+      "Contact": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Contact name"
+          },
+          "telephone": {
+            "type": "string",
+            "description": "Contact telephone"
+          },
+          "electronicMail": {
+            "type": "string",
+            "description": "Contact email"
+          },
+          "department": {
+            "type": "string",
+            "description": "Contact department name"
+          }
+        }
+      },
+      "ServiceProviderParty": {
+        "type": "object",
+        "description": "Service provider party",
+        "properties": {
+          "endpointID": {
+            "$ref": "#/components/schemas/EndpointID"
+          },
+          "partyIdentification": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartyIdentification"
+            }
+          },
+          "partyName": {
+            "type": "string",
+            "description": "Service provider party name"
+          },
+          "postalAddress": {
+            "$ref": "#/components/schemas/PostalAddress"
+          },
+          "partyLegalEntity": {
+            "$ref": "#/components/schemas/PartyLegalEntity"
+          },
+          "partyTaxScheme": {
+            "$ref": "#/components/schemas/PartyTaxScheme"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/Contact"
+          },
+          "industryClassificationCode": {
+            "type": "string",
+            "description": "Industry classification code"
+          },
+          "person": {
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "description": "First name"
+              },
+              "familyName": {
+                "type": "string",
+                "description": "Family name"
+              }
+            }
+          }
+        }
+      },
+      "AgentPartyBase": {
+        "type": "object",
+        "description": "Agent party",
+        "properties": {
+          "endpointID": {
+            "$ref": "#/components/schemas/EndpointID"
+          },
+          "partyIdentification": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartyIdentification"
+            }
+          },
+          "partyName": {
+            "type": "string",
+            "description": "Party name"
+          },
+          "postalAddress": {
+            "$ref": "#/components/schemas/PostalAddress"
+          },
+          "partyLegalEntity": {
+            "$ref": "#/components/schemas/PartyLegalEntity"
+          },
+          "partyTaxScheme": {
+            "$ref": "#/components/schemas/PartyTaxScheme"
+          },
+          "contact": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Contact"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "typeCode": {
+                    "type": "string",
+                    "description": "Agent party contact type code"
+                  }
+                }
+              }
+            ]
+          },
+          "industryClassificationCode": {
+            "type": "string",
+            "description": "Industry classification code"
+          }
+        }
+      },
+      "SupplierParty": {
+        "type": "object",
+        "description": "Accounting supplier party",
+        "properties": {
+          "endpointID": {
+            "$ref": "#/components/schemas/EndpointID"
+          },
+          "partyIdentification": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartyIdentification"
+            }
+          },
+          "partyName": {
+            "type": "string",
+            "description": "Party name"
+          },
+          "postalAddress": {
+            "$ref": "#/components/schemas/PostalAddress"
+          },
+          "physicalLocation": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Physical location identifier"
+              },
+              "streetName": {
+                "type": "string"
+              },
+              "additionalStreetName": {
+                "type": "string"
+              },
+              "countryCode": {
+                "type": "string"
+              }
+            }
+          },
+          "partyTaxScheme": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PartyTaxScheme"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "taxLevelCode": {
+                    "type": "string",
+                    "description": "Tax level code"
+                  },
+                  "taxLevelCodeLabel": {
+                    "type": "string",
+                    "description": "Human-readable label for the tax level code"
+                  }
+                }
+              }
+            ]
+          },
+          "partyLegalEntity": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PartyLegalEntity"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "companyLegalForm": {
+                    "type": "string",
+                    "description": "Seller additional legal information"
+                  }
+                }
+              }
+            ]
+          },
+          "contact": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Contact"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Contact identifier"
+                  }
+                }
+              }
+            ]
+          },
+          "eori": {
+            "type": "string",
+            "description": "Economic Operators Registration and Identification (EORI) number"
+          },
+          "nip": {
+            "type": "string",
+            "description": "Tax identification number (NIP)"
+          },
+          "industryClassificationCode": {
+            "type": "string",
+            "description": "Industry classification code"
+          },
+          "customerAssignedAccountID": {
+            "type": "string",
+            "description": "Customer assigned account ID"
+          },
+          "serviceProviderParty": {
+            "$ref": "#/components/schemas/ServiceProviderParty"
+          },
+          "agentParty": {
+            "$ref": "#/components/schemas/AgentPartyBase"
+          }
+        }
+      },
+      "CustomerParty": {
+        "type": "object",
+        "description": "Accounting customer party",
+        "properties": {
+          "endpointID": {
+            "$ref": "#/components/schemas/EndpointID"
+          },
+          "partyIdentification": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartyIdentification"
+            }
+          },
+          "partyName": {
+            "type": "string",
+            "description": "Party name"
+          },
+          "postalAddress": {
+            "$ref": "#/components/schemas/PostalAddress"
+          },
+          "physicalLocation": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "streetName": {
+                "type": "string"
+              },
+              "additionalStreetName": {
+                "type": "string"
+              },
+              "countryCode": {
+                "type": "string"
+              }
+            }
+          },
+          "partyTaxScheme": {
+            "$ref": "#/components/schemas/PartyTaxScheme"
+          },
+          "partyLegalEntity": {
+            "$ref": "#/components/schemas/PartyLegalEntity"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/Contact"
+          },
+          "eori": {
+            "type": "string",
+            "description": "EORI number"
+          },
+          "nip": {
+            "type": "string",
+            "description": "Tax identification number (NIP)"
+          },
+          "industryClassificationCode": {
+            "type": "string"
+          },
+          "supplierAssignedAccountId": {
+            "type": "string",
+            "description": "Account identifier assigned by the supplier to the buyer"
+          },
+          "powerOfAttorney": {
+            "type": "object",
+            "description": "Power of Attorney",
+            "properties": {
+              "description": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string",
+                "description": "Title of the power of attorney"
+              },
+              "agentParty": {
+                "type": "object",
+                "properties": {
+                  "registrationName": {
+                    "type": "string"
+                  },
+                  "taxSchemeCompanyID": {
+                    "type": "string"
+                  },
+                  "taxSchemeID": {
+                    "type": "string"
+                  },
+                  "person": {
+                    "type": "object",
+                    "properties": {
+                      "firstName": {
+                        "type": "string"
+                      },
+                      "familyName": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "serviceProviderParty": {
+            "$ref": "#/components/schemas/ServiceProviderParty"
+          },
+          "agentParty": {
+            "$ref": "#/components/schemas/AgentPartyBase"
+          }
+        }
+      },
+      "PayeeParty": {
+        "type": "object",
+        "description": "Payee party",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Payee party identifier (BT-60)"
+          },
+          "partyIdentification": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartyIdentification"
+            }
+          },
+          "partyName": {
+            "type": "string"
+          },
+          "partyLegalEntity": {
+            "type": "object",
+            "properties": {
+              "companyID": {
+                "type": "string",
+                "description": "Legal company identifier"
+              },
+              "companyIDSchemeID": {
+                "type": "string",
+                "description": "Legal company scheme identifier (ISO 6523 ICD)"
+              }
+            }
+          },
+          "postalAddress": {
+            "$ref": "#/components/schemas/PostalAddress"
+          },
+          "partyTaxScheme": {
+            "$ref": "#/components/schemas/PartyTaxScheme"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/Contact"
+          },
+          "endpointID": {
+            "$ref": "#/components/schemas/EndpointID"
+          },
+          "industryClassificationCode": {
+            "type": "string"
+          }
+        }
+      },
+      "TaxRepresentativeParty": {
+        "type": "object",
+        "description": "Tax representative party",
+        "properties": {
+          "partyName": {
+            "type": "string"
+          },
+          "partyIdentification": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartyIdentification"
+            }
+          },
+          "postalAddress": {
+            "$ref": "#/components/schemas/PostalAddress"
+          },
+          "partyTaxScheme": {
+            "$ref": "#/components/schemas/PartyTaxScheme"
+          }
+        }
+      },
+      "Delivery": {
+        "type": "object",
+        "description": "Delivery information",
+        "properties": {
+          "actualDeliveryDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Delivery date (YYYY-MM-DD)"
+          },
+          "actualDeliveryTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Actual delivery time"
+          },
+          "deliveryLocation": {
+            "type": "object",
+            "properties": {
+              "identifier": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "schemeID": {
+                    "type": "string"
+                  }
+                }
+              },
+              "name": {
+                "type": "string",
+                "description": "Location name"
+              },
+              "gln": {
+                "type": "string",
+                "description": "Delivery location GLN"
+              },
+              "address": {
+                "$ref": "#/components/schemas/PostalAddress"
+              }
+            }
+          },
+          "deliveryParty": {
+            "type": "object",
+            "properties": {
+              "partyName": {
+                "type": "string"
+              }
+            }
+          },
+          "despatch": {
+            "type": "object",
+            "properties": {
+              "actualDespatchDate": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "actualDespatchTime": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "requestedDespatchDate": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "requestedDespatchTime": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "instructions": {
+                "type": "string",
+                "description": "Despatch instructions"
+              },
+              "shipment": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Shipment ID"
+                  },
+                  "grossWeightMeasure": {
+                    "type": "number",
+                    "description": "Gross weight"
+                  },
+                  "grossWeightUnitCode": {
+                    "type": "string"
+                  },
+                  "netWeightMeasure": {
+                    "type": "number",
+                    "description": "Net weight"
+                  },
+                  "netWeightUnitCode": {
+                    "type": "string"
+                  },
+                  "totalTransportHandlingUnitQuantity": {
+                    "type": "number"
+                  },
+                  "totalTransportHandlingUnitUnitCode": {
+                    "type": "string"
+                  },
+                  "goodsItemDescription": {
+                    "type": "string"
+                  },
+                  "transportMeansTypeCode": {
+                    "type": "string"
+                  },
+                  "unitDescription": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "deliveryFrom": {
+            "type": "object",
+            "description": "Despatch-from location",
+            "properties": {
+              "streetName": {
+                "type": "string"
+              },
+              "additionalStreetName": {
+                "type": "string"
+              },
+              "countryCode": {
+                "type": "string"
+              },
+              "gln": {
+                "type": "string"
+              }
+            }
+          },
+          "deliveryThrough": {
+            "type": "object",
+            "description": "Deliver-through location",
+            "properties": {
+              "streetName": {
+                "type": "string"
+              },
+              "additionalStreetName": {
+                "type": "string"
+              },
+              "countryCode": {
+                "type": "string"
+              },
+              "gln": {
+                "type": "string"
+              }
+            }
+          },
+          "carrierParty": {
+            "type": "object",
+            "properties": {
+              "partyIdentification": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PartyIdentification"
+                }
+              },
+              "partyName": {
+                "type": "string"
+              },
+              "postalAddress": {
+                "type": "object",
+                "properties": {
+                  "streetName": {
+                    "type": "string"
+                  },
+                  "additionalStreetName": {
+                    "type": "string"
+                  },
+                  "countryCode": {
+                    "type": "string"
+                  },
+                  "gln": {
+                    "type": "string"
+                  }
+                }
+              },
+              "partyTaxScheme": {
+                "$ref": "#/components/schemas/PartyTaxScheme"
+              },
+              "person": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "familyName": {
+                    "type": "string"
+                  },
+                  "identityDocumentReference": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "documentTypeCode": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "DeliveryTerms": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Delivery terms identifier"
+              },
+              "schemeID": {
+                "type": "string",
+                "description": "Delivery terms identifier scheme"
+              }
+            }
+          },
+          "deliveryLocationName": {
+            "type": "string",
+            "description": "Delivery terms location name"
+          }
+        }
+      },
+      "PaymentMeans": {
+        "type": "object",
+        "properties": {
+          "paymentDueDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Payment due date"
+          },
+          "paymentMeansCode": {
+            "type": "string",
+            "description": "Payment means code (UNCL4461)"
+          },
+          "paymentMeansCodeName": {
+            "type": "string",
+            "description": "Payment means name"
+          },
+          "paymentMeansId": {
+            "type": "string",
+            "description": "Payment means unique identifier"
+          },
+          "paymentID": {
+            "type": "string",
+            "description": "Payment identifier"
+          },
+          "instructionNote": {
+            "type": "string",
+            "description": "Payment instruction free text note"
+          },
+          "cardAccount": {
+            "type": "object",
+            "properties": {
+              "primaryAccountNumberID": {
+                "type": "string"
+              },
+              "networkID": {
+                "type": "string",
+                "description": "Payment card network identifier"
+              },
+              "holderName": {
+                "type": "string"
+              }
+            }
+          },
+          "payeeFinancialAccount": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Payment account number"
+              },
+              "name": {
+                "type": "string",
+                "description": "Payment account name"
+              },
+              "financialInstitutionBranch": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Payment account identifier"
+                  },
+                  "financialInstitutionID": {
+                    "type": "string",
+                    "description": "Financial institution identifier (BIC)"
+                  }
+                }
+              }
+            }
+          },
+          "paymentMandate": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Payment mandate reference identifier"
+              },
+              "payerFinancialAccountID": {
+                "type": "string",
+                "description": "Debited account identifier (BT-91)"
+              },
+              "nationalAccountId": {
+                "type": "string",
+                "description": "National bank account identifier (BT-84-0)"
+              },
+              "payerParty": {
+                "$ref": "#/components/schemas/CustomerParty"
+              }
+            }
+          }
+        }
+      },
+      "PaymentTerms": {
+        "type": "object",
+        "properties": {
+          "note": {
+            "type": "string",
+            "description": "Payment terms description"
+          },
+          "paymentDueDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Payment due date"
+          },
+          "overdueFreeText": {
+            "type": "string",
+            "description": "Overdue payment free text note"
+          },
+          "settlementBaseAmount": {
+            "type": "number",
+            "description": "Early payment settlement base amount"
+          },
+          "settlementPayableAmount": {
+            "type": "number",
+            "description": "Early payment settlement payable amount"
+          },
+          "settlementPeriodStartDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Early payment settlement period start date"
+          }
+        }
+      },
+      "TaxCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Tax category code (UNCL5305)"
+          },
+          "percent": {
+            "type": "number",
+            "description": "Tax category percent"
+          },
+          "taxSchemeID": {
+            "type": "string",
+            "description": "Tax scheme identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "Tax category name"
+          },
+          "exemptionReason": {
+            "type": "string",
+            "description": "Tax exemption reason text"
+          },
+          "exemptionReasonCode": {
+            "type": "string",
+            "description": "Tax exemption reason code"
+          }
+        }
+      },
+      "AllowanceCharge": {
+        "type": "object",
+        "description": "Allowance or charge. chargeIndicator=true for charges, false for allowances.",
+        "properties": {
+          "chargeIndicator": {
+            "type": "boolean",
+            "description": "true = charge, false = allowance"
+          },
+          "allowanceChargeReasonCode": {
+            "type": "string",
+            "description": "Reason code (UNCL5189 / UNCL7161)"
+          },
+          "allowanceChargeReason": {
+            "type": "string",
+            "description": "Allowance or charge reason"
+          },
+          "multiplierFactorNumeric": {
+            "type": "number",
+            "description": "Allowance or charge percentage"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Allowance or charge amount"
+          },
+          "amountCurrencyCode": {
+            "type": "string",
+            "description": "Amount currency (ISO 4217)"
+          },
+          "baseAmount": {
+            "type": "number",
+            "description": "Base amount"
+          },
+          "baseAmountCurrencyCode": {
+            "type": "string",
+            "description": "Base amount currency (ISO 4217)"
+          },
+          "taxExemptAmount": {
+            "type": "number",
+            "description": "Tax-exempt amount for charges (chargeIndicator=true only)"
+          },
+          "taxExemptCurrencyCode": {
+            "type": "string",
+            "description": "Currency code for the tax-exempt charge amount (chargeIndicator=true only)"
+          },
+          "discountTaxExemptAmount": {
+            "type": "number",
+            "description": "Tax-exempt amount for allowances (chargeIndicator=false only)"
+          },
+          "discountTaxExemptCurrencyCode": {
+            "type": "string",
+            "description": "Currency code for the discount tax-exempt amount (chargeIndicator=false only)"
+          },
+          "taxCategory": {
+            "$ref": "#/components/schemas/TaxCategory"
+          }
+        }
+      },
+      "TaxExchangeRate": {
+        "type": "object",
+        "description": "Tax exchange rate information (only when two different currencies are used)",
+        "properties": {
+          "sourceCurrencyCode": {
+            "type": "string"
+          },
+          "targetCurrencyCode": {
+            "type": "string"
+          },
+          "calculationRate": {
+            "type": "number"
+          },
+          "mathematicOperatorCode": {
+            "type": "string",
+            "description": "e.g. multiply"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Exchange rate date"
+          }
+        }
+      },
+      "TaxSubtotal": {
+        "type": "object",
+        "properties": {
+          "taxableAmount": {
+            "type": "number"
+          },
+          "taxableAmountCurrencyCode": {
+            "type": "string"
+          },
+          "taxAmount": {
+            "type": "number"
+          },
+          "taxAmountCurrencyCode": {
+            "type": "string"
+          },
+          "taxRounding": {
+            "type": "number",
+            "description": "Tax rounding amount per subtotal"
+          },
+          "taxCategory": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Tax category code (UNCL5305)"
+              },
+              "percent": {
+                "type": "number"
+              },
+              "taxExemptionReasonCode": {
+                "type": "string",
+                "description": "VATEX codes"
+              },
+              "taxExemptionReason": {
+                "type": "array",
+                "items": {},
+                "description": "Tax exemption reason"
+              },
+              "taxSchemeID": {
+                "type": "string"
+              },
+              "referenceId": {
+                "type": "string",
+                "description": "Tax category cross-reference identifier (tax currency subtotal only)"
+              }
+            }
+          }
+        }
+      },
+      "TaxTotal": {
+        "type": "object",
+        "description": "Tax total. Two entries may appear: one in document currency, one in tax currency.",
+        "properties": {
+          "taxAmount": {
+            "type": "number",
+            "description": "Document total tax amount"
+          },
+          "taxAmountCurrencyCode": {
+            "type": "string",
+            "description": "Tax amount currency (ISO 4217)"
+          },
+          "taxSubtotal": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaxSubtotal"
+            }
+          }
+        }
+      },
+      "WithholdingTaxTotal": {
+        "type": "object",
+        "properties": {
+          "taxAmount": {
+            "type": "number",
+            "description": "Document withholding tax amount"
+          },
+          "taxAmountCurrencyCode": {
+            "type": "string"
+          },
+          "taxTypeNo": {
+            "type": "string",
+            "description": "Withholding tax type number"
+          },
+          "taxSubtotal": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "taxableAmount": {
+                  "type": "number"
+                },
+                "taxableAmountCurrencyCode": {
+                  "type": "string"
+                },
+                "taxAmount": {
+                  "type": "number"
+                },
+                "taxAmountCurrencyCode": {
+                  "type": "string"
+                },
+                "taxCategory": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "percent": {
+                      "type": "number"
+                    },
+                    "taxExemptionReasonCode": {
+                      "type": "string"
+                    },
+                    "taxExemptionReason": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "taxSchemeID": {
+                      "type": "string"
+                    },
+                    "taxTypeCode": {
+                      "type": "string",
+                      "description": "Tax type code for withholding tax"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "LegalMonetaryTotal": {
+        "type": "object",
+        "description": "Legal monetary totals",
+        "properties": {
+          "lineExtensionAmount": {
+            "type": "number",
+            "description": "Sum of all line net amounts"
+          },
+          "lineExtensionAmountCurrencyCode": {
+            "type": "string"
+          },
+          "taxExclusiveAmount": {
+            "type": "number",
+            "description": "Total invoice amount excluding tax"
+          },
+          "taxExclusiveAmountCurrencyCode": {
+            "type": "string"
+          },
+          "taxInclusiveAmount": {
+            "type": "number",
+            "description": "Total invoice amount including tax"
+          },
+          "taxInclusiveAmountCurrencyCode": {
+            "type": "string"
+          },
+          "allowanceTotalAmount": {
+            "type": "number",
+            "description": "Sum of all document-level allowances"
+          },
+          "allowanceTotalAmountCurrencyCode": {
+            "type": "string"
+          },
+          "chargeTotalAmount": {
+            "type": "number",
+            "description": "Sum of all document-level charges"
+          },
+          "chargeTotalAmountCurrencyCode": {
+            "type": "string"
+          },
+          "prepaidAmount": {
+            "type": "number",
+            "description": "Amount already prepaid"
+          },
+          "prepaidAmountCurrencyCode": {
+            "type": "string"
+          },
+          "payableRoundingAmount": {
+            "type": "number",
+            "description": "Rounding amount"
+          },
+          "payableRoundingAmountCurrencyCode": {
+            "type": "string"
+          },
+          "payableAmount": {
+            "type": "number",
+            "description": "Payable amount"
+          },
+          "payableAmountCurrencyCode": {
+            "type": "string"
+          }
+        }
+      },
+      "InvoicedPrepaymentAmount": {
+        "type": "object",
+        "description": "Prepayment amounts applied to this invoice",
+        "properties": {
+          "taxAmount": {
+            "type": "number",
+            "description": "Prepaid total tax amount"
+          },
+          "taxAmountCurrencyCode": {
+            "type": "string"
+          },
+          "prepaidAmount": {
+            "type": "number"
+          },
+          "prepaidAmountCurrencyCode": {
+            "type": "string"
+          },
+          "paymentDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date of the prepayment"
+          },
+          "taxExchangeRateCalculationRate": {
+            "type": "number",
+            "description": "Tax exchange rate for prepayment"
+          },
+          "taxSubtotal": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "taxableAmount": {
+                  "type": "number"
+                },
+                "taxableAmountCurrencyCode": {
+                  "type": "string"
+                },
+                "taxAmount": {
+                  "type": "number"
+                },
+                "taxAmountCurrencyCode": {
+                  "type": "string"
+                },
+                "taxCategory": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "percent": {
+                      "type": "number"
+                    },
+                    "taxExemptionReasonCode": {
+                      "type": "string"
+                    },
+                    "taxExemptionReason": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "taxSchemeID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "billingReference": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "invoiceDocumentReference": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Prepayment invoice reference number"
+                    },
+                    "issueDate": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Prepayment invoice issue date"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "reducedTotals": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "reducedTotalAmount": {
+                  "type": "number"
+                },
+                "reducedTotalAmountCurrencyCode": {
+                  "type": "string"
+                },
+                "taxSubTotal": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "taxableAmount": {
+                        "type": "number"
+                      },
+                      "taxableAmountCurrencyCode": {
+                        "type": "string"
+                      },
+                      "taxAmount": {
+                        "type": "number"
+                      },
+                      "taxAmountCurrencyCode": {
+                        "type": "string"
+                      },
+                      "taxCategory": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "percent": {
+                            "type": "number"
+                          },
+                          "taxExemptionReasonCode": {
+                            "type": "string"
+                          },
+                          "taxExemptionReason": {
+                            "type": "array",
+                            "items": {}
+                          },
+                          "taxSchemeID": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "InvoiceLine": {
+        "type": "object",
+        "description": "Invoice line (Credit Note: creditNoteLine)",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Line identifier"
+          },
+          "note": {
+            "type": "string",
+            "description": "Line note"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Quantity invoiced (Credit Note: creditedQuantity)"
+          },
+          "quantityUnitCode": {
+            "type": "string",
+            "description": "Quantity unit of measure UN/ECE Rec 20 (Credit Note: creditedQuantityUnitCode)"
+          },
+          "orderedQuantity": {
+            "type": "number",
+            "description": "Quantity ordered"
+          },
+          "orderedQuantityUnitCode": {
+            "type": "string",
+            "description": "Quantity ordered unit of measure (UN/ECE Rec 20)"
+          },
+          "lineExtensionAmount": {
+            "type": "number",
+            "description": "Net amount"
+          },
+          "lineExtensionAmountCurrencyCode": {
+            "type": "string"
+          },
+          "lineExtensionTaxInclusiveAmount": {
+            "type": "number",
+            "description": "Line net amount including tax (EXT-FR-FE-184)"
+          },
+          "lineExtensionTaxInclusiveAmountCurrencyCode": {
+            "type": "string"
+          },
+          "accountingCost": {
+            "type": "string",
+            "description": "Invoice line accounting reference"
+          },
+          "sourceUUID": {
+            "type": "string",
+            "description": "Source UUID for the invoice line"
+          },
+          "taxPointDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Tax point date for the invoice line"
+          },
+          "taxExchangeRateCalculationRate": {
+            "type": "number",
+            "description": "Tax exchange rate for the invoice line"
+          },
+          "invoicePeriod": {
+            "type": "object",
+            "properties": {
+              "startDate": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "endDate": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "descriptionCode": {
+                "type": "string",
+                "description": "VAT date code (UNCL2005)"
+              },
+              "typeCode": {
+                "type": "string",
+                "description": "Invoice period type code"
+              }
+            }
+          },
+          "orderLineReference": {
+            "type": "object",
+            "properties": {
+              "lineID": {
+                "type": "string"
+              },
+              "salesOrderLineID": {
+                "type": "string"
+              },
+              "salesOrderId": {
+                "type": "string"
+              },
+              "orderReference": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "salesOrderID": {
+                    "type": "string"
+                  },
+                  "issueDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          },
+          "despatchLineReference": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "lineID": {
+                  "type": "string"
+                },
+                "documentReference": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "issueDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "receiptLineReference": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "lineID": {
+                  "type": "string"
+                },
+                "documentReference": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "documentReference": {
+            "type": "object",
+            "properties": {
+              "identifier": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "schemeID": {
+                    "type": "string"
+                  }
+                }
+              },
+              "documentTypeCode": {
+                "type": "string"
+              }
+            }
+          },
+          "billingReference": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "invoiceDocumentReference": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "issueDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "documentTypeCode": {
+                      "type": "string"
+                    },
+                    "documentStatusCode": {
+                      "type": "string"
+                    },
+                    "lineId": {
+                      "type": "string",
+                      "description": "Referenced invoice line identifier (BT-X-540)"
+                    }
+                  }
+                },
+                "billingReferenceLine": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "deliveryNoteIssueDateReference": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Delivery note issue date reference"
+          },
+          "allowanceCharge": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AllowanceCharge"
+            }
+          },
+          "delivery": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "quantity": {
+                  "type": "number"
+                },
+                "quantityUnitCode": {
+                  "type": "string"
+                },
+                "actualDeliveryDate": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "deliveryLocation": {
+                  "type": "object",
+                  "properties": {
+                    "identifier": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "schemeID": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "$ref": "#/components/schemas/PostalAddress"
+                    }
+                  }
+                },
+                "deliveryParty": {
+                  "type": "object",
+                  "properties": {
+                    "partyName": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "item": {
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "buyersItemIdentification": {
+                "type": "string",
+                "description": "Buyer's item identifier"
+              },
+              "sellersItemIdentification": {
+                "type": "string",
+                "description": "Seller's item identifier"
+              },
+              "standardItemIdentification": {
+                "type": "string"
+              },
+              "standardItemIdentificationSchemeID": {
+                "type": "string",
+                "description": "e.g. GTIN"
+              },
+              "originCountryCode": {
+                "type": "string",
+                "description": "Country of origin code (BT-159)"
+              },
+              "commodityClassification": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "itemClassificationCode": {
+                      "type": "string"
+                    },
+                    "listID": {
+                      "type": "string"
+                    },
+                    "listVersionID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "classifiedTaxCategory": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Tax category (UNCL5305)"
+                  },
+                  "percent": {
+                    "type": "number"
+                  },
+                  "taxExemptionReasonCode": {
+                    "type": "string",
+                    "description": "VATEX codes"
+                  },
+                  "taxExemptionReason": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "taxSchemeID": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "taxSchemeName": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalItemProperty": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    },
+                    "nameCode": {
+                      "type": "string"
+                    },
+                    "valueQuantity": {
+                      "type": "number"
+                    },
+                    "valueQuantityUnitCode": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "manufacturerParty": {
+                "type": "object",
+                "properties": {
+                  "partyIdentification": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/PartyIdentification"
+                    }
+                  },
+                  "partyName": {
+                    "type": "string"
+                  },
+                  "postalAddress": {
+                    "$ref": "#/components/schemas/PostalAddress"
+                  },
+                  "partyTaxScheme": {
+                    "$ref": "#/components/schemas/PartyTaxScheme"
+                  },
+                  "partyLegalEntity": {
+                    "$ref": "#/components/schemas/PartyLegalEntity"
+                  },
+                  "endpointID": {
+                    "$ref": "#/components/schemas/EndpointID"
+                  }
+                }
+              }
+            }
+          },
+          "taxTotal": {
+            "type": "object",
+            "description": "Line tax total",
+            "properties": {
+              "taxAmount": {
+                "type": "number"
+              },
+              "taxAmountCurrencyCode": {
+                "type": "string"
+              }
+            }
+          },
+          "price": {
+            "type": "object",
+            "properties": {
+              "priceAmount": {
+                "type": "number",
+                "description": "Item net price"
+              },
+              "priceAmountCurrencyCode": {
+                "type": "string"
+              },
+              "priceTaxInclusiveAmount": {
+                "type": "number",
+                "description": "Item price including tax"
+              },
+              "priceTaxInclusiveAmountCurrencyCode": {
+                "type": "string"
+              },
+              "baseQuantity": {
+                "type": "number"
+              },
+              "baseQuantityUnitCode": {
+                "type": "string",
+                "description": "UN/ECE Rec 20"
+              },
+              "allowanceCharge": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "chargeIndicator": {
+                      "type": "boolean"
+                    },
+                    "amount": {
+                      "type": "number"
+                    },
+                    "amountCurrencyCode": {
+                      "type": "string"
+                    },
+                    "baseAmount": {
+                      "type": "number"
+                    },
+                    "baseAmountCurrencyCode": {
+                      "type": "string"
+                    },
+                    "baseQuantity": {
+                      "type": "number"
+                    },
+                    "baseQuantityUnitCode": {
+                      "type": "string"
+                    },
+                    "allowanceChargeReason": {
+                      "type": "string"
+                    },
+                    "allowanceChargeReasonCode": {
+                      "type": "string",
+                      "description": "UNCL5189 / UNCL7161"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "OrderLine": {
+        "type": "object",
+        "description": "Order line data from the original purchase order",
+        "properties": {
+          "sourceLineId": {
+            "type": "string",
+            "description": "Source line identifier from the order"
+          },
+          "sourceUUID": {
+            "type": "string",
+            "description": "Source UUID from the order"
+          },
+          "name": {
+            "type": "string",
+            "description": "Order line item name"
+          },
+          "goodsServicesIndicator": {
+            "type": "string",
+            "description": "Goods or services indicator"
+          },
+          "procedure": {
+            "type": "string",
+            "description": "Procurement procedure code"
+          },
+          "gtu": {
+            "type": "string",
+            "description": "GTU (goods and services group) code"
+          },
+          "beforeCorrectionIndicator": {
+            "type": "boolean",
+            "description": "Indicates if this is before correction"
+          },
+          "lineDeliveryQuantity": {
+            "type": "number"
+          },
+          "lineDeliveryQuantityUnitCode": {
+            "type": "string"
+          },
+          "lineExtensionAmount": {
+            "type": "number",
+            "description": "Order line net amount"
+          },
+          "orderTotalAmount": {
+            "type": "number"
+          },
+          "priceBaseAmount": {
+            "type": "number",
+            "description": "Order line price base amount"
+          },
+          "sellersItemIdentification": {
+            "type": "string"
+          },
+          "standardItemIdentification": {
+            "type": "string"
+          },
+          "cnItemIdentification": {
+            "type": "string",
+            "description": "CN item identification in order"
+          },
+          "pkobItemIdentification": {
+            "type": "string",
+            "description": "PKOB item identification in order"
+          },
+          "pkwiuItemIdentification": {
+            "type": "string",
+            "description": "PKWiU item identification in order"
+          },
+          "classifiedTaxCategoryPercent": {
+            "type": "number",
+            "description": "Order line tax category percentage"
+          },
+          "classifiedSpecialTaxCategoryPercent": {
+            "type": "number",
+            "description": "Order line special tax category percentage"
+          },
+          "taxWithSubTotal": {
+            "type": "number",
+            "description": "Order line tax amount with subtotal"
+          },
+          "exciseTaxWithSubTotal": {
+            "type": "number",
+            "description": "Order line excise tax amount with subtotal"
+          }
+        }
       }
+    
     },
     "securitySchemes": {
       "mediusflowcloudauth": {
