@@ -17,7 +17,7 @@
     },
     {
       "name": "Master data - export",
-      "description": "Companies, suppliers and payment details export"
+      "description": "Companies and suppliers export"
     },
     {
       "name": "Users",
@@ -4727,7 +4727,7 @@
     },
     "/integration/masterdata/v1/paymentDetails": {
 			"get": {
-				"tags": ["Master data - export"],
+				"tags": ["Supplier Onboarding: Suppliers synchronization"],
 				"summary": "Export payment details for supplier-company relationships updated since a given time.",
 				"description": "Returns payment detail records for supplier-company relationships whose updatedSince is strictly greater than the supplied updatedSince value. Results are paged with offset/limit.",
 				"operationId": "PaymentDetailsExport_Get",
