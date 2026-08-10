@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Medius Web API",
-    "description": "Beneath are the full list of available API:s in your environment. Please use the tools below to try it out! Remember to activate the SwaggerUI client application in Medius([click here](../../#Administration/Medius.Core.Entities.Api.ClientApplication))",
+    "description": "This is the OpenAPI specification for Medius Public APIs. You are welcome to try the APIs below on your tenant. Remember to activate the OpenAPI test portal client application in Medius, for more information [click here](https://success.medius.com/documentation/integration-documentation/api_reference/specification/).\n\n Some useful links:\n- [Success documentation](https://success.medius.com/documentation/integration-documentation/) - the complete API documentation\n- [Postman collections](https://www.postman.com/medius-developers/medius-public-api) - Medius public API workspace",
     "termsOfService": "http://www.medius.com",
     "version": "1.0.0"
   },
@@ -20,8 +20,8 @@
       "description": "Companies and suppliers export"
     },
     {
-      "name": "User import",
-      "description": "User and user configuration import"
+      "name": "Users",
+      "description": "User import, user configuration and user export"
     },
     {
       "name": "AP Automation: Supplier invoices",
@@ -48,8 +48,12 @@
       "description": "Purchase order and goods receipt ERP synchronization"
     },
     {
-      "name": "Pay",
-      "description": "Import of payment batches and reconciliation"
+      "name": "Payments: Batch creation in Medius",
+      "description": "Settlement for payment batches initiated in Medius"
+    },
+    {
+      "name": "Payments: Batch creation in ERP",
+      "description": "Import of payment batches initiated in ERP and reconciliation APIs"
     },
     {
       "name": "Supplier Onboarding: Suppliers synchronization",
@@ -4230,21 +4234,24 @@
         "tags": [
           "Procurement: Purchase orders and receipts"
         ],
-        "description": "This method accepts a purchase-order-to-ERP confirmation with or without the goods-receipt-note part\n\nas a response to either the purchase-order-to-ERP or the goods-receipt-note confirmation or cancellation message, that was retrieved in the earlier step.\n\nThe confirmation object includes a CorrelationKey that needs to match the corresponding purchase-order-to-ERP or goods-receipt-note message.\n\n**Use one of the schemas below depending on whether you want to send a purchase order or a goods receipt confirmation.**",
+        "description": "This method accepts a confirmation response to either the purchase order, goods receipt note or cancellation confirmation response, that was retrieved in the earlier step.\n\nThe confirmation object includes a `correlationKey` that needs to match the corresponding purchase order, goods receipt note or cancelation message.\n\n**The different scenarios expect different amount of response payload. Take a look at the examples and schemas below to see what is needed in the specific scenarios.**",
         "operationId": "PurchaseOrderRequestMessage_PostPoToErpOrGrnConfirmation",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
+                "description": "Use one of the schemas below to send either purchase order, goods receipt or cancelation response confirmation.",
                 "oneOf": [
                   {
                     "$ref": "#/components/schemas/PurchaseOrderRequestResponseDto"
                   },
                   {
                     "$ref": "#/components/schemas/GoodsReceiptNoteRequestResponseDto"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CancelationResponseDto"
                   }
                 ]
-                
               },
               "examples": {
                 "PurchaseOrder-example": {
@@ -4304,12 +4311,28 @@
                       ]
                     }
                   }
+                },
+                "Cancelation-example": {
+                  "value": {
+                    "correlationKey": "TC1;MF-549"
+                  }
                 }
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/PurchaseOrderRequestResponseDto"
+                "$ref": "#/components/schemas/PurchaseOrderRequestResponseXMLDto"
+              },
+              "examples": {
+                "PurchaseOrderXML-example": {
+                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PurchaseOrderResponse>\n    <CorrelationKey>MyERP;TC1;TS1;MF-549;2024-09-26</CorrelationKey>\n    <PurchaseOrderConfirmation>\n        <OrderNumber>MF-549</OrderNumber>\n        <ExternalOrderNumber>ERP-MF-549</ExternalOrderNumber>\n        <ExternalSystemMetadata>\n            <ExternalSystemMetadataEntry>\n                 <Name>string</Name>\n                 <Value>string</Value>\n            </ExternalSystemMetadataEntry>\n        </ExternalSystemMetadata>\n        <Lines>\n            <PurchaseOrderLineConfirmation>\n                <LineNumber>1</LineNumber>\n                <ExternalOrderLineNumber>1001</ExternalOrderLineNumber>\n                <ExternalSystemMetadata>\n                    <ExternalSystemMetadataEntry>\n                        <Name>string</Name>\n                        <Value>string</Value>\n                    </ExternalSystemMetadataEntry>\n                </ExternalSystemMetadata>\n            </PurchaseOrderLineConfirmation>\n        </Lines>\n    </PurchaseOrderConfirmation>\n</PurchaseOrderResponse>"
+                },
+                "GoodsReceiptXML-example": {
+                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PurchaseOrderResponse>\n    <CorrelationKey>TC1;MF-549</CorrelationKey>\n    <PurchaseOrderConfirmation>\n        <OrderNumber>MF-549</OrderNumber>\n        <ExternalOrderNumber>ERP-MF-549</ExternalOrderNumber>\n        <ExternalSystemMetadata>\n            <ExternalSystemMetadataEntry>\n                <Name>string</Name>\n                <Value>string</Value>\n            </ExternalSystemMetadataEntry>\n        </ExternalSystemMetadata>\n    </PurchaseOrderConfirmation>\n    <GoodsReceiptNoteConfirmation>\n        <ReferenceNumber>GRN-549.1</ReferenceNumber>\n        <ExternalReferenceNumber>ERP-GRN-549.1</ExternalReferenceNumber>\n        <Lines>\n            <GoodsReceiptNoteLineConfirmation>\n                <DeliveryNumber>697bf569-8456-4020-90yt-e9740393625</DeliveryNumber>\n                <ExternalDeliveryNumber>ERP-GRN-549.1-5000100</ExternalDeliveryNumber>\n                <ExternalSystemMetadata>\n                    <ExternalSystemMetadataEntry>\n                        <Name>string</Name>\n                        <Value>string</Value>\n                    </ExternalSystemMetadataEntry>\n                </ExternalSystemMetadata>\n            </GoodsReceiptNoteLineConfirmation>\n        </Lines>\n    </GoodsReceiptNoteConfirmation>\n</PurchaseOrderResponse>"
+                },
+                "CancelationXML-example": {
+                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PurchaseOrderResponse>\n    <CorrelationKey>TC1;MF-549</CorrelationKey>\n</PurchaseOrderResponse>"
+                }
               }
             }
           },
@@ -5809,7 +5832,7 @@
     "/integration/masterdata/v1/userImportBatches": {
       "post": {
         "tags": [
-          "User import"
+          "Users"
         ],
         "description": "The POST method allows the client to send users that will be imported by the Medius master data import queue.\nThe users have the company and the corresponding role to set for the user as prerequisites.",
         "operationId": "UserImportBatch_Post",
@@ -5855,7 +5878,7 @@
     "/integration/masterdata/v1/userImportBatches/{importId}": {
       "get": {
         "tags": [
-          "User import"
+          "Users"
         ],
         "description": "The GET method will allow you to check status for an imported batch. When performing a POST, the link returned is pointing to this method.\nThis method allows the client to orchestrate so that the client can wait until dependent master data is imported correctly before sending that data.",
         "operationId": "UserImportBatch_Get",
@@ -5891,7 +5914,7 @@
       },
       "delete": {
         "tags": [
-          "User import"
+          "Users"
         ],
         "description": "The DELETE method allows a client to remove an import item from the queue, this to allow an integration to take full responsibility\nof resending master data batches and handle all error on the client side instead of within Medius. it's only possible to remove items that are not in a running state.",
         "operationId": "UserImportBatch_Delete",
@@ -5918,7 +5941,7 @@
     "/integration/masterdata/v1/userConfigurationImportBatches": {
       "post": {
         "tags": [
-          "User import"
+          "Users"
         ],
         "description": "The POST method allows the client to send user configurations that will be imported by the Medius master data import queue.\nThe user configurations have the company and the corresponding user as prerequisites.\nRemember that by sending configurations for users the integration will updated them all the time, so manual changes of the properties included\nin this data is not possible to set within Medius. ",
         "operationId": "UserConfigurationImportBatch_Post",
@@ -5964,7 +5987,7 @@
     "/integration/masterdata/v1/userConfigurationImportBatches/{importId}": {
       "get": {
         "tags": [
-          "User import"
+          "Users"
         ],
         "description": "The GET method will allow you to check status for an imported batch. When performing a POST, the link returned is pointing to this method.\nThis method allows the client to orchestrate so that the client can wait until dependent master data is imported correctly before sending that data.",
         "operationId": "UserConfigurationImportBatch_Get",
@@ -6000,7 +6023,7 @@
       },
       "delete": {
         "tags": [
-          "User import"
+          "Users"
         ],
         "description": "The DELETE method allows a client to remove an import item from the queue, this to allow an integration to take full responsibility\nof resending master data batches and handle all error on the client side instead of within Medius. it's only possible to remove items that are not in a running state.",
         "operationId": "UserConfigurationImportBatch_Delete",
@@ -6082,6 +6105,120 @@
           }
         },
         "x-codegen-request-body-name": "importAdjustments"
+    "/integration/masterdata/v1/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "User export",
+        "description": "When calling this endpoint a list of users will be returned.\nThere exists one filter parameter to this request, updatedSince, it filters out users that have been changed since\nthe updatedSince time stamp.\nIt's possible to adjust page sizes and offsets.",
+        "operationId": "UserExport_Get",
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The offset",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": false,
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of records returned(max 1000).",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": false,
+              "default": 1000
+            }
+          },
+          {
+            "name": "updatedSince",
+            "in": "query",
+            "description": "Return users updated since the given UTC timestamp.",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paged user export result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserExportPageDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Unrecognizable format of provided Date and Time. Please follow ISO 8601 and input date or date and time, e.g. '2025-10-28T08:22:20'. Please note that all input is treated as UTC"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integration/masterdata/v1/users/{externalSystemId}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "User export by externalSystemId",
+        "description": "When calling this endpoint the user with corresponding externalSystemId will be returned.",
+        "operationId": "UserExport_GetByExternalSystemId",
+        "parameters": [
+          {
+            "name": "externalSystemId",
+            "in": "path",
+            "description": "The externalSystemId of the user to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User export result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserExportDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Bad request"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/integration/message/v1/supplierInvoice/vouchers/{messageStatus}/{messageId}": {
@@ -6395,7 +6532,7 @@
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/EdiSupplierInvoiceImportEnvelope"
+                "$ref": "#/components/schemas/EdiSupplierInvoiceImportEnvelopeXML"
               }
             }
           },
@@ -6431,7 +6568,7 @@
           "AP Automation: Invoice import"
         ],
         "summary": "Supplier invoice file import to Capture",
-        "description": "The POST method uploads a PDF or XML invoice file from body to Capture.\nIt returns id of uploaded file. Note: the self testing experience in Swagger UI is limited. It is only possible to paste the XML body. Please use Postman or other test tools to send in PDF and XML files as binary.",
+        "description": "The POST method uploads a supplier invoice document from the request body to Capture and returns the id of the uploaded file.\n\nSupported media types are: `application/xml`, `application/pdf`, `application/edi-x12`, `application/edifact`, and `application/zip`.\n\nFor XML and EDI media types , send the document content as text in the request body (either raw body content or content read from a file).\n For PDF and ZIP, send binary file content.\n\nFor a complete list of supported e-invoice formats, see [E-invoice formats](https://success.medius.com/documentation/capture/user_guide/e-invoice/#e-invoice-formats) in our Success Portal.\n\n**Note:** the self testing experience in Swagger UI is limited for this endpoint. Please use Postman or another API test tool when sending binary payloads or when testing all supported media types.",
         "operationId": "File_SupplierInvoice_Post",
         "parameters": [
           {
@@ -6461,14 +6598,64 @@
               "type": "string",
               "nullable": true
             }
+          },
+          {
+            "name": "originalFormat",
+            "in": "query",
+            "description": "The original format of the invoice, if it originated as a PDF, another XML format, EDI, a scanned document, or similar.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "eInvoiceTrackingId",
+            "in": "query",
+            "description": "Specifies a value used to populate the Invoice Tracking ID field, such as a KSeF number or another government-specific identifier.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "platformAssignedDate",
+            "in": "query",
+            "description": "Used to populate the field Platform assigned date with the legal invoice creation/assignment date assigned by governmental portals. Format: Date (ISO 8601 2026-01-16T08:54:43.559Z).",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            }
           }
         ],
         "requestBody": {
-          "description": "A PEPPOL BIS Billing 3.0 XML or PDF file containing invoice for Capture. Maximum file size is 50 MB.",
+          "description": "Upload an invoice document in one of the supported formats.\n\nSupported media types:\n- application/xml — XML e-invoice document\n- application/pdf — PDF file\n- application/edi-x12 — X12 EDI invoice message\n- application/edifact — EDIFACT invoice message\n- application/zip — ZIP archive containing a supported invoice document\n\nText-based formats\n\nFor application/xml, application/edi-x12, and application/edifact, the request body contains the document content itself. The content may be sent either:\n- as raw payload in the request body, or\n- as content of a file containing the document.\n\nBinary formats\n\nFor application/pdf and application/zip, the request body must contain the binary file content.\n\nMaximum file size: 50 MB.\n\nFor a complete list of supported e-invoice formats, see:\n [E-invoice formats](https://success.medius.com/documentation/capture/user_guide/e-invoice/#e-invoice-formats)",
           "content": {
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/ImportDocumentSupplierInvoiceFile"
+                "type": "string"
+              }
+            },
+            "application/pdf": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "application/edi-x12": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/edifact": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/zip": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
               }
             }
           },
@@ -6476,8 +6663,32 @@
         },
         "responses": {
           "201": {
-            "description": "Response includes the id of uploaded file",
-            "content": {}
+            "description": "Response includes uploaded file id and import tracking id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "FileId",
+                    "ImportTrackingId"
+                  ],
+                  "properties": {
+                    "FileId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "ImportTrackingId": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                },
+                "example": {
+                  "FileId": "20f9f440-7d15-483a-814e-228a43cfcb71",
+                  "ImportTrackingId": "7edd55e2-7be5-41bb-a66d-c6c205ee546a"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request",
@@ -6501,7 +6712,7 @@
     "/integration/payment/v1/paymentBatches": {
       "get": {
         "tags": [
-          "Pay"
+          "Payments: Batch creation in ERP"
         ],
         "description": "Get payment batch reconciliation status. Basic information about payment batches",
         "operationId": "paymentBatches_Get_externalBatchId",
@@ -6547,7 +6758,7 @@
       },
       "post": {
         "tags": [
-          "Pay"
+          "Payments: Batch creation in ERP"
         ],
         "description": "The POST method allows the client to send payment batches that will be imported into Medius Pay to be approved and paid. When import fails, incorrect payment batch is saved in Import error inbox within Medius Pay. This API has region settings, you will find both US and EU PaymentItem in schemas. The schema is decided on your company location. You can also see both US and EU example files.",
         "operationId": "paymentBatches_Post",
@@ -6570,7 +6781,7 @@
                         "invoiceVoucherNumber": "2419c142-c405-4753-bb2f-5fbec5937556",
                         "invoiceCompanyId": "Medius",
                         "payeeId": "sinid",
-                        "remitToID": "345123R",
+                        "remitToId": "345123R",
                         "payeeName": "Larson - Roob",
                         "payeeStreetLine1": "3346 Pagac Union",
                         "payeeStreetLine2": "PO box 1202",
@@ -6597,10 +6808,11 @@
                         "payeeRoutingNumberType": "ACH",
                         "payeeBankSwiftCode": "WBKPPLPP",
                         "purposeOfPayment": "BillPayment",
-                        "payeeContactEmail": "email@email.com",
+                        "payeeContactEmail": "email1@example.com, email2@example.com",
                         "paymentReference": "P012701",
                         "discountAmount": 0,
-                        "discountCurrencyCode": "USD"
+                        "discountCurrencyCode": "USD",
+                        "importedCheckNumber": "0000007455"
                       }
                     ]
                   }
@@ -6616,7 +6828,7 @@
                         "invoiceVoucherNumber": "2419c142-c405-4753-bb2f-5fbec5937556",
                         "invoiceCompanyId": "Medius",
                         "payeeId": "sinid",
-                        "remitToID": "345123R",
+                        "remitToId": "345123R",
                         "payeeName": "Larson - Roob",
                         "payeeStreetLine1": "3346 Pagac Union",
                         "payeeStreetLine2": "PO box 1202",
@@ -6631,7 +6843,7 @@
                         "preferredPaymentDate": "2021-04-10T00:00:00.000Z",
                         "invoiceAmount": 732.43,
                         "invoiceCurrencyCode": "USD",
-                        "comment": "Comment for payee",
+                        "comment": "Payment related comment to supplier",
                         "payorBankAccountIdentifier": "Bank1",
                         "payeeBankName": "Bank Zachodni WBK S.A.",
                         "payeeBankStreetLine1": "PL.WOLNOSCI 15",
@@ -6642,7 +6854,7 @@
                         "payeeBankgiroNumber": "3452334",
                         "payeeRoutingNumber": "202020",
                         "payeeBankSwiftCode": "WBKPPLPP",
-                        "payeeContactEmail": "email@email.com",
+                        "payeeContactEmail": "email1@example.com, email2@example.com",
                         "paymentReference": "P012701",
                         "payeeTaxRegistrationNumber": "12598"
                       }
@@ -6653,14 +6865,18 @@
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/PaymentBatch"
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PaymentBatch"
+                  }
+                ]
               },
               "examples": {
                 "US-example": {
-                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PaymentBatch>\n    <PayorId>Medius</PayorId>\n    <ExternalBatchId>WBC43728</ExternalBatchId>\n    <Items>\n        <Item>\n            <InvoiceNumber>2/2021</InvoiceNumber>\n            <VoucherNumber>1519c142-c405-4753-bb2f-5fbec59375d4</VoucherNumber>\n            <InvoiceVoucherNumber>2419c142-c405-4753-bb2f-5fbec5937556</InvoiceVoucherNumber>\n            <InvoiceCompanyId>Medius</InvoiceCompanyId>\n            <PayeeId>sinid</PayeeId>\n            <RemitToID>345123R</RemitToID>\n            <PayeeName>Larson - Roob</PayeeName>\n            <PayeeStreetLine1>3346 Pagac Union</PayeeStreetLine1>\n            <PayeeStreetLine2>PO box 1202</PayeeStreetLine2>\n            <PayeeCity>Lake Miller</PayeeCity>\n            <PayeeZipOrPostalCode>32202-4934</PayeeZipOrPostalCode>\n            <PayeeStateCode>RI</PayeeStateCode>\n            <PayeeCountryCode>US</PayeeCountryCode>\n            <PaymentAmount>732.43</PaymentAmount>\n            <PaymentCurrencyCode>USD</PaymentCurrencyCode>\n            <InvoiceDate>2021-04-10T00:00:00.000Z</InvoiceDate>\n            <InvoiceDueDate>2021-04-10T00:00:00.000Z</InvoiceDueDate>\n            <InvoiceAmount>732.43</InvoiceAmount>\n            <InvoiceCurrencyCode>USD</InvoiceCurrencyCode>\n            <PayorBankAccountIdentifier>BankId1</PayorBankAccountIdentifier>\n            <Comment>Comment for payee</Comment>\n            <PayorIdInPayeeSystem>897578762</PayorIdInPayeeSystem>\n                        <PayeeBankName>Bank Zachodni WBK S.A.</PayeeBankName>\n            <PayeeBankStreetLine1>PL.WOLNOSCI 15</PayeeBankStreetLine1>\n            <PayeeBankStreetLine2>BUILDING B</PayeeBankStreetLine2>\n            <PayeeBankCity>POZNAN</PayeeBankCity>\n            <PayeeBankCountryCode>PL</PayeeBankCountryCode>\n            <PayeeAccountNumber>PL88109013620000000036000000</PayeeAccountNumber>\n            <PayeeRoutingNumber>202020</PayeeRoutingNumber>\n            <PayeeRoutingNumberType>ACH</PayeeRoutingNumberType>\n            <PayeeBankSwiftCode>WBKPPLPP</PayeeBankSwiftCode>\n            <PurposeOfPayment>BillPayment</PurposeOfPayment>\n            <PayeeContactEmail>email@email.com</PayeeContactEmail>\n            <PaymentReference>P012701</PaymentReference>\n            <DiscountAmount>0</DiscountAmount>\n            <DiscountCurrencyCode>USD</DiscountCurrencyCode>\n            </Item>\n    </Items>\n</PaymentBatch>"
+                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PaymentBatch>\n    <PayorId>Medius</PayorId>\n    <ExternalBatchId>WBC43728</ExternalBatchId>\n    <Items>\n        <Item>\n            <InvoiceNumber>2/2021</InvoiceNumber>\n            <VoucherNumber>1519c142-c405-4753-bb2f-5fbec59375d4</VoucherNumber>\n            <InvoiceVoucherNumber>2419c142-c405-4753-bb2f-5fbec5937556</InvoiceVoucherNumber>\n            <InvoiceCompanyId>Medius</InvoiceCompanyId>\n            <PayeeId>sinid</PayeeId>\n            <RemitToId>345123R</RemitToId>\n            <PayeeName>Larson - Roob</PayeeName>\n            <PayeeStreetLine1>3346 Pagac Union</PayeeStreetLine1>\n            <PayeeStreetLine2>PO box 1202</PayeeStreetLine2>\n            <PayeeCity>Lake Miller</PayeeCity>\n            <PayeeZipOrPostalCode>32202-4934</PayeeZipOrPostalCode>\n            <PayeeStateCode>RI</PayeeStateCode>\n            <PayeeCountryCode>US</PayeeCountryCode>\n            <PaymentAmount>732.43</PaymentAmount>\n            <PaymentCurrencyCode>USD</PaymentCurrencyCode>\n            <InvoiceDate>2021-04-10T00:00:00.000Z</InvoiceDate>\n            <InvoiceDueDate>2021-04-10T00:00:00.000Z</InvoiceDueDate>\n            <InvoiceAmount>732.43</InvoiceAmount>\n            <InvoiceCurrencyCode>USD</InvoiceCurrencyCode>\n            <PayorBankAccountIdentifier>BankId1</PayorBankAccountIdentifier>\n            <Comment>Comment for payee</Comment>\n            <PayorIdInPayeeSystem>897578762</PayorIdInPayeeSystem>\n                        <PayeeBankName>Bank Zachodni WBK S.A.</PayeeBankName>\n            <PayeeBankStreetLine1>PL.WOLNOSCI 15</PayeeBankStreetLine1>\n            <PayeeBankStreetLine2>BUILDING B</PayeeBankStreetLine2>\n            <PayeeBankCity>POZNAN</PayeeBankCity>\n            <PayeeBankCountryCode>PL</PayeeBankCountryCode>\n            <PayeeAccountNumber>PL88109013620000000036000000</PayeeAccountNumber>\n            <PayeeRoutingNumber>202020</PayeeRoutingNumber>\n            <PayeeRoutingNumberType>ACH</PayeeRoutingNumberType>\n            <PayeeBankSwiftCode>WBKPPLPP</PayeeBankSwiftCode>\n            <PurposeOfPayment>BillPayment</PurposeOfPayment>\n            <PayeeContactEmail>email1@example.com, email2@example.com</PayeeContactEmail>\n            <PaymentReference>P012701</PaymentReference>\n            <DiscountAmount>0</DiscountAmount>\n            <DiscountCurrencyCode>USD</DiscountCurrencyCode>\n            <ImportedCheckNumber>0000007455</ImportedCheckNumber>\n            </Item>\n    </Items>\n</PaymentBatch>"
                 },
                 "EU-example": {
-                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PaymentBatch>\n    <PayorId>Medius</PayorId>\n    <ExternalBatchId>WBC43728</ExternalBatchId>\n    <Items>\n        <Item>\n            <InvoiceNumber>2/2021</InvoiceNumber>\n            <VoucherNumber>1519c142-c405-4753-bb2f-5fbec59375d4</VoucherNumber>\n            <InvoiceVoucherNumber>2419c142-c405-4753-bb2f-5fbec5937556</InvoiceVoucherNumber>\n            <InvoiceCompanyId>Medius</InvoiceCompanyId>\n            <PayeeId>sinid</PayeeId>\n            <RemitToID>345123R</RemitToID>\n            <PayeeName>Larson - Roob</PayeeName>\n            <PayeeStreetLine1>3346 Pagac Union</PayeeStreetLine1>\n            <PayeeStreetLine2>PO box 1202</PayeeStreetLine2>\n            <PayeeCity>Lake Miller</PayeeCity>\n            <PayeeZipOrPostalCode>89262-8263</PayeeZipOrPostalCode>\n            <PayeeStateCode>RI</PayeeStateCode>\n            <PayeeCountryCode>US</PayeeCountryCode>\n            <PaymentAmount>732.43</PaymentAmount>\n            <PaymentCurrencyCode>USD</PaymentCurrencyCode>\n            <InvoiceDate>2021-04-10T00:00:00.000Z</InvoiceDate>\n            <InvoiceDueDate>2021-04-10T00:00:00.000Z</InvoiceDueDate>\n            <PreferredPaymentDate>2021-04-10T00:00:00.000Z</PreferredPaymentDate>\n            <InvoiceAmount>732.43</InvoiceAmount>\n            <InvoiceCurrencyCode>USD</InvoiceCurrencyCode>\n            <Comment>Comment for payee</Comment>\n            <PayorBankAccountIdentifier>Bank1</PayorBankAccountIdentifier>\n            <PayeeBankName>Bank Zachodni WBK S.A.</PayeeBankName>\n            <PayeeBankStreetLine1>PL.WOLNOSCI 15</PayeeBankStreetLine1>\n            <PayeeBankStreetLine2>BUILDING B</PayeeBankStreetLine2>\n            <PayeeBankCity>POZNAN</PayeeBankCity>\n            <PayeeBankCountryCode>PL</PayeeBankCountryCode>\n            <PayeeAccountNumber>PL88109013620000000036000000</PayeeAccountNumber>\n            <PayeeBankgiroNumber>3452334</PayeeBankgiroNumber>\n            <PayeeRoutingNumber>202020</PayeeRoutingNumber>\n            <PayeeBankSwiftCode>WBKPPLPP</PayeeBankSwiftCode>\n            <PayeeContactEmail>email@email.com</PayeeContactEmail>\n            <PaymentReference>P012701</PaymentReference>\n            <PayeeTaxRegistrationNumber>12598</PayeeTaxRegistrationNumber>\n        </Item>\n    </Items>\n</PaymentBatch>"
+                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<PaymentBatch>\n    <PayorId>Medius</PayorId>\n    <ExternalBatchId>WBC43728</ExternalBatchId>\n    <Items>\n        <Item>\n            <InvoiceNumber>2/2021</InvoiceNumber>\n            <VoucherNumber>1519c142-c405-4753-bb2f-5fbec59375d4</VoucherNumber>\n            <InvoiceVoucherNumber>2419c142-c405-4753-bb2f-5fbec5937556</InvoiceVoucherNumber>\n            <InvoiceCompanyId>Medius</InvoiceCompanyId>\n            <PayeeId>sinid</PayeeId>\n            <RemitToId>345123R</RemitToId>\n            <PayeeName>Larson - Roob</PayeeName>\n            <PayeeStreetLine1>3346 Pagac Union</PayeeStreetLine1>\n            <PayeeStreetLine2>PO box 1202</PayeeStreetLine2>\n            <PayeeCity>Lake Miller</PayeeCity>\n            <PayeeZipOrPostalCode>89262-8263</PayeeZipOrPostalCode>\n            <PayeeStateCode>RI</PayeeStateCode>\n            <PayeeCountryCode>US</PayeeCountryCode>\n            <PaymentAmount>732.43</PaymentAmount>\n            <PaymentCurrencyCode>USD</PaymentCurrencyCode>\n            <InvoiceDate>2021-04-10T00:00:00.000Z</InvoiceDate>\n            <InvoiceDueDate>2021-04-10T00:00:00.000Z</InvoiceDueDate>\n            <PreferredPaymentDate>2021-04-10T00:00:00.000Z</PreferredPaymentDate>\n            <InvoiceAmount>732.43</InvoiceAmount>\n            <InvoiceCurrencyCode>USD</InvoiceCurrencyCode>\n            <Comment>Payment related comment to supplier</Comment>\n            <PayorBankAccountIdentifier>Bank1</PayorBankAccountIdentifier>\n            <PayeeBankName>Bank Zachodni WBK S.A.</PayeeBankName>\n            <PayeeBankStreetLine1>PL.WOLNOSCI 15</PayeeBankStreetLine1>\n            <PayeeBankStreetLine2>BUILDING B</PayeeBankStreetLine2>\n            <PayeeBankCity>POZNAN</PayeeBankCity>\n            <PayeeBankCountryCode>PL</PayeeBankCountryCode>\n            <PayeeAccountNumber>PL88109013620000000036000000</PayeeAccountNumber>\n            <PayeeBankgiroNumber>3452334</PayeeBankgiroNumber>\n            <PayeeRoutingNumber>202020</PayeeRoutingNumber>\n            <PayeeBankSwiftCode>WBKPPLPP</PayeeBankSwiftCode>\n            <PayeeContactEmail>email1@example.com, email2@example.com</PayeeContactEmail>\n            <PaymentReference>P012701</PaymentReference>\n            <PayeeTaxRegistrationNumber>12598</PayeeTaxRegistrationNumber>\n        </Item>\n    </Items>\n</PaymentBatch>"
                 }
               }
             }
@@ -6694,7 +6910,7 @@
     "/integration/payment/v1/paymentBatches/{paymentBatchId}": {
       "get": {
         "tags": [
-          "Pay"
+          "Payments: Batch creation in ERP"
         ],
         "description": "Get payment batch reconciliation status. Basic information about payment batch",
         "operationId": "paymentBatches_Get_paymentBatchId",
@@ -6736,7 +6952,7 @@
     "/integration/payment/v1/paymentBatches/{paymentBatchId}/items": {
       "get": {
         "tags": [
-          "Pay"
+          "Payments: Batch creation in ERP"
         ],
         "description": "Get payment items reconciliation status. Detailed information about the items of payment batch",
         "operationId": "paymentBatches_Get_paymentBatchId_Items",
@@ -6781,6 +6997,209 @@
           "404": {
             "description": "Payment batch with given paymentBatchId not found",
             "content": {}
+          }
+        }
+      }
+    },
+    "/integration/message/v1/payments": {
+      "get": {
+        "tags": [
+          "Payments: Batch creation in Medius"
+        ],
+        "description": "This method returns URLs to all payments that are available for ERP synchronization. Use the returned URL to get the complete payment details. Items that have changed status to Processing, Error or Success are not be able to be retrieved.",
+        "operationId": "PaymentsGetCorrelations",
+        "parameters": [
+          {
+            "name": "erpId",
+            "in": "query",
+            "description": "ERP Id",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": false
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPaymentIntegrationsResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "When server was unable to parse request. 400 status code with generic error is returned."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/payments/{correlationId}": {
+      "get": {
+        "tags": [
+          "Payments: Batch creation in Medius"
+        ],
+        "description": "This method returns the payment items with all details available. To find available payments, use the GET method without {correlationId}.",
+        "operationId": "PaymentsGetCorrelationByKey",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "description": "Sequential number, unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentIntegrationInvoicesDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "When server was unable to parse request. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Payment not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/payments/{correlationId}/processing": {
+      "put": {
+        "tags": [
+          "Payments: Batch creation in Medius"
+        ],
+        "description": "PUT a processing integration status. Updates status of message with given correlationId to Processing indicating that message is processing. This is first possible status to set.",
+        "operationId": "PaymentsUpdateIntegrationAsProcessing",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "description": "Sequential number, unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated the integration status to processing."
+          },
+          "400": {
+            "description": "When server was unable to parse request. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Payment not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/payments/{correlationId}/response/success": {
+      "post": {
+        "tags": [
+          "Payments: Batch creation in Medius"
+        ],
+        "description": "POST a successful integration response. Sets payment journal id (externalBatchId field) for given payments and updates status of message to Success. To use this endpoint, the status must first be set to Processing by calling the PUT processing endpoint.",
+        "operationId": "PaymentsUpdateIntegrationAsSuccess",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "description": "Sequential number, unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentIntegrationSuccessDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the integration status to success and set the externalBatchId."
+          },
+          "400": {
+            "description": "When server was unable to parse request, or status modification is not expected. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Payment not found."
+          }
+        }
+      }
+    },
+    "/integration/message/v1/payments/{correlationId}/response/error": {
+      "post": {
+        "tags": [
+          "Payments: Batch creation in Medius"
+        ],
+        "description": "POST an error response for an integration. Set error messages for given payments and updates status of message to Error in case of failure of integration with ERP. To use this endpoint, the status must first be set to Processing by calling the PUT processing endpoint.",
+        "operationId": "PaymentsUpdateIntegrationAsError",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "description": "Sequential number, unique identifier of message",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentIntegrationErrorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the integration status to error and set the error messages."
+          },
+          "400": {
+            "description": "When server was unable to parse request, or status modification is not expected. 400 status code with generic error is returned."
+          },
+          "404": {
+            "description": "Payment not found."
           }
         }
       }
@@ -8129,7 +8548,13 @@
           160,
           161,
           162,
-          163
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169
         ],
         "x-enumNames": [
           "UNKNOWN",
@@ -8295,7 +8720,13 @@
           "SUPPLIER_MANAGEMENT_FIELD_VALIDATION_ERROR",
           "PAYMENT_DETAILS_INVALID_COUNTRY_CODE",
           "PAYMENT_DETAILS_INVALID_STATE_CODE",
-          "COMPANY_INVALID_COUNTRY_CODE"
+          "COMPANY_INVALID_COUNTRY_CODE",
+          "PAYMENT_DETAILS_INVALID_DESCRIPTION",
+          "PURCHASE_ORDER_TOO_MANY_ITEM_NUMBERS",
+          "PURCHASE_ORDER_ITEM_NUMBERS_CONTAIN_DUPLICATES",
+          "MULTIPLE_RESTRICTIONS_TYPE_DEFINED_FOR_SAME_CONTROLLING_VALUE",
+          "ISSUE_WITH_SAVING_WHOLE_BATCH_OF_MASTERDATA_PLEASE_REPROCESS",
+          "SUPPLIER_COUNTRY_CODE_NOT_EXIST"
         ]
       },
       "ActualPaymentDateResponseDto": {
@@ -8981,6 +9412,12 @@
             "xml": {
               "name": "AccountingCurrencyCode"
             }
+          },
+          "countryCode": {
+            "type": "string",
+            "xml": {
+              "name": "CountryCode"
+            }
           }
         },
         "xml": {
@@ -9378,6 +9815,7 @@
               "VAT_REGISTRATION_NUMBER",
               "GLN_NUMBER",
               "IBAN_NUMBER",
+              "ELECTRONIC_ADDRESS_ID",
               "OTHER",
               "ExternalSystemIdentifier",
               "CompanyNameIdentifier",
@@ -9795,7 +10233,7 @@
           },
           "rate": {
             "type": "number",
-            "description": "Currency rate. Decimal format (28,14). In 'to-format', e.g. Invoice currency * rate = Accounting currency",
+            "description": "Currency rate. In 'to-format', e.g. Invoice currency * rate = Accounting currency. If you import rate = 0, the rate will automatically be set to inactive within the application. Decimal format (28,14).",
             "format": "decimal",
             "xml": {
               "name": "Rate"
@@ -10102,7 +10540,7 @@
           },
           "responsibles": {
             "type": "array",
-            "description": "Beta feature. Only available for Pilot customers.",
+            "description": "List of responsibles for this dimension value configuration. When provided, these are used to set up routing distribution rules with multiple responsible users/roles.",
             "xml": {
               "name": "Responsibles",
               "wrapped": true
@@ -10124,28 +10562,28 @@
         "properties": {
           "responsibleUser": {
             "type": "string",
-            "description": "Beta feature. Only available for Pilot customers.",
+            "description": "User name of the responsible. Must match a User.Name in Medius. Can be used instead of or together with ResponsibleRole.",
             "xml": {
               "name": "ResponsibleUser"
             }
           },
           "responsibleRole": {
             "type": "string",
-            "description": "Beta feature. Only available for Pilot customers.",
+            "description": "Role name of the responsible. Must match a Role.Name in Medius. Can be used instead of or together with ResponsibleUser.",
             "xml": {
               "name": "ResponsibleRole"
             }
           },
           "orderId": {
             "type": "integer",
-            "description": "Beta feature. Only available for Pilot customers.",
+            "description": "The priority order of this responsible in the routing distribution rule.",
             "format": "int32",
             "xml": {
               "name": "OrderId"
             }
           }
         },
-        "description": "Beta feature. Only available for Pilot customers.",
+        "description": "Represents a responsible user or role entry for a dimension value configuration routing rule.",
         "xml": {
           "name": "DimensionValueConfigurationResponsible"
         }
@@ -10396,7 +10834,8 @@
           },
           "usableInPurchase": {
             "type": "boolean",
-            "description": "Is dimension usable in Medius Buy",
+            "nullable": true,
+            "description": "Is dimension usable in Medius Buy. If omitted or null when creating a new dimension value, defaults to true. If omitted or null when updating an existing dimension value, the current value in Medius is kept.",
             "xml": {
               "name": "UsableInPurchase"
             }
@@ -11468,6 +11907,7 @@
             "type": "integer",
             "description": "Only for backward compatibility. Line with 0 cash discount should be used for NET payment term.",
             "format": "int32",
+            "deprecated": true,
             "xml": {
               "name": "NumberOfDays"
             }
@@ -11476,6 +11916,7 @@
             "type": "integer",
             "description": "Only for backward compatibility. Line with 0 cash discount should be used for NET payment term.",
             "format": "int32",
+            "deprecated": true,
             "xml": {
               "name": "NumberOfFreeMonths"
             }
@@ -12289,6 +12730,12 @@
             "type": "boolean",
             "xml": {
               "name": "IsTwoWayMatch"
+            }
+          },
+          "orderType": {
+            "type": "string",
+            "xml": {
+              "name": "OrderType"
             }
           },
           "codingLines": {
@@ -13467,7 +13914,7 @@
           },
           "prepayment": {
             "type": "boolean",
-            "description": "If the purchase order is valid for Prepayment or not",
+            "description": "Indicates whether the purchase order was prepaid outside of Medius. Invoices connected to a purchase order that was prepaid in the ERP can be stopped for manual post control using the *Match - Prepayment detected on connected PO(s)* document validation rule. Note that this field is imported with a purchase order and cannot be changed in Medius.",
             "xml": {
               "name": "Prepayment"
             }
@@ -13516,12 +13963,14 @@
           },
           "additionalOrderIdentifiers": {
             "type": "array",
+
             "xml": {
               "name": "AdditionalOrderIdentifiers",
               "wrapped": true
             },
             "items": {
               "type": "string",
+              "description": "Add additional order identifiers in this array. Make sure not to use the same `orderIdentifier` as provided in the header. No duplicates allowed.",
               "xml": {
                 "name": "AdditionalOrderIdentifier",
                 "wrapped": true
@@ -13870,6 +14319,33 @@
               "name": "TwoWayMatchTotalInvoicedQuantity"
             }
           },
+          "orderType": {
+            "type": "string",
+            "description": "If the order line should be treated as internal or external order line in Medius. T=external (default), M=internal.",
+            "xml": {
+              "name": "OrderType"
+            },
+            "enum": [
+              "T",
+              "M"
+            ]
+          },
+          "additionalItemNumbers": {
+            "type": "array",
+            "xml": {
+              "name": "AdditionalItemNumbers",
+              "wrapped": true
+            },
+            "items": {
+              "type": "string",
+              "maxLength": 450,
+              "description": "Add additional item numbers to enhance the automatic connection on invoices. Import up to 5 additional item numbers. Duplicate checks are performed against `itemNumber` and `additionalItemNumbers`.",
+              "xml": {
+                "name": "AdditionalItemNumber",
+                "wrapped": true
+              }
+            }
+          },
           "externalSystemMetadata": {
             "type": "array",
             "description": "ExternalSystemMetadata is a custom property that allows you to transfer data between systems. ExternalSystemMetadata is not accessible from the GUI, but is rather used for information or identifiers that need to be passed through Medius.",
@@ -13913,6 +14389,9 @@
             "enum": [
               "Cost",
               "ExceptionType",
+              "CostBalancing",
+              "Clearance",
+              "ExceptionTypeAutoApproved",
               "DeviationUnitPrice",
               "DeviationQuantity",
               "DeviationLineTotal",
@@ -13920,6 +14399,7 @@
               "DeviationUnitPriceWithinTolerance",
               "DeviationQuantityWithinTolerance",
               "DeviationLineTotalWithinTolerance",
+              "DeviationNetAmountWithinTolerance",
               "DeviationLineTotalApproved",
               "DeviationLineTotalRejected",
               "DeviationUnitPriceApproved",
@@ -13928,6 +14408,15 @@
               "DeviationQuantityRejected",
               "DeviationNetAmountApproved",
               "DeviationNetAmountRejected",
+              "DeviationExceptionType",
+              "DeviationExceptionTypeApproved",
+              "DeviationExceptionTypeRejected",
+              "ItemCharge",
+              "Tax",
+              "RejectedWithShortPayment",
+              "DeviationGoodsReceipt",
+              "DeviationGoodsReceiptApproved",
+              "DeviationGoodsReceiptRejected",
               "DeviationSameAsCost"
             ]
           }
@@ -16008,10 +16497,10 @@
           "correlationKey",
           "purchaseOrderConfirmation"
         ],
-        "description": "Use this schema when you want to post a purchase order confirmation.",
         "properties": {
           "correlationKey": {
             "type": "string",
+            "description": "A unique identifier that needs to match the `correlationKey` in the corresponding request message.",
             "xml": {
               "name": "CorrelationKey"
             }
@@ -16029,18 +16518,58 @@
         "required": [
           "correlationKey",
           "purchaseOrderConfirmation",
-          "goodsReceiptConfirmation"
+          "goodsReceiptNoteConfirmation"
         ],
-        "description": "Use this schema when you want to send a goods receipt confirmation.",
         "properties": {
           "correlationKey": {
             "type": "string",
+            "description": "A unique identifier that needs to match the `correlationKey` in the corresponding request message.",
             "xml": {
               "name": "CorrelationKey"
             }
           },
           "purchaseOrderConfirmation": {
             "$ref": "#/components/schemas/PurchaseOrderGRConfirmationDto"
+          },
+          "goodsReceiptNoteConfirmation": {
+            "$ref": "#/components/schemas/GoodsReceiptNoteConfirmationDto"
+          }
+        },
+        "xml": {
+          "name": "PurchaseOrderResponse"
+        }
+      },
+      "CancelationResponseDto": {
+        "type": "object",
+        "required": [
+          "correlationKey"
+        ],
+        "properties": {
+          "correlationKey": {
+            "type": "string",
+            "description": "A unique identifier that needs to match the `correlationKey` in the corresponding request message.",
+            "xml": {
+              "name": "CorrelationKey"
+            }
+          }
+        },
+        "xml": {
+          "name": "PurchaseOrderResponse"
+        }
+      },
+      "PurchaseOrderRequestResponseXMLDto": {
+        "type": "object",
+        "description": "Take a look at the examples for information on what is needed in the different scenarios, purchase order, goods receipt or cancelation response confirmation.",
+        "properties": {
+          "correlationKey": {
+            "type": "string",
+            "description": "A unique identifier that needs to match the `correlationKey` in the corresponding request message.",
+            "xml": {
+              "name": "CorrelationKey"
+            }
+          },
+          "purchaseOrderConfirmation": {
+            "$ref": "#/components/schemas/PurchaseOrderConfirmationDto"
           },
           "goodsReceiptNoteConfirmation": {
             "$ref": "#/components/schemas/GoodsReceiptNoteConfirmationDto"
@@ -16060,12 +16589,14 @@
         "properties": {
           "orderNumber": {
             "type": "string",
+            "description": "Order number from Medius Procurement.",
             "xml": {
               "name": "OrderNumber"
             }
           },
           "externalOrderNumber": {
             "type": "string",
+            "description": "Order number received from external system.",
             "xml": {
               "name": "ExternalOrderNumber"
             }
@@ -16105,12 +16636,14 @@
         "properties": {
           "orderNumber": {
             "type": "string",
+            "description": "Order number from Medius Procurement.",
             "xml": {
               "name": "OrderNumber"
             }
           },
           "externalOrderNumber": {
             "type": "string",
+            "description": "Order number received from external system.",
             "xml": {
               "name": "ExternalOrderNumber"
             }
@@ -16140,12 +16673,14 @@
         "properties": {
           "lineNumber": {
             "type": "string",
+            "description": "Purchase order line number from Medius Procurement.",
             "xml": {
               "name": "LineNumber"
             }
           },
           "externalOrderLineNumber": {
             "type": "string",
+            "description": "Purchase order line number received from external system.",
             "xml": {
               "name": "ExternalOrderLineNumber"
             }
@@ -16176,12 +16711,14 @@
         "properties": {
           "referenceNumber": {
             "type": "string",
+            "description": "Reference number received from Medius Procurement.",
             "xml": {
               "name": "ReferenceNumber"
             }
           },
           "externalReferenceNumber": {
             "type": "string",
+            "description": "Reference number received from external system.",
             "xml": {
               "name": "ExternalReferenceNumber"
             }
@@ -16210,12 +16747,14 @@
         "properties": {
           "deliveryNumber": {
             "type": "string",
+            "description": "Delivery number from Medius Procurement.",
             "xml": {
               "name": "DeliveryNumber"
             }
           },
           "externalDeliveryNumber": {
             "type": "string",
+            "description": "Delivery number received from external system.",
             "xml": {
               "name": "ExternalDeliveryNumber"
             }
@@ -16919,7 +17458,8 @@
           },
           "expectedDeliveryTimeInDays": {
             "type": "integer",
-            "description": "Number of days that invoice should be hidden when using Goods in Transit inbox filter.",
+            "nullable": true,
+            "description": "Number of days that invoice should be hidden when using Goods in Transit inbox filter. If not provided or null, the existing value in Medius is kept. Default for new configurations is empty (no value). Once set, it cannot be cleared back to empty via the integration.",
             "format": "int32",
             "xml": {
               "name": "ExpectedDeliveryTimeInDays"
@@ -16927,21 +17467,24 @@
           },
           "sendPurchaseOrderAsIntegrationMessage": {
             "type": "boolean",
-            "description": "Enable this option to automatically send the purchase order as an integration message. Integration message setting must be active for the PO to be sent. You can combine this option with sending the order as a PDF file.",
+            "nullable": true,
+            "description": "Enable this option to automatically send the purchase order as an integration message. Integration message setting must be active for the PO to be sent. You can combine this option with sending the order as a PDF file. If not provided or null, the existing value in Medius is kept. Default for new configurations: false.",
             "xml": {
               "name": "SendPurchaseOrderAsIntegrationMessage"
             }
           },
           "sendPurchaseOrderAsPdf": {
             "type": "boolean",
-            "description": "Enable this option to be able to send the purchase order as a PDF file attached to an email directly in Medius. You can combine this option with sending the purchase order as an integration message.",
+            "nullable": true,
+            "description": "Enable this option to be able to send the purchase order as a PDF file attached to an email directly in Medius. You can combine this option with sending the purchase order as an integration message. If not provided or null, the existing value in Medius is kept. Default for new configurations: true.",
             "xml": {
               "name": "SendPurchaseOrderAsPdf"
             }
           },
           "registerGoodsReceiptType": {
             "type": "string",
-            "description": "Change this parameter if the default behavior for the supplier should be to skip the goods receipt step and work with two-way match. If not provided, setting in Medius is kept.",
+            "nullable": true,
+            "description": "Change this parameter if the default behavior for the supplier should be to skip the goods receipt step and work with two-way match. If not provided or null, the existing value in Medius is kept. Default for new configurations: Yes_ThreeWayMatch.",
             "xml": {
               "name": "RegisterGoodsReceiptType"
             },
@@ -17052,7 +17595,7 @@
           },
           "type": {
             "type": "string",
-            "description": "Type of Contact person",
+            "description": "Type of Contact person. Available values listed in enum.",
             "xml": {
               "name": "Type"
             },
@@ -17060,7 +17603,9 @@
               "AdjustmentRequest",
               "Order",
               "Short Payment",
-              "Supplier Portal"
+              "Supplier Portal",
+              "Supplier Conversations",
+              "Remittance advice"
             ]
           }
         },
@@ -17255,6 +17800,12 @@
             "type": "string",
             "xml": {
               "name": "GlobalId"
+            }
+          },
+          "countryCode": {
+            "type": "string",
+            "xml": {
+              "name": "CountryCode"
             }
           }
         },
@@ -18036,20 +18587,46 @@
           },
           "isProcurable": {
             "type": "boolean",
-            "description": "If the supplier is to be used by the Medius Buy module. Default value 1",
+            "nullable": true,
+            "description": "If the supplier is to be used by the Medius Buy module. If omitted or null when creating a new supplier, defaults to true. If omitted or null when updating an existing supplier, the current value in Medius is kept.",
             "xml": {
               "name": "IsProcurable"
             }
           },
           "prepayment": {
             "type": "boolean",
-            "description": "If the supplier is to be used for pre payment",
+            "description": "Indicates whether the supplier requires prepayment. Invoices from suppliers who require prepayment can be stopped for manual post control using the *Match - Prepayment detected on supplier* validation rules. Note that this field is imported from the ERP system and cannot be changed in Medius.",
             "xml": {
               "name": "Prepayment"
             }
           },
+          "defaultPaymentMethod": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - Default payment method for the supplier. Used in Medius Supplier Onboarding to set the default payment method when working with company relationships.",
+            "xml": {
+              "name": "DefaultPaymentMethod"
+            }
+          },
+          "taxRegistrationNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The tax registration number of the supplier. Used in Medius Supplier Onboarding for tax compliance checks and validations.",
+            "xml": {
+              "name": "TaxRegistrationNumber"
+            }
+          },
+          "countryCode": {
+            "maxLength": 2,
+            "type": "string",
+            "description": "The supplier country of origin. Can be used to track local regulations and data storage requirements. Format: ISO 3166-1 alpha 2, two-letter country code.",
+            "xml": {
+              "name": "CountryCode"
+            }
+          },
           "paymentDetails": {
             "type": "array",
+            "description": "Payment details in Medius are used to validate that invoice data matches the supplier’s registered information. The selected payment details follow the invoice through posting and, when using Medius Pay, are also used in the payment process. Some payment detail fields are only passed to Supplier Onboarding and used by Medius Payments; these fields are not shown in AP Automation and are marked as **Passed to SO** in the section below.",
             "xml": {
               "name": "PaymentDetails",
               "wrapped": true
@@ -18099,6 +18676,7 @@
               "IBAN_NUMBER",
               "EXTERNAL_SYSTEM_ID",
               "SUPPLIER_PORTAL_ID",
+              "ELECRONIC_ADDRESS_ID",
               "OTHER"
             ]
           },
@@ -18324,6 +18902,182 @@
             "xml": {
               "name": "CustomField_DateTime5"
             }
+          },
+          "remitToId": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - Identifier for a different remittance number or name for a payee (payees with multiple locations).",
+            "xml": {
+              "name": "RemitToId"
+            }
+          },
+          "streetLine1": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The first line of the payee address.",
+            "xml": {
+              "name": "StreetLine1"
+            }
+          },
+          "streetLine2": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The second line of the payee address.",
+            "xml": {
+              "name": "StreetLine2"
+            }
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The town/city of the payee address.",
+            "xml": {
+              "name": "City"
+            }
+          },
+          "zipOrPostalCode": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The zip/postal code of the payee address.",
+            "xml": {
+              "name": "ZipOrPostalCode"
+            }
+          },
+          "stateCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "**Passed to SO** - State code of the payee. The country subdivision code, ISO 3166-1 alpha-2. Validated when US and Canadian country codes are used.",
+            "xml": {
+              "name": "StateCode"
+            }
+          },
+          "countryCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "**Passed to SO** - Country code of the payee. ISO 3166-1 alpha-2 code, two-letter country code.",
+            "xml": {
+              "name": "CountryCode"
+            }
+          },
+          "bankName": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - Name of the payee bank.",
+            "xml": {
+              "name": "BankName"
+            }
+          },
+          "bankStreetLine1": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The first line of the address of the payee bank.",
+            "xml": {
+              "name": "BankStreetLine1"
+            }
+          },
+          "bankStreetLine2": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The second line of the address of the payee bank.",
+            "xml": {
+              "name": "BankStreetLine2"
+            }
+          },
+          "bankCity": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The town/city of the payee bank address.",
+            "xml": {
+              "name": "BankCity"
+            }
+          },
+          "bankCountryCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "**Passed to SO** - Country code of the payee bank. ISO 3166-1 alpha-2 code, two-letter country code.",
+            "xml": {
+              "name": "BankCountryCode"
+            }
+          },
+          "bankStateCode": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "**Passed to SO** - State code of the bank. The country subdivision code, ISO 3166-1 alpha-2. Validated when US and Canadian country codes are used.",
+            "xml": {
+              "name": "BankStateCode"
+            }
+          },
+          "bankZipOrPostalCode": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The zip/postal code of the payee bank address.",
+            "xml": {
+              "name": "BankZipOrPostalCode"
+            }
+          },
+          "accountOwnerName": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The account owner name / payee name of the payee bank.",
+            "xml": {
+              "name": "AccountOwnerName"
+            }
+          },
+          "accountNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The account number of the payee bank.",
+            "xml": {
+              "name": "AccountNumber"
+            }
+          },
+          "bankgiroNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The bankgiro number of the payee bank.",
+            "xml": {
+              "name": "BankgiroNumber"
+            }
+          },
+          "routingNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The routing number of the payee bank.",
+            "xml": {
+              "name": "RoutingNumber"
+            }
+          },
+          "routingNumberType": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The type of the routing number of the payee bank.",
+            "xml": {
+              "name": "RoutingNumberType"
+            }
+          },
+          "bankSwiftCode": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The SWIFT code of the payee bank.",
+            "xml": {
+              "name": "BankSwiftCode"
+            }
+          },
+          "iban": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The IBAN of the payee bank.",
+            "xml": {
+              "name": "Iban"
+            }
+          },
+          "contactEmail": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The email address of a contact person or team within the supplier’s organization.",
+            "xml": {
+              "name": "ContactEmail"
+            }
           }
         },
         "xml": {
@@ -18536,14 +19290,6 @@
               "name": "FinalDocumentId"
             }
           }
-        }
-      },
-      "ImportDocumentSupplierInvoiceFile": {
-        "type": "string",
-        "xml": {
-          "name": "Invoice",
-          "namespace": "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
-          "wrapped": true
         }
       },
       "InvoiceRequestDto": {
@@ -19241,7 +19987,8 @@
               "EXPENSE",
               "ORDER_BASED",
               "CONTRACT_BASED",
-              "PAYMENT_REQUEST"
+              "PAYMENT_REQUEST",
+              "PREPAYMENT"
             ]
           },
           "dueDate": {
@@ -19410,6 +20157,14 @@
             "description": "Name of the Supplier.",
             "xml": {
               "name": "SupplierName"
+            }
+          },
+          "contractNumber": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Contract number from recurring invoices.",
+            "xml": {
+              "name": "ContractNumber"
             }
           },
           "invoiceReference": {
@@ -19625,6 +20380,28 @@
             },
             "items": {
               "$ref": "#/components/schemas/IntegrationExceptionTypeConnectionDto"
+            }
+          },
+          "prepaymentPOConnections": {
+            "type": "array",
+            "description": "Available on prepayment invoice when there is a connection to a PO.",
+            "xml": {
+              "name": "PrepaymentPOConnections",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/IntegrationPrepaymentPOConnectionDto"
+            }
+          },
+          "linkedPrepayments": {
+            "type": "array",
+            "description": "Available on Non-PO or PO-invoice when there is a linked prepayment.",
+            "xml": {
+              "name": "LinkedPrepayments",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/IntegrationLinkedPrepaymentDto"
             }
           },
           "orderType": {
@@ -19875,6 +20652,40 @@
             "description": "A tracking id for e-invoices for reporting and control.",
             "xml": {
               "name": "EInvoiceTrackingId"
+            }
+          },
+          "prepaymentCategory": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "The category of the pre payment.",
+            "xml": {
+              "name": "PrepaymentCategory"
+            }
+          },
+          "addressInformation": {
+            "type": "array",
+            "xml": {
+              "name": "AddressInformation",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/IntegrationAddressInformationDto"
+            }
+          },
+          "invoiceRemark": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "Remarks/comments from the invoice header.",
+            "xml": {
+              "name": "InvoiceRemark"
+            }
+          },
+          "platformAssignedDate": {
+            "type": "string",
+            "description": "Platform assigned date records the official date when an invoice is accepted into an e-invoicing system. This is needed as the official date might differ from the date an invoice is received in Medius. This is used to determine when VAT should be recognized.",
+            "format": "date-time",
+            "xml": {
+              "name": "PlatformAssignedDate"
             }
           }
         },
@@ -20320,7 +21131,11 @@
               "DeviationExceptionTypeRejected",
               "ItemCharge",
               "Tax",
-              "RejectedWithShortPayment"
+              "RejectedWithShortPayment",
+              "DeviationGoodsReceipt",
+              "DeviationGoodsReceiptApproved",
+              "DeviationGoodsReceiptRejected",
+              "DeviationSameAsCost"
             ]
           },
           "poConnectionLineNumbers": {
@@ -21282,6 +22097,160 @@
         },
         "xml": {
           "name": "ExceptionTypeConnection"
+        }
+      },
+      "IntegrationPrepaymentPOConnectionDto": {
+        "type": "object",
+        "properties": {
+          "supplierId": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "Supplier Id from the connected PO.",
+            "xml": {
+              "name": "SupplierId"
+            }
+          },
+          "connectedOrderIdentifier": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Order identifier from the connected PO.",
+            "xml": {
+              "name": "ConnectedOrderIdentifier"
+            }
+          }
+        },
+        "xml": {
+          "name": "PrepaymentPOConnection"
+        }
+      },
+      "IntegrationLinkedPrepaymentDto": {
+        "type": "object",
+        "properties": {
+          "invoiceNumber": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Invoice number for the prepayment invoice.",
+            "xml": {
+              "name": "InvoiceNumber"
+            }
+          },
+          "invoiceDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Invoice date for the prepayment invoice.",
+            "xml": {
+              "name": "InvoiceDate"
+            }
+          },
+          "supplierId": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "Supplier Id from the prepayment invoice.",
+            "xml": {
+              "name": "SupplierId"
+            }
+          },
+          "orderIdentifier": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Order identifier to which the prepayment invoice is connected.",
+            "xml": {
+              "name": "OrderIdentifier"
+            }
+          },
+          "finalVoucherNumber": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Final voucher number for the prepayment invoice.",
+            "xml": {
+              "name": "FinalVoucherNumber"
+            }
+          },
+          "prepaidAmount": {
+            "type": "number",
+            "format": "decimal",
+            "description": "The pre paid amount of the prepayment invoice. Decimal format (28,14).",
+            "xml": {
+              "name": "PrepaidAmount"
+            }
+          }
+        },
+        "xml": {
+          "name": "LinkedPrepayment"
+        }
+      },
+      "IntegrationAddressInformationDto": {
+        "type": "object",
+        "description": "You can use `addressInfomration` to ensure accurate shipment tracking, financial reporting and it aids in applying correct tax rates and compliance at invoice posting to your ERP.",
+        "properties": {
+          "addressType": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "The address type can be either `ShipTo` or `ShipFrom`. Only one set of address per address type.",
+            "xml": {
+              "name": "AddressType"
+            },
+            "enum": [
+              "ShipTo",
+              "ShipFrom"
+            ]
+          },
+          "addressInformationType": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "**Deprecated**. This field was incorrectly documented and has never returned any values. It is not supported. Use addressType instead.",
+            "xml": {
+              "name": "AddressInformationType"
+            },
+            "enum": [
+              "ShipTo",
+              "ShipFrom"
+            ],
+            "deprecated": true
+          },
+          "street": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Street",
+            "xml": {
+              "name": "Street"
+            }
+          },
+          "city": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "City",
+            "xml": {
+              "name": "City"
+            }
+          },
+          "state": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "State",
+            "xml": {
+              "name": "State"
+            }
+          },
+          "postalCode": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "PostalCode",
+            "xml": {
+              "name": "PostalCode"
+            }
+          },
+          "country": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Country",
+            "xml": {
+              "name": "Country"
+            }
+          }
+        },
+        "xml": {
+          "name": "AddressInformation"
         }
       },
       "IntegrationTaxGroupDto": {
@@ -22382,7 +23351,7 @@
           "timezone": {
             "maxLength": 60,
             "type": "string",
-            "description": "Default time zone for user. Example: 'UTC'",
+            "description": "The user's default time zone, specified as a Windows time zone identifier. Controls how dates and times are displayed in the UI. Example: 'UTC', 'W. Europe Standard Time', 'Eastern Standard Time'. A full list of valid values is available in the [Microsoft time zone index](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones).",
             "xml": {
               "name": "Timezone"
             }
@@ -22414,7 +23383,7 @@
           "format": {
             "maxLength": 60,
             "type": "string",
-            "description": "Default format for user. Based on .NET CultureInfo code. Example: English (United kingdom) 'en-GB', English (United States) 'en-US', Swedish (Sweden) 'sv-SE'. List of possible values can be seen on User configuration in Medius AP Automation.",
+            "description": "The user's default regional format, specified as a .NET culture name (BCP 47 format). Controls formatting of numbers, dates, and currencies in the UI. Example: 'en-GB' (English, United Kingdom), 'en-US' (English, United States), 'sv-SE' (Swedish, Sweden). For a full list of valid values, see the [Microsoft locale identifier reference](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c).",
             "xml": {
               "name": "Format"
             }
@@ -22687,6 +23656,285 @@
           "name": "IdentityProvider"
         }
       },
+      "UserExportPageDto": {
+        "type": "object",
+        "description": "Paged container for exported users.",
+        "properties": {
+          "users": {
+            "type": "array",
+            "description": "List of exported users.",
+            "items": {
+              "$ref": "#/components/schemas/UserExportDto" 
+            }
+          },
+          "total": {
+            "type": "integer",
+            "description": "Total number of users matching the query."
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Offset used for this page."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Limit used for this page."
+          },
+          "paging": {
+            "$ref": "#/components/schemas/Paging"
+          }
+        },
+        "required": [
+          "users", 
+          "total", 
+          "offset", 
+          "limit" 
+        ]
+      },
+      "UserExportDto": {
+        "type": "object",
+        "description": "Exported user with profile, company, roles and configuration.",
+        "properties": {
+          "externalSystemId": {
+            "type": "string",
+            "description": "Unique identifier in the external system."
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Indicates if the user is active."
+          },
+          "userName": {
+            "type": "string",
+            "description": "Login name."
+          },
+          "firstName": {
+            "type": "string",
+            "description": "Given name."
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Family name."
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Primary email address."
+          },
+          "defaultCompany": {
+            "$ref": "#/components/schemas/UserExportCompanyDto"
+          },
+          "globalId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Global GUID for the user."
+          },
+          "language": {
+            "type": "string",
+            "description": "Preferred language code."
+          },
+          "format": {
+            "type": "string",
+            "description": "Preferred formatting settings."
+          },
+          "roles": {
+            "type": "array",
+            "description": "Assigned roles.",
+            "items": {
+              "$ref": "#/components/schemas/RoleExportDto" 
+            }
+          },
+          "approvalGroups": {
+            "type": "array",
+            "description": "Approval groups connected to the user.",
+            "items": {
+              "$ref": "#/components/schemas/ApprovalGroupExportDto"
+            }
+          },
+          "followupGroups": {
+            "type": "array",
+            "description": "Follow-up groups connected to the user.",
+            "items": {
+              "$ref": "#/components/schemas/FollowupGroupExportDto"
+            }
+          },
+          "customField_Text1": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Custom field of type text."
+          },
+          "customField_Text2": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Custom field of type text."
+          },
+          "customField_Text3": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Custom field of type text."
+          },
+          "customField_Text4": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Custom field of type text."
+          },
+          "customField_Text5": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Custom field of type text."
+          },
+          "customField_Numeric1": {
+            "type": "number",
+            "description": "Custom field of type numeric. Decimal format (28,14).",
+            "format": "decimal"
+          },
+          "customField_Numeric2": {
+            "type": "number",
+            "description": "Custom field of type numeric. Decimal format (28,14).",
+            "format": "decimal"
+          },
+          "customField_Numeric3": {
+            "type": "number",
+            "description": "Custom field of type numeric. Decimal format (28,14).",
+            "format": "decimal"
+          },
+          "customField_Numeric4": {
+            "type": "number",
+            "description": "Custom field of type numeric. Decimal format (28,14).",
+            "format": "decimal"
+          },
+          "customField_Numeric5": {
+            "type": "number",
+            "description": "Custom field of type numeric. Decimal format (28,14).",
+            "format": "decimal"
+          },
+          "customField_Boolean1": {
+            "type": "boolean",
+            "description": "Custom field of type bit."
+          },
+          "customField_Boolean2": {
+            "type": "boolean",
+            "description": "Custom field of type bit."
+          },
+          "customField_Boolean3": {
+            "type": "boolean",
+            "description": "Custom field of type bit."
+          },
+          "customField_Boolean4": {
+            "type": "boolean",
+            "description": "Custom field of type bit."
+          },
+          "customField_Boolean5": {
+            "type": "boolean",
+            "description": "Custom field of type bit."
+          },
+          "customField_DateTime1": {
+            "type": "string",
+            "description": "Custom Field of type datetime.",
+            "format": "date-time"
+          },
+          "customField_DateTime2": {
+            "type": "string",
+            "description": "Custom Field of type datetime.",
+            "format": "date-time"
+          },
+          "customField_DateTime3": {
+            "type": "string",
+            "description": "Custom Field of type datetime.",
+            "format": "date-time"
+          },
+          "customField_DateTime4": {
+            "type": "string",
+            "description": "Custom Field of type datetime.",
+            "format": "date-time"
+          },
+          "customField_DateTime5": {
+            "type": "string",
+            "description": "Custom Field of type datetime.",
+            "format": "date-time"
+          }
+        },        
+        "required": [
+          "externalSystemId", 
+          "isActive", 
+          "userName", 
+          "firstName", 
+          "lastName", 
+          "email", 
+          "globalId" 
+        ]
+      },
+      "UserExportCompanyDto": {
+        "type": "object",
+        "description": "Default company assigned to the user.",
+        "properties": {
+          "companyId": {
+            "type": "string",
+            "description": "Internal company identifier."
+          },
+          "globalId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Company global GUID."
+          }
+        },
+        "required": [
+          "companyId", 
+          "globalId" 
+        ]
+      },
+      "RoleExportDto": {
+        "type": "object",
+        "description": "User role assignment within a company.",
+        "properties": {
+          "roleCompany": {
+            "type": "string",
+            "description": "Company identifier for the role."
+          },
+          "roleName": {
+            "type": "string",
+            "description": "Role name."
+          }
+        },
+        "required": [
+          "roleCompany", 
+          "roleName" 
+        ]
+      },
+      "ApprovalGroupExportDto": {
+        "type": "object",
+        "description": "Approval group connected to the user.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the approval group"
+          },
+          "companyId": {
+            "type": "string",
+            "description": "Company id where the approval group is assigned to the user."
+          }
+        },
+        "required": [
+          "name", 
+          "companyId" 
+        ]
+      },
+      "FollowupGroupExportDto": {
+        "type": "object",
+        "description": "Follow-up group connected to the user.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the follow-up group"
+          },
+          "companyId": {
+            "type": "string",
+            "description": "Company id where the follow-up group is assigned to the user."
+          }
+        },
+        "required": [
+          "name", 
+          "companyId" 
+        ]
+      },
       "VoucherResponseDto": {
         "type": "object",
         "properties": {
@@ -22884,6 +24132,15 @@
         "type": "object",
         "properties": {
           "invoiceData": {
+            "$ref": "#/components/schemas/EdiSupplierInvoiceDto"
+          }
+        },
+        "description": "Image and Attachment(s) are available as properties here, see above disclaimer. Please see Postman example for full specification."
+      },
+      "EdiSupplierInvoiceImportEnvelopeXML": {
+        "type": "object",
+        "properties": {
+          "invoiceData": {
             "type": "object",
             "properties": {
               "ediSupplierInvoice": {
@@ -22920,7 +24177,8 @@
               "EXPENSE",
               "ORDER_BASED",
               "CONTRACT_BASED",
-              "PAYMENT_REQUEST"
+              "PAYMENT_REQUEST",
+              "PREPAYMENT"
             ]
           },
           "eInvoiceTrackingId": {
@@ -22965,10 +24223,18 @@
               "name": "DocumentProvider"
             }
           },
+          "documentOriginalFormat": {
+            "maxLength": 50,
+            "type": "string",
+            "description": "Orignal format of the invoice. This is a free text field where you can input the orignal format, before it has been converted by an invoice service provider.",
+            "xml": {
+              "name": "DocumentOriginalFormat"
+            }
+          },
           "documentSource": {
             "maxLength": 450,
             "type": "string",
-            "description": "Obsolete. When 'DocumentFormat' and 'DocumentProvider' is used, 'DocumentSource' is set automatically.",
+            "description": "Deprecated field. When 'DocumentFormat' and 'DocumentProvider' is used, 'DocumentSource' is set automatically.",
             "xml": {
               "name": "DocumentSource"
             },
@@ -22978,7 +24244,8 @@
               "EInvoice",
               "PDF",
               "ManualCreation"
-            ]
+            ],
+            "deprecated": true
           },
           "captureUser": {
             "maxLength": 450,
@@ -23026,6 +24293,14 @@
             "format": "date-time",
             "xml": {
               "name": "FinalBookingDate"
+            }
+          },
+          "platformAssignedDate": {
+            "type": "string",
+            "description": "Platform assigned date records the official date when an invoice is accepted into an e-invoicing system. This is needed as the official date might differ from the date an invoice is received in Medius. This is used to determine when VAT should be recognized.",
+            "format": "date-time",
+            "xml": {
+              "name": "PlatformAssignedDate"
             }
           },
           "currencyCode": {
@@ -23229,6 +24504,32 @@
             "format": "date-time",
             "xml": {
               "name": "VatDate"
+            }
+          },
+          "preApprovedReference": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Indicates the pre-approved invoice reference imported from the invoice. This value is only used when pre-approved invoices are allowed and configured. For configuration details, see [Success portal](https://success.medius.com/documentation/administration_guide/administration_pages/pre-approved_invoices/#pre-approved-invoices-configuration).",
+            "xml": {
+              "name": "PreApprovedReference"
+            }
+          },
+          "addressInformation": {
+            "type": "array",
+            "xml": {
+              "name": "Addressinformation",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/EdiAddressInformationDto"
+            }
+          },
+          "prepaymentCategory": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "Category for pre payments. Need to match values created in Medius AP Automation.",
+            "xml": {
+              "name": "PrepaymentCategory"
             }
           },
           "customField_Text1": {
@@ -23753,6 +25054,67 @@
           "name": "EdiCustomTaxField"
         }
       },
+      "EdiAddressInformationDto": {
+        "type": "object",
+        "description": "You can use `addressInfomration` to ensure accurate shipment tracking, financial reporting and it aids in applying correct tax rates and compliance at invoice posting to your ERP.",
+        "properties": {
+          "addressType": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "The address type can be either `ShipTo` or `ShipFrom`. Only one set of address per address type.",
+            "xml": {
+              "name": "AddressType"
+            },
+            "enum": [
+              "ShipTo",
+              "ShipFrom"
+            ]
+          },
+          "street": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Street",
+            "xml": {
+              "name": "Street"
+            }
+          },
+          "city": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "City",
+            "xml": {
+              "name": "City"
+            }
+          },
+          "state": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "State",
+            "xml": {
+              "name": "State"
+            }
+          },
+          "postalCode": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "PostalCode",
+            "xml": {
+              "name": "PostalCode"
+            }
+          },
+          "country": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "Country",
+            "xml": {
+              "name": "Country"
+            }
+          }
+        },
+        "xml": {
+          "name": "AddressInformation"
+        }
+      },
       "EdiCompanyIdentifierDto": {
         "type": "object",
         "properties": {
@@ -23909,8 +25271,7 @@
           "payeeZipOrPostalCode",
           "paymentAmount",
           "paymentCurrencyCode",
-          "payorBankAccountIdentifier",
-          "voucherNumber"
+          "payorBankAccountIdentifier"
         ],
         "type": "object",
         "description": "**Use this schema for US Companies**",
@@ -23936,7 +25297,7 @@
           "invoiceVoucherNumber": {
             "maxLength": 50,
             "type": "string",
-            "description": "Invoice voucher number from ERP, used to match the payment against an invoice posted in AP Automation",
+            "description": "Invoice voucher number assigned in the ERP.",
             "example": "2419c142-c405-4753-bb2f-5fbec5937556",
             "xml": {
               "name": "InvoiceVoucherNumber"
@@ -23959,13 +25320,13 @@
               "name": "PayeeId"
             }
           },
-          "remitToID": {
+          "remitToId": {
             "maxLength": 50,
             "type": "string",
             "description": "Identifier for a different remittance number or name for a payee (payees with multiple locations).",
             "example": "345123R",
             "xml": {
-              "name": "RemitToID"
+              "name": "RemitToId"
             }
           },
           "payeeName": {
@@ -24104,15 +25465,6 @@
               "name": "PayorBankAccountIdentifier"
             }
           },
-          "payorLocationIdentifier": {
-            "type": "string",
-            "description": "[Deprecated field. The field will be ignored by new customers and removed by the end of December 2024.] Legal entity, department, branch office, etc.",
-            "example": "1",
-            "deprecated": true,
-            "xml": {
-              "name": "PayorLocationIdentifier"
-            }
-          },
           "comment": {
             "maxLength": 80,
             "type": "string",
@@ -24222,10 +25574,10 @@
             }
           },
           "payeeContactEmail": {
-            "maxLength": 320,
+            "maxLength": 1300,
             "type": "string",
-            "description": "Used to send confirmation email to payee. Required for international payments",
-            "example": "email@email.com",
+            "description": "Comma-separated list of up to 4 email addresses (maximum 254 characters each). Used to send remittance emails to payees.",
+            "example": "email1@example.com, email2@example.com",
             "xml": {
               "name": "PayeeContactEmail"
             }
@@ -24256,6 +25608,15 @@
             "xml": {
               "name": "DiscountCurrencyCode"
             }
+          },
+          "importedCheckNumber": {
+            "maxLength": 10,
+            "type": "string",
+            "description": "The ImportedCheckNumber, or check number, from the customer's ERP system will be displayed on the remittance advice. Note: If not specified, an error will occur during the batch import process. When provided during the payment process, a single check number will be used for all invoices paid to one payee.",
+            "example": "0000007455",
+            "xml": {
+              "name": "ImportedCheckNumber"
+            }
           }
         },
         "xml": {
@@ -24275,8 +25636,7 @@
           "payeeName",
           "paymentAmount",
           "paymentCurrencyCode",
-          "payorBankAccountIdentifier",
-          "voucherNumber"
+          "payorBankAccountIdentifier"
         ],
         "type": "object",
         "description": "**Use this schema for EU Companies**",
@@ -24302,7 +25662,7 @@
           "invoiceVoucherNumber": {
             "maxLength": 50,
             "type": "string",
-            "description": "Invoice voucher number from ERP, used to match the payment against an invoice posted in AP Automation",
+            "description": "Invoice voucher number assigned in the ERP.",
             "example": "2419c142-c405-4753-bb2f-5fbec5937556",
             "xml": {
               "name": "InvoiceVoucherNumber"
@@ -24325,13 +25685,13 @@
               "name": "PayeeId"
             }
           },
-          "remitToID": {
+          "remitToId": {
             "maxLength": 50,
             "type": "string",
             "description": "Identifier for a different remittance number or name for a payee (payees with multiple locations or bank accounts). Restricted characters: /  ? # | ",
             "example": "345123R",
             "xml": {
-              "name": "RemitToID"
+              "name": "RemitToId"
             }
           },
           "payeeName": {
@@ -24346,7 +25706,7 @@
           "payeeStreetLine1": {
             "maxLength": 34,
             "type": "string",
-            "description": "Street address of the payee. __Note:__ required for international payments.",
+            "description": "Street address of the payee.\n\n __Note:__ required for:\n* international payments.\n* US domestic payments.",
             "example": "3346 Pagac Union",
             "xml": {
               "name": "PayeeStreetLine1"
@@ -24364,7 +25724,7 @@
           "payeeCity": {
             "maxLength": 35,
             "type": "string",
-            "description": "City of the payee. __Note:__ required for international payments.",
+            "description": "City of the payee.\n\n __Note:__ required for:\n* international payments.\n* US domestic payments.",
             "example": "Lake Miller",
             "xml": {
               "name": "PayeeCity"
@@ -24373,7 +25733,7 @@
           "payeeZipOrPostalCode": {
             "maxLength": 16,
             "type": "string",
-            "description": "Zip or Postal Code of the payee. __Note:__ required for international payments.",
+            "description": "Zip or Postal Code of the payee.\n\n __Note:__ required for:\n* international payments.\n* US domestic payments.",
             "example": "89262-8263",
             "xml": {
               "name": "PayeeZipOrPostalCode"
@@ -24382,7 +25742,7 @@
           "payeeStateCode": {
             "maxLength": 2,
             "type": "string",
-            "description": "State code of the payee. The country subdivision code, ISO 3166-2. __Note:__ required for international payments.",
+            "description": "State code of the payee. The country subdivision code, ISO 3166-2.\n\n __Note:__ required for:\n* international payments.\n* US domestic payments.\n* Canadian domestic payments.",
             "example": "RI",
             "xml": {
               "name": "PayeeStateCode"
@@ -24463,7 +25823,7 @@
           "comment": {
             "maxLength": 80,
             "type": "string",
-            "description": "Comment for invoice from payor accounting system for information purposes during batch authorization process.",
+            "description": "Payment related comment to supplier, presented on checks and remittance advice.",
             "example": "Comment for payee",
             "xml": {
               "name": "Comment"
@@ -24544,7 +25904,7 @@
           "payeeRoutingNumber": {
             "maxLength": 35,
             "type": "string",
-            "description": "Required field when basic account number provided in payeeAccountNumber field. Optional if IBAN provided. This could be known as RoutingNumber, BranchCode, ABA number, transit number, MICR, IFSC, etc. Required for international payments in some countries.",
+            "description": "When basic bank account number (BBAN) is provided in `payeeAccountNumber` field, the need of `payeeRoutingNumber` depends on the specific requirements of the country and the bank involved.\n\n Optional if IBAN provided.\n\n Required for international payments in some countries.\n\n This could be known as RoutingNumber, BranchCode, ABA number, transit number, MICR, IFSC, etc. Required for international payments in some countries.",
             "example": "202020",
             "xml": {
               "name": "PayeeRoutingNumber"
@@ -24560,11 +25920,20 @@
               "name": "PayeeBankSwiftCode"
             }
           },
-          "payeeContactEmail": {
-            "maxLength": 320,
+          "purposeOfPayment": {
+            "maxLength": 50,
             "type": "string",
-            "description": "Used to send confirmation email to payee.",
-            "example": "email@email.com",
+            "description": "Purpose of payment. Required for international payment to some countries.",
+            "example": "BillPayment",
+            "xml": {
+              "name": "PurposeOfPayment"
+            }
+          },
+          "payeeContactEmail": {
+            "maxLength": 1300,
+            "type": "string",
+            "description": "Comma-separated list of up to 4 email addresses (maximum 254 characters each). Used to send remittance emails to payees.",
+            "example": "email1@example.com, email2@example.com",
             "xml": {
               "name": "PayeeContactEmail"
             }
@@ -24659,8 +26028,9 @@
           },
           "status": {
             "type": "string",
-            "description": "Possible statuses, see list.",
+            "description": "Available for backwards compatibility. Possible statuses, see list.",
             "example": "AwaitingApproval",
+            "deprecated": true,
             "xml": {
               "name": "Status"
             },
@@ -24815,7 +26185,7 @@
             "maxLength": 50,
             "type": "string",
             "description": "Payment method",
-            "example": "Wire transfer",
+            "example": "Wire",
             "xml": {
               "name": "PaymentMethod"
             }
@@ -24853,13 +26223,17 @@
             "enum": [
               "AwaitingApproval",
               "SentForPayment",
+              "Scheduled",
               "Rejected",
               "PaymentInProgress",
               "ReadyForPayment",
               "Paid",
               "PaymentFailed",
               "ReloadingPaymentInformation",
-              "Issued"
+              "Issued",
+              "Processing",
+              "Expired",
+              "Voided"
             ]
           },
           "checkNumber": {
@@ -24993,6 +26367,16 @@
           },
           "email": {
             "type": "string",
+            "nullable": true,
+            "deprecated": true,
+            "description": "This will still work for existing customers, but will contain only the first of potentially multiple email addresses"
+          },
+          "emails": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false
+            },
             "nullable": true
           },
           "workNumber": {
@@ -25188,6 +26572,14 @@
       "SupplierIntegrationAddressBookDto": {
         "type": "object",
         "properties": {
+          "supplierManagementId": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalAddressId": {
+            "type": "string",
+            "nullable": true
+          },
           "isActive": {
             "type": "boolean"
           },
@@ -25267,6 +26659,13 @@
           },
           "status": {
             "type": "string",
+            "description": "Status of the company relationship: Pending, Active, or Inactive",
+            "nullable": true
+          },
+          "isActive": 
+          {
+            "type": "boolean",
+            "description": "True if the company relationship is Pending or Active; otherwise, false.",
             "nullable": true
           },
           "paymentTerms": {
@@ -25292,6 +26691,174 @@
           "taxIdType": {
             "type": "string",
             "nullable": true
+          },
+          "paymentDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompanyRelationshipPaymentDetailsDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompanyRelationshipPaymentDetailsDto": {
+        "type": "object",
+        "properties": {
+          "supplierManagementId": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalPaymentDetailId": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": 
+          {
+            "type": "boolean",
+            "nullable": true
+          },
+          "paymentDetailId": {
+            "type": "string",
+            "nullable": true
+          },
+          "remitToId": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine1": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine2": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "postCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "stateCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryISO2": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryISO3": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryNumeric": {
+            "type": "string",
+            "nullable": true
+          },
+          "currencyCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankName": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountOwnerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankAddressLine1": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankAddressLine2": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankCity": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankCountry": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankCountryISO2": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankCountryISO3": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankCountryNumeric": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankPostCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "iban": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankGiroNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "routingNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "routingNumberType": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankSwiftCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactEmail": {
+            "type": "string",
+            "nullable": true,
+            "deprecated": true,
+            "description": "This will still work for existing customers, but will contain only the first of potentially multiple email addresses"
+          },
+          "contactEmails": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": false
+            },
+            "nullable": true
+          },
+          "paymentMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "default": {
+            "type": "boolean",
+            "description": "Indicates whether this payment detail is the default for the company relationship."
           }
         },
         "additionalProperties": false
@@ -25301,7 +26868,8 @@
         "properties": {
           "question": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "question or field are human-readable and may change"
           },
           "answer": {
             "type": "string",
@@ -25313,6 +26881,11 @@
               "type": "string"
             },
             "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true,
+            "description": "code is intended for stable integration mapping"
           }
         },
         "additionalProperties": false
@@ -25333,6 +26906,13 @@
             "type": "string",
             "nullable": true
           },
+          "addresses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AddressPairDto"
+            },
+            "nullable": true
+          },
           "companyRelationships": {
             "type": "array",
             "items": {
@@ -25343,14 +26923,53 @@
         },
         "additionalProperties": false
       },
+      "AddressPairDto": {
+        "type": "object",
+        "properties": {
+          "supplierManagementId": {
+            "type": "string",
+            "nullable": false
+          },
+          "externalAddressId": {
+            "type": "string",
+            "nullable": false
+          }
+        },
+        "additionalProperties": false
+      },
       "CompanyRelationshipPairDto": {
         "type": "object",
         "properties": {
+          "supplierManagementId": {
+            "type": "string",
+            "nullable": false
+          },
           "supplierId": {
             "type": "string",
             "nullable": false
           },
           "companyId": {
+            "type": "string",
+            "nullable": false
+          },
+          "paymentDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompanyRelationshipPaymentDetailsPairDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompanyRelationshipPaymentDetailsPairDto": {
+        "type": "object",
+        "properties": {
+          "supplierManagementId": {
+            "type": "string",
+            "nullable": false
+          },
+          "externalPaymentDetailId": {
             "type": "string",
             "nullable": false
           }
@@ -25366,6 +26985,253 @@
               "type": "string"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetPaymentIntegrationsResultDto": {
+        "type": "object",
+        "properties": {
+          "payments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentIntegrationUrlDto"
+            },
+            "nullable": false
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int32",
+            "example": 0
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32",
+            "example": 10
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32",
+            "example": 10
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentIntegrationUrlDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "nullable": false,
+            "example": "https://api.medius.com/tenant1/integration/message/v1/payments/1",
+            "description": "URL that can be use GET payment details. 'tenant1' is place for tenant"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentIntegrationInvoicesDto": {
+        "type": "object",
+        "properties": {
+          "correlationId": {
+            "type": "string",
+            "nullable": false,
+            "example": "1",
+            "description": "Sequential number, unique identifier of message"
+          },
+          "items": {
+            "type": "array",
+            "description": "Collection of items. Item represents single payment, all invoices are paid within single payment",
+            "items": {
+              "$ref": "#/components/schemas/PaymentItemsStatusDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentItemsStatusDto": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "nullable": false,
+            "example": "123456",
+            "description": "End-to-end ID or Checknumber."
+          },
+          "status": {
+            "type": "string",
+            "nullable": false,
+            "example": "Paid",
+            "description": "Paid or Issued depending on the configuration"
+          },
+          "paymentDate": {
+            "type": "string",
+            "nullable": false,
+            "example": "2019-01-29",
+            "description": "Payment date or Issued date depending on configuration"
+          },
+          "postingDate": {
+            "type": "string",
+            "nullable": false,
+            "example": "2019-02-01",
+            "description": "Current day for new messages In case of error returned from ERP, user can change it and create new message"
+          },
+          "paidAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": false,
+            "example": "123456",
+            "description": "Sum of PaymentAmount from all invoices"
+          },
+          "payeeId": {
+            "type": "string",
+            "nullable": false,
+            "example": "1234",
+            "description": "PayeeId"
+          },
+          "currency": {
+            "type": "string",
+            "nullable": false,
+            "example": "USD",
+            "description": "PaymentAmount currency"
+          },
+          "companyId": {
+            "type": "string",
+            "nullable": false,
+            "example": "MED",
+            "description": "PayorCompanyId"
+          },
+          "methodOfPaymentErpId": {
+            "type": "string",
+            "nullable": false,
+            "example": "Bank",
+            "description": "ERP payment method mapped in bank account configuration"
+          },
+          "fundingBankAccountId": {
+            "type": "string",
+            "nullable": false,
+            "example": "MED-1234",
+            "description": "Bank account identifier"
+          },
+          "fundingBankAccountType": {
+            "type": "string",
+            "nullable": false,
+            "example": "BankAccount",
+            "description": "Bank account type. Possible values are BankAccount and GLAccount"
+          },
+          "currencyRate": {
+            "type": "string",
+            "nullable": true,
+            "example": "0,000000",
+            "description": "Currency rate of payment when funding bank account currency != payment amount currency"
+          },
+          "isPrintCheck": {
+            "type": "boolean",
+            "nullable": false,
+            "description": "Indicates whether the payment was performed via payment method Check"
+          },
+          "invoices": {
+            "type": "array",
+            "description": "Collection of invoices that belong to given payment",
+            "items": {
+              "$ref": "#/components/schemas/PaymentInvoicesDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentInvoicesDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": false,
+            "example": "DebitInvoice",
+            "description": "DebitInvoice when paymentAmount>=0, CreditInvoice when paymentAmount<0"
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "nullable": false,
+            "example": "11234",
+            "description": "Invoice number"
+          },
+          "invoiceDate": {
+            "type": "string",
+            "nullable": false,
+            "example": "2019-01-01",
+            "description": "Invoice date"
+          },
+          "supplierId": {
+            "type": "string",
+            "nullable": false,
+            "example": "1234",
+            "description": "PayeeId"
+          },
+          "companyId": {
+            "type": "string",
+            "nullable": false,
+            "example": "MED",
+            "description": "InvoiceCompanyId"
+          },
+          "voucherNumber": {
+            "type": "string",
+            "nullable": false,
+            "example": "MED-900001",
+            "description": "InvoiceVoucherNumber"
+          },
+          "invoiceAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": false,
+            "example": 100,
+            "description": "Invoice amount. Should be negative value in case of credit notes"
+          },
+          "discountAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "example": 0,
+            "description": "Discount amount. 0 if not set"
+          },
+          "paidAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": false,
+            "example": 100,
+            "description": "Payment amount"
+          },
+          "documentType": {
+            "type": "string",
+            "nullable": true,
+            "example": "EXPENSE",
+            "description": "Document type. Possible values are EXPENSE, ORDER_BASED, CONTRACT_BASED, PAYMENT_REQUEST, PREPAYMENT"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentIntegrationSuccessDto": {
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "nullable": false,
+            "example": "abc-12345",
+            "description": "Payment journal id"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentIntegrationErrorDto": {
+        "type": "object",
+        "properties": {
+          "errorMessages": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "error message",
+              "nullable": false,
+              "description": "Error message that informs about reason of rejection of payments"
+            },
+            "nullable": false
           }
         },
         "additionalProperties": false

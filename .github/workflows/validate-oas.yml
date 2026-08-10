@@ -13,14 +13,6 @@ jobs:
         uses: swaggerexpert/swagger-editor-validate@v1
         with:
           definition-file: WebAPI/HttpREST/medius-openAPI.json
-      - name: Validate OpenAPI definition pay-EU-openAPI
-        uses: swaggerexpert/swagger-editor-validate@v1
-        with:
-          definition-file: WebAPI/HttpREST/pay-EU-openAPI.json
-      - name: Validate OpenAPI definition pay-US-openAPI
-        uses: swaggerexpert/swagger-editor-validate@v1
-        with:
-          definition-file: WebAPI/HttpREST/pay-US-openAPI.json
       - name: Validate OpenAPI definition s2c-openAPI
         uses: swaggerexpert/swagger-editor-validate@v1
         with:
