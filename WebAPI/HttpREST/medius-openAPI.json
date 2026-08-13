@@ -12429,6 +12429,7 @@
           },
           "orderType": {
             "type": "string",
+            "description": "The name of the purchase order type configured for this order. Built-in values: \"T\" = external (imported from ERP), \"M\" = internal (Procurement module). Additional types may be present if custom order types have been configured in the Order Types admin page.",
             "xml": {
               "name": "OrderType"
             }
@@ -12736,6 +12737,7 @@
           },
           "orderType": {
             "type": "string",
+            "description": "The name of the purchase order type configured for this order line. Always populated - either set explicitly when the line was imported, or defaulted from the order header. Built-in values: \"T\" = external (imported from ERP), \"M\" = internal (Procurement module). Additional types may be present if custom order types have been configured in the Order Types admin page.",
             "xml": {
               "name": "OrderType"
             }
@@ -13923,14 +13925,10 @@
           },
           "orderType": {
             "type": "string",
-            "description": "If the order should be treated as internal or external order in Medius. T=external (default), M=internal.",
+            "description": "The name of the purchase order type, as configured in the Order Types admin page. Matched case-insensitively against active order types defined on the order's company or on any ancestor company in the company hierarchy; the most specific match wins. Order types in the adjustment request category cannot be set via import, regardless of their name. Defaults to \"T\" when omitted - note that on update this resets the order type to \"T\" rather than preserving the current value. Changing the order type is rejected if any line on the order is connected to an invoice in workflow. Built-in values: \"T\" = external (imported from ERP, default), \"M\" = internal (Procurement module). Additional types can be configured and referenced by their name.",
             "xml": {
               "name": "OrderType"
-            },
-            "enum": [
-              "T",
-              "M"
-            ]
+            }
           },
           "externalSystemMetadata": {
             "type": "array",
@@ -14323,14 +14321,10 @@
           },
           "orderType": {
             "type": "string",
-            "description": "If the order line should be treated as internal or external order line in Medius. T=external (default), M=internal.",
+            "description": "The name of the purchase order type for this line, as configured in the Order Types admin page. Matched case-insensitively against active order types defined on the order's company or on any ancestor company in the company hierarchy; the most specific match wins. Order types in the adjustment request category cannot be set via import, regardless of their name. When omitted, falls back to the header orderType, or to \"T\" if the header also omits it - note that on update this resets the line to the header type rather than preserving the current value. Changing the order type is rejected if the line is connected to an invoice in workflow. Built-in values: \"T\" = external (imported from ERP, default), \"M\" = internal (Procurement module). Additional types can be configured and referenced by their name.",
             "xml": {
               "name": "OrderType"
-            },
-            "enum": [
-              "T",
-              "M"
-            ]
+            }
           },
           "additionalItemNumbers": {
             "type": "array",
@@ -21455,6 +21449,14 @@
               "name": "PurchaseOrderLineNumber"
             }
           },
+          "purchaseOrderType": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "The name of the purchase order type associated with the connected purchase order line, as configured in the Order Types admin page (e.g. \"T\" for external, \"M\" for internal, or a custom type name).",
+            "xml": {
+              "name": "PurchaseOrderType"
+            }
+          },
           "itemNumber": {
             "maxLength": 450,
             "type": "string",
@@ -21514,7 +21516,7 @@
           "orderType": {
             "maxLength": 450,
             "type": "string",
-            "description": "Type of connected purchase order line. Internal - when connected line are from Procurement module, External - when connected line are imported from ERP.",
+            "description": "Category of the order type on this connected purchase order line. \"Internal\" when the line's order type is in the Procurement module or adjustment request category, \"External\" when it is in the imported-from-ERP category. See purchaseOrderType for the specific order type name.",
             "xml": {
               "name": "OrderType"
             }
