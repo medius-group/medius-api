@@ -7579,6 +7579,7 @@
 													"supplierBankName": "NatWest",
 													"supplierBankSwiftCode": "NWBKGB2L",
 													"supplierBankGiroNumber": null,
+													"supplierPlusGiroNumber": null,
 													"supplierContactEmails": ["remittance@acme.com", "accounts@acme.com"],
 													"supplierStreetLine1": "1 High Street",
 													"supplierStreetLine2": "Suite 4",
