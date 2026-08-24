@@ -13925,7 +13925,7 @@
           },
           "orderType": {
             "type": "string",
-            "description": "The name of the purchase order type, as configured in the Order Types admin page. Matched case-insensitively against active order types defined on the order's company or on any ancestor company in the company hierarchy; the most specific match wins. Order types in the adjustment request category cannot be set via import, regardless of their name. Defaults to \"T\" when omitted - note that on update this resets the order type to \"T\" rather than preserving the current value. Changing the order type is rejected if any line on the order is connected to an invoice in workflow. Built-in values: \"T\" = external (imported from ERP, default), \"M\" = internal (Procurement module). Additional types can be configured and referenced by their name.",
+            "description": "The name of the purchase order type, as configured in the Purchase order type admin page. Matched case-insensitively against active types on the purchase order's company or any ancestor company. Types in the adjustment request category cannot be set via import. Omitting this field defaults to the system purchase order type \"T\". Changing the order type is rejected if any line on the order has an open invoice connected in the workflow.",
             "xml": {
               "name": "OrderType"
             }
@@ -14321,7 +14321,7 @@
           },
           "orderType": {
             "type": "string",
-            "description": "The name of the purchase order type for this line, as configured in the Order Types admin page. Matched case-insensitively against active order types defined on the order's company or on any ancestor company in the company hierarchy; the most specific match wins. Order types in the adjustment request category cannot be set via import, regardless of their name. When omitted, falls back to the header orderType, or to \"T\" if the header also omits it - note that on update this resets the line to the header type rather than preserving the current value. Changing the order type is rejected if the line is connected to an invoice in workflow. Built-in values: \"T\" = external (imported from ERP, default), \"M\" = internal (Procurement module). Additional types can be configured and referenced by their name.",
+            "description": "The name of the purchase order type, as configured in the Purchase order type admin page. Matched case-insensitively against active types on the purchase order's company or any ancestor company. Types in the adjustment request category cannot be set via import. When omitted, it falls back to the header orderType, if that is also omitted — on update, this resets the line to the header value rather than preserving the current value. Changing the order type is rejected if the line has an open invoice in workflow.",
             "xml": {
               "name": "OrderType"
             }
