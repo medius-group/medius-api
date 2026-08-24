@@ -7579,6 +7579,7 @@
 													"supplierBankName": "NatWest",
 													"supplierBankSwiftCode": "NWBKGB2L",
 													"supplierBankGiroNumber": null,
+													"supplierPlusGiroNumber": null,
 													"supplierContactEmails": ["remittance@acme.com", "accounts@acme.com"],
 													"supplierStreetLine1": "1 High Street",
 													"supplierStreetLine2": "Suite 4",
@@ -19132,6 +19133,14 @@
               "name": "BankgiroNumber"
             }
           },
+          "plusgiroNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The Swedish Plusgiro number of the payee bank.",
+            "xml": {
+              "name": "PlusgiroNumber"
+            }
+          },
           "routingNumber": {
             "type": "string",
             "maxLength": 450,
@@ -26923,6 +26932,11 @@
             "type": "string",
             "nullable": true
           },
+          "plusGiroNumber": {
+            "type": "string",
+            "nullable": true,
+            "description": "Swedish Plusgiro number."
+          },
           "routingNumber": {
             "type": "string",
             "nullable": true
@@ -27827,6 +27841,12 @@
 						"nullable": true,
 						"description": "Bank giro number.",
 						"example": "1234567"
+					},
+					"supplierPlusGiroNumber": {
+						"type": "string",
+						"nullable": true,
+						"description": "Swedish Plusgiro number.",
+						"example": "1234567-8"
 					},
 					"supplierContactEmails": {
 						"type": "array",
