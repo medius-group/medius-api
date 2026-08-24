@@ -630,7 +630,7 @@
         }
       }
     },
-    "/integration/ereporting/v1/b2bInternationalInvoice": {
+    "/integration/eReporting/v1/b2bInternationalInvoice": {
       "post": {
         "tags": [
           "E-Reporting"
@@ -659,7 +659,7 @@
                       "invoiceDueDate": "2026-03-16",
                       "type": "380",
                       "processType": "B1",
-                      "taxPaymentOption": "INVOICE_DATE",
+                      "taxPaymentCode": null,
                       "notes": null,
                       "referencedDocuments": null,
                       "monetary": {
@@ -750,7 +750,7 @@
                       "invoiceDueDate": "2026-03-16",
                       "type": "380",
                       "processType": "B1",
-                      "taxPaymentOption": "INVOICE_DATE",
+                      "taxPaymentCode": null,
                       "notes": null,
                       "referencedDocuments": null,
                       "monetary": {
@@ -841,7 +841,7 @@
                       "invoiceDueDate": "2026-03-16",
                       "type": "380",
                       "processType": "B1",
-                      "taxPaymentOption": "INVOICE_DATE",
+                      "taxPaymentCode": null,
                       "notes": null,
                       "referencedDocuments": null,
                       "monetary": {
@@ -988,7 +988,7 @@
         }
       }
     },
-    "/integration/ereporting/v1/b2bInternationalPayment": {
+    "/integration/eReporting/v1/b2bInternationalPayment": {
       "post": {
         "tags": [
           "E-Reporting"
@@ -1103,7 +1103,7 @@
         }
       }
     },
-    "/integration/ereporting/v1/b2cPaymentsAggregate": {
+    "/integration/eReporting/v1/b2cPaymentsAggregate": {
       "post": {
         "tags": [
           "E-Reporting"
@@ -1218,7 +1218,7 @@
         }
       }
     },
-    "/integration/ereporting/v1/b2cTransactionsAggregate": {
+    "/integration/eReporting/v1/b2cTransactionsAggregate": {
       "post": {
         "tags": [
           "E-Reporting"
@@ -2926,13 +2926,11 @@
         "required": [
           "buyer",
           "invoiceDate",
-          "invoiceDueDate",
           "invoiceNumber",
           "monetary",
           "processType",
           "seller",
           "taxDetails",
-          "taxPaymentOption",
           "type"
         ],
         "type": "object",
@@ -2947,7 +2945,8 @@
           },
           "invoiceDueDate": {
             "type": "string",
-            "description": "[TT-201] Invoice due date. Payment due date. ISO 8601 format YYYY-MM-DD."
+            "description": "[TT-201] Invoice due date. Payment due date. ISO 8601 format YYYY-MM-DD. Optional.",
+            "nullable": true
           },
           "type": {
             "enum": [
@@ -2989,14 +2988,19 @@
             "type": "string",
             "description": "[TT-28] Business process type (billing framework). Identifies the business context of the\ntransaction. B=goods, S=services, M=mixed."
           },
-          "taxPaymentOption": {
+          "taxPaymentCode": {
             "enum": [
-              "INVOICE_DATE",
-              "DELIVERY_DATE",
-              "PAYMENT_DATE"
+              3,
+              5,
+              29,
+              35,
+              72,
+              432
             ],
-            "type": "string",
-            "description": "[TT-24] VAT due date. Specifies when VAT becomes chargeable (BT-8). Required when the SIREN\napplies cash-basis VAT."
+            "type": "integer",
+            "format": "int32",
+            "description": "[TT-24] VAT due date code (BT-8, UNCL2475). Specifies when VAT becomes chargeable.\n3 / 5 = invoice date, 29 / 35 = delivery date, 72 / 432 = payment date.",
+            "nullable": true
           },
           "notes": {
             "type": "array",
@@ -4455,10 +4459,12 @@
         "type": "object",
         "properties": {
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "Human-readable explanation of why the request was rejected."
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Error response returned when a request is rejected."
       }
     },
     "securitySchemes": {
