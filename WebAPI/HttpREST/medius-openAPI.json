@@ -7506,6 +7506,104 @@
         }
       }
     },
+    "/integration/masterdata/v1/paymentDetails": {
+			"get": {
+				"tags": ["Supplier Onboarding: Suppliers synchronization"],
+				"summary": "Master data export of payment details for supplier-company relationships updated since a given time.",
+				"description": "Returns payment detail records for supplier-company relationships whose updatedSince is strictly greater than the supplied updatedSince value. Results are paged with offset/limit.",
+				"operationId": "PaymentDetailsExport_Get",
+				"parameters": [
+					{
+						"name": "updatedSince",
+						"in": "query",
+						"required": false,
+						"description": "Return only records whose updatedSince is strictly after this timestamp. Omit to return all records.",
+						"schema": { "type": "string", "format": "date-time", "example": "2024-01-01T00:00:00Z" }
+					},
+					{
+						"name": "erp",
+						"in": "query",
+						"required": false,
+						"description": "Filter results to a single ERP identifier.",
+						"schema": { "type": "string", "example": "ERP-001" }
+					},
+					{
+						"name": "offset",
+						"in": "query",
+						"required": false,
+						"description": "Zero-based index of the first record to return. Defaults to 0.",
+						"schema": { "type": "integer", "default": 0, "minimum": 0, "example": 0 }
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"required": false,
+						"description": "Maximum number of records to return per page. Must be between 1 and 1000. Defaults to 100.",
+						"schema": { "type": "integer", "default": 100, "minimum": 1, "maximum": 1000, "example": 25 }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Paged export of payment details.",
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/PaymentDetailsExportResultDto" },
+								"example": {
+									"total": 142,
+									"offset": 0,
+									"limit": 25,
+									"paging": {
+										"next": "https://api.example.com/acme/integration/masterdata/v1/paymentDetails?offset=25&limit=25",
+										"previous": null
+									},
+									"items": [
+										{
+											"companyGlobalId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+											"supplierId": "SUPP-0042",
+											"supplierGlobalId": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+											"defaultPaymentMethod": "BACS",
+											"updatedSince": "2024-06-01T12:00:00+00:00",
+											"paymentDetails": [
+												{
+													"remitToId": "REMIT-001",
+													"paymentMethod": "BACS",
+													"active": true,
+													"default": true,
+													"urgentPayment": false,
+													"accountDescription": "Main trading account",
+													"supplierAccountOwnerName": "Acme Supplies Ltd",
+													"supplierAccountNumber": "12345678",
+													"supplierIban": "GB29NWBK60161331926819",
+													"supplierRoutingNumber": "60-16-13",
+													"supplierRoutingNumberType": "SortCode",
+													"supplierBankName": "NatWest",
+													"supplierBankSwiftCode": "NWBKGB2L",
+													"supplierBankGiroNumber": null,
+													"supplierPlusGiroNumber": null,
+													"supplierContactEmails": ["remittance@acme.com", "accounts@acme.com"],
+													"supplierStreetLine1": "1 High Street",
+													"supplierStreetLine2": "Suite 4",
+													"supplierCity": "London",
+													"supplierZipOrPostalCode": "EC1A 1BB",
+													"supplierStateCode": "ENG",
+													"supplierCountryCode": "GB",
+													"supplierBankStreetLine1": "250 Bishopsgate",
+													"supplierBankStreetLine2": null,
+													"supplierBankCity": "London",
+													"supplierBankCountryCode": "GB",
+													"companyIdInSupplierSystem": "CUST-99"
+												}
+											]
+										}
+									]
+								}
+							}
+						}
+					},
+					"400": { "description": "offset or limit value is invalid." }
+				}
+			}
+		},
     "/integration/documentImport/v1/PurchaseOrderDocument": {
       "post": {
         "tags": [
@@ -12429,6 +12527,7 @@
           },
           "orderType": {
             "type": "string",
+            "description": "The name of the purchase order type configured for this order. Built-in values: \"T\" = external (imported from ERP), \"M\" = internal (Procurement module). Additional types may be present if custom order types have been configured in the Order Types admin page.",
             "xml": {
               "name": "OrderType"
             }
@@ -12736,6 +12835,7 @@
           },
           "orderType": {
             "type": "string",
+            "description": "The name of the purchase order type configured for this order line. Always populated - either set explicitly when the line was imported, or defaulted from the order header. Built-in values: \"T\" = external (imported from ERP), \"M\" = internal (Procurement module). Additional types may be present if custom order types have been configured in the Order Types admin page.",
             "xml": {
               "name": "OrderType"
             }
@@ -13923,14 +14023,10 @@
           },
           "orderType": {
             "type": "string",
-            "description": "If the order should be treated as internal or external order in Medius. T=external (default), M=internal.",
+            "description": "The name of the purchase order type, as configured in the Purchase order type admin page. Matched case-insensitively against active types on the purchase order's company or any ancestor company. Types in the adjustment request category cannot be set via import. Omitting this field defaults to the system purchase order type \"T\". Changing the order type is rejected if any line on the order has an open invoice connected in the workflow.",
             "xml": {
               "name": "OrderType"
-            },
-            "enum": [
-              "T",
-              "M"
-            ]
+            }
           },
           "externalSystemMetadata": {
             "type": "array",
@@ -14323,14 +14419,10 @@
           },
           "orderType": {
             "type": "string",
-            "description": "If the order line should be treated as internal or external order line in Medius. T=external (default), M=internal.",
+            "description": "The name of the purchase order type, as configured in the Purchase order type admin page. Matched case-insensitively against active types on the purchase order's company or any ancestor company. Types in the adjustment request category cannot be set via import. When omitted, it falls back to the header orderType, if that is also omitted — on update, this resets the line to the header value rather than preserving the current value. Changing the order type is rejected if the line has an open invoice in workflow.",
             "xml": {
               "name": "OrderType"
-            },
-            "enum": [
-              "T",
-              "M"
-            ]
+            }
           },
           "additionalItemNumbers": {
             "type": "array",
@@ -19041,6 +19133,14 @@
               "name": "BankgiroNumber"
             }
           },
+          "plusgiroNumber": {
+            "type": "string",
+            "maxLength": 450,
+            "description": "**Passed to SO** - The Swedish Plusgiro number of the payee bank.",
+            "xml": {
+              "name": "PlusgiroNumber"
+            }
+          },
           "routingNumber": {
             "type": "string",
             "maxLength": 450,
@@ -21455,6 +21555,14 @@
               "name": "PurchaseOrderLineNumber"
             }
           },
+          "purchaseOrderType": {
+            "maxLength": 450,
+            "type": "string",
+            "description": "The name of the purchase order type associated with the connected purchase order line, as configured in the Order Types admin page (e.g. \"T\" for external, \"M\" for internal, or a custom type name).",
+            "xml": {
+              "name": "PurchaseOrderType"
+            }
+          },
           "itemNumber": {
             "maxLength": 450,
             "type": "string",
@@ -21514,7 +21622,7 @@
           "orderType": {
             "maxLength": 450,
             "type": "string",
-            "description": "Type of connected purchase order line. Internal - when connected line are from Procurement module, External - when connected line are imported from ERP.",
+            "description": "Category of the order type on this connected purchase order line. \"Internal\" when the line's order type is in the Procurement module or adjustment request category, \"External\" when it is in the imported-from-ERP category. See purchaseOrderType for the specific order type name.",
             "xml": {
               "name": "OrderType"
             }
@@ -26824,6 +26932,11 @@
             "type": "string",
             "nullable": true
           },
+          "plusGiroNumber": {
+            "type": "string",
+            "nullable": true,
+            "description": "Swedish Plusgiro number."
+          },
           "routingNumber": {
             "type": "string",
             "nullable": true
@@ -27557,7 +27670,258 @@
             "type": "string"
           }
         }
-      }
+      },
+      "PaymentDetailsExportResultDto": {
+				"type": "object",
+				"description": "Paged export of payment details for supplier-company relationships.",
+				"properties": {
+					"total": {
+						"type": "integer",
+						"description": "Total number of records matching the query across all pages.",
+						"example": 142
+					},
+					"offset": {
+						"type": "integer",
+						"description": "Zero-based index of the first record in this page.",
+						"example": 0
+					},
+					"limit": {
+						"type": "integer",
+						"description": "Maximum number of records returned per page.",
+						"example": 25
+					},
+					"paging": {
+						"$ref": "#/components/schemas/PaymentDetailsPagingDto"
+					},
+					"items": {
+						"type": "array",
+						"description": "The payment-detail relationships returned on this page.",
+						"items": { "$ref": "#/components/schemas/PaymentDetailRelationshipDto" }
+					}
+				}
+			},
+			"PaymentDetailsPagingDto": {
+				"type": "object",
+				"description": "Links to adjacent pages.",
+				"properties": {
+					"next": {
+						"type": "string",
+						"nullable": true,
+						"description": "URL of the next page, or null when this is the last page.",
+						"example": "https://api.example.com/acme/integration/masterdata/v1/paymentDetails?offset=25&limit=25"
+					},
+					"previous": {
+						"type": "string",
+						"nullable": true,
+						"description": "URL of the previous page, or null when this is the first page.",
+						"example": null
+					}
+				}
+			},
+			"PaymentDetailRelationshipDto": {
+				"type": "object",
+				"description": "Payment detail records for a single supplier-company relationship.",
+				"properties": {
+					"companyGlobalId": {
+						"type": "string",
+						"format": "uuid",
+						"description": "The global identifier of the buying company.",
+						"example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+					},
+					"supplierId": {
+						"type": "string",
+						"description": "The ERP-assigned supplier identifier within the company.",
+						"example": "SUPP-0042"
+					},
+					"supplierGlobalId": {
+						"type": "string",
+						"format": "uuid",
+						"description": "The global identifier of the supplier.",
+						"example": "7c9e6679-7425-40de-944b-e07fc1f90ae7"
+					},
+					"defaultPaymentMethod": {
+						"type": "string",
+						"nullable": true,
+						"description": "The default payment method assigned to this supplier-company relationship.",
+						"example": "BACS"
+					},
+					"updatedSince": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Timestamp of the most recent change to any payment detail in this relationship.",
+						"example": "2024-01-01T00:00:00Z"
+					},
+					"paymentDetails": {
+						"type": "array",
+						"description": "All payment detail records belonging to this relationship.",
+						"items": { "$ref": "#/components/schemas/PaymentDetailRecordDto" }
+					}
+				}
+			},
+			"PaymentDetailRecordDto": {
+				"type": "object",
+				"description": "A single payment detail record within a supplier-company relationship, keyed by remit-to ID.",
+				"properties": {
+					"remitToId": {
+						"type": "string",
+						"description": "The remit-to identifier used by the ERP to route payments to the correct account.",
+						"example": "REMIT-001"
+					},
+					"paymentMethod": {
+						"type": "string",
+						"nullable": true,
+						"description": "Payment method name (e.g. Wire). Null when none is assigned.",
+						"example": "Wire"
+					},
+					"active": {
+						"type": "boolean",
+						"description": "Whether this payment detail is currently active. Inactive records are still included.",
+						"example": true
+					},
+					"default": {
+						"type": "boolean",
+						"description": "Whether this is the default payment detail for the supplier-company relationship.",
+						"example": false
+					},
+					"urgentPayment": {
+						"type": "boolean",
+						"description": "Whether this payment detail is flagged for urgent payment processing.",
+						"example": false
+					},
+					"accountDescription": {
+						"type": "string",
+						"nullable": true,
+						"description": "Free-text description of the account.",
+						"example": "Main trading account"
+					},
+					"supplierAccountOwnerName": {
+						"type": "string",
+						"nullable": true,
+						"description": "Name of the account owner. Falls back to the supplier name if not explicitly set.",
+						"example": "Acme Supplies Ltd"
+					},
+					"supplierAccountNumber": {
+						"type": "string",
+						"nullable": true,
+						"description": "Bank account number.",
+						"example": "12345678"
+					},
+					"supplierIban": {
+						"type": "string",
+						"nullable": true,
+						"description": "IBAN.",
+						"example": "GB29NWBK60161331926819"
+					},
+					"supplierRoutingNumber": {
+						"type": "string",
+						"nullable": true,
+						"description": "Routing number (e.g. ABA routing number for US payments).",
+						"example": "026009593"
+					},
+					"supplierRoutingNumberType": {
+						"type": "string",
+						"nullable": true,
+						"description": "The type or scheme of the routing number (e.g. SortCode, ABA).",
+						"example": "SortCode"
+					},
+					"supplierBankName": {
+						"type": "string",
+						"nullable": true,
+						"description": "Name of the bank.",
+						"example": "NatWest"
+					},
+					"supplierBankSwiftCode": {
+						"type": "string",
+						"nullable": true,
+						"description": "SWIFT / BIC code.",
+						"example": "NWBKGB2L"
+					},
+					"supplierBankGiroNumber": {
+						"type": "string",
+						"nullable": true,
+						"description": "Bank giro number.",
+						"example": "1234567"
+					},
+					"supplierPlusGiroNumber": {
+						"type": "string",
+						"nullable": true,
+						"description": "Swedish Plusgiro number.",
+						"example": "1234567-8"
+					},
+					"supplierContactEmails": {
+						"type": "array",
+						"description": "Ordered list of contact email addresses. The first entry is the remittance advice email if set; subsequent entries are additional contact emails. Deduplicated case-insensitively.",
+						"items": { "type": "string", "format": "email" },
+						"example": ["remittance@acme.com", "accounts@acme.com"]
+					},
+					"supplierStreetLine1": {
+						"type": "string",
+						"nullable": true,
+						"description": "Payee address — street line 1.",
+						"example": "1 High Street"
+					},
+					"supplierStreetLine2": {
+						"type": "string",
+						"nullable": true,
+						"description": "Payee address — street line 2.",
+						"example": "Suite 4"
+					},
+					"supplierCity": {
+						"type": "string",
+						"nullable": true,
+						"description": "Payee address — city.",
+						"example": "London"
+					},
+					"supplierZipOrPostalCode": {
+						"type": "string",
+						"nullable": true,
+						"description": "Payee address — postcode / ZIP.",
+						"example": "EC1A 1BB"
+					},
+					"supplierStateCode": {
+						"type": "string",
+						"nullable": true,
+						"description": "Payee address — state or province code.",
+						"example": "NY"
+					},
+					"supplierCountryCode": {
+						"type": "string",
+						"nullable": true,
+						"description": "Payee address — ISO 2-letter country code.",
+						"example": "GB"
+					},
+					"supplierBankStreetLine1": {
+						"type": "string",
+						"nullable": true,
+						"description": "Bank address — street line 1.",
+						"example": "250 Bishopsgate"
+					},
+					"supplierBankStreetLine2": {
+						"type": "string",
+						"nullable": true,
+						"description": "Bank address — street line 2.",
+						"example": null
+					},
+					"supplierBankCity": {
+						"type": "string",
+						"nullable": true,
+						"description": "Bank address — city.",
+						"example": "London"
+					},
+					"supplierBankCountryCode": {
+						"type": "string",
+						"nullable": true,
+						"description": "Bank address — ISO 2-letter country code.",
+						"example": "GB"
+					},
+					"companyIdInSupplierSystem": {
+						"type": "string",
+						"nullable": true,
+						"description": "The identifier used by the supplier's own system for this company relationship, if known.",
+						"example": "CUST-99"
+					}
+				}
+			}      
     },
     "securitySchemes": {
       "mediusflowcloudauth": {
