@@ -41,7 +41,7 @@
     },
     {
       "name": "E-invoicing: Self-billing",
-      "description": "Self-billed e-invoices retrieval and integration status updates (BYOPA)"
+      "description": "Retrieval and integration status updates for self-billed e-invoices"
     },
     {
       "name": "Procurement: Purchase order import",
@@ -7714,24 +7714,26 @@
         "tags": [
           "E-invoicing: Status management"
         ],
-        "summary": "Get list of Pending status messages of E-Invoices. companyGlobalId as parameter.",
-        "description": "This method returns all pending e-invoice status messages. Use the returned URL to get the e-invoice message status. Items that have changed status to Processing, Error or Success are not be able to be retrieved.",
+        "summary": "Get pending e-invoice status messages for a company.",
+        "description": "Returns the e-invoice status messages that are still pending for the given company, as a list of absolute URLs. Follow each URL to read the status message itself. A message stops being returned once it has been moved to Processing or acknowledged as successful, so the list can be polled and drained. An unknown company is not an error: the response is `200` with an empty `messages` array.",
         "operationId": "GetListOfEInvoiceMessage",
         "parameters": [
           {
             "name": "companyGlobalId",
             "in": "query",
-            "description": "Company Global ID",
+            "description": "Global identifier of the company whose pending status messages should be returned. Must be a valid GUID.",
             "required": true,
             "schema": {
               "type": "string",
-              "nullable": false
+              "format": "uuid",
+              "nullable": false,
+              "example": "324819a0-dd34-41ba-bdb4-105cf5f8c33f"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "Pending status messages for the company.",
             "content": {
               "application/json": {
                 "schema": {
@@ -7741,7 +7743,7 @@
             }
           },
           "400": {
-            "description": "Server was unable to parse request. 400 status code with generic error is returned."
+            "description": "`companyGlobalId` is missing or is not a valid GUID."
           }
         }
       }
@@ -7751,15 +7753,15 @@
         "tags": [
           "E-invoicing: Status management"
         ],
-        "summary": "Get status message of E-Invoices.",
-        "description": "This method returns the E-Invoice message with all details available. To find available E-Invoices, use the GET method without {messageId}.",
+        "summary": "Get a single e-invoice status message.",
+        "description": "Returns the full status message, including the network status, the parties involved and the reasons and expected actions behind the status. To discover available messages, use the list endpoint without a `messageId`.",
         "operationId": "EInvoiceGetByMessageId",
         "parameters": [
           {
             "name": "messageId",
             "in": "path",
             "required": true,
-            "description": "unique identifier of message",
+            "description": "Unique identifier of the status message, as returned by the list endpoint.",
             "schema": {
               "type": "string",
               "format": "uuid",
@@ -7770,7 +7772,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "The status message.",
             "content": {
               "application/json": {
                 "schema": {
@@ -7780,10 +7782,17 @@
             }
           },
           "400": {
-            "description": "When server was unable to parse request. 400 status code with generic error is returned."
+            "description": "`messageId` is not a valid GUID."
           },
           "404": {
-            "description": "EInvoice message not found."
+            "description": "No status message exists with this identifier for the tenant.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EInvoiceIntegrationErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -7793,15 +7802,15 @@
         "tags": [
           "E-invoicing: Status management"
         ],
-        "summary": "Update processing status of the E-Invoice message to Processing",
-        "description": "POST a processing status. Updates status of message with given messageId to Processing indicating that message is processing. This is first possible status to set.",
+        "summary": "Mark an e-invoice status message as being processed.",
+        "description": "Marks the status message as fetched, indicating that the integration has picked it up and is processing it. This is the first transition an integrator can make and it is optional; the message can be acknowledged as successful directly. After a successful call the message no longer appears in the pending list.",
         "operationId": "EInvoiceUpdateMessageAsProcessing",
         "parameters": [
           {
             "name": "messageId",
             "in": "path",
             "required": true,
-            "description": "unique identifier of message",
+            "description": "Unique identifier of the status message, as returned by the list endpoint.",
             "schema": {
               "type": "string",
               "format": "uuid",
@@ -7812,13 +7821,20 @@
         ],
         "responses": {
           "204": {
-            "description": "Successfully updated the integration status to processing."
+            "description": "The status message was marked as being processed."
           },
           "400": {
-            "description": "When server was unable to parse request. 400 status code with generic error is returned."
+            "description": "`messageId` is not a valid GUID."
           },
           "404": {
-            "description": "EInvoice not found."
+            "description": "No status message exists with this identifier for the tenant.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EInvoiceIntegrationErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -7828,15 +7844,15 @@
         "tags": [
           "E-invoicing: Status management"
         ],
-        "summary": "Post confirmation on E-Invoice document status.",
-        "description": "POST a successful response.",
+        "summary": "Acknowledge an e-invoice status message as successfully processed.",
+        "description": "Acknowledges that the status message has been received and handled by the integration. It can be called directly, or after marking the message as being processed. After a successful call the message no longer appears in the pending list. The request has no body.",
         "operationId": "EInvoiceUpdateIntegrationAsSuccess",
         "parameters": [
           {
             "name": "messageId",
             "in": "path",
             "required": true,
-            "description": "unique identifier of message",
+            "description": "Unique identifier of the status message, as returned by the list endpoint.",
             "schema": {
               "type": "string",
               "format": "uuid",
@@ -7847,13 +7863,20 @@
         ],
         "responses": {
           "204": {
-            "description": "Successfully updated the integration status to success."
+            "description": "The status message was acknowledged."
           },
           "400": {
-            "description": "When server was unable to parse request, or status modification is not expected. 400 status code with generic error is returned."
+            "description": "`messageId` is not a valid GUID."
           },
           "404": {
-            "description": "EInvoice message not found."
+            "description": "No status message exists with this identifier for the tenant.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EInvoiceIntegrationErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -7863,45 +7886,34 @@
         "tags": [
           "E-invoicing: Status management"
         ],
-        "summary": "Post network status message for a specific company within the tenant.",
-        "description": "Post network status message for a specific company within the tenant.",
+        "summary": "Submit a network status update for an invoice.",
+        "description": "Submits a status update received from the e-invoicing network for an invoice already known to Medius. Identify the invoice with either `importTrackingId` or `externalId` - exactly one of the two is required. On success the original message is stored and the status becomes visible in invoice history and monitoring.",
         "operationId": "postEInvoiceNetworkStatusMessage",
         "parameters": [
           {
-            "name": "companyGlobalId",
+            "name": "importTrackingId",
             "in": "query",
-            "required": true,
+            "required": false,
+            "description": "Medius tracking id of the invoice the status refers to. Required unless `externalId` is supplied.",
             "schema": {
               "type": "string",
               "format": "uuid",
-              "example": "324819a0-dd34-41ba-bdb4-105cf5f8c33f"
-            },
-            "description": "Company global ID (must be a valid GUID)"
+              "example": "c5dc51d6-06da-4bbc-8323-d3e2e002a244"
+            }
           },
           {
             "name": "externalId",
             "in": "query",
             "required": false,
+            "description": "Identifier assigned by the sending system. Required unless `importTrackingId` is supplied.",
             "schema": {
               "type": "string",
-              "format": "uuid",
-              "example": "c5dc51d6-06da-4bbc-8323-d3e2e002a244"
-            },
-            "description": "Optional. **Required** if importTrackingId is not provided."
-          },
-          {
-            "name": "importTrackingId",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "example": "c5dc51d6-06da-4bbc-8323-d3e2e002a244"
-            },
-            "description": "Optional. **Required**  if externalId is not provided."
+              "example": "ERP-INV-2024-0001"
+            }
           }
         ],
         "requestBody": {
+          "description": "The network status update, including the original message as received.",
           "required": true,
           "content": {
             "application/json": {
@@ -7913,26 +7925,21 @@
         },
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "The status was accepted and queued for processing.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "description": "Confirmation that the status was accepted.",
+                  "required": [
+                    "messageId"
+                  ],
                   "properties": {
                     "messageId": {
                       "type": "string",
-                      "format": "uuid"
-                    }
-                  },
-                  "required": [
-                    "messageId"
-                  ]
-                },
-                "examples": {
-                  "createdExample": {
-                    "summary": "Networkstatus message created",
-                    "value": {
-                      "messageId": "a1b2c3d4-e5f6-7890-1234-567890abcdef"
+                      "format": "uuid",
+                      "description": "Confirmation identifier; echoes the submitted `messageId`.",
+                      "example": "a1b2c3d4-e5f6-7890-1234-567890abcdef"
                     }
                   }
                 }
@@ -7940,16 +7947,42 @@
             }
           },
           "400": {
-            "description": "Bad request",
+            "description": "Neither `importTrackingId` nor `externalId` was supplied, required status details are missing, or `originalMessage` could not be decoded. Nothing is stored."
+          },
+          "404": {
+            "description": "No invoice matches the supplied identifier within the tenant. Nothing is stored.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BadRequest"
+                  "type": "object",
+                  "description": "The invoice could not be resolved.",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Description of the failure.",
+                      "example": "Invoice not found"
+                    },
+                    "importTrackingId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "nullable": true,
+                      "description": "The tracking id that was supplied."
+                    },
+                    "externalId": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "The external id that was supplied."
+                    }
+                  }
                 }
               }
             }
+          },
+          "500": {
+            "description": "The invoice was found but has no associated company, so the status cannot be recorded."
           }
         },
+        "x-codegen-request-body-name": "networkStatus",
         "security": [
           {
             "mediusflowcloudauth": [
@@ -28474,580 +28507,534 @@
 					}
 				}
 			},
+      "EInvoiceIntegrationPartyIdentifier": {
+        "type": "object",
+        "description": "Network and registry identifiers of a trade party.",
+        "properties": {
+          "electronicAddress": {
+            "type": "string",
+            "nullable": true,
+            "example": "0009:123456789",
+            "description": "Electronic address of the party on the network."
+          },
+          "electronicAddressType": {
+            "type": "string",
+            "nullable": true,
+            "example": "0009",
+            "description": "Scheme identifier qualifying `electronicAddress`."
+          },
+          "partyIdentifier": {
+            "type": "string",
+            "nullable": true,
+            "example": "12345678900017",
+            "description": "Legal or registry identifier of the party."
+          },
+          "partyIdentifierType": {
+            "type": "string",
+            "nullable": true,
+            "example": "0002",
+            "description": "Scheme identifier qualifying `partyIdentifier`."
+          }
+        }
+      },
+      "EInvoiceIntegrationPartyContact": {
+        "type": "object",
+        "description": "Contact details of a trade party.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "example": "Jean Dupont",
+            "description": "Contact name."
+          },
+          "telephone": {
+            "type": "string",
+            "nullable": true,
+            "example": "+33 1 23 45 67 89",
+            "description": "Contact telephone number."
+          },
+          "email": {
+            "type": "string",
+            "nullable": true,
+            "example": "ap@example.com",
+            "description": "Contact e-mail address."
+          }
+        }
+      },
+      "EInvoiceIntegrationTradeParty": {
+        "type": "object",
+        "description": "A party involved in the status exchange (sender, issuer or recipient).",
+        "required": [
+          "roleCode"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "example": "Example Supplier SAS",
+            "description": "Party name."
+          },
+          "roleCode": {
+            "type": "string",
+            "example": "SE",
+            "description": "Role of the party in the exchange. Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "FR",
+            "description": "Country of the party, as an ISO 3166-1 alpha-2 code."
+          },
+          "identifiers": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationPartyIdentifier"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationPartyContact"
+          }
+        }
+      },
+      "EInvoiceIntegrationDocumentStatus": {
+        "type": "object",
+        "description": "Status assigned to the document by the e-invoicing network.",
+        "required": [
+          "labels",
+          "networkCode"
+        ],
+        "properties": {
+          "labels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Approuvee",
+              "Approved"
+            ],
+            "description": "Human-readable labels for `networkCode`. For markets that provide localised labels, both the local and the English label are returned."
+          },
+          "networkCode": {
+            "type": "string",
+            "example": "205",
+            "description": "Status code assigned by the e-invoicing network, for example `205` (Approved) or `210` (Refused). Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          }
+        }
+      },
+      "EInvoiceIntegrationNote": {
+        "type": "object",
+        "description": "Free-text note attached to a status detail.",
+        "required": [
+          "content"
+        ],
+        "properties": {
+          "content": {
+            "type": "string",
+            "example": "The invoice amount is not correct. The total does not include discounts.",
+            "description": "Free-text note content."
+          }
+        }
+      },
+      "EInvoiceIntegrationMonetaryAmount": {
+        "type": "object",
+        "description": "A monetary amount with its currency.",
+        "required": [
+          "amount",
+          "currency"
+        ],
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "decimal",
+            "example": 1000.0,
+            "description": "Monetary value."
+          },
+          "currency": {
+            "type": "string",
+            "example": "EUR",
+            "description": "Currency of `amount`, as an ISO 4217 code."
+          }
+        }
+      },
+      "EInvoiceIntegrationCharacteristic": {
+        "type": "object",
+        "description": "A single value that differs from the value on the original document. Deviation values keep the signed buyer perspective, so a negative value means the buyer expects less than was invoiced.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true,
+            "example": "BT-112",
+            "description": "Identifier of the invoice term the characteristic refers to, given as a business term id."
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "example": "Total amount deviation",
+            "description": "Human-readable name of the characteristic."
+          },
+          "typeCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "DIV",
+            "description": "Type of the characteristic. Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          },
+          "location": {
+            "type": "string",
+            "nullable": true,
+            "example": "/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction",
+            "description": "Path to the element the characteristic refers to within the source document."
+          },
+          "valueChanged": {
+            "type": "boolean",
+            "example": true,
+            "description": "Whether the value was changed by the network or the recipient."
+          },
+          "valueAmount": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationMonetaryAmount"
+          },
+          "valueDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2024-01-31T00:00:00",
+            "description": "Date-time value of the characteristic. Returned without a trailing offset, in `yyyy-MM-ddTHH:mm:ss` form."
+          },
+          "valuePercent": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true,
+            "example": 12.5,
+            "description": "Percentage value of the characteristic."
+          },
+          "valueNumeric": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true,
+            "example": -2,
+            "description": "Signed numeric value, such as a quantity difference or a number of days. Omitted when not set. Mutually exclusive with `valueAmount` for deviation characteristics."
+          },
+          "unitOfMeasure": {
+            "type": "string",
+            "nullable": true,
+            "example": "DAY",
+            "description": "Qualifies `valueNumeric`. Only returned for a due-date deviation, where the value is `DAY` and `valueNumeric` is a number of days. Omitted otherwise."
+          }
+        }
+      },
+      "EInvoiceIntegrationStatusDetail": {
+        "type": "object",
+        "description": "Reason, expected action and deviating values behind a document status.",
+        "properties": {
+          "reasonCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "TX_TVA_ERR",
+            "description": "Code explaining why the status was set, for example `TX_TVA_ERR` (incorrect VAT rate) or `DOUBLON` (duplicate invoice). Always present on responses. Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          },
+          "reasonLabels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "example": [
+              "Taux de TVA erroné"
+            ],
+            "description": "Human-readable labels for `reasonCode`. Returned in the language used by the network, which is not necessarily English."
+          },
+          "actionCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "NIN",
+            "description": "Code describing the action expected from the supplier, for example `NIN` (issue a corrective invoice) or `NOA` (no action required). Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          },
+          "actionLabels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "example": [
+              "Créer une Facture Rectificative"
+            ],
+            "description": "Human-readable labels for `actionCode`. Returned in the language used by the network, which is not necessarily English."
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EInvoiceIntegrationNote"
+            },
+            "nullable": true,
+            "description": "Free-text notes accompanying the reason."
+          },
+          "characteristics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EInvoiceIntegrationCharacteristic"
+            },
+            "nullable": true,
+            "description": "Values that deviate from the original document."
+          }
+        }
+      },
+      "EInvoiceIntegrationDocumentReference": {
+        "type": "object",
+        "description": "The document this status refers to.",
+        "required": [
+          "issuer"
+        ],
+        "properties": {
+          "issuer": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationTradeParty"
+          },
+          "typeCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "380",
+            "description": "Type of the referenced document. Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          },
+          "issuedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2024-01-01T00:00:00",
+            "description": "When the referenced document was issued. Returned without a trailing offset, in `yyyy-MM-ddTHH:mm:ss` form."
+          },
+          "receiptDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2024-01-02T00:00:00",
+            "description": "When the referenced document was received. Returned without a trailing offset, in `yyyy-MM-ddTHH:mm:ss` form."
+          },
+          "issuerAssignedId": {
+            "type": "string",
+            "nullable": true,
+            "example": "INV-2024-0001",
+            "description": "Identifier the issuer assigned to the referenced document, typically the invoice number."
+          }
+        }
+      },
+      "EInvoiceIntegrationResponse": {
+        "type": "object",
+        "description": "Response context describing which document the status answers.",
+        "required": [
+          "documentReference"
+        ],
+        "properties": {
+          "typeCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "AB",
+            "description": "Type of the response. Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          },
+          "roleCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "BY",
+            "description": "Role of the responding party. Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          },
+          "documentReference": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationDocumentReference"
+          }
+        }
+      },
+      "EInvoiceIntegrationAttachment": {
+        "type": "object",
+        "description": "The original status message received from the network, carried verbatim.",
+        "required": [
+          "mimeType",
+          "format",
+          "content"
+        ],
+        "properties": {
+          "mimeType": {
+            "type": "string",
+            "example": "application/xml",
+            "description": "Media type of `content`. Supported values are `application/xml` and `application/json`."
+          },
+          "format": {
+            "type": "string",
+            "example": "Peppol",
+            "description": "Network or document format of the original message."
+          },
+          "content": {
+            "type": "string",
+            "format": "byte",
+            "example": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4=",
+            "description": "Base64-encoded original status message as received from the network. XML content is validated for well-formedness and the request is rejected if it cannot be decoded."
+          }
+        }
+      },
+      "EInvoiceIntegrationDocumentIdentifier": {
+        "type": "object",
+        "description": "Identifies the invoice the status message was matched to.",
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "nullable": true,
+            "example": "ERP-INV-2024-0001",
+            "description": "Identifier assigned by the sending system, if the status was matched on `externalId`."
+          },
+          "importTrackingId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "example": "5f33c095-44a4-4f38-b8e6-b379c093681f",
+            "description": "Medius tracking id of the invoice the status refers to."
+          }
+        }
+      },
+      "EInvoiceIntegrationErrorResponse": {
+        "type": "object",
+        "description": "Error body returned by the e-invoicing status endpoints.",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Status Message not found",
+            "description": "Description of the failure."
+          }
+        }
+      },
+      "EInvoiceIntegrationMessageListDto": {
+        "type": "object",
+        "description": "A pending status message, referenced by URL.",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "nullable": false,
+            "format": "uri",
+            "example": "https://api.medius.com/tenant1/integration/message/v1/einvoices/1e7d8f9a-3c4b-4d2e-8f9a-3c4b4d2e8f9a",
+            "description": "Absolute link to the status message details. Follow it as-is rather than rebuilding it; the tenant segment is the tenant the request was made against."
+          }
+        },
+        "additionalProperties": false
+      },
       "GetEInvoiceIntegrationsResultDto": {
         "type": "object",
+        "description": "List of pending e-invoice status messages.",
+        "required": [
+          "messages"
+        ],
         "properties": {
           "messages": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/EInvoiceIntegrationMessageListDto"
             },
-            "nullable": false
-          }
-        },
-        "additionalProperties": false
-      },
-      "EInvoiceIntegrationMessageListDto": {
-        "type": "object",
-        "properties": {
-          "url": {
-            "type": "string",
             "nullable": false,
-            "example": "https://api.medius.com/tenant1/integration/message/v1/einvoices/1e7d8f9a-3c4b-4d2e-8f9a-3c4b4d2e8f9a",
-            "description": "URL that can be use GET e-invoice details. 'tenant1' is place for tenant"
+            "description": "Pending status messages for the requested company. Empty when none match."
           }
         },
         "additionalProperties": false
       },
       "NetworkStatusMessageRequestBody": {
         "type": "object",
+        "description": "Network status update for an invoice already known to Medius.",
+        "required": [
+          "documentStatus",
+          "originalMessage"
+        ],
         "properties": {
           "testMode": {
-            "type": "boolean"
+            "type": "boolean",
+            "example": false,
+            "description": "Marks the submission as a test. Test statuses are stored but are not treated as production events."
           },
           "messageId": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "example": "0a8f3d2c-1b4e-4c2a-9f7d-2e6b1c5a9d34",
+            "description": "Identifier assigned by the caller. Returned unchanged as the confirmation identifier in the `201` response."
           },
           "documentStatus": {
-            "type": "object",
-            "properties": {
-              "labels": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "networkCode": {
-                "type": "string"
-              }
-            }
-          },
-          "statusDetails": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "nullable": true,
-              "properties": {
-                "reasonCode": {
-                  "type": "string",
-                  "nullable": false
-                },
-                "reasonLabels": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "nullable": false
-                },
-                "actionCode": {
-                  "type": "string",
-                  "nullable": false
-                },
-                "actionLabels": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "nullable": false
-                },
-                "notes": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "content": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "nullable": true
-                },
-                "characteristics": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
-                      },
-                      "typeCode": {
-                        "type": "string"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "location": {
-                        "type": "string"
-                      },
-                      "valueChanged": {
-                        "type": "boolean"
-                      },
-                      "valueAmount": {
-                        "type": "object",
-                        "properties": {
-                          "amount": {
-                            "type": "number",
-                            "format": "decimal",
-                            "example": 1000.0
-                          },
-                          "currency": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      "valueDateTime": {
-                        "type": "string",
-                        "format": "date-time"
-                      },
-                      "valuePercent": {
-                        "type": "number",
-                        "format": "decimal",
-                        "example": 12.5
-                      }
-                    }
-                  },
-                  "nullable": true
-                }
-              }
-            }
+            "$ref": "#/components/schemas/EInvoiceIntegrationDocumentStatus"
           },
           "issuedDateTime": {
             "type": "string",
             "format": "date-time",
-            "example": "2021-04-10T14:48:00.000Z",
-            "description": "UTC time zone should be used. Example: 2021-04-10T14:48:00.000Z"
+            "example": "2024-04-10T14:48:00Z",
+            "description": "When the status was issued by the network. Accepts an offset; use UTC."
+          },
+          "statusDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EInvoiceIntegrationStatusDetail"
+            },
+            "description": "Reasons and expected actions behind the status. Typically populated for rejections and partial approvals."
           },
           "sender": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "roleCode": {
-                "type": "string"
-              },
-              "identifiers": {
-                "$ref": "#/components/schemas/EInvoiceIntegrationPartyIdententifier"
-              },
-              "contact": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "nullable": true
-                  },
-                  "telephone": {
-                    "type": "string",
-                    "nullable": true
-                  },
-                  "email": {
-                    "type": "string",
-                    "nullable": true
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/schemas/EInvoiceIntegrationTradeParty"
           },
           "issuer": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "roleCode": {
-                "type": "string"
-              },
-              "countryCode": {
-                "type": "string"
-              },
-              "identifiers": {
-                "$ref": "#/components/schemas/EInvoiceIntegrationPartyIdententifier"
-              },
-              "contact": {
-                "$ref": "#/components/schemas/EInvoiceIntegrationPartyContact"
-              }
-            }
+            "$ref": "#/components/schemas/EInvoiceIntegrationTradeParty"
           },
           "recipient": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "roleCode": {
-                "type": "string"
-              },
-              "countryCode": {
-                "type": "string"
-              },
-              "identifiers": {
-                "$ref": "#/components/schemas/EInvoiceIntegrationPartyIdententifier"
-              },
-              "contact": {
-                "$ref": "#/components/schemas/EInvoiceIntegrationPartyContact"
-              }
-            }
+            "$ref": "#/components/schemas/EInvoiceIntegrationTradeParty"
           },
           "response": {
-            "type": "object",
-            "properties": {
-              "typeCode": {
-                "type": "string"
-              },
-              "roleCode": {
-                "type": "string"
-              },
-              "documentReference": {
-                "type": "object",
-                "properties": {
-                  "issuer": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "roleCode": {
-                        "type": "string"
-                      },
-                      "identifiers": {
-                        "$ref": "#/components/schemas/EInvoiceIntegrationPartyIdententifier"
-                      },
-                      "contact": {
-                        "$ref": "#/components/schemas/EInvoiceIntegrationPartyContact"
-                      }
-                    }
-                  },
-                  "typeCode": {
-                    "type": "string"
-                  },
-                  "issuedDateTime": {
-                    "type": "string",
-                    "format": "date-time",
-                    "example": "2021-04-10T14:48:00.000Z",
-                    "description": "UTC time zone should be used. Example: 2021-04-10T14:48:00.000Z"
-                  },
-                  "receiptDateTime": {
-                    "type": "string",
-                    "format": "date-time",
-                    "example": "2021-04-10T14:48:00.000Z",
-                    "description": "UTC time zone should be used. Example: 2021-04-10T14:48:00.000Z"
-                  },
-                  "issuerAssignedId": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/schemas/EInvoiceIntegrationResponse"
           },
           "originalMessage": {
-            "type": "object",
-            "properties": {
-              "mimeType": {
-                "type": "string",
-                "example": "application/xml"
-              },
-              "format": {
-                "type": "string",
-                "example": "UBL 2.1"
-              },
-              "content": {
-                "type": "string",
-                "format": "base64",
-                "example": "PD94bWwgdmVyc2lvbj0iMS4wIj8+Cjxyb290Pgo8aW5mbz4KPGNvbnRlbnRUeXBlPjwvY29udGVudFR5cGU+CjwvSW5mbz4KPC9yb290Pgo="
-              }
-            }
+            "$ref": "#/components/schemas/EInvoiceIntegrationAttachment"
           }
         }
       },
       "NetworkStatusMessageResponseBody": {
         "type": "object",
+        "description": "Status message recorded for an invoice.",
+        "required": [
+          "messageId",
+          "documentStatus",
+          "issuedDateTime",
+          "sender",
+          "issuer",
+          "recipient",
+          "response"
+        ],
         "properties": {
           "testMode": {
-            "type": "boolean"
+            "type": "boolean",
+            "example": false,
+            "description": "Whether the status was submitted as a test."
           },
           "messageId": {
             "type": "string",
-            "format": "uuid",
-            "example": "1e7d8f9a-3c4b-4d2e-8f9a-3c4b4d2e8f9a"
+            "example": "0a8f3d2c-1b4e-4c2a-9f7d-2e6b1c5a9d34",
+            "description": "Identifier of the status message. Normally a GUID, but some networks supply their own identifier format, so treat it as an opaque string."
           },
           "documentIdentifier": {
-            "type": "object",
-            "properties": {
-              "externalId": {
-                "type": "string"
-              },
-              "importTrackingId": {
-                "type": "string",
-                "format": "uuid"
-              }
-            }
+            "$ref": "#/components/schemas/EInvoiceIntegrationDocumentIdentifier"
           },
           "documentStatus": {
-            "type": "object",
-            "properties": {
-              "labels": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "networkCode": {
-                "type": "string"
-              }
-            }
+            "$ref": "#/components/schemas/EInvoiceIntegrationDocumentStatus"
           },
           "statusDetails": {
             "type": "array",
             "items": {
-              "type": "object",
-              "nullable": true,
-              "properties": {
-                "reasonCode": {
-                  "type": "string",
-                  "nullable": false
-                },
-                "reasonLabels": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "nullable": false
-                },
-                "actionCode": {
-                  "type": "string",
-                  "nullable": false
-                },
-                "actionLabels": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "nullable": false
-                },
-                "notes": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "content": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "nullable": true
-                },
-                "characteristics": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
-                      },
-                      "typeCode": {
-                        "type": "string"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "location": {
-                        "type": "string"
-                      },
-                      "valueChanged": {
-                        "type": "boolean"
-                      },
-                      "valueAmount": {
-                        "type": "object",
-                        "properties": {
-                          "amount": {
-                            "type": "number",
-                            "format": "decimal",
-                            "example": 1000.0
-                          },
-                          "currency": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      "valueDateTime": {
-                        "type": "string",
-                        "format": "date-time"
-                      },
-                      "valuePercent": {
-                        "type": "number",
-                        "format": "decimal",
-                        "example": 12.5
-                      }
-                    }
-                  },
-                  "nullable": true
-                }
-              }
-            }
+              "$ref": "#/components/schemas/EInvoiceIntegrationStatusDetail"
+            },
+            "nullable": true,
+            "description": "Reasons and expected actions behind the status."
           },
           "issuedDateTime": {
             "type": "string",
             "format": "date-time",
-            "example": "2021-04-10T14:48:00.000Z",
-            "description": "UTC time zone should be used. Example: 2021-04-10T14:48:00.000Z"
+            "example": "2024-04-10T14:48:00",
+            "description": "When the status was issued by the network. Returned as UTC without a trailing offset, in `yyyy-MM-ddTHH:mm:ss` form."
           },
           "sender": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "roleCode": {
-                "type": "string"
-              },
-              "identifiers": {
-                "$ref": "#/components/schemas/EInvoiceIntegrationPartyIdententifier"
-              },
-              "contact": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "nullable": true
-                  },
-                  "telephone": {
-                    "type": "string",
-                    "nullable": true
-                  },
-                  "email": {
-                    "type": "string",
-                    "nullable": true
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/schemas/EInvoiceIntegrationTradeParty"
           },
           "issuer": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "roleCode": {
-                "type": "string"
-              },
-              "countryCode": {
-                "type": "string"
-              },
-              "identifiers": {
-                "$ref": "#/components/schemas/EInvoiceIntegrationPartyIdententifier"
-              },
-              "contact": {
-                "$ref": "#/components/schemas/EInvoiceIntegrationPartyContact"
-              }
-            }
+            "$ref": "#/components/schemas/EInvoiceIntegrationTradeParty"
           },
           "recipient": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "roleCode": {
-                "type": "string"
-              },
-              "countryCode": {
-                "type": "string"
-              },
-              "identifiers": {
-                "$ref": "#/components/schemas/EInvoiceIntegrationPartyIdententifier"
-              },
-              "contact": {
-                "$ref": "#/components/schemas/EInvoiceIntegrationPartyContact"
-              }
-            }
+            "$ref": "#/components/schemas/EInvoiceIntegrationTradeParty"
           },
           "response": {
-            "type": "object",
-            "properties": {
-              "typeCode": {
-                "type": "string"
-              },
-              "roleCode": {
-                "type": "string"
-              },
-              "documentReference": {
-                "type": "object",
-                "properties": {
-                  "issuer": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "roleCode": {
-                        "type": "string"
-                      },
-                      "identifiers": {
-                        "$ref": "#/components/schemas/EInvoiceIntegrationPartyIdententifier"
-                      },
-                      "contact": {
-                        "$ref": "#/components/schemas/EInvoiceIntegrationPartyContact"
-                      }
-                    }
-                  },
-                  "typeCode": {
-                    "type": "string"
-                  },
-                  "issuedDateTime": {
-                    "type": "string",
-                    "format": "date-time",
-                    "example": "2021-04-10T14:48:00.000Z",
-                    "description": "UTC time zone should be used. Example: 2021-04-10T14:48:00.000Z"
-                  },
-                  "receiptDateTime": {
-                    "type": "string",
-                    "format": "date-time",
-                    "example": "2021-04-10T14:48:00.000Z",
-                    "description": "UTC time zone should be used. Example: 2021-04-10T14:48:00.000Z"
-                  },
-                  "issuerAssignedId": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "additionalProperties": false
-      },
-      "EInvoiceIntegrationPartyContact": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "telephone": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "EInvoiceIntegrationPartyIdententifier": {
-        "type": "object",
-        "properties": {
-          "electronicAddress": {
-            "type": "string"
-          },
-          "electronicAddressType": {
-            "type": "string"
-          },
-          "partyIdentifier": {
-            "type": "string"
-          },
-          "partyIdentifierType": {
-            "type": "string"
+            "$ref": "#/components/schemas/EInvoiceIntegrationResponse"
           }
         }
       },
