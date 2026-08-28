@@ -37,11 +37,11 @@
     },
     {
       "name": "E-invoicing: Status management",
-      "description": "Status messages for e-invoices received from the e-invoicing network"
+      "description": "Status messages for e-invoices received from the e-invoicing network. Requires an access token with the `Integration.DocumentImport` or `Integration` scope."
     },
     {
       "name": "E-invoicing: Self-billing",
-      "description": "Retrieval and integration status updates for self-billed e-invoices"
+      "description": "Retrieval and integration status updates for self-billed e-invoices. Requires an access token with the `Integration.DocumentImport` or `Integration` scope."
     },
     {
       "name": "Procurement: Purchase order import",
@@ -7709,13 +7709,13 @@
         }
       }
     },
-    "/integration/message/v1/einvoices": {
+    "/integration/message/v1/eInvoices": {
       "get": {
         "tags": [
           "E-invoicing: Status management"
         ],
         "summary": "Get pending e-invoice status messages for a company.",
-        "description": "Returns the e-invoice status messages that are still pending for the given company, as a list of absolute URLs. Follow each URL to read the status message itself. A message stops being returned once it has been moved to Processing or acknowledged as successful, so the list can be polled and drained. An unknown company is not an error: the response is `200` with an empty `messages` array.",
+        "description": "Returns the e-invoice status messages that are still pending for the given company, as a list of absolute URLs. Follow each URL to read the status message itself. A message stops being returned once it has been moved to Processing or acknowledged as successful, so the list can be polled and drained. An unknown company is not an error: the response is `200` with an empty `messages` array. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
         "operationId": "GetListOfEInvoiceMessage",
         "parameters": [
           {
@@ -7744,17 +7744,31 @@
           },
           "400": {
             "description": "`companyGlobalId` is missing or is not a valid GUID."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "description": "Token is valid but lacks the required scope."
           }
-        }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
       }
     },
-    "/integration/message/v1/einvoices/{messageId}": {
+    "/integration/message/v1/eInvoices/{messageId}": {
       "get": {
         "tags": [
           "E-invoicing: Status management"
         ],
         "summary": "Get a single e-invoice status message.",
-        "description": "Returns the full status message, including the network status, the parties involved and the reasons and expected actions behind the status. To discover available messages, use the list endpoint without a `messageId`.",
+        "description": "Returns the full status message, including the network status, the parties involved and the reasons and expected actions behind the status. To discover available messages, use the list endpoint without a `messageId`. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
         "operationId": "EInvoiceGetByMessageId",
         "parameters": [
           {
@@ -7784,6 +7798,12 @@
           "400": {
             "description": "`messageId` is not a valid GUID."
           },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "description": "Token is valid but lacks the required scope."
+          },
           "404": {
             "description": "No status message exists with this identifier for the tenant.",
             "content": {
@@ -7794,16 +7814,24 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
       }
     },
-    "/integration/message/v1/einvoices/{messageId}/processing": {
+    "/integration/message/v1/eInvoices/{messageId}/processing": {
       "put": {
         "tags": [
           "E-invoicing: Status management"
         ],
         "summary": "Mark an e-invoice status message as being processed.",
-        "description": "Marks the status message as fetched, indicating that the integration has picked it up and is processing it. This is the first transition an integrator can make and it is optional; the message can be acknowledged as successful directly. After a successful call the message no longer appears in the pending list.",
+        "description": "Marks the status message as fetched, indicating that the integration has picked it up and is processing it. This is the first transition an integrator can make and it is optional; the message can be acknowledged as successful directly. After a successful call the message no longer appears in the pending list. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
         "operationId": "EInvoiceUpdateMessageAsProcessing",
         "parameters": [
           {
@@ -7826,6 +7854,12 @@
           "400": {
             "description": "`messageId` is not a valid GUID."
           },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "description": "Token is valid but lacks the required scope."
+          },
           "404": {
             "description": "No status message exists with this identifier for the tenant.",
             "content": {
@@ -7836,16 +7870,24 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
       }
     },
-    "/integration/message/v1/einvoices/{messageId}/response/success": {
+    "/integration/message/v1/eInvoices/{messageId}/response/success": {
       "post": {
         "tags": [
           "E-invoicing: Status management"
         ],
         "summary": "Acknowledge an e-invoice status message as successfully processed.",
-        "description": "Acknowledges that the status message has been received and handled by the integration. It can be called directly, or after marking the message as being processed. After a successful call the message no longer appears in the pending list. The request has no body.",
+        "description": "Acknowledges that the status message has been received and handled by the integration. It can be called directly, or after marking the message as being processed. After a successful call the message no longer appears in the pending list. The request has no body. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
         "operationId": "EInvoiceUpdateIntegrationAsSuccess",
         "parameters": [
           {
@@ -7868,6 +7910,12 @@
           "400": {
             "description": "`messageId` is not a valid GUID."
           },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "description": "Token is valid but lacks the required scope."
+          },
           "404": {
             "description": "No status message exists with this identifier for the tenant.",
             "content": {
@@ -7878,16 +7926,24 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
       }
     },
-    "/integration/message/v1/einvoices/networkStatus": {
+    "/integration/message/v1/eInvoices/networkStatus": {
       "post": {
         "tags": [
           "E-invoicing: Status management"
         ],
         "summary": "Submit a network status update for an invoice.",
-        "description": "Submits a status update received from the e-invoicing network for an invoice already known to Medius. Identify the invoice with either `importTrackingId` or `externalId` - exactly one of the two is required. On success the original message is stored and the status becomes visible in invoice history and monitoring.",
+        "description": "Submits a status update received from the e-invoicing network for an invoice already known to Medius. Identify the invoice with either `importTrackingId` or `externalId` - exactly one of the two is required. On success the original message is stored and the status becomes visible in invoice history and monitoring. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
         "operationId": "postEInvoiceNetworkStatusMessage",
         "parameters": [
           {
@@ -7949,6 +8005,12 @@
           "400": {
             "description": "Neither `importTrackingId` nor `externalId` was supplied, required status details are missing, or `originalMessage` could not be decoded. Nothing is stored."
           },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "description": "Token is valid but lacks the required scope."
+          },
           "404": {
             "description": "No invoice matches the supplied identifier within the tenant. Nothing is stored.",
             "content": {
@@ -7993,13 +8055,13 @@
         ]
       }
     },
-    "/integration/message/v1/supplierInvoice/einvoices": {
+    "/integration/message/v1/supplierInvoice/eInvoices": {
       "get": {
         "tags": [
           "E-invoicing: Self-billing"
         ],
         "summary": "Get list of pending self billed e-invoices.",
-        "description": "Returns up to 1000 pending self billed e-invoices for the given company. Use the returned URL to get the self-billed e-invoice details. Only invoices in the `Pending` state are returned. Items that have moved to `Processing`, `Error` or `Succeeded` no longer appear. Entries are returned in a stable but arbitrary order: ascending lexicographic order of the lower-case dashed `messageId` text. This is neither chronological nor numeric GUID ordering. An unknown company is not an error: the response is `200` with an empty `messages` array.",
+        "description": "Returns up to 1000 pending self billed e-invoices for the given company. Use the returned URL to get the self-billed e-invoice details. Only invoices in the `Pending` state are returned. Items that have moved to `Processing`, `Error` or `Succeeded` no longer appear. Entries are returned in a stable but arbitrary order: ascending lexicographic order of the lower-case dashed `messageId` text. This is neither chronological nor numeric GUID ordering. An unknown company is not an error: the response is `200` with an empty `messages` array. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
         "operationId": "GetListPendingSelfBillingEInvoices",
         "parameters": [
           {
@@ -8054,16 +8116,24 @@
           "403": {
             "description": "Token is valid but lacks the required scope."
           }
-        }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
       }
     },
-    "/integration/message/v1/supplierInvoice/einvoices/{messageId}": {
+    "/integration/message/v1/supplierInvoice/eInvoices/{messageId}": {
       "get": {
         "tags": [
           "E-invoicing: Self-billing"
         ],
         "summary": "Get self billed e-invoice by ID.",
-        "description": "Returns the self-billed e-invoice payload for the given `messageId`. To discover available self-billed e-invoices, use the GET method without `{messageId}`.",
+        "description": "Returns the self-billed e-invoice payload for the given `messageId`. To discover available self-billed e-invoices, use the GET method without `{messageId}`. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
         "operationId": "GetSelfBillingEInvoiceById",
         "parameters": [
           {
@@ -8102,16 +8172,24 @@
           "500": {
             "description": "Unexpected server error."
           }
-        }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
       }
     },
-    "/integration/message/v1/supplierInvoice/einvoices/{messageId}/processing": {
+    "/integration/message/v1/supplierInvoice/eInvoices/{messageId}/processing": {
       "put": {
         "tags": [
           "E-invoicing: Self-billing"
         ],
         "summary": "Update processing status of the self-billed e-invoice to Processing.",
-        "description": "Transitions the invoice with the given `messageId` to `Processing`. Only `Pending` is a legal source state. This call is optional and may be used by integrators that want to track in-progress handling. It does not reserve or lease the invoice. After a successful call the invoice no longer appears in the pending list.",
+        "description": "Transitions the invoice with the given `messageId` to `Processing`. Only `Pending` is a legal source state. This call is optional and may be used by integrators that want to track in-progress handling. It does not reserve or lease the invoice. After a successful call the invoice no longer appears in the pending list. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
         "operationId": "SelfBillingEInvoiceUpdateAsProcessing",
         "parameters": [
           {
@@ -8157,16 +8235,24 @@
           "404": {
             "description": "Self-billed e-invoice not found."
           }
-        }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
       }
     },
-    "/integration/message/v1/supplierInvoice/einvoices/{messageId}/response/success": {
+    "/integration/message/v1/supplierInvoice/eInvoices/{messageId}/response/success": {
       "post": {
         "tags": [
           "E-invoicing: Self-billing"
         ],
         "summary": "Post confirmation on self-billed e-invoice document status.",
-        "description": "Transitions the invoice to `Succeeded`. Integrators may call this directly from `Pending` or after `Processing`. This is the preferred way to track successful completion on our side. The request has no body.",
+        "description": "Transitions the invoice to `Succeeded`. Integrators may call this directly from `Pending` or after `Processing`. This is the preferred way to track successful completion on our side. The request has no body. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
         "operationId": "SelfBillingEInvoiceUpdateIntegrationAsSuccess",
         "parameters": [
           {
@@ -8212,16 +8298,24 @@
           "404": {
             "description": "Self-billed e-invoice not found."
           }
-        }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
       }
     },
-    "/integration/message/v1/supplierInvoice/einvoices/{messageId}/response/error": {
+    "/integration/message/v1/supplierInvoice/eInvoices/{messageId}/response/error": {
       "post": {
         "tags": [
           "E-invoicing: Self-billing"
         ],
         "summary": "Post error on self-billed e-invoice document status.",
-        "description": "Transitions the invoice to `Error`. Integrators may call this directly from `Pending` or after `Processing`. The request body contains a list of error messages describing the failure.",
+        "description": "Transitions the invoice to `Error`. Integrators may call this directly from `Pending` or after `Processing`. The request body contains a list of error messages describing the failure. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
         "operationId": "SelfBillingEInvoiceUpdateIntegrationAsError",
         "parameters": [
           {
@@ -8283,7 +8377,15 @@
             "description": "Self-billed e-invoice not found."
           }
         },
-        "x-codegen-request-body-name": "errorMessages"
+        "x-codegen-request-body-name": "errorMessages",
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
       }
     }
   },
@@ -28905,7 +29007,7 @@
             "type": "string",
             "nullable": false,
             "format": "uri",
-            "example": "https://api.medius.com/tenant1/integration/message/v1/einvoices/1e7d8f9a-3c4b-4d2e-8f9a-3c4b4d2e8f9a",
+            "example": "https://api.medius.com/tenant1/integration/message/v1/eInvoices/1e7d8f9a-3c4b-4d2e-8f9a-3c4b4d2e8f9a",
             "description": "Absolute link to the status message details. Follow it as-is rather than rebuilding it; the tenant segment is the tenant the request was made against."
           }
         },
@@ -29062,8 +29164,8 @@
             "type": "string",
             "format": "uri",
             "nullable": false,
-            "example": "https://api.medius.com/tenant1/integration/message/v1/supplierInvoice/einvoices/5f33c095-44a4-4f38-b8e6-b379c093681f",
-            "description": "Absolute link to the self-billed e-invoice details; follow it as-is rather than mapping it to a path here. Built as `https://api.medius.com/{tenant}/integration/message/v1/supplierInvoice/einvoices/{messageId}`."
+            "example": "https://api.medius.com/tenant1/integration/message/v1/supplierInvoice/eInvoices/5f33c095-44a4-4f38-b8e6-b379c093681f",
+            "description": "Absolute link to the self-billed e-invoice details; follow it as-is rather than mapping it to a path here. Built as `https://api.medius.com/{tenant}/integration/message/v1/supplierInvoice/eInvoices/{messageId}`."
           }
         },
         "required": [
