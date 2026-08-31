@@ -37,11 +37,11 @@
     },
     {
       "name": "E-invoicing: Status management",
-      "description": "Status messages for e-invoices received from the e-invoicing network. Requires an access token with the `Integration.DocumentImport` or `Integration` scope."
+      "description": "Status messages for e-invoices received from the e-invoicing network."
     },
     {
       "name": "E-invoicing: Self-billing",
-      "description": "Retrieval and integration status updates for self-billed e-invoices. Requires an access token with the `Integration.DocumentImport` or `Integration` scope."
+      "description": "Retrieval and integration status updates for self-billed e-invoices."
     },
     {
       "name": "Procurement: Purchase order import",
@@ -28796,7 +28796,6 @@
             "type": "string",
             "format": "date-time",
             "nullable": true,
-            "example": "2024-01-31T00:00:00",
             "description": "Date-time value of the characteristic. Returned without a trailing offset, in `yyyy-MM-ddTHH:mm:ss` form."
           },
           "valuePercent": {
@@ -28897,14 +28896,12 @@
             "type": "string",
             "format": "date-time",
             "nullable": true,
-            "example": "2024-01-01T00:00:00",
             "description": "When the referenced document was issued. Returned without a trailing offset, in `yyyy-MM-ddTHH:mm:ss` form."
           },
           "receiptDateTime": {
             "type": "string",
             "format": "date-time",
             "nullable": true,
-            "example": "2024-01-02T00:00:00",
             "description": "When the referenced document was received. Returned without a trailing offset, in `yyyy-MM-ddTHH:mm:ss` form."
           },
           "issuerAssignedId": {
@@ -29123,7 +29120,6 @@
           "issuedDateTime": {
             "type": "string",
             "format": "date-time",
-            "example": "2024-04-10T14:48:00",
             "description": "When the status was issued by the network. Returned as UTC without a trailing offset, in `yyyy-MM-ddTHH:mm:ss` form."
           },
           "sender": {
@@ -29205,14 +29201,12 @@
           "issueDate": {
             "type": "string",
             "format": "date-time",
-            "description": "Issue date",
-            "example": "2024-01-01T00:00:00"
+            "description": "Issue date"
           },
           "dueDate": {
             "type": "string",
             "format": "date-time",
-            "description": "Due date",
-            "example": "2024-01-31T00:00:00"
+            "description": "Due date"
           },
           "documentTypeCode": {
             "type": "string",
@@ -29233,8 +29227,7 @@
           "taxPointDate": {
             "type": "string",
             "format": "date-time",
-            "description": "VAT point date",
-            "example": "2024-01-15T00:00:00"
+            "description": "VAT point date"
           },
           "documentCurrencyCode": {
             "type": "string",
