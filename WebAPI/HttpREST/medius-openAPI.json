@@ -36,6 +36,14 @@
       "description": "Import of supplier invoices from external source."
     },
     {
+      "name": "E-invoicing: Status management",
+      "description": "Status messages for e-invoices received from the e-invoicing network."
+    },
+    {
+      "name": "E-invoicing: Self-billing",
+      "description": "Retrieval and integration status updates for self-billed e-invoices."
+    },
+    {
       "name": "Procurement: Purchase order import",
       "description": "Import of approved requisitions as purchase order documents"
     },
@@ -7699,6 +7707,685 @@
             "content": {}
           }
         }
+      }
+    },
+    "/integration/message/v1/eInvoices": {
+      "get": {
+        "tags": [
+          "E-invoicing: Status management"
+        ],
+        "summary": "Get pending e-invoice status messages for a company.",
+        "description": "Returns the e-invoice status messages that are still pending for the given company, as a list of absolute URLs. Follow each URL to read the status message itself. A message stops being returned once it has been moved to Processing or acknowledged as successful, so the list can be polled and drained. An unknown company is not an error: the response is `200` with an empty `messages` array. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
+        "operationId": "GetListOfEInvoiceMessage",
+        "parameters": [
+          {
+            "name": "companyGlobalId",
+            "in": "query",
+            "description": "Global identifier of the company whose pending status messages should be returned. Must be a valid GUID.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "nullable": false,
+              "example": "324819a0-dd34-41ba-bdb4-105cf5f8c33f"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pending status messages for the company.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEInvoiceIntegrationsResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "`companyGlobalId` is missing or is not a valid GUID."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "description": "Token is valid but lacks the required scope."
+          }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
+      }
+    },
+    "/integration/message/v1/eInvoices/{messageId}": {
+      "get": {
+        "tags": [
+          "E-invoicing: Status management"
+        ],
+        "summary": "Get a single e-invoice status message.",
+        "description": "Returns the full status message, including the network status, the parties involved and the reasons and expected actions behind the status. To discover available messages, use the list endpoint without a `messageId`. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
+        "operationId": "EInvoiceGetByMessageId",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the status message, as returned by the list endpoint.",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "nullable": false,
+              "example": "5f33c095-44a4-4f38-b8e6-b379c093681f"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The status message.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkStatusMessageResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "`messageId` is not a valid GUID."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "description": "Token is valid but lacks the required scope."
+          },
+          "404": {
+            "description": "No status message exists with this identifier for the tenant.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EInvoiceIntegrationErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
+      }
+    },
+    "/integration/message/v1/eInvoices/{messageId}/processing": {
+      "put": {
+        "tags": [
+          "E-invoicing: Status management"
+        ],
+        "summary": "Mark an e-invoice status message as being processed.",
+        "description": "Marks the status message as fetched, indicating that the integration has picked it up and is processing it. This is the first transition an integrator can make and it is optional; the message can be acknowledged as successful directly. After a successful call the message no longer appears in the pending list. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
+        "operationId": "EInvoiceUpdateMessageAsProcessing",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the status message, as returned by the list endpoint.",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "nullable": false,
+              "example": "5f33c095-44a4-4f38-b8e6-b379c093681f"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The status message was marked as being processed."
+          },
+          "400": {
+            "description": "`messageId` is not a valid GUID."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "description": "Token is valid but lacks the required scope."
+          },
+          "404": {
+            "description": "No status message exists with this identifier for the tenant.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EInvoiceIntegrationErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
+      }
+    },
+    "/integration/message/v1/eInvoices/{messageId}/response/success": {
+      "post": {
+        "tags": [
+          "E-invoicing: Status management"
+        ],
+        "summary": "Acknowledge an e-invoice status message as successfully processed.",
+        "description": "Acknowledges that the status message has been received and handled by the integration. It can be called directly, or after marking the message as being processed. After a successful call the message no longer appears in the pending list. The request has no body. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
+        "operationId": "EInvoiceUpdateIntegrationAsSuccess",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the status message, as returned by the list endpoint.",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "nullable": false,
+              "example": "5f33c095-44a4-4f38-b8e6-b379c093681f"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The status message was acknowledged."
+          },
+          "400": {
+            "description": "`messageId` is not a valid GUID."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "description": "Token is valid but lacks the required scope."
+          },
+          "404": {
+            "description": "No status message exists with this identifier for the tenant.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EInvoiceIntegrationErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
+      }
+    },
+    "/integration/message/v1/eInvoices/networkStatus": {
+      "post": {
+        "tags": [
+          "E-invoicing: Status management"
+        ],
+        "summary": "Submit a network status update for an invoice.",
+        "description": "Submits a status update received from the e-invoicing network for an invoice already known to Medius. Identify the invoice with either `importTrackingId` or `externalId` - exactly one of the two is required. On success the original message is stored and the status becomes visible in invoice history and monitoring. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
+        "operationId": "postEInvoiceNetworkStatusMessage",
+        "parameters": [
+          {
+            "name": "importTrackingId",
+            "in": "query",
+            "required": false,
+            "description": "Medius tracking id of the invoice the status refers to. Required unless `externalId` is supplied.",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "c5dc51d6-06da-4bbc-8323-d3e2e002a244"
+            }
+          },
+          {
+            "name": "externalId",
+            "in": "query",
+            "required": false,
+            "description": "Identifier assigned by the sending system. Required unless `importTrackingId` is supplied.",
+            "schema": {
+              "type": "string",
+              "example": "ERP-INV-2024-0001"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The network status update, including the original message as received.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkStatusMessageRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The status was accepted and queued for processing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "Confirmation that the status was accepted.",
+                  "required": [
+                    "messageId"
+                  ],
+                  "properties": {
+                    "messageId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "Confirmation identifier; echoes the submitted `messageId`.",
+                      "example": "a1b2c3d4-e5f6-7890-1234-567890abcdef"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Neither `importTrackingId` nor `externalId` was supplied, required status details are missing, or `originalMessage` could not be decoded. Nothing is stored."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "description": "Token is valid but lacks the required scope."
+          },
+          "404": {
+            "description": "No invoice matches the supplied identifier within the tenant. Nothing is stored.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "The invoice could not be resolved.",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Description of the failure.",
+                      "example": "Invoice not found"
+                    },
+                    "importTrackingId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "nullable": true,
+                      "description": "The tracking id that was supplied."
+                    },
+                    "externalId": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "The external id that was supplied."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The invoice was found but has no associated company, so the status cannot be recorded."
+          }
+        },
+        "x-codegen-request-body-name": "networkStatus",
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
+      }
+    },
+    "/integration/message/v1/supplierInvoice/eInvoices": {
+      "get": {
+        "tags": [
+          "E-invoicing: Self-billing"
+        ],
+        "summary": "Get list of pending self billed e-invoices.",
+        "description": "Returns up to 1000 pending self billed e-invoices for the given company. Use the returned URL to get the self-billed e-invoice details. Only invoices in the `Pending` state are returned. Items that have moved to `Processing`, `Error` or `Succeeded` no longer appear. Entries are returned in a stable but arbitrary order: ascending lexicographic order of the lower-case dashed `messageId` text. This is neither chronological nor numeric GUID ordering. An unknown company is not an error: the response is `200` with an empty `messages` array. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
+        "operationId": "GetListPendingSelfBillingEInvoices",
+        "parameters": [
+          {
+            "name": "companyGlobalId",
+            "in": "query",
+            "description": "Company Global ID. Must be a parsable GUID.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "nullable": false,
+              "example": "3f1c2d4e-5a6b-4c7d-8e9f-0a1b2c3d4e5f"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSelfBillingEInvoicesIntegrationsResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "`companyGlobalId` is missing, blank, or not a valid GUID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "examples": {
+                  "missing": {
+                    "value": {
+                      "message": "companyGlobalId is required."
+                    }
+                  },
+                  "invalid": {
+                    "value": {
+                      "message": "companyGlobalId is not a valid GUID."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "description": "Token is valid but lacks the required scope."
+          }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
+      }
+    },
+    "/integration/message/v1/supplierInvoice/eInvoices/{messageId}": {
+      "get": {
+        "tags": [
+          "E-invoicing: Self-billing"
+        ],
+        "summary": "Get self billed e-invoice by ID.",
+        "description": "Returns the self-billed e-invoice payload for the given `messageId`. To discover available self-billed e-invoices, use the GET method without `{messageId}`. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
+        "operationId": "GetSelfBillingEInvoiceById",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the invoice.",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "nullable": false,
+              "example": "5f33c095-44a4-4f38-b8e6-b379c093681f"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SelfBillingEInvoiceDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "description": "Token is valid but lacks the required scope."
+          },
+          "404": {
+            "description": "Self-billed e-invoice not found."
+          },
+          "500": {
+            "description": "Unexpected server error."
+          }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
+      }
+    },
+    "/integration/message/v1/supplierInvoice/eInvoices/{messageId}/processing": {
+      "put": {
+        "tags": [
+          "E-invoicing: Self-billing"
+        ],
+        "summary": "Update processing status of the self-billed e-invoice to Processing.",
+        "description": "Transitions the invoice with the given `messageId` to `Processing`. Only `Pending` is a legal source state. This call is optional and may be used by integrators that want to track in-progress handling. It does not reserve or lease the invoice. After a successful call the invoice no longer appears in the pending list. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
+        "operationId": "SelfBillingEInvoiceUpdateAsProcessing",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the invoice.",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "nullable": false,
+              "example": "5f33c095-44a4-4f38-b8e6-b379c093681f"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully updated the integration status to `Processing`."
+          },
+          "400": {
+            "description": "Illegal status transition; the invoice is not currently `Pending`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "examples": {
+                  "invalidTransition": {
+                    "value": {
+                      "message": "Invalid status transition."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "description": "Token is valid but lacks the required scope."
+          },
+          "404": {
+            "description": "Self-billed e-invoice not found."
+          }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
+      }
+    },
+    "/integration/message/v1/supplierInvoice/eInvoices/{messageId}/response/success": {
+      "post": {
+        "tags": [
+          "E-invoicing: Self-billing"
+        ],
+        "summary": "Post confirmation on self-billed e-invoice document status.",
+        "description": "Transitions the invoice to `Succeeded`. Integrators may call this directly from `Pending` or after `Processing`. This is the preferred way to track successful completion on our side. The request has no body. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
+        "operationId": "SelfBillingEInvoiceUpdateIntegrationAsSuccess",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the invoice.",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "nullable": false,
+              "example": "5f33c095-44a4-4f38-b8e6-b379c093681f"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully updated the integration status to `Succeeded`."
+          },
+          "400": {
+            "description": "Illegal status transition; the invoice is neither `Pending` nor `Processing`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "examples": {
+                  "invalidTransition": {
+                    "value": {
+                      "message": "Invalid status transition."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "description": "Token is valid but lacks the required scope."
+          },
+          "404": {
+            "description": "Self-billed e-invoice not found."
+          }
+        },
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
+      }
+    },
+    "/integration/message/v1/supplierInvoice/eInvoices/{messageId}/response/error": {
+      "post": {
+        "tags": [
+          "E-invoicing: Self-billing"
+        ],
+        "summary": "Post error on self-billed e-invoice document status.",
+        "description": "Transitions the invoice to `Error`. Integrators may call this directly from `Pending` or after `Processing`. The request body contains a list of error messages describing the failure. Requires an access token with the `Integration.DocumentImport` or `Integration` scope.",
+        "operationId": "SelfBillingEInvoiceUpdateIntegrationAsError",
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the invoice.",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "nullable": false,
+              "example": "5f33c095-44a4-4f38-b8e6-b379c093681f"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SelfBillingEInvoiceErrorRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successfully updated the integration status to `Error`."
+          },
+          "400": {
+            "description": "`messages` is missing or empty, or the status transition is illegal because the invoice is neither `Pending` nor `Processing`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "examples": {
+                  "emptyMessages": {
+                    "value": {
+                      "message": "At least one error message is required."
+                    }
+                  },
+                  "invalidTransition": {
+                    "value": {
+                      "message": "Invalid status transition."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "description": "Token is valid but lacks the required scope."
+          },
+          "404": {
+            "description": "Self-billed e-invoice not found."
+          }
+        },
+        "x-codegen-request-body-name": "errorMessages",
+        "security": [
+          {
+            "mediusflowcloudauth": [
+              "Integration.DocumentImport",
+              "Integration"
+            ]
+          }
+        ]
       }
     }
   },
@@ -27921,7 +28608,2770 @@
 						"example": "CUST-99"
 					}
 				}
-			}      
+			},
+      "EInvoiceIntegrationPartyIdentifier": {
+        "type": "object",
+        "description": "Network and registry identifiers of a trade party.",
+        "properties": {
+          "electronicAddress": {
+            "type": "string",
+            "nullable": true,
+            "example": "0009:123456789",
+            "description": "Electronic address of the party on the network."
+          },
+          "electronicAddressType": {
+            "type": "string",
+            "nullable": true,
+            "example": "0009",
+            "description": "Scheme identifier qualifying `electronicAddress`."
+          },
+          "partyIdentifier": {
+            "type": "string",
+            "nullable": true,
+            "example": "12345678900017",
+            "description": "Legal or registry identifier of the party."
+          },
+          "partyIdentifierType": {
+            "type": "string",
+            "nullable": true,
+            "example": "0002",
+            "description": "Scheme identifier qualifying `partyIdentifier`."
+          }
+        }
+      },
+      "EInvoiceIntegrationPartyContact": {
+        "type": "object",
+        "description": "Contact details of a trade party.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "example": "Jean Dupont",
+            "description": "Contact name."
+          },
+          "telephone": {
+            "type": "string",
+            "nullable": true,
+            "example": "+33 1 23 45 67 89",
+            "description": "Contact telephone number."
+          },
+          "email": {
+            "type": "string",
+            "nullable": true,
+            "example": "ap@example.com",
+            "description": "Contact e-mail address."
+          }
+        }
+      },
+      "EInvoiceIntegrationTradeParty": {
+        "type": "object",
+        "description": "A party involved in the status exchange (sender, issuer or recipient).",
+        "required": [
+          "roleCode"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "example": "Example Supplier SAS",
+            "description": "Party name."
+          },
+          "roleCode": {
+            "type": "string",
+            "example": "SE",
+            "description": "Role of the party in the exchange. Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "FR",
+            "description": "Country of the party, as an ISO 3166-1 alpha-2 code."
+          },
+          "identifiers": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationPartyIdentifier"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationPartyContact"
+          }
+        }
+      },
+      "EInvoiceIntegrationDocumentStatus": {
+        "type": "object",
+        "description": "Status assigned to the document by the e-invoicing network.",
+        "required": [
+          "labels",
+          "networkCode"
+        ],
+        "properties": {
+          "labels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Approuvee",
+              "Approved"
+            ],
+            "description": "Human-readable labels for `networkCode`. For markets that provide localised labels, both the local and the English label are returned."
+          },
+          "networkCode": {
+            "type": "string",
+            "example": "205",
+            "description": "Status code assigned by the e-invoicing network, for example `205` (Approved) or `210` (Refused). Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          }
+        }
+      },
+      "EInvoiceIntegrationNote": {
+        "type": "object",
+        "description": "Free-text note attached to a status detail.",
+        "required": [
+          "content"
+        ],
+        "properties": {
+          "content": {
+            "type": "string",
+            "example": "The invoice amount is not correct. The total does not include discounts.",
+            "description": "Free-text note content."
+          }
+        }
+      },
+      "EInvoiceIntegrationMonetaryAmount": {
+        "type": "object",
+        "description": "A monetary amount with its currency.",
+        "required": [
+          "amount",
+          "currency"
+        ],
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "decimal",
+            "example": 1000.0,
+            "description": "Monetary value."
+          },
+          "currency": {
+            "type": "string",
+            "example": "EUR",
+            "description": "Currency of `amount`, as an ISO 4217 code."
+          }
+        }
+      },
+      "EInvoiceIntegrationCharacteristic": {
+        "type": "object",
+        "description": "A single value that differs from the value on the original document. Deviation values keep the signed buyer perspective, so a negative value means the buyer expects less than was invoiced.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true,
+            "example": "BT-112",
+            "description": "Identifier of the invoice term the characteristic refers to, given as a business term id."
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "example": "Total amount deviation",
+            "description": "Human-readable name of the characteristic."
+          },
+          "typeCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "DIV",
+            "description": "Type of the characteristic. Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          },
+          "location": {
+            "type": "string",
+            "nullable": true,
+            "example": "/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction",
+            "description": "Path to the element the characteristic refers to within the source document."
+          },
+          "valueChanged": {
+            "type": "boolean",
+            "example": true,
+            "description": "Whether the value was changed by the network or the recipient."
+          },
+          "valueAmount": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationMonetaryAmount"
+          },
+          "valueDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Date-time value of the characteristic. Returned without a trailing offset, in `yyyy-MM-ddTHH:mm:ss` form."
+          },
+          "valuePercent": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true,
+            "example": 12.5,
+            "description": "Percentage value of the characteristic."
+          },
+          "valueNumeric": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true,
+            "example": -2,
+            "description": "Signed numeric value, such as a quantity difference or a number of days. Omitted when not set. Mutually exclusive with `valueAmount` for deviation characteristics."
+          },
+          "unitOfMeasure": {
+            "type": "string",
+            "nullable": true,
+            "example": "DAY",
+            "description": "Qualifies `valueNumeric`. Only returned for a due-date deviation, where the value is `DAY` and `valueNumeric` is a number of days. Omitted otherwise."
+          }
+        }
+      },
+      "EInvoiceIntegrationStatusDetail": {
+        "type": "object",
+        "description": "Reason, expected action and deviating values behind a document status.",
+        "properties": {
+          "reasonCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "TX_TVA_ERR",
+            "description": "Code explaining why the status was set, for example `TX_TVA_ERR` (incorrect VAT rate) or `DOUBLON` (duplicate invoice). Always present on responses. Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          },
+          "reasonLabels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "example": [
+              "Taux de TVA erroné"
+            ],
+            "description": "Human-readable labels for `reasonCode`. Returned in the language used by the network, which is not necessarily English."
+          },
+          "actionCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "NIN",
+            "description": "Code describing the action expected from the supplier, for example `NIN` (issue a corrective invoice) or `NOA` (no action required). Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          },
+          "actionLabels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "example": [
+              "Créer une Facture Rectificative"
+            ],
+            "description": "Human-readable labels for `actionCode`. Returned in the language used by the network, which is not necessarily English."
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EInvoiceIntegrationNote"
+            },
+            "nullable": true,
+            "description": "Free-text notes accompanying the reason."
+          },
+          "characteristics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EInvoiceIntegrationCharacteristic"
+            },
+            "nullable": true,
+            "description": "Values that deviate from the original document."
+          }
+        }
+      },
+      "EInvoiceIntegrationDocumentReference": {
+        "type": "object",
+        "description": "The document this status refers to.",
+        "required": [
+          "issuer"
+        ],
+        "properties": {
+          "issuer": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationTradeParty"
+          },
+          "typeCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "380",
+            "description": "Type of the referenced document. Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          },
+          "issuedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the referenced document was issued. Returned without a trailing offset, in `yyyy-MM-ddTHH:mm:ss` form."
+          },
+          "receiptDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the referenced document was received. Returned without a trailing offset, in `yyyy-MM-ddTHH:mm:ss` form."
+          },
+          "issuerAssignedId": {
+            "type": "string",
+            "nullable": true,
+            "example": "INV-2024-0001",
+            "description": "Identifier the issuer assigned to the referenced document, typically the invoice number."
+          }
+        }
+      },
+      "EInvoiceIntegrationResponse": {
+        "type": "object",
+        "description": "Response context describing which document the status answers.",
+        "required": [
+          "documentReference"
+        ],
+        "properties": {
+          "typeCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "AB",
+            "description": "Type of the response. Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          },
+          "roleCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "BY",
+            "description": "Role of the responding party. Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+          },
+          "documentReference": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationDocumentReference"
+          }
+        }
+      },
+      "EInvoiceIntegrationAttachment": {
+        "type": "object",
+        "description": "The original status message received from the network, carried verbatim.",
+        "required": [
+          "mimeType",
+          "format",
+          "content"
+        ],
+        "properties": {
+          "mimeType": {
+            "type": "string",
+            "example": "application/xml",
+            "description": "Media type of `content`. Supported values are `application/xml` and `application/json`."
+          },
+          "format": {
+            "type": "string",
+            "example": "Peppol",
+            "description": "Network or document format of the original message."
+          },
+          "content": {
+            "type": "string",
+            "format": "byte",
+            "example": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4=",
+            "description": "Base64-encoded original status message as received from the network. XML content is validated for well-formedness and the request is rejected if it cannot be decoded."
+          }
+        }
+      },
+      "EInvoiceIntegrationDocumentIdentifier": {
+        "type": "object",
+        "description": "Identifies the invoice the status message was matched to.",
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "nullable": true,
+            "example": "ERP-INV-2024-0001",
+            "description": "Identifier assigned by the sending system, if the status was matched on `externalId`."
+          },
+          "importTrackingId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "example": "5f33c095-44a4-4f38-b8e6-b379c093681f",
+            "description": "Medius tracking id of the invoice the status refers to."
+          }
+        }
+      },
+      "EInvoiceIntegrationErrorResponse": {
+        "type": "object",
+        "description": "Error body returned by the e-invoicing status endpoints.",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Status Message not found",
+            "description": "Description of the failure."
+          }
+        }
+      },
+      "EInvoiceIntegrationMessageListDto": {
+        "type": "object",
+        "description": "A pending status message, referenced by URL.",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "nullable": false,
+            "format": "uri",
+            "example": "https://api.medius.com/tenant1/integration/message/v1/eInvoices/1e7d8f9a-3c4b-4d2e-8f9a-3c4b4d2e8f9a",
+            "description": "Absolute link to the status message details. Follow it as-is rather than rebuilding it; the tenant segment is the tenant the request was made against."
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetEInvoiceIntegrationsResultDto": {
+        "type": "object",
+        "description": "List of pending e-invoice status messages.",
+        "required": [
+          "messages"
+        ],
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EInvoiceIntegrationMessageListDto"
+            },
+            "nullable": false,
+            "description": "Pending status messages for the requested company. Empty when none match."
+          }
+        },
+        "additionalProperties": false
+      },
+      "NetworkStatusMessageRequestBody": {
+        "type": "object",
+        "description": "Network status update for an invoice already known to Medius.",
+        "required": [
+          "documentStatus",
+          "originalMessage"
+        ],
+        "properties": {
+          "testMode": {
+            "type": "boolean",
+            "example": false,
+            "description": "Marks the submission as a test. Test statuses are stored but are not treated as production events."
+          },
+          "messageId": {
+            "type": "string",
+            "format": "uuid",
+            "example": "0a8f3d2c-1b4e-4c2a-9f7d-2e6b1c5a9d34",
+            "description": "Identifier assigned by the caller. Returned unchanged as the confirmation identifier in the `201` response."
+          },
+          "documentStatus": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationDocumentStatus"
+          },
+          "issuedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-04-10T14:48:00Z",
+            "description": "When the status was issued by the network. Accepts an offset; use UTC."
+          },
+          "statusDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EInvoiceIntegrationStatusDetail"
+            },
+            "description": "Reasons and expected actions behind the status. Typically populated for rejections and partial approvals."
+          },
+          "sender": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationTradeParty"
+          },
+          "issuer": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationTradeParty"
+          },
+          "recipient": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationTradeParty"
+          },
+          "response": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationResponse"
+          },
+          "originalMessage": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationAttachment"
+          }
+        }
+      },
+      "NetworkStatusMessageResponseBody": {
+        "type": "object",
+        "description": "Status message recorded for an invoice.",
+        "required": [
+          "messageId",
+          "documentStatus",
+          "issuedDateTime",
+          "sender",
+          "issuer",
+          "recipient",
+          "response"
+        ],
+        "properties": {
+          "testMode": {
+            "type": "boolean",
+            "example": false,
+            "description": "Whether the status was submitted as a test."
+          },
+          "messageId": {
+            "type": "string",
+            "example": "0a8f3d2c-1b4e-4c2a-9f7d-2e6b1c5a9d34",
+            "description": "Identifier of the status message. Normally a GUID, but some networks supply their own identifier format, so treat it as an opaque string."
+          },
+          "documentIdentifier": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationDocumentIdentifier"
+          },
+          "documentStatus": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationDocumentStatus"
+          },
+          "statusDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EInvoiceIntegrationStatusDetail"
+            },
+            "nullable": true,
+            "description": "Reasons and expected actions behind the status."
+          },
+          "issuedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the status was issued by the network. Returned as UTC without a trailing offset, in `yyyy-MM-ddTHH:mm:ss` form."
+          },
+          "sender": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationTradeParty"
+          },
+          "issuer": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationTradeParty"
+          },
+          "recipient": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationTradeParty"
+          },
+          "response": {
+            "$ref": "#/components/schemas/EInvoiceIntegrationResponse"
+          }
+        }
+      },
+      "GetSelfBillingEInvoicesIntegrationsResultDto": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingEInvoiceIntegrationListDto"
+            },
+            "nullable": false,
+            "description": "At most 1000 entries. Empty when no pending invoice matches."
+          }
+        },
+        "required": [
+          "messages"
+        ],
+        "additionalProperties": false
+      },
+      "SelfBillingEInvoiceIntegrationListDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "nullable": false,
+            "example": "https://api.medius.com/tenant1/integration/message/v1/supplierInvoice/eInvoices/5f33c095-44a4-4f38-b8e6-b379c093681f",
+            "description": "Absolute link to the self-billed e-invoice details; follow it as-is rather than mapping it to a path here. Built as `https://api.medius.com/{tenant}/integration/message/v1/supplierInvoice/eInvoices/{messageId}`."
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "additionalProperties": false
+      },
+      "SelfBillingEInvoiceErrorRequestDto": {
+        "type": "object",
+        "description": "Request body for the error endpoint. Unknown properties are ignored by the deserializer.",
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "List of error messages describing the failure. Must contain at least one entry."
+          }
+        },
+        "required": [
+          "messages"
+        ]
+      },
+      "SelfBillingEInvoiceDto": {
+        "type": "object",
+        "description": "Self-billing invoice payload. Every property is optional; unset values are returned as `null` rather than omitted.",
+        "properties": {
+          "profileID": {
+            "type": "string",
+            "description": "Business process type (e.g. urn:medius.com:medius:billing:1.0)"
+          },
+          "id": {
+            "type": "string",
+            "description": "Invoice / Credit note number"
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Issue date"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Due date"
+          },
+          "documentTypeCode": {
+            "type": "string",
+            "description": "Document type code (UNCL1001)"
+          },
+          "documentTypeLabel": {
+            "type": "string",
+            "description": "Human-readable label for the document type"
+          },
+          "note": {
+            "type": "string",
+            "description": "Free text"
+          },
+          "noteTypeCode": {
+            "type": "string",
+            "description": "Subject code for the preceding note text (BT-21)"
+          },
+          "taxPointDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "VAT point date"
+          },
+          "documentCurrencyCode": {
+            "type": "string",
+            "description": "Document currency code (ISO 4217)"
+          },
+          "taxCurrencyCode": {
+            "type": "string",
+            "description": "Tax currency code (ISO 4217)"
+          },
+          "accountingCost": {
+            "type": "string",
+            "description": "Accounting cost"
+          },
+          "buyerReference": {
+            "type": "string",
+            "description": "Buyer reference"
+          },
+          "copyIndicator": {
+            "type": "boolean",
+            "description": "Indicates if the document is a copy"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "Universally unique identifier for the document"
+          },
+          "placeOfIssue": {
+            "type": "string",
+            "description": "Place of issue of the invoice"
+          },
+          "eInvoiceTrackingId": {
+            "type": "string",
+            "description": "Tracking identifier for the e-invoice"
+          },
+          "invoiceMessageCreationDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date when the invoice message was created"
+          },
+          "invoiceMessageDirection": {
+            "type": "string",
+            "description": "Direction of the invoice message (inbound/outbound)"
+          },
+          "dueDateFromPayment": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Due date derived from payment terms"
+          },
+          "vehicleIdentificationNumber": {
+            "type": "string",
+            "description": "Vehicle identification number (VIN)"
+          },
+          "vehicleRegistrationNumber": {
+            "type": "string",
+            "description": "Vehicle registration number"
+          },
+          "preapprovedInvoiceString": {
+            "type": "string",
+            "description": "Pre-approved invoice indicator"
+          },
+          "meansOfPaymentCodes": {
+            "type": "string",
+            "description": "Payment means type codes"
+          },
+          "clearanceReferenceID": {
+            "type": "string",
+            "description": "Clearance system reference identifier"
+          },
+          "issueTimestamp": {
+            "type": "string",
+            "description": "Full timestamp of document issue including time, carried verbatim as text"
+          },
+          "invoicePeriod": {
+            "$ref": "#/components/schemas/SelfBillingInvoicePeriod"
+          },
+          "orderReference": {
+            "$ref": "#/components/schemas/SelfBillingOrderReference"
+          },
+          "billingReference": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingBillingReference"
+            },
+            "description": "Preceding invoice references"
+          },
+          "despatchDocumentReference": {
+            "$ref": "#/components/schemas/SelfBillingDespatchDocumentReference"
+          },
+          "receiptDocumentReference": {
+            "$ref": "#/components/schemas/SelfBillingSimpleDocumentReference"
+          },
+          "originatorDocumentReference": {
+            "$ref": "#/components/schemas/SelfBillingSimpleDocumentReference"
+          },
+          "contractDocumentReference": {
+            "$ref": "#/components/schemas/SelfBillingContractDocumentReference"
+          },
+          "additionalDocumentReference": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingAdditionalDocumentReference"
+            },
+            "description": "Additional document references"
+          },
+          "projectReference": {
+            "$ref": "#/components/schemas/SelfBillingProjectReference"
+          },
+          "accountingSupplierParty": {
+            "$ref": "#/components/schemas/SelfBillingSupplierParty"
+          },
+          "accountingCustomerParty": {
+            "$ref": "#/components/schemas/SelfBillingCustomerParty"
+          },
+          "payeeParty": {
+            "$ref": "#/components/schemas/SelfBillingPayeeParty"
+          },
+          "taxRepresentativeParty": {
+            "$ref": "#/components/schemas/SelfBillingTaxRepresentativeParty"
+          },
+          "delivery": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingDelivery"
+            }
+          },
+          "deliveryTerms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingDeliveryTerms"
+            }
+          },
+          "paymentMeans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingPaymentMeans"
+            }
+          },
+          "paymentTerms": {
+            "$ref": "#/components/schemas/SelfBillingPaymentTerms"
+          },
+          "allowanceCharge": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingAllowanceCharge"
+            }
+          },
+          "taxExchangeRate": {
+            "$ref": "#/components/schemas/SelfBillingTaxExchangeRate"
+          },
+          "taxTotal": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingTaxTotal"
+            }
+          },
+          "withholdingTaxTotal": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingWithholdingTaxTotal"
+            }
+          },
+          "legalMonetaryTotal": {
+            "$ref": "#/components/schemas/SelfBillingLegalMonetaryTotal"
+          },
+          "invoicedPrepaymentAmount": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingInvoicedPrepaymentAmount"
+            }
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingInvoiceLine"
+            },
+            "description": "Document lines"
+          },
+          "orderLine": {
+            "$ref": "#/components/schemas/SelfBillingOrderLine"
+          }
+        }
+      },
+      "SelfBillingInvoicePeriod": {
+        "type": "object",
+        "description": "Invoicing period",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Invoicing period start date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Invoicing period end date"
+          },
+          "descriptionCode": {
+            "type": "string",
+            "description": "Value added tax point date code (UNCL2005)"
+          }
+        }
+      },
+      "SelfBillingOrderReference": {
+        "type": "object",
+        "description": "Purchase order reference",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Purchase order reference"
+          },
+          "salesOrderID": {
+            "type": "string",
+            "description": "Sales order reference"
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Order issue date"
+          },
+          "manufacturerId": {
+            "type": "string",
+            "description": "Manufacturer order reference identifier"
+          }
+        }
+      },
+      "SelfBillingBillingReference": {
+        "type": "object",
+        "properties": {
+          "invoiceDocumentReference": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Preceding invoice number"
+              },
+              "issueDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Issue date of previous invoice"
+              },
+              "documentTypeCode": {
+                "type": "string",
+                "description": "Document type code"
+              }
+            }
+          },
+          "additionalDocumentReference": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Document identifier"
+                },
+                "issueDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Issue date"
+                }
+              }
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the billing reference"
+          },
+          "billingWithResponseId": {
+            "type": "string",
+            "description": "Billing with response identifier"
+          }
+        }
+      },
+      "SelfBillingDespatchDocumentReference": {
+        "type": "object",
+        "description": "Despatch advice reference",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Despatch advice reference"
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date of Despatch Advice Reference"
+          }
+        }
+      },
+      "SelfBillingSimpleDocumentReference": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Document reference identifier"
+          }
+        }
+      },
+      "SelfBillingContractDocumentReference": {
+        "type": "object",
+        "description": "Contract reference",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Contract reference"
+          },
+          "documentType": {
+            "type": "string",
+            "description": "Document type"
+          }
+        }
+      },
+      "SelfBillingAdditionalDocumentReference": {
+        "type": "object",
+        "description": "Additional document reference",
+        "properties": {
+          "identifier": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Document reference identifier"
+              },
+              "schemeID": {
+                "type": "string",
+                "description": "Scheme identifier for the document reference"
+              }
+            }
+          },
+          "documentTypeCode": {
+            "type": "string",
+            "description": "Document type code"
+          },
+          "documentDescription": {
+            "type": "string",
+            "description": "Description of the referenced document"
+          },
+          "attachment": {
+            "type": "object",
+            "description": "Attached document",
+            "properties": {
+              "embeddedDocumentBinaryObject": {
+                "type": "string",
+                "description": "Base64 encoded document"
+              },
+              "mimeCode": {
+                "type": "string",
+                "description": "MIME type of the attached document"
+              },
+              "filename": {
+                "type": "string",
+                "description": "Filename of the attached document"
+              },
+              "externalReference": {
+                "type": "object",
+                "properties": {
+                  "uri": {
+                    "type": "string",
+                    "description": "URL to the referenced document"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "SelfBillingProjectReference": {
+        "type": "object",
+        "description": "Project reference",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Project reference"
+          },
+          "name": {
+            "type": "string",
+            "description": "Project name (BT-11-0)"
+          }
+        }
+      },
+      "SelfBillingEndpointID": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier"
+          },
+          "schemeID": {
+            "type": "string",
+            "description": "Identifier scheme"
+          }
+        }
+      },
+      "SelfBillingPartyIdentification": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Party identifier"
+          },
+          "schemeID": {
+            "type": "string",
+            "description": "Party identifier scheme ID (ISO 6523 ICD)"
+          }
+        }
+      },
+      "SelfBillingPostalAddress": {
+        "type": "object",
+        "properties": {
+          "streetName": {
+            "type": "string",
+            "description": "Street name"
+          },
+          "additionalStreetName": {
+            "type": "string",
+            "description": "Additional street name"
+          },
+          "addressLine": {
+            "type": "string",
+            "description": "Address line 3"
+          },
+          "cityName": {
+            "type": "string",
+            "description": "City name"
+          },
+          "postalZone": {
+            "type": "string",
+            "description": "Postal code"
+          },
+          "countrySubentity": {
+            "type": "string",
+            "description": "Country subentity"
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "Country code"
+          },
+          "gln": {
+            "type": "string",
+            "description": "Global Location Number (GLN)"
+          }
+        }
+      },
+      "SelfBillingDeliveryFrom": {
+        "type": "object",
+        "description": "Reduced address (`DeliveryFromDto`). Reused for `delivery.deliveryFrom`, `delivery.deliveryThrough`, and `delivery.carrierParty.postalAddress`.",
+        "properties": {
+          "streetName": {
+            "type": "string"
+          },
+          "additionalStreetName": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "gln": {
+            "type": "string"
+          }
+        }
+      },
+      "SelfBillingPhysicalLocation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Physical location identifier"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "additionalStreetName": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          }
+        }
+      },
+      "SelfBillingPartyTaxScheme": {
+        "type": "object",
+        "properties": {
+          "companyID": {
+            "type": "string",
+            "description": "Tax registration number"
+          },
+          "taxSchemeID": {
+            "type": "string",
+            "description": "Tax scheme identifier (e.g. VAT)"
+          }
+        }
+      },
+      "SelfBillingPartyLegalEntity": {
+        "type": "object",
+        "properties": {
+          "registrationName": {
+            "type": "string",
+            "description": "Registration name"
+          },
+          "companyID": {
+            "type": "string",
+            "description": "Legal company identifier"
+          },
+          "companyIDSchemeID": {
+            "type": "string",
+            "description": "Legal company scheme identifier (ISO 6523 ICD)"
+          }
+        }
+      },
+      "SelfBillingContact": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Contact name"
+          },
+          "telephone": {
+            "type": "string",
+            "description": "Contact telephone"
+          },
+          "electronicMail": {
+            "type": "string",
+            "description": "Contact email"
+          },
+          "department": {
+            "type": "string",
+            "description": "Contact department name"
+          }
+        }
+      },
+      "SelfBillingPerson": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "description": "First name"
+          },
+          "familyName": {
+            "type": "string",
+            "description": "Family name"
+          }
+        }
+      },
+      "SelfBillingServiceProviderParty": {
+        "type": "object",
+        "description": "Service provider party",
+        "properties": {
+          "endpointID": {
+            "$ref": "#/components/schemas/SelfBillingEndpointID"
+          },
+          "partyIdentification": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingPartyIdentification"
+            }
+          },
+          "partyName": {
+            "type": "string",
+            "description": "Service provider party name"
+          },
+          "postalAddress": {
+            "$ref": "#/components/schemas/SelfBillingPostalAddress"
+          },
+          "partyLegalEntity": {
+            "$ref": "#/components/schemas/SelfBillingPartyLegalEntity"
+          },
+          "partyTaxScheme": {
+            "$ref": "#/components/schemas/SelfBillingPartyTaxScheme"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/SelfBillingContact"
+          },
+          "industryClassificationCode": {
+            "type": "string",
+            "description": "Industry classification code"
+          },
+          "person": {
+            "$ref": "#/components/schemas/SelfBillingPerson"
+          }
+        }
+      },
+      "SelfBillingAgentParty": {
+        "type": "object",
+        "description": "Agent party",
+        "properties": {
+          "endpointID": {
+            "$ref": "#/components/schemas/SelfBillingEndpointID"
+          },
+          "partyIdentification": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingPartyIdentification"
+            }
+          },
+          "partyName": {
+            "type": "string",
+            "description": "Party name"
+          },
+          "postalAddress": {
+            "$ref": "#/components/schemas/SelfBillingPostalAddress"
+          },
+          "partyLegalEntity": {
+            "$ref": "#/components/schemas/SelfBillingPartyLegalEntity"
+          },
+          "partyTaxScheme": {
+            "$ref": "#/components/schemas/SelfBillingPartyTaxScheme"
+          },
+          "contact": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SelfBillingContact"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "typeCode": {
+                    "type": "string",
+                    "description": "Agent party contact type code"
+                  }
+                }
+              }
+            ]
+          },
+          "industryClassificationCode": {
+            "type": "string",
+            "description": "Industry classification code"
+          }
+        }
+      },
+      "SelfBillingSupplierParty": {
+        "type": "object",
+        "description": "Accounting supplier party",
+        "properties": {
+          "endpointID": {
+            "$ref": "#/components/schemas/SelfBillingEndpointID"
+          },
+          "partyIdentification": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingPartyIdentification"
+            }
+          },
+          "partyName": {
+            "type": "string",
+            "description": "Party name"
+          },
+          "postalAddress": {
+            "$ref": "#/components/schemas/SelfBillingPostalAddress"
+          },
+          "physicalLocation": {
+            "$ref": "#/components/schemas/SelfBillingPhysicalLocation"
+          },
+          "partyTaxScheme": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SelfBillingPartyTaxScheme"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "taxLevelCode": {
+                    "type": "string",
+                    "description": "Tax level code"
+                  },
+                  "taxLevelCodeLabel": {
+                    "type": "string",
+                    "description": "Human-readable label for the tax level code"
+                  }
+                }
+              }
+            ]
+          },
+          "partyLegalEntity": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SelfBillingPartyLegalEntity"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "companyLegalForm": {
+                    "type": "string",
+                    "description": "Seller additional legal information"
+                  }
+                }
+              }
+            ]
+          },
+          "contact": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SelfBillingContact"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Contact identifier"
+                  }
+                }
+              }
+            ]
+          },
+          "eori": {
+            "type": "string",
+            "description": "Economic Operators Registration and Identification (EORI) number"
+          },
+          "nip": {
+            "type": "string",
+            "description": "Tax identification number (NIP)"
+          },
+          "industryClassificationCode": {
+            "type": "string"
+          },
+          "customerAssignedAccountID": {
+            "type": "string",
+            "description": "Customer assigned account ID"
+          },
+          "serviceProviderParty": {
+            "$ref": "#/components/schemas/SelfBillingServiceProviderParty"
+          },
+          "agentParty": {
+            "$ref": "#/components/schemas/SelfBillingAgentParty"
+          }
+        }
+      },
+      "SelfBillingCustomerParty": {
+        "type": "object",
+        "description": "Accounting customer party",
+        "properties": {
+          "endpointID": {
+            "$ref": "#/components/schemas/SelfBillingEndpointID"
+          },
+          "partyIdentification": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingPartyIdentification"
+            }
+          },
+          "partyName": {
+            "type": "string",
+            "description": "Party name"
+          },
+          "postalAddress": {
+            "$ref": "#/components/schemas/SelfBillingPostalAddress"
+          },
+          "physicalLocation": {
+            "$ref": "#/components/schemas/SelfBillingPhysicalLocation"
+          },
+          "partyTaxScheme": {
+            "$ref": "#/components/schemas/SelfBillingPartyTaxScheme"
+          },
+          "partyLegalEntity": {
+            "$ref": "#/components/schemas/SelfBillingPartyLegalEntity"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/SelfBillingContact"
+          },
+          "eori": {
+            "type": "string",
+            "description": "EORI number"
+          },
+          "nip": {
+            "type": "string",
+            "description": "Tax identification number (NIP)"
+          },
+          "industryClassificationCode": {
+            "type": "string"
+          },
+          "supplierAssignedAccountId": {
+            "type": "string",
+            "description": "Account identifier assigned by the supplier to the buyer"
+          },
+          "powerOfAttorney": {
+            "type": "object",
+            "description": "Power of Attorney",
+            "properties": {
+              "description": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "agentParty": {
+                "type": "object",
+                "properties": {
+                  "registrationName": {
+                    "type": "string"
+                  },
+                  "taxSchemeCompanyID": {
+                    "type": "string"
+                  },
+                  "taxSchemeID": {
+                    "type": "string"
+                  },
+                  "person": {
+                    "$ref": "#/components/schemas/SelfBillingPerson"
+                  }
+                }
+              }
+            }
+          },
+          "serviceProviderParty": {
+            "$ref": "#/components/schemas/SelfBillingServiceProviderParty"
+          },
+          "agentParty": {
+            "$ref": "#/components/schemas/SelfBillingAgentParty"
+          }
+        }
+      },
+      "SelfBillingPayeeParty": {
+        "type": "object",
+        "description": "Payee party",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Payee party identifier (BT-60)"
+          },
+          "partyIdentification": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingPartyIdentification"
+            }
+          },
+          "partyName": {
+            "type": "string"
+          },
+          "partyLegalEntity": {
+            "type": "object",
+            "properties": {
+              "companyID": {
+                "type": "string",
+                "description": "Legal company identifier"
+              },
+              "companyIDSchemeID": {
+                "type": "string",
+                "description": "Legal company scheme identifier (ISO 6523 ICD)"
+              }
+            }
+          },
+          "postalAddress": {
+            "$ref": "#/components/schemas/SelfBillingPostalAddress"
+          },
+          "partyTaxScheme": {
+            "$ref": "#/components/schemas/SelfBillingPartyTaxScheme"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/SelfBillingContact"
+          },
+          "endpointID": {
+            "$ref": "#/components/schemas/SelfBillingEndpointID"
+          },
+          "industryClassificationCode": {
+            "type": "string"
+          }
+        }
+      },
+      "SelfBillingTaxRepresentativeParty": {
+        "type": "object",
+        "description": "Tax representative party",
+        "properties": {
+          "partyName": {
+            "type": "string"
+          },
+          "partyIdentification": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingPartyIdentification"
+            }
+          },
+          "postalAddress": {
+            "$ref": "#/components/schemas/SelfBillingPostalAddress"
+          },
+          "partyTaxScheme": {
+            "$ref": "#/components/schemas/SelfBillingPartyTaxScheme"
+          }
+        }
+      },
+      "SelfBillingDelivery": {
+        "type": "object",
+        "description": "Delivery information",
+        "properties": {
+          "actualDeliveryDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Delivery date"
+          },
+          "actualDeliveryTime": {
+            "type": "string",
+            "description": "Actual delivery time, carried verbatim as text"
+          },
+          "deliveryLocation": {
+            "type": "object",
+            "properties": {
+              "identifier": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "schemeID": {
+                    "type": "string"
+                  }
+                }
+              },
+              "name": {
+                "type": "string",
+                "description": "Location name"
+              },
+              "gln": {
+                "type": "string",
+                "description": "Delivery location GLN"
+              },
+              "address": {
+                "$ref": "#/components/schemas/SelfBillingPostalAddress"
+              }
+            }
+          },
+          "deliveryParty": {
+            "type": "object",
+            "properties": {
+              "partyName": {
+                "type": "string"
+              }
+            }
+          },
+          "despatch": {
+            "type": "object",
+            "properties": {
+              "actualDespatchDate": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "actualDespatchTime": {
+                "type": "string",
+                "description": "Carried verbatim as text"
+              },
+              "requestedDespatchDate": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "requestedDespatchTime": {
+                "type": "string",
+                "description": "Carried verbatim as text"
+              },
+              "instructions": {
+                "type": "string",
+                "description": "Despatch instructions"
+              },
+              "shipment": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Shipment ID"
+                  },
+                  "grossWeightMeasure": {
+                    "type": "number",
+                    "description": "Gross weight"
+                  },
+                  "grossWeightUnitCode": {
+                    "type": "string"
+                  },
+                  "netWeightMeasure": {
+                    "type": "number",
+                    "description": "Net weight"
+                  },
+                  "netWeightUnitCode": {
+                    "type": "string"
+                  },
+                  "totalTransportHandlingUnitQuantity": {
+                    "type": "number"
+                  },
+                  "totalTransportHandlingUnitUnitCode": {
+                    "type": "string"
+                  },
+                  "goodsItemDescription": {
+                    "type": "string"
+                  },
+                  "transportMeansTypeCode": {
+                    "type": "string"
+                  },
+                  "unitDescription": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "deliveryFrom": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SelfBillingDeliveryFrom"
+              }
+            ],
+            "description": "Despatch-from location"
+          },
+          "deliveryThrough": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SelfBillingDeliveryFrom"
+              }
+            ],
+            "description": "Deliver-through location"
+          },
+          "carrierParty": {
+            "type": "object",
+            "properties": {
+              "partyIdentification": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/SelfBillingPartyIdentification"
+                }
+              },
+              "partyName": {
+                "type": "string"
+              },
+              "postalAddress": {
+                "$ref": "#/components/schemas/SelfBillingDeliveryFrom"
+              },
+              "partyTaxScheme": {
+                "$ref": "#/components/schemas/SelfBillingPartyTaxScheme"
+              },
+              "person": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "familyName": {
+                    "type": "string"
+                  },
+                  "identityDocumentReference": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "documentTypeCode": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "SelfBillingDeliveryTerms": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Delivery terms identifier"
+              },
+              "schemeID": {
+                "type": "string",
+                "description": "Delivery terms identifier scheme"
+              }
+            }
+          },
+          "deliveryLocationName": {
+            "type": "string",
+            "description": "Delivery terms location name"
+          }
+        }
+      },
+      "SelfBillingPaymentMeans": {
+        "type": "object",
+        "properties": {
+          "paymentDueDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Payment due date"
+          },
+          "paymentMeansCode": {
+            "type": "string",
+            "description": "Payment means code (UNCL4461)"
+          },
+          "paymentMeansCodeName": {
+            "type": "string",
+            "description": "Payment means name"
+          },
+          "paymentMeansId": {
+            "type": "string",
+            "description": "Payment means unique identifier"
+          },
+          "paymentID": {
+            "type": "string",
+            "description": "Payment identifier"
+          },
+          "instructionNote": {
+            "type": "string",
+            "description": "Payment instruction free text note"
+          },
+          "cardAccount": {
+            "type": "object",
+            "properties": {
+              "primaryAccountNumberID": {
+                "type": "string"
+              },
+              "networkID": {
+                "type": "string",
+                "description": "Payment card network identifier"
+              },
+              "holderName": {
+                "type": "string"
+              }
+            }
+          },
+          "payeeFinancialAccount": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Payment account number"
+              },
+              "name": {
+                "type": "string",
+                "description": "Payment account name"
+              },
+              "financialInstitutionBranch": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Payment account identifier"
+                  },
+                  "financialInstitutionID": {
+                    "type": "string",
+                    "description": "Financial institution identifier (BIC)"
+                  }
+                }
+              }
+            }
+          },
+          "paymentMandate": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Payment mandate reference identifier"
+              },
+              "payerFinancialAccountID": {
+                "type": "string",
+                "description": "Debited account identifier (BT-91)"
+              },
+              "nationalAccountId": {
+                "type": "string",
+                "description": "National bank account identifier (BT-84-0)"
+              },
+              "payerParty": {
+                "$ref": "#/components/schemas/SelfBillingCustomerParty"
+              }
+            }
+          }
+        }
+      },
+      "SelfBillingPaymentTerms": {
+        "type": "object",
+        "properties": {
+          "note": {
+            "type": "string",
+            "description": "Payment terms description"
+          },
+          "paymentDueDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Payment due date"
+          },
+          "overdueFreeText": {
+            "type": "string",
+            "description": "Overdue payment free text note"
+          },
+          "settlementBaseAmount": {
+            "type": "number",
+            "description": "Early payment settlement base amount"
+          },
+          "settlementPayableAmount": {
+            "type": "number",
+            "description": "Early payment settlement payable amount"
+          },
+          "settlementPeriodStartDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Early payment settlement period start date"
+          }
+        }
+      },
+      "SelfBillingTaxCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Tax category code (UNCL5305)"
+          },
+          "percent": {
+            "type": "number",
+            "description": "Tax category percent"
+          },
+          "taxSchemeID": {
+            "type": "string",
+            "description": "Tax scheme identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "Tax category name"
+          },
+          "exemptionReason": {
+            "type": "string",
+            "description": "Tax exemption reason text"
+          },
+          "exemptionReasonCode": {
+            "type": "string",
+            "description": "Tax exemption reason code"
+          }
+        }
+      },
+      "SelfBillingAllowanceCharge": {
+        "type": "object",
+        "description": "Allowance or charge. chargeIndicator=true for charges, false for allowances.",
+        "properties": {
+          "chargeIndicator": {
+            "type": "boolean",
+            "description": "true = charge, false = allowance"
+          },
+          "allowanceChargeReasonCode": {
+            "type": "string",
+            "description": "Reason code (UNCL5189 / UNCL7161)"
+          },
+          "allowanceChargeReason": {
+            "type": "string",
+            "description": "Allowance or charge reason"
+          },
+          "multiplierFactorNumeric": {
+            "type": "number",
+            "description": "Allowance or charge percentage"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Allowance or charge amount"
+          },
+          "amountCurrencyCode": {
+            "type": "string",
+            "description": "Amount currency (ISO 4217)"
+          },
+          "baseAmount": {
+            "type": "number",
+            "description": "Base amount"
+          },
+          "baseAmountCurrencyCode": {
+            "type": "string",
+            "description": "Base amount currency (ISO 4217)"
+          },
+          "taxExemptAmount": {
+            "type": "number",
+            "description": "Tax-exempt amount for charges (chargeIndicator=true only)"
+          },
+          "taxExemptCurrencyCode": {
+            "type": "string",
+            "description": "Currency code for the tax-exempt charge amount (chargeIndicator=true only)"
+          },
+          "discountTaxExemptAmount": {
+            "type": "number",
+            "description": "Tax-exempt amount for allowances (chargeIndicator=false only)"
+          },
+          "discountTaxExemptCurrencyCode": {
+            "type": "string",
+            "description": "Currency code for the discount tax-exempt amount (chargeIndicator=false only)"
+          },
+          "taxCategory": {
+            "$ref": "#/components/schemas/SelfBillingTaxCategory"
+          }
+        }
+      },
+      "SelfBillingTaxExchangeRate": {
+        "type": "object",
+        "description": "Tax exchange rate information (only when two different currencies are used)",
+        "properties": {
+          "sourceCurrencyCode": {
+            "type": "string"
+          },
+          "targetCurrencyCode": {
+            "type": "string"
+          },
+          "calculationRate": {
+            "type": "number"
+          },
+          "mathematicOperatorCode": {
+            "type": "string",
+            "description": "e.g. multiply"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Exchange rate date"
+          }
+        }
+      },
+      "SelfBillingTaxSubtotalCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Tax category code (UNCL5305)"
+          },
+          "percent": {
+            "type": "number"
+          },
+          "taxExemptionReasonCode": {
+            "type": "string",
+            "description": "VATEX codes"
+          },
+          "taxExemptionReason": {
+            "type": "array",
+            "items": {},
+            "description": "Tax exemption reason"
+          },
+          "taxSchemeID": {
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string",
+            "description": "Tax category cross-reference identifier (tax currency subtotal only)"
+          }
+        }
+      },
+      "SelfBillingTaxSubtotal": {
+        "type": "object",
+        "properties": {
+          "taxableAmount": {
+            "type": "number"
+          },
+          "taxableAmountCurrencyCode": {
+            "type": "string"
+          },
+          "taxAmount": {
+            "type": "number"
+          },
+          "taxAmountCurrencyCode": {
+            "type": "string"
+          },
+          "taxRounding": {
+            "type": "number",
+            "description": "Tax rounding amount per subtotal"
+          },
+          "taxCategory": {
+            "$ref": "#/components/schemas/SelfBillingTaxSubtotalCategory"
+          }
+        }
+      },
+      "SelfBillingTaxTotal": {
+        "type": "object",
+        "description": "Tax total. Two entries may appear",
+        "properties": {
+          "taxAmount": {
+            "type": "number",
+            "description": "Document total tax amount"
+          },
+          "taxAmountCurrencyCode": {
+            "type": "string",
+            "description": "Tax amount currency (ISO 4217)"
+          },
+          "taxSubtotal": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingTaxSubtotal"
+            }
+          }
+        }
+      },
+      "SelfBillingWithholdingTaxTotal": {
+        "type": "object",
+        "properties": {
+          "taxAmount": {
+            "type": "number",
+            "description": "Document withholding tax amount"
+          },
+          "taxAmountCurrencyCode": {
+            "type": "string"
+          },
+          "taxTypeNo": {
+            "type": "string",
+            "description": "Withholding tax type number"
+          },
+          "taxSubtotal": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "taxableAmount": {
+                  "type": "number"
+                },
+                "taxableAmountCurrencyCode": {
+                  "type": "string"
+                },
+                "taxAmount": {
+                  "type": "number"
+                },
+                "taxAmountCurrencyCode": {
+                  "type": "string"
+                },
+                "taxCategory": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "percent": {
+                      "type": "number"
+                    },
+                    "taxExemptionReasonCode": {
+                      "type": "string"
+                    },
+                    "taxExemptionReason": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "taxSchemeID": {
+                      "type": "string"
+                    },
+                    "taxTypeCode": {
+                      "type": "string",
+                      "description": "Tax type code for withholding tax"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "SelfBillingLegalMonetaryTotal": {
+        "type": "object",
+        "description": "Legal monetary totals",
+        "properties": {
+          "lineExtensionAmount": {
+            "type": "number",
+            "description": "Sum of all line net amounts"
+          },
+          "lineExtensionAmountCurrencyCode": {
+            "type": "string"
+          },
+          "taxExclusiveAmount": {
+            "type": "number",
+            "description": "Total invoice amount excluding tax"
+          },
+          "taxExclusiveAmountCurrencyCode": {
+            "type": "string"
+          },
+          "taxInclusiveAmount": {
+            "type": "number",
+            "description": "Total invoice amount including tax"
+          },
+          "taxInclusiveAmountCurrencyCode": {
+            "type": "string"
+          },
+          "allowanceTotalAmount": {
+            "type": "number",
+            "description": "Sum of all document-level allowances"
+          },
+          "allowanceTotalAmountCurrencyCode": {
+            "type": "string"
+          },
+          "chargeTotalAmount": {
+            "type": "number",
+            "description": "Sum of all document-level charges"
+          },
+          "chargeTotalAmountCurrencyCode": {
+            "type": "string"
+          },
+          "prepaidAmount": {
+            "type": "number",
+            "description": "Amount already prepaid"
+          },
+          "prepaidAmountCurrencyCode": {
+            "type": "string"
+          },
+          "payableRoundingAmount": {
+            "type": "number",
+            "description": "Rounding amount"
+          },
+          "payableRoundingAmountCurrencyCode": {
+            "type": "string"
+          },
+          "payableAmount": {
+            "type": "number",
+            "description": "Payable amount"
+          },
+          "payableAmountCurrencyCode": {
+            "type": "string"
+          }
+        }
+      },
+      "SelfBillingInvoicedPrepaymentAmount": {
+        "type": "object",
+        "description": "Prepayment amounts applied to this invoice",
+        "properties": {
+          "taxAmount": {
+            "type": "number",
+            "description": "Prepaid total tax amount"
+          },
+          "taxAmountCurrencyCode": {
+            "type": "string"
+          },
+          "prepaidAmount": {
+            "type": "number"
+          },
+          "prepaidAmountCurrencyCode": {
+            "type": "string"
+          },
+          "paymentDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date of the prepayment"
+          },
+          "taxExchangeRateCalculationRate": {
+            "type": "number",
+            "description": "Tax exchange rate for prepayment"
+          },
+          "taxSubtotal": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingTaxSubtotal"
+            }
+          },
+          "billingReference": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "invoiceDocumentReference": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Prepayment invoice reference number"
+                    },
+                    "issueDate": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Prepayment invoice issue date"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "reducedTotals": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "reducedTotalAmount": {
+                  "type": "number"
+                },
+                "reducedTotalAmountCurrencyCode": {
+                  "type": "string"
+                },
+                "taxSubTotal": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "taxableAmount": {
+                        "type": "number"
+                      },
+                      "taxableAmountCurrencyCode": {
+                        "type": "string"
+                      },
+                      "taxAmount": {
+                        "type": "number"
+                      },
+                      "taxAmountCurrencyCode": {
+                        "type": "string"
+                      },
+                      "taxCategory": {
+                        "$ref": "#/components/schemas/SelfBillingTaxSubtotalCategory"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "SelfBillingInvoiceLine": {
+        "type": "object",
+        "description": "Invoice line",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Line identifier"
+          },
+          "note": {
+            "type": "string",
+            "description": "Line note"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Quantity"
+          },
+          "quantityUnitCode": {
+            "type": "string",
+            "description": "Quantity unit of measure UN/ECE Rec 20"
+          },
+          "orderedQuantity": {
+            "type": "number",
+            "description": "Quantity ordered"
+          },
+          "orderedQuantityUnitCode": {
+            "type": "string",
+            "description": "Quantity ordered unit of measure (UN/ECE Rec 20)"
+          },
+          "lineExtensionAmount": {
+            "type": "number",
+            "description": "Net amount"
+          },
+          "lineExtensionAmountCurrencyCode": {
+            "type": "string"
+          },
+          "lineExtensionTaxInclusiveAmount": {
+            "type": "number",
+            "description": "Line net amount including tax (EXT-FR-FE-184)"
+          },
+          "lineExtensionTaxInclusiveAmountCurrencyCode": {
+            "type": "string"
+          },
+          "accountingCost": {
+            "type": "string",
+            "description": "Invoice line accounting reference"
+          },
+          "sourceUUID": {
+            "type": "string",
+            "description": "Source UUID for the invoice line"
+          },
+          "taxPointDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Tax point date for the invoice line"
+          },
+          "taxExchangeRateCalculationRate": {
+            "type": "number",
+            "description": "Tax exchange rate for the invoice line"
+          },
+          "invoicePeriod": {
+            "type": "object",
+            "properties": {
+              "startDate": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "endDate": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "descriptionCode": {
+                "type": "string",
+                "description": "VAT date code (UNCL2005)"
+              },
+              "typeCode": {
+                "type": "string",
+                "description": "Invoice period type code"
+              }
+            }
+          },
+          "orderLineReference": {
+            "type": "object",
+            "properties": {
+              "lineID": {
+                "type": "string"
+              },
+              "salesOrderLineID": {
+                "type": "string"
+              },
+              "salesOrderId": {
+                "type": "string"
+              },
+              "orderReference": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "salesOrderID": {
+                    "type": "string"
+                  },
+                  "issueDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          },
+          "despatchLineReference": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "lineID": {
+                  "type": "string"
+                },
+                "documentReference": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "issueDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "receiptLineReference": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "lineID": {
+                  "type": "string"
+                },
+                "documentReference": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "documentReference": {
+            "type": "object",
+            "properties": {
+              "identifier": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "schemeID": {
+                    "type": "string"
+                  }
+                }
+              },
+              "documentTypeCode": {
+                "type": "string"
+              }
+            }
+          },
+          "billingReference": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "invoiceDocumentReference": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "issueDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "documentTypeCode": {
+                      "type": "string"
+                    },
+                    "documentStatusCode": {
+                      "type": "string"
+                    },
+                    "lineId": {
+                      "type": "string",
+                      "description": "Referenced invoice line identifier (BT-X-540)"
+                    }
+                  }
+                },
+                "billingReferenceLine": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "deliveryNoteIssueDateReference": {
+            "type": "string",
+            "description": "Delivery note issue date reference, carried verbatim as text"
+          },
+          "allowanceCharge": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfBillingAllowanceCharge"
+            }
+          },
+          "delivery": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "quantity": {
+                  "type": "number"
+                },
+                "quantityUnitCode": {
+                  "type": "string"
+                },
+                "actualDeliveryDate": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "deliveryLocation": {
+                  "type": "object",
+                  "properties": {
+                    "identifier": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "schemeID": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "$ref": "#/components/schemas/SelfBillingPostalAddress"
+                    }
+                  }
+                },
+                "deliveryParty": {
+                  "type": "object",
+                  "properties": {
+                    "partyName": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "item": {
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "buyersItemIdentification": {
+                "type": "string",
+                "description": "Buyer's item identifier"
+              },
+              "sellersItemIdentification": {
+                "type": "string",
+                "description": "Seller's item identifier"
+              },
+              "standardItemIdentification": {
+                "type": "string"
+              },
+              "standardItemIdentificationSchemeID": {
+                "type": "string",
+                "description": "e.g. GTIN"
+              },
+              "originCountryCode": {
+                "type": "string",
+                "description": "Country of origin code (BT-159)"
+              },
+              "commodityClassification": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "itemClassificationCode": {
+                      "type": "string"
+                    },
+                    "listID": {
+                      "type": "string"
+                    },
+                    "listVersionID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "classifiedTaxCategory": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Tax category (UNCL5305)"
+                  },
+                  "percent": {
+                    "type": "number"
+                  },
+                  "taxExemptionReasonCode": {
+                    "type": "string"
+                  },
+                  "taxExemptionReason": {
+                    "type": "string",
+                    "description": "First tax exemption reason of the source category"
+                  },
+                  "taxSchemeID": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "taxSchemeName": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalItemProperty": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    },
+                    "nameCode": {
+                      "type": "string"
+                    },
+                    "valueQuantity": {
+                      "type": "number"
+                    },
+                    "valueQuantityUnitCode": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "manufacturerParty": {
+                "type": "object",
+                "properties": {
+                  "partyIdentification": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/SelfBillingPartyIdentification"
+                    }
+                  },
+                  "partyName": {
+                    "type": "string"
+                  },
+                  "postalAddress": {
+                    "$ref": "#/components/schemas/SelfBillingPostalAddress"
+                  },
+                  "partyTaxScheme": {
+                    "$ref": "#/components/schemas/SelfBillingPartyTaxScheme"
+                  },
+                  "partyLegalEntity": {
+                    "$ref": "#/components/schemas/SelfBillingPartyLegalEntity"
+                  },
+                  "endpointID": {
+                    "$ref": "#/components/schemas/SelfBillingEndpointID"
+                  }
+                }
+              }
+            }
+          },
+          "taxTotal": {
+            "type": "object",
+            "description": "Line tax total",
+            "properties": {
+              "taxAmount": {
+                "type": "number"
+              },
+              "taxAmountCurrencyCode": {
+                "type": "string"
+              }
+            }
+          },
+          "price": {
+            "type": "object",
+            "properties": {
+              "priceAmount": {
+                "type": "number",
+                "description": "Item net price"
+              },
+              "priceAmountCurrencyCode": {
+                "type": "string"
+              },
+              "priceTaxInclusiveAmount": {
+                "type": "number",
+                "description": "Item price including tax"
+              },
+              "priceTaxInclusiveAmountCurrencyCode": {
+                "type": "string"
+              },
+              "baseQuantity": {
+                "type": "number"
+              },
+              "baseQuantityUnitCode": {
+                "type": "string",
+                "description": "UN/ECE Rec 20"
+              },
+              "allowanceCharge": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "chargeIndicator": {
+                      "type": "boolean"
+                    },
+                    "amount": {
+                      "type": "number"
+                    },
+                    "amountCurrencyCode": {
+                      "type": "string"
+                    },
+                    "baseAmount": {
+                      "type": "number"
+                    },
+                    "baseAmountCurrencyCode": {
+                      "type": "string"
+                    },
+                    "baseQuantity": {
+                      "type": "number"
+                    },
+                    "baseQuantityUnitCode": {
+                      "type": "string"
+                    },
+                    "allowanceChargeReason": {
+                      "type": "string"
+                    },
+                    "allowanceChargeReasonCode": {
+                      "type": "string",
+                      "description": "UNCL5189 / UNCL7161"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "SelfBillingOrderLine": {
+        "type": "object",
+        "description": "Order line data from the original purchase order",
+        "properties": {
+          "sourceLineId": {
+            "type": "string",
+            "description": "Source line identifier from the order"
+          },
+          "sourceUUID": {
+            "type": "string",
+            "description": "Source UUID from the order"
+          },
+          "name": {
+            "type": "string",
+            "description": "Order line item name"
+          },
+          "goodsServicesIndicator": {
+            "type": "string",
+            "description": "Goods or services indicator"
+          },
+          "procedure": {
+            "type": "string",
+            "description": "Procurement procedure code"
+          },
+          "gtu": {
+            "type": "string",
+            "description": "GTU (goods and services group) code"
+          },
+          "beforeCorrectionIndicator": {
+            "type": "boolean",
+            "description": "Indicates if this is before correction"
+          },
+          "lineDeliveryQuantity": {
+            "type": "number"
+          },
+          "lineDeliveryQuantityUnitCode": {
+            "type": "string"
+          },
+          "lineExtensionAmount": {
+            "type": "number",
+            "description": "Order line net amount"
+          },
+          "orderTotalAmount": {
+            "type": "number"
+          },
+          "priceBaseAmount": {
+            "type": "number",
+            "description": "Order line price base amount"
+          },
+          "sellersItemIdentification": {
+            "type": "string"
+          },
+          "standardItemIdentification": {
+            "type": "string"
+          },
+          "cnItemIdentification": {
+            "type": "string",
+            "description": "CN item identification in order"
+          },
+          "pkobItemIdentification": {
+            "type": "string",
+            "description": "PKOB item identification in order"
+          },
+          "pkwiuItemIdentification": {
+            "type": "string",
+            "description": "PKWiU item identification in order"
+          },
+          "classifiedTaxCategoryPercent": {
+            "type": "number",
+            "description": "Order line tax category percentage"
+          },
+          "classifiedSpecialTaxCategoryPercent": {
+            "type": "number",
+            "description": "Order line special tax category percentage"
+          },
+          "taxWithSubTotal": {
+            "type": "number",
+            "description": "Order line tax amount with subtotal"
+          },
+          "exciseTaxWithSubTotal": {
+            "type": "number",
+            "description": "Order line excise tax amount with subtotal"
+          }
+        }
+      }
     },
     "securitySchemes": {
       "mediusflowcloudauth": {
