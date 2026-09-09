@@ -8003,7 +8003,7 @@
             }
           },
           "400": {
-            "description": "Neither `importTrackingId` nor `externalId` was supplied, required status details are missing, or `originalMessage` could not be decoded. Nothing is stored."
+            "description": "Neither `importTrackingId` nor `externalId` was supplied; `messageId` is missing or the all-zero GUID; `issuedDateTime` is missing or the default `0001-01-01T00:00:00Z` value; `documentStatus.networkCode` is missing or blank; or `originalMessage` could not be decoded. Nothing is stored."
           },
           "401": {
             "description": "Missing or invalid access token."
@@ -28716,8 +28716,9 @@
           },
           "networkCode": {
             "type": "string",
+            "pattern": "\\S",
             "example": "205",
-            "description": "Status code assigned by the e-invoicing network, for example `205` (Approved) or `210` (Refused). Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market."
+            "description": "Status code assigned by the e-invoicing network, for example `205` (Approved) or `210` (Refused). Values are network- and country-specific; refer to the country-specific e-invoicing documentation for the codes supported in your market. Must not be blank; on submission a missing or whitespace-only value is rejected with `400`."
           }
         }
       },
@@ -29032,7 +29033,9 @@
         "type": "object",
         "description": "Network status update for an invoice already known to Medius.",
         "required": [
+          "messageId",
           "documentStatus",
+          "issuedDateTime",
           "originalMessage"
         ],
         "properties": {
@@ -29045,7 +29048,7 @@
             "type": "string",
             "format": "uuid",
             "example": "0a8f3d2c-1b4e-4c2a-9f7d-2e6b1c5a9d34",
-            "description": "Identifier assigned by the caller. Returned unchanged as the confirmation identifier in the `201` response."
+            "description": "Identifier assigned by the caller. Returned unchanged as the confirmation identifier in the `201` response. Must be a non-empty GUID; the all-zero GUID `00000000-0000-0000-0000-000000000000` is rejected with `400`."
           },
           "documentStatus": {
             "$ref": "#/components/schemas/EInvoiceIntegrationDocumentStatus"
@@ -29054,7 +29057,7 @@
             "type": "string",
             "format": "date-time",
             "example": "2024-04-10T14:48:00Z",
-            "description": "When the status was issued by the network. Accepts an offset; use UTC."
+            "description": "When the status was issued by the network. Accepts an offset; use UTC. The default value `0001-01-01T00:00:00Z` is rejected with `400`."
           },
           "statusDetails": {
             "type": "array",
