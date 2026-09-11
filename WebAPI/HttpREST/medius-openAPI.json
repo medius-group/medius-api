@@ -6719,6 +6719,117 @@
         "x-codegen-request-body-name": "invoice"
       }
     },
+    "/integration/documentImport/v1/errors": {
+      "get": {
+        "tags": [
+          "AP Automation: Invoice import"
+        ],
+        "summary": "Supplier invoice import errors",
+        "description": "When calling this endpoint a list of supplier invoice documents that are stuck in the import stage will be returned, together with the errors that currently block them from being imported.\nOnly documents that are still open are returned. Once a document has been successfully imported or removed it is no longer part of the result.\nAll filter parameters are optional and are combined with a logical AND. The updatedSince parameter filters out documents that have been changed since the updatedSince time stamp.\nIt is possible to adjust page sizes and offsets.",
+        "operationId": "DocumentImportErrorExport_Get",
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The offset",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": false,
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of records returned(max 1000).",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": false,
+              "default": 1000
+            }
+          },
+          {
+            "name": "updatedSince",
+            "in": "query",
+            "description": "Tells the service that we only want documents that have been changed after this date and time. Please follow ISO 8601 and input date or date and time, e.g. '2026-01-16T08:54:43'. Please note that all input is treated as UTC.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "description": "Filter documents on the identifier of the company that the document belongs to. Exact match.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "supplierId",
+            "in": "query",
+            "description": "Filter documents on the identifier of the supplier on the document. Exact match.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "invoiceNumber",
+            "in": "query",
+            "description": "Filter documents on the invoice number on the document. Exact match.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "errorMessage",
+            "in": "query",
+            "description": "Filter documents on the error message. Returns documents that have at least one error whose message contains the given text.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentImportErrorExportPageDto"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentImportErrorExportPageDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/integration/payment/v1/paymentBatches": {
       "get": {
         "tags": [
@@ -20077,6 +20188,394 @@
             "format": "int32",
             "xml": {
               "name": "FinalDocumentId"
+            }
+          }
+        }
+      },
+      "DocumentImportErrorExportPageDto": {
+        "required": [
+          "limit",
+          "offset",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "documents": {
+            "type": "array",
+            "xml": {
+              "name": "Documents",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/DocumentImportErrorDto"
+            }
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int32",
+            "xml": {
+              "name": "Offset"
+            }
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32",
+            "xml": {
+              "name": "Limit"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32",
+            "xml": {
+              "name": "Total"
+            }
+          },
+          "paging": {
+            "$ref": "#/components/schemas/Paging"
+          }
+        },
+        "xml": {
+          "name": "DocumentImportErrorPage"
+        }
+      },
+      "DocumentImportErrorDto": {
+        "required": [
+          "documentId"
+        ],
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The id of the document in Medius that failed to be imported.",
+            "xml": {
+              "name": "DocumentId"
+            }
+          },
+          "companyId": {
+            "type": "string",
+            "description": "The identifier of the company that the document belongs to.",
+            "xml": {
+              "name": "CompanyId"
+            }
+          },
+          "companyName": {
+            "type": "string",
+            "description": "The name of the company that the document belongs to.",
+            "xml": {
+              "name": "CompanyName"
+            }
+          },
+          "supplierId": {
+            "type": "string",
+            "description": "The identifier of the supplier on the document.",
+            "xml": {
+              "name": "SupplierId"
+            }
+          },
+          "supplierName": {
+            "type": "string",
+            "description": "The name of the supplier on the document.",
+            "xml": {
+              "name": "SupplierName"
+            }
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "description": "The invoice number on the document.",
+            "xml": {
+              "name": "InvoiceNumber"
+            }
+          },
+          "contractNumber": {
+            "type": "string",
+            "description": "The contract number on the document.",
+            "xml": {
+              "name": "ContractNumber"
+            }
+          },
+          "orderIdentifier": {
+            "type": "string",
+            "description": "The order identifier on the document.",
+            "xml": {
+              "name": "OrderIdentifier"
+            }
+          },
+          "invoiceReference": {
+            "type": "string",
+            "description": "The invoice reference on the document.",
+            "xml": {
+              "name": "InvoiceReference"
+            }
+          },
+          "invoiceDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The invoice date on the document.",
+            "xml": {
+              "name": "InvoiceDate"
+            }
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The due date on the document.",
+            "xml": {
+              "name": "DueDate"
+            }
+          },
+          "preferredPaymentDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The preferred payment date on the document.",
+            "xml": {
+              "name": "PreferredPaymentDate"
+            }
+          },
+          "importDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the document was received by Medius.",
+            "xml": {
+              "name": "ImportDate"
+            }
+          },
+          "currency": {
+            "type": "string",
+            "description": "The currency code of the amounts on the document.",
+            "xml": {
+              "name": "Currency"
+            }
+          },
+          "netAmount": {
+            "type": "number",
+            "format": "decimal",
+            "description": "The net amount on the document.",
+            "xml": {
+              "name": "NetAmount"
+            }
+          },
+          "total": {
+            "type": "number",
+            "format": "decimal",
+            "description": "The gross amount on the document.",
+            "xml": {
+              "name": "Total"
+            }
+          },
+          "documentSource": {
+            "type": "string",
+            "description": "The source that the document was received from.",
+            "xml": {
+              "name": "DocumentSource"
+            }
+          },
+          "documentFormat": {
+            "type": "string",
+            "description": "The format that the document was received in.",
+            "xml": {
+              "name": "DocumentFormat"
+            }
+          },
+          "documentProvider": {
+            "type": "string",
+            "description": "The provider that delivered the document.",
+            "xml": {
+              "name": "DocumentProvider"
+            }
+          },
+          "customFieldText1": {
+            "$ref": "#/components/schemas/CustomFieldTextDto"
+          },
+          "customFieldText2": {
+            "$ref": "#/components/schemas/CustomFieldTextDto"
+          },
+          "customFieldText3": {
+            "$ref": "#/components/schemas/CustomFieldTextDto"
+          },
+          "customFieldText4": {
+            "$ref": "#/components/schemas/CustomFieldTextDto"
+          },
+          "customFieldText5": {
+            "$ref": "#/components/schemas/CustomFieldTextDto"
+          },
+          "customFieldNumeric1": {
+            "$ref": "#/components/schemas/CustomFieldNumericDto"
+          },
+          "customFieldNumeric2": {
+            "$ref": "#/components/schemas/CustomFieldNumericDto"
+          },
+          "customFieldNumeric3": {
+            "$ref": "#/components/schemas/CustomFieldNumericDto"
+          },
+          "customFieldNumeric4": {
+            "$ref": "#/components/schemas/CustomFieldNumericDto"
+          },
+          "customFieldNumeric5": {
+            "$ref": "#/components/schemas/CustomFieldNumericDto"
+          },
+          "customFieldBoolean1": {
+            "$ref": "#/components/schemas/CustomFieldBooleanDto"
+          },
+          "customFieldBoolean2": {
+            "$ref": "#/components/schemas/CustomFieldBooleanDto"
+          },
+          "customFieldBoolean3": {
+            "$ref": "#/components/schemas/CustomFieldBooleanDto"
+          },
+          "customFieldBoolean4": {
+            "$ref": "#/components/schemas/CustomFieldBooleanDto"
+          },
+          "customFieldBoolean5": {
+            "$ref": "#/components/schemas/CustomFieldBooleanDto"
+          },
+          "customFieldDateTime1": {
+            "$ref": "#/components/schemas/CustomFieldDateTimeDto"
+          },
+          "customFieldDateTime2": {
+            "$ref": "#/components/schemas/CustomFieldDateTimeDto"
+          },
+          "customFieldDateTime3": {
+            "$ref": "#/components/schemas/CustomFieldDateTimeDto"
+          },
+          "customFieldDateTime4": {
+            "$ref": "#/components/schemas/CustomFieldDateTimeDto"
+          },
+          "customFieldDateTime5": {
+            "$ref": "#/components/schemas/CustomFieldDateTimeDto"
+          },
+          "errors": {
+            "type": "array",
+            "description": "The errors that currently block the document from being imported.",
+            "xml": {
+              "name": "Errors",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/ReasonCodeDto"
+            }
+          }
+        },
+        "xml": {
+          "name": "DocumentImportErrorDto"
+        }
+      },
+      "ReasonCodeDto": {
+        "type": "object",
+        "properties": {
+          "reasonCode": {
+            "type": "string",
+            "description": "The code identifying the reason for the error, when available.",
+            "xml": {
+              "name": "ReasonCode"
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "The error message, translated to English when a translation is available.",
+            "xml": {
+              "name": "Message"
+            }
+          },
+          "severity": {
+            "type": "string",
+            "description": "The severity of the error.",
+            "xml": {
+              "name": "Severity"
+            }
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the error was raised.",
+            "xml": {
+              "name": "Date"
+            }
+          }
+        },
+        "xml": {
+          "name": "ReasonCodeDto"
+        }
+      },
+      "CustomFieldTextDto": {
+        "type": "object",
+        "description": "A custom field on the document, holding the field name as configured for the company and the value set on the document.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the custom field as configured for the company.",
+            "xml": {
+              "name": "Name"
+            }
+          },
+          "value": {
+            "type": "string",
+            "description": "The value of the custom field on the document.",
+            "xml": {
+              "name": "Value"
+            }
+          }
+        }
+      },
+      "CustomFieldNumericDto": {
+        "type": "object",
+        "description": "A custom field on the document, holding the field name as configured for the company and the value set on the document.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the custom field as configured for the company.",
+            "xml": {
+              "name": "Name"
+            }
+          },
+          "value": {
+            "type": "number",
+            "format": "decimal",
+            "description": "The value of the custom field on the document.",
+            "xml": {
+              "name": "Value"
+            }
+          }
+        }
+      },
+      "CustomFieldBooleanDto": {
+        "type": "object",
+        "description": "A custom field on the document, holding the field name as configured for the company and the value set on the document.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the custom field as configured for the company.",
+            "xml": {
+              "name": "Name"
+            }
+          },
+          "value": {
+            "type": "boolean",
+            "description": "The value of the custom field on the document.",
+            "xml": {
+              "name": "Value"
+            }
+          }
+        }
+      },
+      "CustomFieldDateTimeDto": {
+        "type": "object",
+        "description": "A custom field on the document, holding the field name as configured for the company and the value set on the document.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the custom field as configured for the company.",
+            "xml": {
+              "name": "Name"
+            }
+          },
+          "value": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The value of the custom field on the document.",
+            "xml": {
+              "name": "Value"
             }
           }
         }
