@@ -24553,6 +24553,13 @@
               "$ref": "#/components/schemas/FollowupGroupExportDto"
             }
           },
+          "delegations": {
+            "type": "array",
+            "description": "Temporary delegations connected to the user.",
+            "items": {
+              "$ref": "#/components/schemas/DelegationExportDto"
+            }
+          },
           "customField_Text1": {
             "maxLength": 450,
             "type": "string",
@@ -24730,6 +24737,47 @@
         "required": [
           "name", 
           "companyId" 
+        ]
+      },
+      "DelegationExportDto": {
+        "type": "object",
+        "description": "Temporary delegation connected to the user.",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the delegation starts."
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date the delegation ends."
+          },
+          "responsibleGlobalId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Global GUID of the user that the tasks are delegated to."
+          },
+          "delegationType": {
+            "type": "string",
+            "description": "What is delegated: the user's own tasks, the tasks of the user's roles, or both.",
+            "enum": [
+              "User",
+              "Role",
+              "UserAndRole"
+            ]
+          },
+          "companyId": {
+            "type": "string",
+            "description": "Company id where the delegation is assigned to the user."
+          }
+        },
+        "required": [
+          "startDate",
+          "endDate",
+          "responsibleGlobalId",
+          "delegationType",
+          "companyId"
         ]
       },
       "VoucherResponseDto": {
