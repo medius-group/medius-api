@@ -24967,6 +24967,14 @@
             "xml": {
               "name": "VoucherDate"
             }
+          },
+          "preferredPaymentDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Optional preferred payment date supplied by the ERP. If provided, it updates the preferred payment date on the archived invoice and recalculates any applicable cash discount. The imported date is exposed on the Available for payment item in Medius Payments and takes precedence over a system-calculated preferred payment date. A preferred payment date manually edited in Medius Payments takes precedence over the ERP-imported date.",
+            "xml": {
+              "name": "PreferredPaymentDate"
+            }
           }
         },
         "xml": {
