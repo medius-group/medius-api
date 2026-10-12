@@ -11223,7 +11223,7 @@
           "codingLines": {
             "maxItems": 500,
             "type": "array",
-            "description": "Coding rules connected to the location. Each serialized coding combination must be unique within the company.",
+            "description": "Coding rules connected to the location. Each coding combination (dimension and value) must be unique within the company. The same value in different dimensions is not considered a duplicate.",
             "items": {
               "$ref": "#/components/schemas/IntegrationLocationCodingLineDto"
             }
@@ -11231,7 +11231,7 @@
           "users": {
             "maxItems": 500,
             "type": "array",
-            "description": "Users connected to the location. All provided usernames must exist in Medius; otherwise the import fails for this location.",
+            "description": "Users connected to the location. Can be empty, in which case no users are connected. If users are provided, at least one of the usernames must exist in Medius; otherwise the import fails for this location.",
             "items": {
               "$ref": "#/components/schemas/IntegrationLocationUserDto"
             }
@@ -11239,6 +11239,10 @@
           "limitToThisAddress": {
             "type": "boolean",
             "description": "If true, restrict location usage to the provided address."
+          },
+          "externalTaxJurisdictionCode": {
+            "type": "string",
+            "description": "Tax jurisdiction code of the location, used by the tax engine to determine which tax rules apply. Optional."
           }
         }
       },
