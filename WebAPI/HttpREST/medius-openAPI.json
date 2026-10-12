@@ -15430,10 +15430,40 @@
             "items": {
               "$ref": "#/components/schemas/ExternalSystemMetadataEntry"
             }
+          },
+          "location": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IntegrationPurchaseOrderLineLocationDto"
+              }
+            ],
+            "description": "Location for the purchase order line. The location must already exist and be active in the company of the purchase order, otherwise the line is rejected. Optional.",
+            "xml": {
+              "name": "Location"
+            }
           }
         },
         "xml": {
           "name": "PurchaseOrderLine"
+        }
+      },
+      "IntegrationPurchaseOrderLineLocationDto": {
+        "required": [
+          "locationId"
+        ],
+        "type": "object",
+        "properties": {
+          "locationId": {
+            "maxLength": 100,
+            "type": "string",
+            "description": "LocationId of an existing location, as imported through the location import. Together with the company of the purchase order it identifies the location. Other location fields in the message are ignored.",
+            "xml": {
+              "name": "LocationId"
+            }
+          }
+        },
+        "xml": {
+          "name": "Location"
         }
       },
       "IntegrationPreCodingLineDto": {
@@ -24049,14 +24079,14 @@
           },
           "exempt": {
             "type": "boolean",
-            "description": "Set to true if the tax code represents tax-exempt purchases, so that no tax is calculated for coding lines using it. Defaults to false.",
+            "description": "Set to true to mark the tax code as exempt, for example for tax-exempt purchases. Lines coded with an exempt tax code are excluded from the automatic distribution of the invoice total tax. Defaults to false.\n\nThe automatic distribution of the invoice total tax across lines is applied to a line only when all of the following conditions are met:\n- The tax code has `taxEngineEnabled` set to true.\n- The tax code `percentage` is 0.\n- The country code of the invoice company is US.\n- The tax code is not marked as `exempt`.\n- The tax code is not marked as `useTax`.",
             "xml": {
               "name": "Exempt"
             }
           },
           "useTax": {
             "type": "boolean",
-            "description": "Set to true if the tax code represents use tax, which is self-assessed by the buyer instead of being charged by the supplier. Defaults to false.",
+            "description": "Set to true to mark the tax code as use tax, which is self-assessed by the buyer instead of being charged by the supplier. Lines coded with a use tax code are excluded from the automatic distribution of the invoice total tax. Defaults to false.\n\nThe automatic distribution of the invoice total tax across lines is applied to a line only when all of the following conditions are met:\n- The tax code has `taxEngineEnabled` set to true.\n- The tax code `percentage` is 0.\n- The country code of the invoice company is US.\n- The tax code is not marked as `exempt`.\n- The tax code is not marked as `useTax`.",
             "xml": {
               "name": "UseTax"
             }
