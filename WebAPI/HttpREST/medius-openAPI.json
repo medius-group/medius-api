@@ -23543,6 +23543,27 @@
               "name": "Percentage"
             }
           },
+          "taxEngineEnabled": {
+            "type": "boolean",
+            "description": "Set to true if tax for coding lines using this tax code should be calculated by the tax engine. Defaults to false.",
+            "xml": {
+              "name": "TaxEngineEnabled"
+            }
+          },
+          "exempt": {
+            "type": "boolean",
+            "description": "Set to true if the tax code represents tax-exempt purchases, so that no tax is calculated for coding lines using it. Defaults to false.",
+            "xml": {
+              "name": "Exempt"
+            }
+          },
+          "useTax": {
+            "type": "boolean",
+            "description": "Set to true if the tax code represents use tax, which is self-assessed by the buyer instead of being charged by the supplier. Defaults to false.",
+            "xml": {
+              "name": "UseTax"
+            }
+          },
           "externalSystemMetadata": {
             "type": "array",
             "description": "ExternalSystemMetadata is a custom property that allows you to transfer data between systems. ExternalSystemMetadata is not accessible from the GUI, but is rather used for information or identifiers that need to be passed through Medius.",
