@@ -21777,17 +21777,6 @@
             "xml": {
               "name": "ImportBatchId"
             }
-          },
-          "shortPaymentConnectionLines": {
-            "type": "array",
-            "description": "Available on credit memos created from a short payment. Connects the credit memo lines to the original purchase order lines, including the original unit price, original quantity and related delivery notes.",
-            "xml": {
-              "name": "ShortPaymentConnectionLines",
-              "wrapped": true
-            },
-            "items": {
-              "$ref": "#/components/schemas/IntegrationShortPaymentConnectionLineDto"
-            }
           }
         },
         "xml": {
