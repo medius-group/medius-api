@@ -1517,7 +1517,7 @@
         "tags": [
           "Master data - import"
         ],
-        "description": "The POST method imports locations into Medius Procurement.\nThe company must exist, be active, and not be virtual.\nThe import upserts by company + locationId (existing location is updated, otherwise a new location is created).\nAll users in `users` must exist in Medius; if any user is missing, the location import fails.\nCoding lines are validated for uniqueness within the company and duplicate coding combinations are rejected.",
+        "description": "The POST method allows the client to send locations that will be imported by the Medius master data import queue.\nThe locations have company as prerequisite.",
         "operationId": "LocationBatchImportBatch_Post",
         "requestBody": {
           "description": "The locations to import",
