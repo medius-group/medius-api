@@ -12047,12 +12047,12 @@
           "locationId": {
             "maxLength": 100,
             "type": "string",
-            "description": "External identifier for the location. Used together with companyId for upsert matching. If empty, Medius generates a GUID."
+            "description": "External identifier for the location. The location is matched on locationId within the company given by companyId: an existing location is updated, otherwise a new one is created. If empty, Medius generates a GUID, which creates a new location."
           },
           "companyId": {
             "maxLength": 100,
             "type": "string",
-            "description": "CompanyId of the company in Medius Procurement. The company must exist, be active, and not be virtual."
+            "description": "CompanyId of the company in Medius. The company must exist, be active, and not be virtual."
           },
           "name": {
             "maxLength": 450,
@@ -21798,14 +21798,6 @@
             "format": "date-time",
             "xml": {
               "name": "PlatformAssignedDate"
-            }
-          },
-          "importBatchId": {
-            "type": "string",
-            "description": "Identifier of the import batch that the invoice was imported in. Empty if the invoice was not part of an import batch.",
-            "format": "uuid",
-            "xml": {
-              "name": "ImportBatchId"
             }
           }
         },
