@@ -6785,15 +6785,6 @@
               "type": "string",
               "nullable": true
             }
-          },
-          {
-            "name": "errorMessage",
-            "in": "query",
-            "description": "Filter documents on the error message. Returns documents that have at least one error whose message contains the given text.",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            }
           }
         ],
         "responses": {
@@ -20385,65 +20376,155 @@
               "name": "DocumentProvider"
             }
           },
-          "customFieldText1": {
-            "$ref": "#/components/schemas/CustomFieldTextDto"
+          "customField_Text1": {
+            "type": "string",
+            "description": "The value of custom field Text1 on the document.",
+            "xml": {
+              "name": "CustomField_Text1"
+            }
           },
-          "customFieldText2": {
-            "$ref": "#/components/schemas/CustomFieldTextDto"
+          "customField_Text2": {
+            "type": "string",
+            "description": "The value of custom field Text2 on the document.",
+            "xml": {
+              "name": "CustomField_Text2"
+            }
           },
-          "customFieldText3": {
-            "$ref": "#/components/schemas/CustomFieldTextDto"
+          "customField_Text3": {
+            "type": "string",
+            "description": "The value of custom field Text3 on the document.",
+            "xml": {
+              "name": "CustomField_Text3"
+            }
           },
-          "customFieldText4": {
-            "$ref": "#/components/schemas/CustomFieldTextDto"
+          "customField_Text4": {
+            "type": "string",
+            "description": "The value of custom field Text4 on the document.",
+            "xml": {
+              "name": "CustomField_Text4"
+            }
           },
-          "customFieldText5": {
-            "$ref": "#/components/schemas/CustomFieldTextDto"
+          "customField_Text5": {
+            "type": "string",
+            "description": "The value of custom field Text5 on the document.",
+            "xml": {
+              "name": "CustomField_Text5"
+            }
           },
-          "customFieldNumeric1": {
-            "$ref": "#/components/schemas/CustomFieldNumericDto"
+          "customField_Numeric1": {
+            "type": "number",
+            "format": "decimal",
+            "description": "The value of custom field Numeric1 on the document.",
+            "xml": {
+              "name": "CustomField_Numeric1"
+            }
           },
-          "customFieldNumeric2": {
-            "$ref": "#/components/schemas/CustomFieldNumericDto"
+          "customField_Numeric2": {
+            "type": "number",
+            "format": "decimal",
+            "description": "The value of custom field Numeric2 on the document.",
+            "xml": {
+              "name": "CustomField_Numeric2"
+            }
           },
-          "customFieldNumeric3": {
-            "$ref": "#/components/schemas/CustomFieldNumericDto"
+          "customField_Numeric3": {
+            "type": "number",
+            "format": "decimal",
+            "description": "The value of custom field Numeric3 on the document.",
+            "xml": {
+              "name": "CustomField_Numeric3"
+            }
           },
-          "customFieldNumeric4": {
-            "$ref": "#/components/schemas/CustomFieldNumericDto"
+          "customField_Numeric4": {
+            "type": "number",
+            "format": "decimal",
+            "description": "The value of custom field Numeric4 on the document.",
+            "xml": {
+              "name": "CustomField_Numeric4"
+            }
           },
-          "customFieldNumeric5": {
-            "$ref": "#/components/schemas/CustomFieldNumericDto"
+          "customField_Numeric5": {
+            "type": "number",
+            "format": "decimal",
+            "description": "The value of custom field Numeric5 on the document.",
+            "xml": {
+              "name": "CustomField_Numeric5"
+            }
           },
-          "customFieldBoolean1": {
-            "$ref": "#/components/schemas/CustomFieldBooleanDto"
+          "customField_Boolean1": {
+            "type": "boolean",
+            "description": "The value of custom field Boolean1 on the document.",
+            "xml": {
+              "name": "CustomField_Boolean1"
+            }
           },
-          "customFieldBoolean2": {
-            "$ref": "#/components/schemas/CustomFieldBooleanDto"
+          "customField_Boolean2": {
+            "type": "boolean",
+            "description": "The value of custom field Boolean2 on the document.",
+            "xml": {
+              "name": "CustomField_Boolean2"
+            }
           },
-          "customFieldBoolean3": {
-            "$ref": "#/components/schemas/CustomFieldBooleanDto"
+          "customField_Boolean3": {
+            "type": "boolean",
+            "description": "The value of custom field Boolean3 on the document.",
+            "xml": {
+              "name": "CustomField_Boolean3"
+            }
           },
-          "customFieldBoolean4": {
-            "$ref": "#/components/schemas/CustomFieldBooleanDto"
+          "customField_Boolean4": {
+            "type": "boolean",
+            "description": "The value of custom field Boolean4 on the document.",
+            "xml": {
+              "name": "CustomField_Boolean4"
+            }
           },
-          "customFieldBoolean5": {
-            "$ref": "#/components/schemas/CustomFieldBooleanDto"
+          "customField_Boolean5": {
+            "type": "boolean",
+            "description": "The value of custom field Boolean5 on the document.",
+            "xml": {
+              "name": "CustomField_Boolean5"
+            }
           },
-          "customFieldDateTime1": {
-            "$ref": "#/components/schemas/CustomFieldDateTimeDto"
+          "customField_DateTime1": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The value of custom field DateTime1 on the document.",
+            "xml": {
+              "name": "CustomField_DateTime1"
+            }
           },
-          "customFieldDateTime2": {
-            "$ref": "#/components/schemas/CustomFieldDateTimeDto"
+          "customField_DateTime2": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The value of custom field DateTime2 on the document.",
+            "xml": {
+              "name": "CustomField_DateTime2"
+            }
           },
-          "customFieldDateTime3": {
-            "$ref": "#/components/schemas/CustomFieldDateTimeDto"
+          "customField_DateTime3": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The value of custom field DateTime3 on the document.",
+            "xml": {
+              "name": "CustomField_DateTime3"
+            }
           },
-          "customFieldDateTime4": {
-            "$ref": "#/components/schemas/CustomFieldDateTimeDto"
+          "customField_DateTime4": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The value of custom field DateTime4 on the document.",
+            "xml": {
+              "name": "CustomField_DateTime4"
+            }
           },
-          "customFieldDateTime5": {
-            "$ref": "#/components/schemas/CustomFieldDateTimeDto"
+          "customField_DateTime5": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The value of custom field DateTime5 on the document.",
+            "xml": {
+              "name": "CustomField_DateTime5"
+            }
           },
           "errors": {
             "type": "array",
@@ -20496,88 +20577,6 @@
         },
         "xml": {
           "name": "ReasonCodeDto"
-        }
-      },
-      "CustomFieldTextDto": {
-        "type": "object",
-        "description": "A custom field on the document, holding the field name as configured for the company and the value set on the document.",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the custom field as configured for the company.",
-            "xml": {
-              "name": "Name"
-            }
-          },
-          "value": {
-            "type": "string",
-            "description": "The value of the custom field on the document.",
-            "xml": {
-              "name": "Value"
-            }
-          }
-        }
-      },
-      "CustomFieldNumericDto": {
-        "type": "object",
-        "description": "A custom field on the document, holding the field name as configured for the company and the value set on the document.",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the custom field as configured for the company.",
-            "xml": {
-              "name": "Name"
-            }
-          },
-          "value": {
-            "type": "number",
-            "format": "decimal",
-            "description": "The value of the custom field on the document.",
-            "xml": {
-              "name": "Value"
-            }
-          }
-        }
-      },
-      "CustomFieldBooleanDto": {
-        "type": "object",
-        "description": "A custom field on the document, holding the field name as configured for the company and the value set on the document.",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the custom field as configured for the company.",
-            "xml": {
-              "name": "Name"
-            }
-          },
-          "value": {
-            "type": "boolean",
-            "description": "The value of the custom field on the document.",
-            "xml": {
-              "name": "Value"
-            }
-          }
-        }
-      },
-      "CustomFieldDateTimeDto": {
-        "type": "object",
-        "description": "A custom field on the document, holding the field name as configured for the company and the value set on the document.",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the custom field as configured for the company.",
-            "xml": {
-              "name": "Name"
-            }
-          },
-          "value": {
-            "type": "string",
-            "format": "date-time",
-            "description": "The value of the custom field on the document.",
-            "xml": {
-              "name": "Value"
-            }
-          }
         }
       },
       "InvoiceRequestDto": {
