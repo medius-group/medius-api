@@ -4738,7 +4738,7 @@
         "tags": [
           "Master data - import"
         ],
-        "description": "The POST method allows the client to send suppliers that will be imported by the Medius master data import queue.\nThe supplier have payment term and company as mandatory prerequisite.\nIf additional dimensions are going to be used or Vat groups they need to be imported in advance.",
+        "description": "The POST method allows the client to send suppliers that will be imported by the Medius master data import queue.\nThe supplier have payment term and company as mandatory prerequisite.\nIf additional dimensions are going to be used or Vat groups they need to be imported in advance.\nEach entry in `paymentDetails` can carry an optional `paymentMethod` that overrides the supplier's `defaultPaymentMethod` for that payment detail only.",
         "operationId": "SupplierImportBatch_Post",
         "requestBody": {
           "description": "The suppliers to import",
@@ -4753,7 +4753,35 @@
                 "items": {
                   "$ref": "#/components/schemas/IntegrationSupplierDto"
                 }
-              }
+              },
+              "example": [
+                {
+                  "externalSystemId": "SUPP-0042",
+                  "supplierId": "SUPP-0042",
+                  "name": "Acme Supplies Ltd",
+                  "companyId": "COMP-01",
+                  "currencyCode": "GBP",
+                  "paymentTerm": "NET30",
+                  "isActive": true,
+                  "isProcurable": true,
+                  "defaultPaymentMethod": "ELEC",
+                  "paymentDetails": [
+                    {
+                      "externalSystemId": "PD-001",
+                      "description": "Main trading account",
+                      "isActive": true,
+                      "default": true
+                    },
+                    {
+                      "externalSystemId": "PD-002",
+                      "description": "Cheque remittance address",
+                      "isActive": true,
+                      "default": false,
+                      "paymentMethod": "CHQ"
+                    }
+                  ]
+                }
+              ]
             },
             "application/xml": {
               "schema": {
@@ -19384,7 +19412,7 @@
           "defaultPaymentMethod": {
             "type": "string",
             "maxLength": 450,
-            "description": "**Passed to SO** - Default payment method for the supplier. Used in Medius Supplier Onboarding to set the default payment method when working with company relationships.",
+            "description": "**Passed to SO** - Default payment method for the supplier. Used in Medius Supplier Onboarding to set the default payment method when working with company relationships. Applies to every payment detail of the supplier unless that payment detail has its own `paymentMethod`, which takes precedence for that payment detail only.",
             "xml": {
               "name": "DefaultPaymentMethod"
             }
@@ -19682,6 +19710,16 @@
             "format": "date-time",
             "xml": {
               "name": "CustomField_DateTime5"
+            }
+          },
+          "paymentMethod": {
+            "type": "string",
+            "maxLength": 450,
+            "nullable": true,
+            "description": "**Passed to SO** - Optional. The ERP payment method code for this payment detail. Same format as `defaultPaymentMethod`; single spaces are allowed. When populated, it takes precedence over the supplier's `defaultPaymentMethod` for this payment detail only. When absent, null or blank, the payment detail uses the supplier-level `defaultPaymentMethod`. Each import of the supplier replaces the previous state, so sending the supplier without `paymentMethod` removes a value sent earlier. The code must exist in the customer's payment method mapping; otherwise the supplier is held in the Supplier Management import queue until the mapping is added.",
+            "example": "CHQ",
+            "xml": {
+              "name": "PaymentMethod"
             }
           },
           "remitToId": {
@@ -27708,7 +27746,8 @@
           },
           "paymentMethod": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "Payment method of this payment detail. When payment method mapping is enabled, it carries the payment detail's own ERP payment method code if it has one, otherwise the supplier-level (company relationship) ERP payment method code. It is null after the payment detail's ERP code was cleared in Supplier Management, meaning the payment detail has no override and the vendor's default payment method applies. When payment method mapping is not enabled, it carries the name of the Medius payment method assigned to the payment detail, if any."
           },
           "accountDescription": {
             "type": "string",
