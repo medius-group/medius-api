@@ -158,7 +158,8 @@
                     }
                   ],
                   "referenceData": {
-                    "buyerOrderReferenceId": "SERV-1nnl97-TT"
+                    "buyerOrderReferenceId": "SERV-1nnl97-TT",
+                    "buyerReferenceId": "ACCOUNTS-PAYABLE"
                   },
                   "seller": {
                     "name": "EXPENSYA TEST1",
@@ -247,8 +248,19 @@
                         }
                       },
                       "item": {
-                        "name": "Item 1"
-                      }
+                        "name": "Item 1",
+                        "characteristics": [
+                          {
+                            "name": "Colour",
+                            "value": "Black"
+                          }
+                        ]
+                      },
+                      "notes": [
+                        {
+                          "content": "Deliver to the receiving department."
+                        }
+                      ]
                     }
                   ],
                   "paymentMeans": [
@@ -1374,7 +1386,8 @@
     "schemas": {
       "AllowanceChargeData": {
         "required": [
-          "actualAmount"
+          "actualAmount",
+          "taxDetail"
         ],
         "type": "object",
         "properties": {
@@ -1412,8 +1425,7 @@
                 "$ref": "#/components/schemas/AllowanceChargeTaxDetailData"
               }
             ],
-            "description": "VAT details for the allowance or charge.",
-            "nullable": true
+            "description": "VAT details for the allowance or charge."
           },
           "reason": {
             "type": "string",
@@ -1427,9 +1439,12 @@
           }
         },
         "additionalProperties": false,
-        "description": "An allowance (deduction) or charge (addition) applied to the invoice or a line."
+        "description": "An allowance (deduction) or charge (addition) applied to the invoice."
       },
       "AllowanceChargeTaxDetailData": {
+        "required": [
+          "categoryCode"
+        ],
         "type": "object",
         "properties": {
           "taxType": {
@@ -1439,18 +1454,27 @@
           },
           "categoryCode": {
             "type": "string",
-            "description": "VAT category code (e.g. S, Z, E).",
-            "nullable": true
+            "description": "VAT category code (e.g. S, Z, E)."
           },
           "percent": {
             "type": "number",
             "description": "VAT rate as a percentage.",
             "format": "double",
             "nullable": true
+          },
+          "exemptionReason": {
+            "type": "string",
+            "description": "Free-text explanation of the VAT exemption for this document adjustment.",
+            "nullable": true
+          },
+          "exemptionReasonCode": {
+            "type": "string",
+            "description": "Coded reason for the VAT exemption for this document adjustment.",
+            "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "VAT details for an allowance or charge."
+        "description": "VAT details for an invoice-level allowance or charge."
       },
       "AmountData": {
         "required": [
@@ -1553,24 +1577,28 @@
         "description": "Attachment entry for a status update."
       },
       "BankDirectDebitData": {
+        "required": [
+          "iban"
+        ],
         "type": "object",
         "properties": {
           "iban": {
             "type": "string",
-            "description": "IBAN of the account to be debited.",
-            "nullable": true
+            "description": "IBAN of the account to be debited."
           }
         },
         "additionalProperties": false,
         "description": "Direct debit payment details."
       },
       "BankTransferData": {
+        "required": [
+          "iban"
+        ],
         "type": "object",
         "properties": {
           "iban": {
             "type": "string",
-            "description": "IBAN of the account to be credited.",
-            "nullable": true
+            "description": "IBAN of the account to be credited."
           },
           "accountName": {
             "type": "string",
@@ -1580,6 +1608,11 @@
           "bic": {
             "type": "string",
             "description": "BIC/SWIFT code of the bank.",
+            "nullable": true
+          },
+          "proprietaryId": {
+            "type": "string",
+            "description": "Alternative account identifier; does not replace the required IBAN in this API.",
             "nullable": true
           }
         },
@@ -1636,17 +1669,19 @@
         "description": "Quantity billed on an invoice line."
       },
       "BillingPeriodData": {
+        "required": [
+          "begin",
+          "end"
+        ],
         "type": "object",
         "properties": {
           "begin": {
             "type": "string",
-            "description": "Start date in YYYY-MM-DD format.",
-            "nullable": true
+            "description": "Start date in YYYY-MM-DD format."
           },
           "end": {
             "type": "string",
-            "description": "End date in YYYY-MM-DD format.",
-            "nullable": true
+            "description": "End date in YYYY-MM-DD format."
           }
         },
         "additionalProperties": false,
@@ -1829,12 +1864,14 @@
         "type": "object",
         "properties": {
           "companyId": {
+            "maxLength": 100,
+            "minLength": 1,
             "type": "string",
             "description": "Unique ID of the company assigned by the ERP. Max 100 characters."
           },
           "format": {
             "type": "string",
-            "description": "Output format: cii, factur-x, or ubl."
+            "description": "Output format: cii, factur-x, or ubl.\r\nCII and UBL use EN16931; Factur-X uses EXTENDED. The profile cannot be overridden."
           },
           "submit": {
             "type": "boolean",
@@ -1899,14 +1936,26 @@
         "type": "object",
         "properties": {
           "invoiceNumber": {
+            "maxLength": 20,
+            "minLength": 1,
             "type": "string",
             "description": "Invoice number assigned by the seller. Max 20 characters."
           },
           "invoiceDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
             "type": "string",
             "description": "Invoice issue date in YYYY-MM-DD format."
           },
           "type": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "format": "int32"
+              },
+              {
+                "type": "string"
+              }
+            ],
             "description": "Invoice type code (e.g. 380 for commercial invoice, 381 for credit note). Accepts a numeric or string value."
           },
           "invoiceDueDate": {
@@ -1966,6 +2015,60 @@
             ],
             "description": "The buyer (customer) receiving the goods or services."
           },
+          "payee": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AdditionalPartyData"
+              }
+            ],
+            "description": "Party receiving payment when different from the seller.",
+            "nullable": true
+          },
+          "invoicee": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AdditionalPartyData"
+              }
+            ],
+            "description": "Party receiving the invoice when different from the buyer.",
+            "nullable": true
+          },
+          "invoicer": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AdditionalPartyData"
+              }
+            ],
+            "description": "Party issuing the invoice on behalf of the seller.",
+            "nullable": true
+          },
+          "sellerAgent": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AdditionalPartyData"
+              }
+            ],
+            "description": "Agent acting on behalf of the seller.",
+            "nullable": true
+          },
+          "payer": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AdditionalPartyData"
+              }
+            ],
+            "description": "Party making payment when different from the buyer.",
+            "nullable": true
+          },
+          "buyerAgent": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AdditionalPartyData"
+              }
+            ],
+            "description": "Agent acting on behalf of the buyer.",
+            "nullable": true
+          },
           "sellerTaxRepresentative": {
             "allOf": [
               {
@@ -1992,6 +2095,7 @@
             "description": "Invoice monetary totals (amounts, taxes, currency)."
           },
           "taxDetails": {
+            "minItems": 1,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/TaxDetailData"
@@ -2116,12 +2220,11 @@
             "description": "Item billed on the line."
           },
           "notes": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/NoteData"
-              }
-            ],
-            "description": "Note attached to the line.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NoteData"
+            },
+            "description": "Notes attached to the line. Supply an array, even for a single note.",
             "nullable": true
           },
           "billingPeriod": {
@@ -2145,7 +2248,7 @@
           "shipping": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/ShippingData"
+                "$ref": "#/components/schemas/LineShippingData"
               }
             ],
             "description": "Shipping details for the line.",
@@ -2154,7 +2257,7 @@
           "allowances": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AllowanceChargeData"
+              "$ref": "#/components/schemas/LineAllowanceChargeData"
             },
             "description": "Allowances applied to the line.",
             "nullable": true
@@ -2162,9 +2265,17 @@
           "charges": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AllowanceChargeData"
+              "$ref": "#/components/schemas/LineAllowanceChargeData"
             },
             "description": "Charges applied to the line.",
+            "nullable": true
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LineIdentifierData"
+            },
+            "description": "Identifiers of objects invoiced on this line.",
             "nullable": true
           }
         },
@@ -2208,6 +2319,23 @@
               }
             ],
             "description": "Standard item identifier.",
+            "nullable": true
+          },
+          "classificationIdentifier": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ItemClassificationIdentifierData"
+              }
+            ],
+            "description": "Classification list and code identifying the type of item.",
+            "nullable": true
+          },
+          "characteristics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemCharacteristicData"
+            },
+            "description": "Product attributes expressed as name/value pairs, such as colour or size.",
             "nullable": true
           }
         },
@@ -2270,6 +2398,11 @@
             "type": "string",
             "description": "Referenced invoice date in YYYY-MM-DD format.",
             "nullable": true
+          },
+          "lineId": {
+            "type": "string",
+            "description": "Line identifier in the referenced invoice.",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -2294,6 +2427,33 @@
               }
             ],
             "description": "Reference to the buyer's order.",
+            "nullable": true
+          },
+          "sellerOrderReference": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LineDocumentReferenceData"
+              }
+            ],
+            "description": "Seller's sales order and optional order line related to this invoice line.",
+            "nullable": true
+          },
+          "receivingAdviceReference": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LineDocumentReferenceData"
+              }
+            ],
+            "description": "Receiving advice and optional advice line related to this invoice line.",
+            "nullable": true
+          },
+          "despatchAdviceReference": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LineDocumentReferenceData"
+              }
+            ],
+            "description": "Despatch advice and optional advice line related to this invoice line.",
             "nullable": true
           },
           "accountingCostId": {
@@ -2324,6 +2484,16 @@
             "type": "number",
             "description": "VAT rate as a percentage.",
             "format": "double",
+            "nullable": true
+          },
+          "exemptionReason": {
+            "type": "string",
+            "description": "Free-text explanation of the VAT exemption for this line.",
+            "nullable": true
+          },
+          "exemptionReasonCode": {
+            "type": "string",
+            "description": "Coded reason for the VAT exemption for this line.",
             "nullable": true
           }
         },
@@ -2368,10 +2538,10 @@
           "taxTotalAmount": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/AmountData"
+                "$ref": "#/components/schemas/AmountWithCurrencyData"
               }
             ],
-            "description": "Total VAT amount."
+            "description": "Total VAT amount with an explicit currency; currency is not inferred from invoiceCurrency."
           },
           "payableAmount": {
             "allOf": [
@@ -2650,7 +2820,7 @@
           },
           "electronicAddress": {
             "type": "string",
-            "description": "Required French directory address used to route the invoice. Must begin with 0225:."
+            "description": "Required electronic address. Seller and buyer addresses must begin with 0225:."
           },
           "tradingBusinessName": {
             "type": "string",
@@ -2700,7 +2870,7 @@
           }
         },
         "additionalProperties": false,
-        "description": "A trading party such as the seller or buyer."
+        "description": "A seller, buyer or seller's tax representative with a mandatory electronic address."
       },
       "Party": {
         "type": "object",
@@ -2743,6 +2913,10 @@
         "description": "A party involved in the document exchange."
       },
       "PartyIdentifierData": {
+        "required": [
+          "scheme",
+          "value"
+        ],
         "type": "object",
         "properties": {
           "type": {
@@ -2752,8 +2926,7 @@
           },
           "scheme": {
             "type": "string",
-            "description": "Scheme the identifier belongs to.",
-            "nullable": true
+            "description": "Scheme the identifier belongs to."
           },
           "id": {
             "type": "string",
@@ -2762,8 +2935,7 @@
           },
           "value": {
             "type": "string",
-            "description": "Identifier value.",
-            "nullable": true
+            "description": "Identifier value."
           }
         },
         "additionalProperties": false,
@@ -2832,6 +3004,11 @@
             "type": "string",
             "description": "UN/ECE (UNTDID 4461) payment means type code (e.g. \"30\" = credit transfer, \"49\" = direct debit)."
           },
+          "label": {
+            "type": "string",
+            "description": "Human-readable description of the payment method.",
+            "nullable": true
+          },
           "paymentReference": {
             "type": "string",
             "description": "Reference the buyer should quote when paying.",
@@ -2853,6 +3030,15 @@
               }
             ],
             "description": "Direct debit details.",
+            "nullable": true
+          },
+          "creditCard": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CreditCardData"
+              }
+            ],
+            "description": "Payment card identifier and cardholder name.",
             "nullable": true
           }
         },
@@ -2978,12 +3164,75 @@
         "properties": {
           "buyerOrderReferenceId": {
             "type": "string",
-            "description": "Identifier of the buyer's purchase order.",
+            "description": "Purchase order identifier assigned by the buyer.",
+            "nullable": true
+          },
+          "buyerReferenceId": {
+            "type": "string",
+            "description": "Buyer's reference used to route the invoice for approval.",
+            "nullable": true
+          },
+          "projectReferenceId": {
+            "type": "string",
+            "description": "Identifier of the project to which the invoice relates.",
+            "nullable": true
+          },
+          "contractReferenceId": {
+            "type": "string",
+            "description": "Identifier of the contract governing the invoiced transaction.",
+            "nullable": true
+          },
+          "contractReferenceTypeId": {
+            "type": "string",
+            "description": "Contract reference type code. Output-profile support is validated by IOPOLE.",
+            "nullable": true
+          },
+          "sellerOrderReferenceId": {
+            "type": "string",
+            "description": "Sales order identifier assigned by the seller.",
+            "nullable": true
+          },
+          "receiptDocumentReferenceId": {
+            "type": "string",
+            "description": "Identifier of the document acknowledging receipt of the goods.",
+            "nullable": true
+          },
+          "despatchDocumentReferenceId": {
+            "type": "string",
+            "description": "Identifier of the despatch advice associated with the invoice.",
+            "nullable": true
+          },
+          "originatorDocumentReferenceId": {
+            "type": "string",
+            "description": "Identifier of the originating document, such as a tender.",
+            "nullable": true
+          },
+          "accountingCostId": {
+            "type": "string",
+            "description": "Buyer's accounting reference for booking the invoice.",
+            "nullable": true
+          },
+          "directDebitMandateId": {
+            "type": "string",
+            "description": "Identifier of the mandate authorizing direct debit.",
+            "nullable": true
+          },
+          "creditorReferenceId": {
+            "type": "string",
+            "description": "Creditor identifier used for direct debit collection.",
+            "nullable": true
+          },
+          "additionalReferenceIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdditionalReferenceIdData"
+            },
+            "description": "Additional supporting references, each identified by a value and document type code.",
             "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "References to related buyer documents."
+        "description": "Invoice-level document, project, accounting and payment references."
       },
       "ReferencedDocumentData": {
         "required": [
@@ -2998,6 +3247,11 @@
           "date": {
             "type": "string",
             "description": "Referenced invoice date in YYYY-MM-DD format.",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Referenced invoice type code, expressed as a string.",
             "nullable": true
           }
         },
@@ -3019,6 +3273,9 @@
         "description": "Rejection detail for a status update."
       },
       "ShippingData": {
+        "required": [
+          "deliveryDate"
+        ],
         "type": "object",
         "properties": {
           "tradeParty": {
@@ -3032,7 +3289,15 @@
           },
           "deliveryDate": {
             "type": "string",
-            "description": "Actual delivery date in YYYY-MM-DD format.",
+            "description": "Actual delivery date in YYYY-MM-DD format."
+          },
+          "billingPeriod": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BillingPeriodData"
+              }
+            ],
+            "description": "Billing period associated with invoice-level delivery.",
             "nullable": true
           }
         },
@@ -3040,6 +3305,9 @@
         "description": "Delivery / shipping details."
       },
       "ShippingTradePartyData": {
+        "required": [
+          "postalAddress"
+        ],
         "type": "object",
         "properties": {
           "name": {
@@ -3053,7 +3321,14 @@
                 "$ref": "#/components/schemas/PostalAddressData"
               }
             ],
-            "description": "Postal address of the ship-to party.",
+            "description": "Postal address of the ship-to party."
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShippingPartyIdentifierData"
+            },
+            "description": "Ship-to identifiers expressed as a scheme and value.",
             "nullable": true
           }
         },
@@ -3265,15 +3540,13 @@
         "description": "BG-23 — VAT breakdown item."
       },
       "TaxPaymentOptionData": {
-        "required": [
-          "code"
-        ],
         "type": "object",
         "properties": {
           "code": {
             "type": "integer",
             "description": "Code identifying the VAT payment option.",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -4861,6 +5134,335 @@
         },
         "additionalProperties": false,
         "description": "Error response returned when a request is rejected."
+      },
+      "AdditionalReferenceIdData": {
+        "required": [
+          "id",
+          "typeCode"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The reference identifier value."
+          },
+          "typeCode": {
+            "type": "string",
+            "description": "Code indicating the type of reference."
+          }
+        },
+        "additionalProperties": false,
+        "description": "An additional reference identifier and its type."
+      },
+      "AdditionalPartyData": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Legal name of the additional invoice party."
+          },
+          "electronicAddress": {
+            "type": "string",
+            "description": "Electronic address with its scheme prefix; no mandatory 0225: prefix is enforced for additional parties.",
+            "nullable": true
+          },
+          "tradingBusinessName": {
+            "type": "string",
+            "description": "Trading name, if different from the legal name.",
+            "nullable": true
+          },
+          "siren": {
+            "type": "string",
+            "description": "French SIREN company registration number.",
+            "nullable": true
+          },
+          "siret": {
+            "type": "string",
+            "description": "French SIRET establishment registration number.",
+            "nullable": true
+          },
+          "vatNumber": {
+            "type": "string",
+            "description": "VAT registration number of the party.",
+            "nullable": true
+          },
+          "postalAddress": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PostalAddressData"
+              }
+            ],
+            "description": "Postal address; a country must be supplied when an address is provided.",
+            "nullable": true
+          },
+          "contact": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContactData"
+              }
+            ],
+            "description": "Contact person, department, phone number and email address.",
+            "nullable": true
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartyIdentifierData"
+            },
+            "description": "Identifiers expressed using a scheme and value.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An additional invoice party without a mandatory electronic routing address."
+      },
+      "AmountWithCurrencyData": {
+        "required": [
+          "amount",
+          "currency"
+        ],
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "VAT amount, including zero for an invoice with no VAT due.",
+            "format": "double"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Explicit, non-empty ISO 4217 currency code for the VAT amount."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A monetary amount whose currency must be supplied explicitly."
+      },
+      "ItemClassificationIdentifierData": {
+        "required": [
+          "list",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "string",
+            "description": "Classification list identifier, such as STI for a UNTDID 7143 item classification scheme."
+          },
+          "value": {
+            "type": "string",
+            "description": "Classification code within the specified list."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Product classification using a named classification list."
+      },
+      "ItemCharacteristicData": {
+        "required": [
+          "name",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the product attribute, such as Colour."
+          },
+          "value": {
+            "type": "string",
+            "description": "Value of the product attribute, such as Black."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A named attribute of the invoiced product."
+      },
+      "LineDocumentReferenceData": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier assigned to the referenced document."
+          },
+          "lineId": {
+            "type": "string",
+            "description": "Identifier of the relevant line within the referenced document.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reference from an invoice line to an order or delivery document."
+      },
+      "LineShippingData": {
+        "type": "object",
+        "properties": {
+          "tradeParty": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ShippingTradePartyData"
+              }
+            ],
+            "description": "Ship-to party for this line; output-profile support is validated by IOPOLE.",
+            "nullable": true
+          },
+          "deliveryDate": {
+            "type": "string",
+            "description": "Optional line delivery date in YYYY-MM-DD format.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Delivery details for a single invoice line, distinct from invoice-level delivery."
+      },
+      "ShippingPartyIdentifierData": {
+        "required": [
+          "scheme",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Role of the identifier, such as PARTY_IDENTIFIER or PARTY_LEGAL_IDENTIFIER.",
+            "nullable": true
+          },
+          "scheme": {
+            "type": "string",
+            "description": "Identification scheme for the ship-to party."
+          },
+          "value": {
+            "type": "string",
+            "description": "Ship-to identifier value within the specified scheme."
+          }
+        },
+        "additionalProperties": false,
+        "description": "A ship-to party identifier, with mandatory scheme and value."
+      },
+      "LineAllowanceChargeData": {
+        "required": [
+          "actualAmount"
+        ],
+        "type": "object",
+        "properties": {
+          "chargeIndicator": {
+            "type": "boolean",
+            "description": "True for a charge, false for an allowance.",
+            "nullable": true
+          },
+          "actualAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AmountData"
+              }
+            ],
+            "description": "Amount deducted from or added to the invoice line."
+          },
+          "basisAmount": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AmountData"
+              }
+            ],
+            "description": "Base amount to which the adjustment percentage applies.",
+            "nullable": true
+          },
+          "calculationPercent": {
+            "type": "number",
+            "description": "Adjustment percentage applied to the basis amount.",
+            "format": "double",
+            "nullable": true
+          },
+          "taxDetail": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LineAllowanceChargeTaxDetailData"
+              }
+            ],
+            "description": "VAT details for the line allowance or charge.",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "description": "Free-text explanation of the adjustment.",
+            "nullable": true
+          },
+          "reasonCode": {
+            "type": "string",
+            "description": "Coded reason for the adjustment.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An allowance or charge applied to a single invoice line."
+      },
+      "LineAllowanceChargeTaxDetailData": {
+        "type": "object",
+        "properties": {
+          "taxType": {
+            "type": "string",
+            "description": "Tax type code, such as VAT.",
+            "nullable": true
+          },
+          "categoryCode": {
+            "type": "string",
+            "description": "VAT category code, such as S or E.",
+            "nullable": true
+          },
+          "percent": {
+            "type": "number",
+            "description": "VAT rate as a percentage.",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "VAT details for a line allowance or charge."
+      },
+      "LineIdentifierData": {
+        "required": [
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "Identifier of the invoiced object, such as an asset or subscription."
+          },
+          "scheme": {
+            "type": "string",
+            "description": "Identification scheme for the invoiced object.",
+            "nullable": true
+          },
+          "documentTypeCode": {
+            "type": "string",
+            "description": "Document type code used to represent the object reference in the generated invoice.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Identifier of an object invoiced on the line."
+      },
+      "CreditCardData": {
+        "required": [
+          "cardHolderName",
+          "cardId"
+        ],
+        "type": "object",
+        "properties": {
+          "cardId": {
+            "type": "string",
+            "description": "Card identifier used for the payment; not a card security code."
+          },
+          "cardHolderName": {
+            "type": "string",
+            "description": "Name of the cardholder."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Card payment instructions for the invoice."
       }
     },
     "securitySchemes": {
